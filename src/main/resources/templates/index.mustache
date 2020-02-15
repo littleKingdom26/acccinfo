@@ -1,0 +1,86 @@
+{{>layout/header}}
+
+<div id="background" class="w-100 p-3 position-fixed" style="background-color: rgba(0,0,0,0.5); height: 100%;z-index: 100;display:none;">
+    <div class="spinner-border text-light" role="status" style="position: absolute;top:50%;left:50%">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<div class="container-fluid" >
+
+    <h2 style="margin-top:10px">Assetto Corsa Competizione Time Trial @ JAJUKU Server</h2>
+    <div class="row " style="margin-top:20px;">
+        <div class="col">
+            <div class="form-group">
+                <label for="weekSel">Event</label>
+                <select id="weekSel" class="form-control">
+                    <option value="0">전체</option>
+                    {{#weekList}}
+                        <option value="{{sessionId}}" {{#selected}} selected="selected"{{/selected}}  data-trackseq="{{trackSeq}}">{{startDt}} - {{#endDt}}{{endDt}}{{/endDt}}{{^endDt}}진행중{{/endDt}}</option>
+                    {{/weekList}}
+
+                </select>
+            </div>
+
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label for="trackSel">Track</label>
+                <select id="trackSel" class="form-control">
+                    {{#trackList}}
+                        <option value="{{seq}}" {{#selected}} selected="selected"{{/selected}}>{{trackName}}</option>
+                    {{/trackList}}
+                </select>
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped" style="margin-top:20px;">
+        <thead class="">
+            <tr>
+                <th style="text-align: center">Rank</th>
+                <th>Driver</th>
+                <th>Car</th>
+                <th>Best Lap</th>
+                <th style="text-align:center">Gap</th>
+                <th>Best S1</th>
+                <th>Best S2</th>
+                <th>Best S3</th>
+                <th>Potential</th>
+            </tr>
+        </thead>
+        <tbody id="dataList">
+            {{#recordList}}
+                <tr>
+                    <td style="text-align: center;">{{rank}}</td>
+                    <td>{{firstName}} {{lastName}}</td>
+                    <td>{{carName}}</td>
+                    <td>{{bestLapView}}</td>
+                    <td style="text-align: right">
+                        <div class="row">
+                            <div class="col-10">
+                                {{#gap}}
+                                    +{{gap}}
+                                {{/gap}}
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{sector1View}}</td>
+                    <td>{{sector2View}}</td>
+                    <td>{{sector3View}}</td>
+                    <td>{{potentialView}}</td>
+                </tr>
+            {{/recordList}}
+
+        </tbody>
+    </table>
+</div>
+<form id="frm">
+    <input type="hidden" name="sessionId" id="sessionId" />
+    <input type="hidden" name="trackSeq" id="trackSeq" />
+</form>
+{{>layout/footer}}
+<script>
+    $(function(){
+        index.init();
+    });
+
+</script>

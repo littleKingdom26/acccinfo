@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+<mapper namespace="trackSql">
+    <select id="getTrackSeq" parameterType="info.team23h.acc.vo.TrackVO" resultType="long">
+        SELECT IFNULL(MAX(SEQ),0) as SEQ FROM TB_TRACK  WHERE TRACK_NAME = #{trackName}
+    </select>
+
+    <insert id="setTrack" useGeneratedKeys="true" keyProperty="seq">
+        INSERT INTO TB_TRACK(TRACK_NAME,REG_DT) VALUES (#{trackName},now())
+    </insert>
+
+    <select id="getTrackNameForSeq" parameterType="info.team23h.acc.vo.TrackVO" resultType="info.team23h.acc.vo.TrackVO">
+        SELECT SEQ,TRACK_NAME FROM TB_TRACK WHERE SEQ = ${seq}
+    </select>
+    
+    <select id="getTrackList" resultType="info.team23h.acc.vo.TrackVO">
+        SELECT SEQ, TRACK_NAME FROM TB_TRACK
+    </select>
+</mapper>
+

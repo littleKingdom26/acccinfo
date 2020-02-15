@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+<mapper namespace="playerSql">
+    <select id="getPlayerList" resultType="info.team23h.acc.vo.PlayerVO" >
+        SELECT PLAYER_ID,FIRST_NAME,LAST_NAME FROM TB_PLAYER
+    </select>
+
+    <insert id="createDriver" parameterType="info.team23h.acc.vo.PlayerVO">
+        INSERT INTO TB_PLAYER(
+                PLAYER_ID
+                ,FIRST_NAME
+                ,LAST_NAME
+                ,REG_DT)
+                VALUES (
+                #{playerId}
+                ,#{firstName}
+                ,#{lastName}
+                ,now())
+    </insert>
+
+
+    <update id="updateDriver" parameterType="info.team23h.acc.vo.PlayerVO">
+        UPDATE TB_PLAYER SET
+        FIRST_NAME = #{firstName}
+        ,LAST_NAME = #{lastName}
+        ,UPD_DT = now()
+        WHERE PLAYER_ID = #{playerId}
+
+    </update>
+
+    <select id="getPlayerDetail" resultType="int" parameterType="info.team23h.acc.vo.PlayerVO">
+        SELECT count(*)
+        FROM TB_PLAYER
+        WHERE PLAYER_ID = #{playerId}
+    </select>
+</mapper>
+

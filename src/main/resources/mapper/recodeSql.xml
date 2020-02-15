@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+<mapper namespace="recordSql">
+
+    <select id="getRecordData" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.RecordVO">
+        SELECT
+            SEQ,
+            SESSION_ID,
+            PLAYER_ID,
+            BEST_LAP,
+            SECTOR1,
+            SECTOR2,
+            SECTOR3,
+            CAR_MODEL,
+            TRACK_SEQ
+            FROM TB_RECORD
+            WHERE PLAYER_ID = #{playerId}
+            AND SESSION_ID = #{sessionId}
+    </select>
+
+    <insert id="createRecordData" parameterType="info.team23h.acc.vo.RecordVO">
+        INSERT INTO TB_RECORD(
+            SESSION_ID
+            ,PLAYER_ID
+            ,BEST_LAP
+            ,SECTOR1
+            ,SECTOR2
+            ,SECTOR3
+            ,CAR_MODEL
+            ,TRACK_SEQ)
+        VALUES(
+            #{sessionId}
+            ,#{playerId}
+            ,#{bestLap}
+            ,#{sector1}
+            ,#{sector2}
+            ,#{sector3}
+            ,#{carModel}
+            ,#{trackSeq})
+
+    </insert>
+
+    <update id="updateRecordData" parameterType="info.team23h.acc.vo.RecordVO">
+        UPDATE TB_RECORD SET
+        CAR_MODEL = #{carModel}
+        ,TRACK_SEQ = #{trackSeq}
+        <if test="bestLap != null and bestLap > 0">
+            ,BEST_LAP = #{bestLap}
+        </if>
+        <if test="sector1 != null and sector1 > 0">
+            ,SECTOR1 = #{sector1}
+        </if>
+        <if test="sector2 != null and sector2 > 0">
+            ,SECTOR2 = #{sector2}
+        </if>
+        <if test="sector3 != null and sector3 > 0">
+            ,SECTOR3 = #{sector3}
+        </if>
+        WHERE PLAYER_ID = #{playerId}
+        AND SESSION_ID = #{sessionId}
+    </update>
+
+
+    <select id="getRecordDataListForWeek" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.SearchVO">
+        SELECT
+            ROUND(@ROWNUM := @ROWNUM +1) AS RANK
+            , A.*
+            FROM (
+                SELECT
+                SESSION_ID,
+                FIRST_NAME,
+                LAST_NAME,
+                TC.CAR_NAME,
+                TC.CAR_MODEL,
+                A.BEST_LAP,
+                A.SECTOR1,
+                A.SECTOR2,
+                A.SECTOR3
+                from TB_RECORD A
+                INNER JOIN TB_TRACK TT on A.TRACK_SEQ = TT.SEQ
+                INNER JOIN TB_PLAYER TP on A.PLAYER_ID = TP.PLAYER_ID
+                INNER JOIN TB_CAR TC ON A.CAR_MODEL = TC.CAR_MODEL
+                WHERE SESSION_ID = #{sessionId}
+                ORDER BY BEST_LAP
+            ) A , (SELECT @ROWNUM := 0) B
+    </select>
+
+    <select id="getRecordDataListForTrackSeq" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.SearchVO">
+        SELECT ROUND(@ROWNUM := @ROWNUM + 1) AS RANK, D.*
+        FROM (
+        SELECT C.SESSION_ID,
+               TP.FIRST_NAME,
+               TP.LAST_NAME,
+               TC.CAR_NAME,
+               TC.CAR_MODEL,
+               C.BEST_LAP,
+               C.SECTOR1,
+               C.SECTOR2,
+               C.SECTOR3
+        FROM (SELECT MIN(A.BEST_LAP) AS BEST_LAP, A.PLAYER_ID
+              FROM TB_RECORD A
+              WHERE TRACK_SEQ = #{trackSeq}
+              GROUP BY A.PLAYER_ID) B
+                 INNER JOIN TB_RECORD C ON B.PLAYER_ID = C.PLAYER_ID AND B.BEST_LAP = C.BEST_LAP
+                 INNER JOIN TB_TRACK TT on C.TRACK_SEQ = TT.SEQ
+                 INNER JOIN TB_PLAYER TP on C.PLAYER_ID = TP.PLAYER_ID
+                 INNER JOIN TB_CAR TC ON C.CAR_MODEL = TC.CAR_MODEL
+        ORDER BY BEST_LAP ) D, (SELECT @ROWNUM := 0) E
+    </select>
+
+</mapper>
+

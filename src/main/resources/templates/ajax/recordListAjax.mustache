@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+{{#recordList}}
+    <tr>
+        <td style="text-align: center;">{{rank}}</td>
+        <td>{{firstName}} {{lastName}}</td>
+        <td>{{carName}}</td>
+        <td>{{bestLapView}}</td>
+        <td style="text-align: right">
+            <div class="row">
+                <div class="col-10">
+                    {{#gap}}
+                        +{{gap}}
+                    {{/gap}}
+                </div>
+            </div>
+        </td>
+        <td>{{sector1View}}</td>
+        <td>{{sector2View}}</td>
+        <td>{{sector3View}}</td>
+        <td>{{potentialView}}</td>
+    </tr>
+{{/recordList}}
