@@ -14,7 +14,7 @@
     </select>
     
     <select id="getTrackList" resultType="info.team23h.acc.vo.TrackVO">
-        SELECT SEQ, TRACK_NAME FROM TB_TRACK
+        SELECT SEQ, TRACK_NAME, TRACK_VIEW_NAME FROM TB_TRACK
     </select>
 </mapper>
 

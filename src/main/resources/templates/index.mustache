@@ -27,7 +27,7 @@
                 <label for="trackSel">Track</label>
                 <select id="trackSel" class="form-control">
                     {{#trackList}}
-                        <option value="{{seq}}" {{#selected}} selected="selected"{{/selected}}>{{trackName}}</option>
+                        <option value="{{seq}}" {{#selected}} selected="selected"{{/selected}}>{{#trackViewName}}{{trackViewName}}{{/trackViewName}}{{^trackViewName}}{{trackName}}{{/trackViewName}}</option>
                     {{/trackList}}
                 </select>
             </div>

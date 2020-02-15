@@ -9,6 +9,11 @@ public class TrackVO {
 	 */
 	private String trackName;
 
+	/**
+	 * 트랙 뷰 네임
+	 */
+	private String trackViewName;
+
 
 	/**
 	 * 선택요소
@@ -37,5 +42,13 @@ public class TrackVO {
 
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+	}
+
+	public String getTrackViewName() {
+		return trackViewName;
+	}
+
+	public void setTrackViewName(String trackViewName) {
+		this.trackViewName = trackViewName;
 	}
 }
