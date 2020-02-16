@@ -51,9 +51,9 @@
             {{#recordList}}
                 <tr>
                     <td style="text-align: center;">{{rank}}</td>
-                    <td><a href="#" class="driverDetail" data-toggle="modal" data-target="#staticBackdrop">{{firstName}} {{lastName}}</a></td>
+                    <td><a href="#" class="driverDetail" data-toggle="modal" data-target="#staticBackdrop" data-playerid="{{playerId}}">{{firstName}} {{lastName}}</a></td>
                     <td>{{carName}}</td>
-                    <td>{{bestLapView}}</td>
+                    <td><strong>{{bestLapView}}</strong></td>
                     <td style="text-align: right">
                         <div class="row">
                             <div class="col-10">
@@ -74,27 +74,27 @@
     </table>
 </div>
 
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade bd-example-modal-xl" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <h5 class="modal-title driverName" id="staticBackdropLabel" ></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                ...
+            <div class="modal-body" id="playerDetail">
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Understood</button>
             </div>
         </div>
     </div>
 </div>
 <form id="frm">
     <input type="hidden" name="sessionId" id="sessionId" />
+    <input type="hidden" name="trackSeq" id="trackSeq" />
     <input type="hidden" name="trackSeq" id="trackSeq" />
 </form>
 {{>layout/footer}}

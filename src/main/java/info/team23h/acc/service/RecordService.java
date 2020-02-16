@@ -27,4 +27,11 @@ public interface RecordService {
 	 * @return
 	 */
 	List<RecordVO> getRecordDataList(SearchVO searchVO);
+
+	/**
+	 * 플레이어 코스별 기록 조회
+	 * @param searchVO
+	 * @return
+	 */
+	List<RecordVO> recordPlayerDetail(SearchVO searchVO);
 }

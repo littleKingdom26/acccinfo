@@ -41,4 +41,11 @@ public class IndexController {
 		return "ajax/recordListAjax";
 	}
 
+	@PostMapping("/recordPlayerDetailAjax")
+	public String recordPlayerDetailAjax(@ModelAttribute SearchVO searchVO,
+								 Model model) {
+		model.addAttribute("playerRecordList", recordService.recordPlayerDetail(searchVO));
+		return "ajax/recordPlayerDetail";
+	}
+
 }

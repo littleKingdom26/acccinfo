@@ -34,4 +34,8 @@ public class RecordDAO {
 	public List<RecordVO> getRecordDataListForTrackSeq(SearchVO searchVO) {
 		return sql.selectList("recordSql.getRecordDataListForTrackSeq", searchVO);
 	}
+
+	public List<RecordVO> recordPlayerDetail(SearchVO searchVO) {
+		return sql.selectList("recordSql.recordPlayerDetail", searchVO);
+	}
 }

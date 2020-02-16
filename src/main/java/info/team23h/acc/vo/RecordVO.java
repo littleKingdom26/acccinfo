@@ -52,6 +52,8 @@ public class RecordVO extends CommonVO {
 	 */
 	private String trackName;
 
+	private String trackViewName;
+
 	/**
 	 * 랭킹
 	 */
@@ -248,6 +250,14 @@ public class RecordVO extends CommonVO {
 
 	public void setPotentialView(String potentialView) {
 		this.potentialView = potentialView;
+	}
+
+	public String getTrackViewName() {
+		return trackViewName;
+	}
+
+	public void setTrackViewName(String trackViewName) {
+		this.trackViewName = trackViewName;
 	}
 
 	@Override

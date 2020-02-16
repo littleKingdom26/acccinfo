@@ -12,6 +12,8 @@ public class SearchVO {
 	 */
 	private String trackSeq;
 
+	private String playerId;
+
 	public String getSessionId() {
 		return sessionId;
 	}
@@ -26,6 +28,14 @@ public class SearchVO {
 
 	public void setTrackSeq(String trackSeq) {
 		this.trackSeq = trackSeq;
+	}
+
+	public String getPlayerId() {
+		return playerId;
+	}
+
+	public void setPlayerId(String playerId) {
+		this.playerId = playerId;
 	}
 
 	@Override

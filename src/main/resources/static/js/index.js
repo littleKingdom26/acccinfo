@@ -16,6 +16,27 @@ var index = {
             $('#trackSeq').val(trackSeq);
             _th.fnSubmit();
         });
+
+        $('.driverDetail').click(function(){
+            var param = {
+                'playerId': $(this).data('playerid')
+            };
+            $.ajax({
+                beforeSend: function () {
+                    $('#background').show(200);
+                },
+                complete: function () {
+                    $('#background').hide(200);
+                }
+                , dataType: "html"
+                , method: "POST"
+                , data: param
+                , url: "/recordPlayerDetailAjax"
+                , success: function (data) {
+                    $('#playerDetail').html(data);
+                }
+            });
+        });
     },
     fnSubmit:function(){
         var param = $('#frm').serialize();
@@ -35,5 +56,12 @@ var index = {
             }
         });
 
+    },
+    driverDetail : function(){
+        var driverName  = '';
+        $('.popDriverName').each(function(){
+            driverName = $(this).val();
+        });
+        $('.driverName').text(driverName);
     }
-}
+};

@@ -119,4 +119,22 @@ public class RecordServiceImpl implements RecordService {
 		}
 		return list;
 	}
+
+	@Override
+	public List<RecordVO> recordPlayerDetail(SearchVO searchVO) {
+
+		List<RecordVO> list = recordDAO.recordPlayerDetail(searchVO);
+
+		for(int i = 0; i < list.size(); i++){
+			RecordVO temp = list.get(i);
+			temp.setBestLapView(MathUtil.secToMin(temp.getBestLap()));
+			temp.setSector1View(MathUtil.secToMin(temp.getSector1()));
+			temp.setSector2View(MathUtil.secToMin(temp.getSector2()));
+			temp.setSector3View(MathUtil.secToMin(temp.getSector3()));
+			temp.setPotential(temp.getSector1() + temp.getSector2() + temp.getSector3());
+			temp.setPotentialView(MathUtil.secToMin(temp.getPotential()));
+		}
+
+		return list;
+	}
 }

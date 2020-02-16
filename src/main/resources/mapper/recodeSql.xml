@@ -75,7 +75,8 @@
                 A.BEST_LAP,
                 A.SECTOR1,
                 A.SECTOR2,
-                A.SECTOR3
+                A.SECTOR3,
+                A.PLAYER_ID
                 from TB_RECORD A
                 INNER JOIN TB_TRACK TT on A.TRACK_SEQ = TT.SEQ
                 INNER JOIN TB_PLAYER TP on A.PLAYER_ID = TP.PLAYER_ID
@@ -96,7 +97,8 @@
                C.BEST_LAP,
                C.SECTOR1,
                C.SECTOR2,
-               C.SECTOR3
+               C.SECTOR3,
+               A.PLAYER_ID
         FROM (SELECT MIN(A.BEST_LAP) AS BEST_LAP, A.PLAYER_ID
               FROM TB_RECORD A
               WHERE TRACK_SEQ = #{trackSeq}
@@ -105,6 +107,31 @@
                  INNER JOIN TB_TRACK TT on C.TRACK_SEQ = TT.SEQ
                  INNER JOIN TB_PLAYER TP on C.PLAYER_ID = TP.PLAYER_ID
                  INNER JOIN TB_CAR TC ON C.CAR_MODEL = TC.CAR_MODEL
+        ORDER BY BEST_LAP ) D, (SELECT @ROWNUM := 0) E
+    </select>
+
+    <select id="recordPlayerDetail" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.SearchVO">
+        SELECT ROUND(@ROWNUM := @ROWNUM + 1) AS RANK, D.*
+        FROM (
+        SELECT C.SESSION_ID,
+        TP.FIRST_NAME,
+        TP.LAST_NAME,
+        TC.CAR_NAME,
+        TC.CAR_MODEL,
+        C.BEST_LAP,
+        C.SECTOR1,
+        C.SECTOR2,
+        C.SECTOR3,
+        TT.TRACK_NAME,
+        TT.TRACK_VIEW_NAME
+        FROM (SELECT MIN(A.BEST_LAP) AS BEST_LAP, A.PLAYER_ID
+        FROM TB_RECORD A
+        WHERE A.PLAYER_ID = #{playerId}
+        GROUP BY A.TRACK_SEQ) B
+        INNER JOIN TB_RECORD C ON B.PLAYER_ID = C.PLAYER_ID AND B.BEST_LAP = C.BEST_LAP
+        INNER JOIN TB_TRACK TT on C.TRACK_SEQ = TT.SEQ
+        INNER JOIN TB_PLAYER TP on C.PLAYER_ID = TP.PLAYER_ID
+        INNER JOIN TB_CAR TC ON C.CAR_MODEL = TC.CAR_MODEL
         ORDER BY BEST_LAP ) D, (SELECT @ROWNUM := 0) E
     </select>
 
