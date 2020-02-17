@@ -31,13 +31,13 @@ public class RecordServiceImpl implements RecordService {
 			// 기존 기록이 있음
 			RecordVO param = new RecordVO();
 			param.setSessionId(recordVO.getSessionId());
-			param.setPlayerId(recordVO.getPlayerId());
-			param.setCarModel(recordVO.getCarModel());
+			param.setPlayerId(recordVO.getPlayerId());			
 			param.setTrackSeq(recordVO.getTrackSeq());
 
 			if(beforeRecord.getBestLap() > recordVO.getBestLap()){
 				// 기존 베스트 랩이 느림
 				param.setBestLap(recordVO.getBestLap());
+				param.setCarModel(recordVO.getCarModel());
 			}
 			if(beforeRecord.getSector1() > recordVO.getSector1()){
 				// 섹터 1 기존 기록이 느림
