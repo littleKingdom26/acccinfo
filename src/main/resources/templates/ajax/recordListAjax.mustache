@@ -1,7 +1,14 @@
 <!DOCTYPE HTML>
 {{#recordList}}
     <tr>
-        <td style="text-align: center;">{{rank}}</td>
+        <td style="text-align: center;">
+            {{#rankImg}}
+                <img src="{{rankImg}}" width="80" />
+            {{/rankImg}}
+            {{^rankImg}}
+                {{rank}}
+            {{/rankImg}}
+        </td>
         <td><a href="#" class="driverDetail" data-toggle="modal" data-target="#staticBackdrop" data-playerid="{{playerId}}">{{firstName}} {{lastName}}</a></td>
         <td>{{carName}}</td>
         <td><strong>{{bestLapView}}</strong></td>
