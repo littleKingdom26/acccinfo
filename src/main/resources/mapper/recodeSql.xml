@@ -27,7 +27,8 @@
             ,SECTOR2
             ,SECTOR3
             ,CAR_MODEL
-            ,TRACK_SEQ)
+            ,TRACK_SEQ
+            ,REG_DT)
         VALUES(
             #{sessionId}
             ,#{playerId}
@@ -36,16 +37,17 @@
             ,#{sector2}
             ,#{sector3}
             ,#{carModel}
-            ,#{trackSeq})
+            ,#{trackSeq}
+            ,NOW())
 
     </insert>
 
     <update id="updateRecordData" parameterType="info.team23h.acc.vo.RecordVO">
         UPDATE TB_RECORD SET
-        CAR_MODEL = #{carModel}
-        ,TRACK_SEQ = #{trackSeq}
+        TRACK_SEQ = #{trackSeq}
         <if test="bestLap != null and bestLap > 0">
             ,BEST_LAP = #{bestLap}
+            ,CAR_MODEL = #{carModel}
         </if>
         <if test="sector1 != null and sector1 > 0">
             ,SECTOR1 = #{sector1}
@@ -56,6 +58,7 @@
         <if test="sector3 != null and sector3 > 0">
             ,SECTOR3 = #{sector3}
         </if>
+        ,UPD_DT = NOW()
         WHERE PLAYER_ID = #{playerId}
         AND SESSION_ID = #{sessionId}
     </update>
