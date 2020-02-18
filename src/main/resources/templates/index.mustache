@@ -17,10 +17,8 @@
                     {{#weekList}}
                         <option value="{{sessionId}}" {{#selected}} selected="selected"{{/selected}}  data-trackseq="{{trackSeq}}">{{startDt}} - {{#endDt}}{{endDt}}{{/endDt}}{{^endDt}}진행중{{/endDt}}</option>
                     {{/weekList}}
-
                 </select>
             </div>
-
         </div>
         <div class="col">
             <div class="form-group">
@@ -109,5 +107,4 @@
     $(function(){
         index.init();
     });
-
 </script>
