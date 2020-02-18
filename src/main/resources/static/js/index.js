@@ -17,7 +17,7 @@ var index = {
             _th.fnSubmit();
         });
 
-        $('.driverDetail').click(function(){
+        $('#dataList').on('click', '.driverDetail', function () {
             var param = {
                 'playerId': $(this).data('playerid')
             };
@@ -36,6 +36,11 @@ var index = {
                     $('#playerDetail').html(data);
                 }
             });
+        });
+
+        $('#staticBackdrop').on('hidden.bs.modal',function(e){
+            $('#playerDetail').html('');
+            $('.driverName').text('');
         });
     },
     fnSubmit:function(){

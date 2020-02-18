@@ -98,7 +98,7 @@
                C.SECTOR1,
                C.SECTOR2,
                C.SECTOR3,
-               A.PLAYER_ID
+               B.PLAYER_ID
         FROM (SELECT MIN(A.BEST_LAP) AS BEST_LAP, A.PLAYER_ID
               FROM TB_RECORD A
               WHERE TRACK_SEQ = #{trackSeq}

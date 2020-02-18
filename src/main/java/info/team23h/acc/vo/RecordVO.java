@@ -84,6 +84,8 @@ public class RecordVO extends CommonVO {
 
 	private String potentialView;
 
+	private String rankImg;
+
 	public int getRank() {
 		return rank;
 	}
@@ -258,6 +260,14 @@ public class RecordVO extends CommonVO {
 
 	public void setTrackViewName(String trackViewName) {
 		this.trackViewName = trackViewName;
+	}
+
+	public String getRankImg() {
+		return rankImg;
+	}
+
+	public void setRankImg(String rankImg) {
+		this.rankImg = rankImg;
 	}
 
 	@Override

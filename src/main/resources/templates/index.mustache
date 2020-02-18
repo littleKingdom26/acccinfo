@@ -50,7 +50,14 @@
         <tbody id="dataList">
             {{#recordList}}
                 <tr>
-                    <td style="text-align: center;">{{rank}}</td>
+                    <td style="text-align: center;">
+                        {{#rankImg}}
+                            <img src="{{rankImg}}" width="80" />
+                        {{/rankImg}}
+                        {{^rankImg}}
+                            {{rank}}
+                        {{/rankImg}}
+                    </td>
                     <td><a href="#" class="driverDetail" data-toggle="modal" data-target="#staticBackdrop" data-playerid="{{playerId}}">{{firstName}} {{lastName}}</a></td>
                     <td>{{carName}}</td>
                     <td><strong>{{bestLapView}}</strong></td>
@@ -74,8 +81,8 @@
     </table>
 </div>
 
-<div class="modal fade bd-example-modal-xl" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
+<div class="modal fade " id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog " role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title driverName" id="staticBackdropLabel" ></h5>

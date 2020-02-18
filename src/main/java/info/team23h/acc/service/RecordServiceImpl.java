@@ -116,6 +116,14 @@ public class RecordServiceImpl implements RecordService {
 			temp.setSector3View(MathUtil.secToMin(temp.getSector3()));
 			temp.setPotential(temp.getSector1()+temp.getSector2()+temp.getSector3());
 			temp.setPotentialView(MathUtil.secToMin(temp.getPotential()));
+			if(temp.getRank() == 1){
+				temp.setRankImg("/image/rank1.png");
+			}else if(temp.getRank() == 2){
+				temp.setRankImg("/image/rank2.png");
+			}else if(temp.getRank() == 3){
+				temp.setRankImg("/image/rank3.png");
+			}
+
 		}
 		return list;
 	}
