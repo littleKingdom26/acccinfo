@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+<mapper namespace="viewSql">
+    <update id="updateViewCount" parameterType="info.team23h.acc.vo.ViewVo">
+        UPDATE TB_VIEWCOUNT SET PAGE_VIEW_COUNT = PAGE_VIEW_COUNT + 1
+    </update>
+
+    <select id="getViewCount" resultType="info.team23h.acc.vo.ViewVo">
+        SELECT PAGE_VIEW_COUNT FROM TB_VIEWCOUNT
+    </select>
+</mapper>
+
