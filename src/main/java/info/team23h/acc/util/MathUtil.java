@@ -4,12 +4,15 @@ public class MathUtil {
 
 	final static int MIN = 60;
 	final static int HOUR = MIN*60;
+
 	/**
 	 * 초를 분초형태로
-	 * @param rowData
-	 * @return
+	 *
+	 * @param rowData 시간
+	 * @param secZero  true : 초에 0 붙임 여부 false :  초에 0 안붙임
+	 * @return string
 	 */
-	public static String secToMin(int rowData){
+	public static String secToMin(int rowData,boolean secZero){
 		String result = "";
 		if(rowData <1000){
 			result ="0."+String.format("%03d",rowData);
@@ -25,7 +28,12 @@ public class MathUtil {
 			if(m > 0){
 				result = m + ":";
 			}
-			result += String.format("%02d", s) + "." + millisec;
+			if(secZero){
+				result += String.format("%02d", s) + "." + millisec;
+			}else{
+				result += s + "." + millisec;
+			}
+
 		}
 		return result;
 	}

@@ -12,7 +12,18 @@ public class ViewServiceImpl implements ViewService {
 
 	@Override
 	public int updateViewCount() {
-		return viewDAO.updateViewCount();
+
+		// 오늘날짜 있는지 체크
+		int cnt = viewDAO.loadTodayViewCount();
+
+		if(cnt > 0){
+			// 있으면 업데이트
+			viewDAO.updateViewCount();
+		}else{
+			// 없으면 인서트
+			cnt = viewDAO.insertViewCount();
+		}
+		return cnt;
 	}
 
 	@Override

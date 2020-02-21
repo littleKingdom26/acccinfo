@@ -107,15 +107,9 @@ public class RecordServiceImpl implements RecordService {
 			if(bestLap == 0){
 				bestLap = temp.getBestLap();
 			}else{
-				temp.setGap(MathUtil.secToMin(temp.getBestLap() - bestLap));
+				temp.setGap(MathUtil.secToMin(temp.getBestLap() - bestLap,false));
 			}
-
-			temp.setBestLapView(MathUtil.secToMin(temp.getBestLap()));
-			temp.setSector1View(MathUtil.secToMin(temp.getSector1()));
-			temp.setSector2View(MathUtil.secToMin(temp.getSector2()));
-			temp.setSector3View(MathUtil.secToMin(temp.getSector3()));
-			temp.setPotential(temp.getSector1()+temp.getSector2()+temp.getSector3());
-			temp.setPotentialView(MathUtil.secToMin(temp.getPotential()));
+			viewSetting(temp);
 			if(temp.getRank() == 1){
 				temp.setRankImg("/image/rank1.png");
 			}else if(temp.getRank() == 2){
@@ -128,6 +122,15 @@ public class RecordServiceImpl implements RecordService {
 		return list;
 	}
 
+	private void viewSetting(RecordVO temp) {
+		temp.setBestLapView(MathUtil.secToMin(temp.getBestLap(), true));
+		temp.setSector1View(MathUtil.secToMin(temp.getSector1(), true));
+		temp.setSector2View(MathUtil.secToMin(temp.getSector2(), true));
+		temp.setSector3View(MathUtil.secToMin(temp.getSector3(), true));
+		temp.setPotential(temp.getSector1()+temp.getSector2()+temp.getSector3());
+		temp.setPotentialView(MathUtil.secToMin(temp.getPotential(), true));
+	}
+
 	@Override
 	public List<RecordVO> recordPlayerDetail(SearchVO searchVO) {
 
@@ -135,12 +138,7 @@ public class RecordServiceImpl implements RecordService {
 
 		for(int i = 0; i < list.size(); i++){
 			RecordVO temp = list.get(i);
-			temp.setBestLapView(MathUtil.secToMin(temp.getBestLap()));
-			temp.setSector1View(MathUtil.secToMin(temp.getSector1()));
-			temp.setSector2View(MathUtil.secToMin(temp.getSector2()));
-			temp.setSector3View(MathUtil.secToMin(temp.getSector3()));
-			temp.setPotential(temp.getSector1() + temp.getSector2() + temp.getSector3());
-			temp.setPotentialView(MathUtil.secToMin(temp.getPotential()));
+			viewSetting(temp);
 		}
 
 		return list;

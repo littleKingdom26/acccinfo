@@ -19,4 +19,12 @@ public class ViewDAO {
 	public ViewVo getViewCount() {
 		return sqlSession.selectOne("viewSql.getViewCount");
 	}
+
+	public int loadTodayViewCount() {
+		return sqlSession.selectOne("viewSql.loadTodayViewCount");
+	}
+
+	public int insertViewCount() {
+		return sqlSession.insert("viewSql.insertViewCount");
+	}
 }

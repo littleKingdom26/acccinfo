@@ -5,6 +5,7 @@ import info.team23h.acc.service.TrackService;
 import info.team23h.acc.service.ViewService;
 import info.team23h.acc.service.WeekService;
 import info.team23h.acc.vo.SearchVO;
+import info.team23h.acc.vo.ViewVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,7 +68,10 @@ public class IndexController {
 			session.setAttribute("sessionKey", session.getId());
 			viewService.updateViewCount();
 		}
-		model.addAttribute("viewCount",viewService.getViewCount().getPageViewCount());
+		ViewVo viewVo = viewService.getViewCount();
+		model.addAttribute("viewCount", viewVo.getPageViewCount())
+		.addAttribute("todayViewCount", viewVo.getTodayViewCount());
+
 		return "index";
 	}
 
