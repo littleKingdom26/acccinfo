@@ -73,26 +73,28 @@ public class ApiServiceImpl  implements ApiService {
 			// 리스트 돔
 			ArrayList<HashMap<String, Object>> recordList = (ArrayList<HashMap<String, Object>>) param.get("recordList");
 
-			for(HashMap<String, Object> RecordData : recordList){
-				if(RecordData.get("PlayerId") == null || "".equals(RecordData.get("PlayerId"))){
+			for(HashMap<String, Object> recordData : recordList){
+				if(recordData.get("PlayerId") == null || "".equals(recordData.get("PlayerId"))){
 					throw new Team23hException("PlayerId 확인 해주세요.");
-				}else if(RecordData.get("carModel") == null || "".equals(RecordData.get("carModel"))){
+				}else if(recordData.get("carModel") == null || "".equals(recordData.get("carModel"))){
 					throw new Team23hException("carModel 확인 해주세요");
-				}else if(RecordData.get("bestLap") == null || "".equals(RecordData.get("bestLap"))){
+				}else if(recordData.get("bestLap") == null || "".equals(recordData.get("bestLap"))){
 					throw new Team23hException("bestLap 확인 해주세요");
-				}else if(RecordData.get("sector1") == null || "".equals(RecordData.get("sector1"))){
+				}else if(recordData.get("sector1") == null || "".equals(recordData.get("sector1"))){
 					throw new Team23hException("sector1 확인 해주세요");
-				}else if(RecordData.get("sector2") == null || "".equals(RecordData.get("sector2"))){
+				}else if(recordData.get("sector2") == null || "".equals(recordData.get("sector2"))){
 					throw new Team23hException("sector2 확인 해주세요");
-				}else if(RecordData.get("sector3") == null || "".equals(RecordData.get("sector3"))){
+				}else if(recordData.get("sector3") == null || "".equals(recordData.get("sector3"))){
 					throw new Team23hException("sector3 확인 해주세요");
+				}else if(recordData.get("lapCount") == null || "".equals(recordData.get("lapCount"))){
+					throw new Team23hException("lapCount 확인 해주세요");
 				}
 
 				// 회원 저장 필요
 				PlayerVO playerVO = new PlayerVO();
-				playerVO.setFirstName(String.valueOf(RecordData.get("firstName")));
-				playerVO.setLastName(String.valueOf(RecordData.get("lastName")));
-				playerVO.setPlayerId(String.valueOf(RecordData.get("PlayerId")));
+				playerVO.setFirstName(String.valueOf(recordData.get("firstName")));
+				playerVO.setLastName(String.valueOf(recordData.get("lastName")));
+				playerVO.setPlayerId(String.valueOf(recordData.get("PlayerId")));
 				//플레이어 있는지 확인
 				int playerCnt = playerService.getPlayerDetail(playerVO);
 				if(playerCnt > 0){
@@ -106,12 +108,13 @@ public class ApiServiceImpl  implements ApiService {
 				RecordVO recordVO = new RecordVO();
 				recordVO.setSessionId(String.valueOf(param.get("sessionId")));
 				recordVO.setTrackSeq(trackVO.getSeq());
-				recordVO.setPlayerId(String.valueOf(RecordData.get("PlayerId")));
-				recordVO.setCarModel(String.valueOf(RecordData.get("carModel")));
-				recordVO.setBestLap(Integer.parseInt(String.valueOf(RecordData.get("bestLap"))));
-				recordVO.setSector1(Integer.parseInt(String.valueOf(RecordData.get("sector1"))));
-				recordVO.setSector2(Integer.parseInt(String.valueOf(RecordData.get("sector2"))));
-				recordVO.setSector3(Integer.parseInt(String.valueOf(RecordData.get("sector3"))));
+				recordVO.setPlayerId(String.valueOf(recordData.get("PlayerId")));
+				recordVO.setCarModel(String.valueOf(recordData.get("carModel")));
+				recordVO.setBestLap(Integer.parseInt(String.valueOf(recordData.get("bestLap"))));
+				recordVO.setSector1(Integer.parseInt(String.valueOf(recordData.get("sector1"))));
+				recordVO.setSector2(Integer.parseInt(String.valueOf(recordData.get("sector2"))));
+				recordVO.setSector3(Integer.parseInt(String.valueOf(recordData.get("sector3"))));
+				recordVO.setLapCount(Integer.parseInt(String.valueOf(recordData.get("lapCount"))));
 				// 레코드 입력
 				recordService.setRecordData(recordVO);
 			}

@@ -41,6 +41,11 @@ public class RecordVO extends CommonVO {
 	 */
 	private String carName;
 
+	/**
+	 * 랩 카운터
+	 */
+	private long lapCount;
+
 	/** 추가 변수 */
 	/*
 	 * 세션 초기화 정보
@@ -270,8 +275,16 @@ public class RecordVO extends CommonVO {
 		this.rankImg = rankImg;
 	}
 
+	public long getLapCount() {
+		return lapCount;
+	}
+
+	public void setLapCount(long lapCount) {
+		this.lapCount = lapCount;
+	}
+
 	@Override
 	public String toString() {
-		return "RecordVO{" + "sessionId='" + sessionId + '\'' + ", playerId='" + playerId + '\'' + ", bestLap=" + bestLap + ", sector1=" + sector1 + ", sector2=" + sector2 + ", sector3=" + sector3 + ", trackSeq=" + trackSeq + ", carModel='" + carModel + '\'' + ", carName='" + carName + '\'' + ", SessionFlag='" + SessionFlag + '\'' + ", trackName='" + trackName + '\'' + ", rank=" + rank + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", gap='" + gap + '\'' + ", bestLapView='" + bestLapView + '\'' + ", sector1View='" + sector1View + '\'' + ", sector2View='" + sector2View + '\'' + ", sector3View='" + sector3View + '\'' + '}';
+		return "RecordVO{" + "sessionId='" + sessionId + '\'' + ", playerId='" + playerId + '\'' + ", bestLap=" + bestLap + ", sector1=" + sector1 + ", sector2=" + sector2 + ", sector3=" + sector3 + ", potential=" + potential + ", trackSeq=" + trackSeq + ", carModel='" + carModel + '\'' + ", carName='" + carName + '\'' + ", lapCount=" + lapCount + ", SessionFlag='" + SessionFlag + '\'' + ", trackName='" + trackName + '\'' + ", trackViewName='" + trackViewName + '\'' + ", rank=" + rank + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", gap='" + gap + '\'' + ", bestLapView='" + bestLapView + '\'' + ", sector1View='" + sector1View + '\'' + ", sector2View='" + sector2View + '\'' + ", sector3View='" + sector3View + '\'' + ", potentialView='" + potentialView + '\'' + ", rankImg='" + rankImg + '\'' + '}';
 	}
 }

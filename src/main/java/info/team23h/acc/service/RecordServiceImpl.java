@@ -33,6 +33,7 @@ public class RecordServiceImpl implements RecordService {
 			param.setSessionId(recordVO.getSessionId());
 			param.setPlayerId(recordVO.getPlayerId());			
 			param.setTrackSeq(recordVO.getTrackSeq());
+			param.setLapCount(recordVO.getLapCount());
 
 			if(beforeRecord.getBestLap() > recordVO.getBestLap()){
 				// 기존 베스트 랩이 느림

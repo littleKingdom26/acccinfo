@@ -32,17 +32,30 @@
         </div>
     </div>
     <table class="table table-striped" style="margin-top:20px;">
+        <colgroup>
+            <col width="5%" /> {{! 랭킹 }}
+            <col width="10%" /> {{! 드라이브명 }}
+            <col width="*" />   {{! 차량명 }}
+            <col width="7%" />  {{! 베스트랩 }}
+            <col width="5%" />  {{! 갭 }}
+            <col width="7%" />  {{! 섹터1 }}
+            <col width="7%" />  {{! 섹터2 }}
+            <col width="7%" />  {{! 섹터3 }}
+            <col width="7%" />  {{! 포텐셜 }}
+            <col width="7%" />  {{! 랩 카운트 }}
+        </colgroup>
         <thead class="">
             <tr>
-                <th style="text-align: center">Rank</th>
-                <th>Driver</th>
-                <th>Car</th>
-                <th>Best Lap</th>
-                <th style="text-align:center">Gap</th>
-                <th>Best S1</th>
-                <th>Best S2</th>
-                <th>Best S3</th>
-                <th>Potential</th>
+                <th style="text-align: center; vertical-align: middle; ">Rank</th>
+                <th style="vertical-align: middle;">Driver</th>
+                <th style="vertical-align: middle;">Car</th>
+                <th style="vertical-align: middle;">Best Lap</th>
+                <th style="text-align:center; vertical-align: middle;">Gap</th>
+                <th style="vertical-align: middle;">Best S1</th>
+                <th style="vertical-align: middle;">Best S2</th>
+                <th style="vertical-align: middle;">Best S3</th>
+                <th style="vertical-align: middle;">Potential</th>
+                <th style="text-align:center;vertical-align: middle;">Lap Count</th>
             </tr>
         </thead>
         <tbody id="dataList">
@@ -72,6 +85,7 @@
                     <td>{{sector2View}}</td>
                     <td>{{sector3View}}</td>
                     <td>{{potentialView}}</td>
+                    <td style="text-align: center">{{lapCount}}</td>
                 </tr>
             {{/recordList}}
 
