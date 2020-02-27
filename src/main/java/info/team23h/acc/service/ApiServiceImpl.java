@@ -86,9 +86,10 @@ public class ApiServiceImpl  implements ApiService {
 					throw new Team23hException("sector2 확인 해주세요");
 				}else if(recordData.get("sector3") == null || "".equals(recordData.get("sector3"))){
 					throw new Team23hException("sector3 확인 해주세요");
-				}else if(recordData.get("lapCount") == null || "".equals(recordData.get("lapCount"))){
-					throw new Team23hException("lapCount 확인 해주세요");
 				}
+				/*else if(recordData.get("lapCount") == null || "".equals(recordData.get("lapCount"))){
+					throw new Team23hException("lapCount 확인 해주세요");
+				}*/
 
 				// 회원 저장 필요
 				PlayerVO playerVO = new PlayerVO();
@@ -114,7 +115,7 @@ public class ApiServiceImpl  implements ApiService {
 				recordVO.setSector1(Integer.parseInt(String.valueOf(recordData.get("sector1"))));
 				recordVO.setSector2(Integer.parseInt(String.valueOf(recordData.get("sector2"))));
 				recordVO.setSector3(Integer.parseInt(String.valueOf(recordData.get("sector3"))));
-				recordVO.setLapCount(Integer.parseInt(String.valueOf(recordData.get("lapCount"))));
+				/*recordVO.setLapCount(Integer.parseInt(String.valueOf(recordData.get("lapCount"))));*/
 				// 레코드 입력
 				recordService.setRecordData(recordVO);
 			}

@@ -45,7 +45,7 @@
     <update id="updateRecordData" parameterType="info.team23h.acc.vo.RecordVO">
         UPDATE TB_RECORD SET
         TRACK_SEQ = #{trackSeq}
-        , LAP_COUNT = LAP_COUNT + #{lapCount}
+        <!--, LAP_COUNT = LAP_COUNT + #{lapCount}-->
         <if test="bestLap != null and bestLap > 0">
             ,BEST_LAP = #{bestLap}
             ,CAR_MODEL = #{carModel}
@@ -80,7 +80,7 @@
                 A.SECTOR1,
                 A.SECTOR2,
                 A.SECTOR3,
-                A.LAP_COUNT,
+                <!--A.LAP_COUNT,-->
                 A.PLAYER_ID
                 from TB_RECORD A
                 INNER JOIN TB_TRACK TT on A.TRACK_SEQ = TT.SEQ
@@ -103,7 +103,7 @@
                C.SECTOR1,
                C.SECTOR2,
                C.SECTOR3,
-               C.LAP_COUNT,
+               <!--C.LAP_COUNT,-->
                B.PLAYER_ID
         FROM (SELECT MIN(A.BEST_LAP) AS BEST_LAP, A.PLAYER_ID
               FROM TB_RECORD A
