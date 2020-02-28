@@ -36,12 +36,12 @@
             <col width="5%" /> {{! 랭킹 }}
             <col width="10%" /> {{! 드라이브명 }}
             <col width="*" />   {{! 차량명 }}
-            <col width="7%" />  {{! 베스트랩 }}
+            <col width="10" />  {{! 베스트랩 }}
             <col width="5%" />  {{! 갭 }}
-            <col width="7%" />  {{! 섹터1 }}
-            <col width="7%" />  {{! 섹터2 }}
-            <col width="7%" />  {{! 섹터3 }}
-            <col width="7%" />  {{! 포텐셜 }}
+            <col width="7%" class="pcview" />  {{! 섹터1 }}
+            <col width="7%" class="pcview" />  {{! 섹터2 }}
+            <col width="7%" class="pcview" />  {{! 섹터3 }}
+            <col width="7%" class="pcview" />  {{! 포텐셜 }}
             <!--<col width="7%" />  {{! 랩 카운트 }}-->
         </colgroup>
         <thead class="">
@@ -51,10 +51,10 @@
                 <th style="vertical-align: middle;">Car</th>
                 <th style="vertical-align: middle;">Best Lap</th>
                 <th style="text-align:center; vertical-align: middle;">Gap</th>
-                <th style="vertical-align: middle;">Best S1</th>
-                <th style="vertical-align: middle;">Best S2</th>
-                <th style="vertical-align: middle;">Best S3</th>
-                <th style="vertical-align: middle;">Potential</th>
+                <th class="pcview" style="vertical-align: middle;">Best S1</th>
+                <th class="pcview" style="vertical-align: middle;">Best S2</th>
+                <th class="pcview" style="vertical-align: middle;">Best S3</th>
+                <th class="pcview" style="vertical-align: middle;">Potential</th>
                 <!--<th style="text-align:center;vertical-align: middle;">Lap Count</th>-->
             </tr>
         </thead>
@@ -63,14 +63,14 @@
                 <tr>
                     <td style="text-align: center;">
                         {{#rankImg}}
-                            <img src="{{rankImg}}" width="80" />
+                            <img src="{{rankImg}}" class="img-fluid lank-img" />
                         {{/rankImg}}
                         {{^rankImg}}
                             {{rank}}
                         {{/rankImg}}
                     </td>
                     <td><a href="#" class="driverDetail" data-toggle="modal" data-target="#staticBackdrop" data-playerid="{{playerId}}">{{firstName}} {{lastName}}</a></td>
-                    <td>{{carName}}</td>
+                    <td class="car-name">{{carName}}</td>
                     <td><strong>{{bestLapView}}</strong></td>
                     <td style="text-align: right">
                         <div class="row">
@@ -81,10 +81,10 @@
                             </div>
                         </div>
                     </td>
-                    <td>{{sector1View}}</td>
-                    <td>{{sector2View}}</td>
-                    <td>{{sector3View}}</td>
-                    <td>{{potentialView}}</td>
+                    <td class="pcview">{{sector1View}}</td>
+                    <td class="pcview">{{sector2View}}</td>
+                    <td class="pcview">{{sector3View}}</td>
+                    <td class="pcview">{{potentialView}}</td>
                     <!--<td style="text-align: center">{{lapCount}}</td>-->
                 </tr>
             {{/recordList}}

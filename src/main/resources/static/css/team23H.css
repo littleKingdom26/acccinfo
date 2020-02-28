@@ -1,0 +1,9 @@
+@media only screen
+and (min-device-width: 320px)
+and (max-device-width: 480px) {
+    /* 이부분에 해당 조건의 css를 작성 */
+    .pcview{display: none;}
+}
+
+.lank-img {width:60px;}
+
