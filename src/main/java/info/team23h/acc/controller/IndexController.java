@@ -71,7 +71,6 @@ public class IndexController {
 		ViewVo viewVo = viewService.getViewCount();
 		model.addAttribute("viewCount", viewVo.getPageViewCount())
 		.addAttribute("todayViewCount", viewVo.getTodayViewCount());
-		System.out.println("------------------ 디플로이 한 버전 --------------");
 		return "index";
 	}
 

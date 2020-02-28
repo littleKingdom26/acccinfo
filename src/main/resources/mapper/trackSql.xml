@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="trackSql">
     <select id="getTrackSeq" parameterType="info.team23h.acc.vo.TrackVO" resultType="long">
         SELECT IFNULL(MAX(SEQ),0) as SEQ FROM TB_TRACK  WHERE TRACK_NAME = #{trackName}

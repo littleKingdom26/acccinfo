@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="recordSql">
 
     <select id="getRecordData" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.RecordVO">
@@ -39,7 +40,6 @@
             ,#{carModel}
             ,#{trackSeq}
             ,NOW())
-
     </insert>
 
     <update id="updateRecordData" parameterType="info.team23h.acc.vo.RecordVO">
@@ -139,6 +139,7 @@
         INNER JOIN TB_PLAYER TP on C.PLAYER_ID = TP.PLAYER_ID
         INNER JOIN TB_CAR TC ON C.CAR_MODEL = TC.CAR_MODEL
         ORDER BY BEST_LAP ) D, (SELECT @ROWNUM := 0) E
+
     </select>
 
 </mapper>
