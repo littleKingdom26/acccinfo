@@ -4,6 +4,7 @@ import info.team23h.acc.service.RecordService;
 import info.team23h.acc.service.TrackService;
 import info.team23h.acc.service.WeekService;
 import info.team23h.acc.vo.SearchVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpSession;
 /**
  * The type Index controller.
  */
+@Slf4j
 @Controller
 public class IndexController {
 
