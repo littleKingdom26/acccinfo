@@ -32,7 +32,6 @@ public class BbsRestController {
 
 	@PostMapping("/bbs/saveComment")
 	public HashMap<String,Object> saveComment(@RequestBody CommentVO commentVO){
-		log.debug("commentVO.toString() > " + commentVO.toString());
 		HashMap<String, Object> result = bbsService.commentSave(commentVO);
 		return result;
 	}
