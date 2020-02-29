@@ -11,20 +11,21 @@ public class ViewDAO {
 	@Autowired
 	private SqlSession sqlSession;
 
+	private final String PREFIX = "viewSql";
 
 	public int updateViewCount() {
-		return sqlSession.update("viewSql.updateViewCount");
+		return sqlSession.update(PREFIX+".updateViewCount");
 	}
 
 	public ViewVo getViewCount() {
-		return sqlSession.selectOne("viewSql.getViewCount");
+		return sqlSession.selectOne(PREFIX+".getViewCount");
 	}
 
 	public int loadTodayViewCount() {
-		return sqlSession.selectOne("viewSql.loadTodayViewCount");
+		return sqlSession.selectOne(PREFIX+".loadTodayViewCount");
 	}
 
 	public int insertViewCount() {
-		return sqlSession.insert("viewSql.insertViewCount");
+		return sqlSession.insert(PREFIX+".insertViewCount");
 	}
 }

@@ -14,28 +14,29 @@ public class RecordDAO {
 	@Autowired
 	private SqlSession sql;
 
-	public RecordVO getRecordData(RecordVO recordVO) {
-		return sql.selectOne("recordSql.getRecordData", recordVO);
+	private final String PREFIX = "recordSql";
 
+	public RecordVO getRecordData(RecordVO recordVO) {
+		return sql.selectOne(PREFIX+".getRecordData", recordVO);
 	}
 
 	public int createRecordData(RecordVO recordVO) {
-		return sql.insert("recordSql.createRecordData", recordVO);
+		return sql.insert(PREFIX +".createRecordData", recordVO);
 	}
 
 	public int updateRecordData(RecordVO recordVO) {
-		return sql.update("recordSql.updateRecordData", recordVO);
+		return sql.update(PREFIX +".updateRecordData", recordVO);
 	}
 
 	public List<RecordVO> getRecordDataListForWeek(SearchVO searchVO) {
-		return sql.selectList("recordSql.getRecordDataListForWeek", searchVO);
+		return sql.selectList(PREFIX +".getRecordDataListForWeek", searchVO);
 	}
 
 	public List<RecordVO> getRecordDataListForTrackSeq(SearchVO searchVO) {
-		return sql.selectList("recordSql.getRecordDataListForTrackSeq", searchVO);
+		return sql.selectList(PREFIX +".getRecordDataListForTrackSeq", searchVO);
 	}
 
 	public List<RecordVO> recordPlayerDetail(SearchVO searchVO) {
-		return sql.selectList("recordSql.recordPlayerDetail", searchVO);
+		return sql.selectList(PREFIX +".recordPlayerDetail", searchVO);
 	}
 }

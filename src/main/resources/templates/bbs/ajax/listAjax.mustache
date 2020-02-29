@@ -1,0 +1,14 @@
+{{#data}}
+    {{#list}}
+        <tr>
+            <td class="text-center">{{no}}</td>
+            <td><a href="/bbs/{{nameSeq}}/{{seq}}"><b>{{title}}</b></a></td>
+            <td>{{regId}}</td>
+        </tr>
+    {{/list}}
+{{/data}}
+<script>
+    $(function () {
+        board.moreBtnCheck({{data.search.totalCount}},{{data.search.currentPage}},{{data.search.pageCount}});
+    });
+</script>

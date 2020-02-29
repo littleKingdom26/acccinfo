@@ -1,20 +1,36 @@
-    <div class="container-fluid">
+    <hr class="my-3" />
+    <div class="container-fluid mt-3">
         <div class="row">
-            <div class="col-12">
-                <p style="text-align: center;font-size:0.6rem;color:#909090">
-                    Total visitor: {{viewCount}} , Today visitor: {{todayViewCount}} <br />
-                    <br />
-                    Service provided by team23h. <br />
-                    Contributors: padagi20, nicol, little-kingdom, nottwo and jajuku.<br/>
-                    All data, service, marks, and copyrights are the property of their respective owners.<br />
-
-                </p>
+            <div class="col-12 text-center">
+                Total visitor: {{viewCount}} , Today visitor: {{todayViewCount}} <br />
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                Service provided by team23h. <br />
+                Contributors: padagi20, nicol, little-kingdom, nottwo and jajuku.<br />
+                All data, service, marks, and copyrights are the property of their respective owners.<br />
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/popper.js"></script>
     <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/jquery-ui.js"></script>
-    <script src="/js/index.js?v=1.1"> </script>
+    <script>
+        $(function () {
+            let currnetUrl = location.href;
+            $('.nav-link').each(function(){
+                $(this).removeClass("active");
+            });
+            if (currnetUrl.indexOf("bbs") > -1) {
+                $('#bbs').addClass("active");
+            }else{
+                $('#main').addClass("active");
+            }
+        });
+    </script>
     </body>
 </html>

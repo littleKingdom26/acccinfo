@@ -13,20 +13,21 @@ public class WeekDAO {
 	@Autowired
 	private SqlSession sqlSession;
 
+	private final String PREFIX = "weekSql";
 
 	public WeekVO getRecently() {
-		return sqlSession.selectOne("weekSql.getRecently");
+		return sqlSession.selectOne(PREFIX+".getRecently");
 	}
 
 	public int setLastSessionEnd(int sessionID) {
-		return sqlSession.update("weekSql.setLastSessionEnd", sessionID);
+		return sqlSession.update(PREFIX+".setLastSessionEnd", sessionID);
 	}
 
 	public int setNewSession(WeekVO weekVO) {
-		return sqlSession.insert("weekSql.setNewSession", weekVO);
+		return sqlSession.insert(PREFIX +".setNewSession", weekVO);
 	}
 
 	public List<WeekVO> getWeekList() {
-		return sqlSession.selectList("weekSql.getWeekList");
+		return sqlSession.selectList(PREFIX +".getWeekList");
 	}
 }

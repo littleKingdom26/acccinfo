@@ -1,5 +1,10 @@
 package info.team23h.acc.vo;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class CommonVO {
 
 	/**  등록일 */
@@ -9,19 +14,4 @@ public class CommonVO {
 	 */
 	public String updDt;
 
-	public String getRegDt() {
-		return regDt;
-	}
-
-	public void setRegDt(String regDt) {
-		this.regDt = regDt;
-	}
-
-	public String getUpdDt() {
-		return updDt;
-	}
-
-	public void setUpdDt(String updDt) {
-		this.updDt = updDt;
-	}
 }

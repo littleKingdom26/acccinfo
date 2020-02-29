@@ -1,0 +1,51 @@
+{{>layout/header}}
+
+<main role="main" class="container">
+    <div class="row justify-content-center">
+        <div class="col-6 text-center m-2">
+            <h3>{{title}}</h3>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <form id="frm">
+                <input type="hidden" id="nameSeq" name="nameSeq" value="{{bbsNameSeq}}"/>
+                <div class="form-group">
+                    <label for="title">제목</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요" />
+                </div>
+                <div class="form-group">
+                    <label for="author"> 작성자 </label>
+                    <input type="text" class="form-control" id="regId" name="regId" placeholder="작성자를 입력하세요" {{^write}} value="관리자" readonly="readonly"{{/write}} />
+                </div>
+                {{#write}}
+                    <div class="form-group">
+                        <label for="author"> 비밀번호 </label>
+                        <input type="text" class="form-control" id="author" name="password" placeholder="작성자를 입력하세요" />
+                    </div>
+                {{/write}}
+                <div class="form-group">
+                    <label for="content"> 내용 </label>
+                    <textarea class="form-control" id="content" name="content" placeholder="내용을 입력하세요" rows="10"></textarea>
+                </div>
+                {{#write}}
+
+                {{/write}}
+            </form>
+
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12 text-right">
+            <a href="/bbs/{{bbsNameSeq}}" role="button" class="btn btn-secondary">취소</a>
+            <button type="button" class="btn btn-primary" id="btn-save">등록</button>
+        </div>
+    </div>
+</main>
+{{>layout/footer}}
+<script src="/js/board.js"></script>
+<script>
+    $(function(){
+        board.write();
+    });
+</script>

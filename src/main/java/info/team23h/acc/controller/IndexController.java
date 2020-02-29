@@ -2,10 +2,8 @@ package info.team23h.acc.controller;
 
 import info.team23h.acc.service.RecordService;
 import info.team23h.acc.service.TrackService;
-import info.team23h.acc.service.ViewService;
 import info.team23h.acc.service.WeekService;
 import info.team23h.acc.vo.SearchVO;
-import info.team23h.acc.vo.ViewVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,11 +37,7 @@ public class IndexController {
 	@Autowired
 	TrackService trackService;
 
-	/**
-	 * The View service.
-	 */
-	@Autowired
-	ViewService viewService;
+
 
 	/**
 	 * Index string.
@@ -64,13 +58,8 @@ public class IndexController {
 		// 트랙 구하기
 		model.addAttribute("trackList", trackService.getTrackList(searchVO));
 
-		if(session.getAttribute("sessionKey") == null || !session.getId().equals(session.getAttribute("sessionKey"))){
-			session.setAttribute("sessionKey", session.getId());
-			viewService.updateViewCount();
-		}
-		ViewVo viewVo = viewService.getViewCount();
-		model.addAttribute("viewCount", viewVo.getPageViewCount())
-		.addAttribute("todayViewCount", viewVo.getTodayViewCount());
+
+
 		return "index";
 	}
 

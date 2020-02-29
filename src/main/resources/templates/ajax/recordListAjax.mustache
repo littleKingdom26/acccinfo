@@ -3,7 +3,7 @@
     <tr>
         <td style="text-align: center;">
             {{#rankImg}}
-                <img src="{{rankImg}}" width="80" />
+                <img src="{{rankImg}}" class="img-fluid lank-img" />
             {{/rankImg}}
             {{^rankImg}}
                 {{rank}}
@@ -25,6 +25,6 @@
         <td class="pcview">{{sector2View}}</td>
         <td class="pcview">{{sector3View}}</td>
         <td class="pcview">{{potentialView}}</td>
-        <!--<td style="text-align: center">{{lapCount}}</td>-->
+        <!--<td style="text-align: center">{{!lapCount}}</td>-->
     </tr>
 {{/recordList}}

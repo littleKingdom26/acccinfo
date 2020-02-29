@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bbsSql">
+
+    <resultMap id="bbsResultMap" type="info.team23h.acc.vo.BbsVO" autoMapping="true">
+        <result property="seq" column="SEQ"/>
+        <collection property="commentList" column="{bbsSeq=SEQ}" javaType="java.util.List" ofType="info.team23h.acc.vo.CommentVO" select="loadCommentList"
+                    autoMapping="true"/>
+    </resultMap>
+    
+    <sql id="loadBasicSelect">
+		SELECT
+		       SEQ
+		      ,NAME_SEQ
+		      ,TITLE
+		      ,CONTENT
+		      ,REG_ID
+		      ,REG_DT
+		      ,UPD_DT
+           FROM TB_BBS
+	</sql>
+
+    <sql id="loadBasicWhere">
+		WHERE NAME_SEQ = #{nameSeq}
+
+	</sql>
+
+    <sql id="loadBasicOrderBy">
+		ORDER BY SEQ DESC
+
+	</sql>
+
+    <sql id="loadBasicPaging">
+		LIMIT ${startNum}, ${endNum}
+	</sql>
+
+    <select id="loadBbsName" resultType="info.team23h.acc.vo.BbsNameVO">
+        SELECT SEQ , BBS_NAME FROM TB_BBS_NAME
+    </select>
+
+
+    <select id="loadBbsListCount" parameterType="info.team23h.acc.vo.BbsSearch" resultType="int">
+        SELECT COUNT(1) AS TOTALCOUNT
+        FROM (
+        <include refid="loadBasicSelect"/>
+        <include refid="loadBasicWhere"/>
+        ) T
+    </select>
+
+    <select id="loadBbsList" resultType="info.team23h.acc.vo.BbsVO" parameterType="info.team23h.acc.vo.BbsSearch">
+        <include refid="loadBasicSelect"/>
+        <include refid="loadBasicWhere"/>
+        <include refid="loadBasicOrderBy"/>
+        <include refid="loadBasicPaging"/>
+    </select>
+
+    <insert id="save" parameterType="info.team23h.acc.vo.BbsVO">
+        INSERT INTO TB_BBS
+            (NAME_SEQ
+            ,TITLE
+            ,CONTENT
+            ,REG_ID
+            ,PASSWORD
+            ,REG_DT)
+            VALUES
+            (
+            #{nameSeq}
+            ,#{title}
+            ,#{content}
+            ,#{regId}
+            ,#{password}
+            ,now()
+            )
+    </insert>
+
+    <select id="loadBbsView" resultMap="bbsResultMap" parameterType="info.team23h.acc.vo.BbsSearch">
+        <include refid="loadBasicSelect"/>
+        <include refid="loadBasicWhere"/>
+        AND SEQ = #{bbsSeq}
+    </select>
+
+    <insert id="commentSave" parameterType="info.team23h.acc.vo.CommentVO">
+        INSERT INTO TB_COMMENT
+        (BBS_SEQ
+        ,COMMENT
+        ,REG_ID
+        ,REG_DT)
+        VALUES(
+        #{bbsSeq}
+        ,#{comment}
+        ,#{regId}
+        ,now()
+        )
+    </insert>
+    
+    <select id="loadCommentList" resultType="info.team23h.acc.vo.CommentVO">
+        SELECT
+            SEQ
+            ,COMMENT
+            ,REG_ID
+            ,REG_DT
+        FROM TB_COMMENT
+        WHERE BBS_SEQ= #{bbsSeq}         
+    </select>
+
+    <update id="update" parameterType="info.team23h.acc.vo.BbsVO">
+        UPDATE TB_BBS SET
+            TITLE = #{title}
+            ,CONTENT = #{content}
+            ,UPD_DT = now()
+            <if test="regId != null">
+                ,REG_ID = #{regId}
+            </if>
+        WHERE NAME_SEQ = #{nameSeq} AND SEQ = #{seq}
+        <if test="password != null">
+            AND PASSWORD = #{password}
+        </if>
+
+    </update>
+
+
+</mapper>
+

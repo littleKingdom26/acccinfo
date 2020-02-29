@@ -13,20 +13,21 @@ public class PlayerDAO {
 	@Autowired
 	private SqlSession sql;
 
+	private final String  PREFIX = "playerSql";
 
 	public List<PlayerVO> getPlayerList() {
-		return sql.selectList("playerSql.getPlayerList");
+		return sql.selectList(PREFIX+".getPlayerList");
 	}
 
 	public int createDriver(PlayerVO playerVO) {
-		return sql.insert("playerSql.createDriver", playerVO);
+		return sql.insert(PREFIX +".createDriver", playerVO);
 	}
 
 	public int getPlayerDetail(PlayerVO playerVO) {
-		return sql.selectOne("playerSql.getPlayerDetail",playerVO);
+		return sql.selectOne(PREFIX +".getPlayerDetail",playerVO);
 	}
 
 	public int updateDriver(PlayerVO playerVO) {
-		return  sql.update("playerSql.updateDriver", playerVO);
+		return  sql.update(PREFIX +".updateDriver", playerVO);
 	}
 }

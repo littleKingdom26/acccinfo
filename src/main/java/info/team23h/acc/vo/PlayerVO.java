@@ -1,6 +1,10 @@
 package info.team23h.acc.vo;
 
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 public class PlayerVO extends CommonVO {
 
 
@@ -11,27 +15,4 @@ public class PlayerVO extends CommonVO {
 	/** 성 */
 	public String lastName;
 
-	public String getPlayerId() {
-		return playerId;
-	}
-
-	public void setPlayerId(String playerId) {
-		this.playerId = playerId;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
 }

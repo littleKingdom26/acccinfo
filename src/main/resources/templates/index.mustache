@@ -1,15 +1,8 @@
 {{>layout/header}}
-
-<div id="background" class="w-100 p-3 position-fixed" style="background-color: rgba(0,0,0,0.5); height: 100%;z-index: 100;display:none;">
-    <div class="spinner-border text-light" role="status" style="position: absolute;top:50%;left:50%">
-        <span class="sr-only">Loading...</span>
-    </div>
-</div>
-<div class="container-fluid" >
-
-    <h2 style="margin-top:10px">Assetto Corsa Competizione Time Trial @ JAJUKU Server</h2>
-    <div class="row " style="margin-top:20px;">
-        <div class="col">
+<h2>Assetto Corsa Competizione Time Trial @ JAJUKU Server</h2>
+<main role="main" class="container-fluid">
+    <div class="row" >
+        <div class="col-6">
             <div class="form-group">
                 <label for="weekSel">Event</label>
                 <select id="weekSel" class="form-control">
@@ -20,7 +13,7 @@
                 </select>
             </div>
         </div>
-        <div class="col">
+        <div class="col-6">
             <div class="form-group">
                 <label for="trackSel">Track</label>
                 <select id="trackSel" class="form-control">
@@ -31,34 +24,35 @@
             </div>
         </div>
     </div>
-    <table class="table table-striped" style="margin-top:20px;">
-        <colgroup>
-            <col width="5%" /> {{! 랭킹 }}
-            <col width="10%" /> {{! 드라이브명 }}
-            <col width="*" />   {{! 차량명 }}
-            <col width="10" />  {{! 베스트랩 }}
-            <col width="5%" />  {{! 갭 }}
-            <col width="7%" class="pcview" />  {{! 섹터1 }}
-            <col width="7%" class="pcview" />  {{! 섹터2 }}
-            <col width="7%" class="pcview" />  {{! 섹터3 }}
-            <col width="7%" class="pcview" />  {{! 포텐셜 }}
-            <!--<col width="7%" />  {{! 랩 카운트 }}-->
-        </colgroup>
-        <thead class="">
+    <div class="table-responsive">
+        <table class="table table-striped" style="margin-top:20px;">
+            <colgroup>
+                <col width="5%" /> {{! 랭킹 }}
+                <col width="5%" /> {{! 드라이브명 }}
+                <col width="*" />   {{! 차량명 }}
+                <col width="10" />  {{! 베스트랩 }}
+                <col width="5%" />  {{! 갭 }}
+                <col width="7%" />  {{! 섹터1 }}
+                <col width="7%" />  {{! 섹터2 }}
+                <col width="7%" />  {{! 섹터3 }}
+                <col width="7%" />  {{! 포텐셜 }}
+                <!--<col width="7%" />  {{! 랩 카운트 }}-->
+            </colgroup>
+            <thead class="">
             <tr>
                 <th style="text-align: center; vertical-align: middle; ">Rank</th>
                 <th style="vertical-align: middle;">Driver</th>
                 <th style="vertical-align: middle;">Car</th>
                 <th style="vertical-align: middle;">Best Lap</th>
                 <th style="text-align:center; vertical-align: middle;">Gap</th>
-                <th class="pcview" style="vertical-align: middle;">Best S1</th>
-                <th class="pcview" style="vertical-align: middle;">Best S2</th>
-                <th class="pcview" style="vertical-align: middle;">Best S3</th>
-                <th class="pcview" style="vertical-align: middle;">Potential</th>
+                <th class="" style="vertical-align: middle;">Best S1</th>
+                <th class="" style="vertical-align: middle;">Best S2</th>
+                <th class="" style="vertical-align: middle;">Best S3</th>
+                <th class="" style="vertical-align: middle;">Potential</th>
                 <!--<th style="text-align:center;vertical-align: middle;">Lap Count</th>-->
             </tr>
-        </thead>
-        <tbody id="dataList">
+            </thead>
+            <tbody id="dataList">
             {{#recordList}}
                 <tr>
                     <td style="text-align: center;">
@@ -81,18 +75,20 @@
                             </div>
                         </div>
                     </td>
-                    <td class="pcview">{{sector1View}}</td>
-                    <td class="pcview">{{sector2View}}</td>
-                    <td class="pcview">{{sector3View}}</td>
-                    <td class="pcview">{{potentialView}}</td>
-                    <!--<td style="text-align: center">{{lapCount}}</td>-->
+                    <td class="">{{sector1View}}</td>
+                    <td class="">{{sector2View}}</td>
+                    <td class="">{{sector3View}}</td>
+                    <td class="">{{potentialView}}</td>
+                    <!--<td style="text-align: center">{{!lapCount}}</td>-->
                 </tr>
             {{/recordList}}
 
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+    </div>
 
+
+</main>
 <div class="modal fade " id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog " role="document">
         <div class="modal-content">
@@ -115,9 +111,29 @@
     <input type="hidden" name="sessionId" id="sessionId" />
     <input type="hidden" name="trackSeq" id="trackSeq" />
 </form>
+<div class="modal fade " id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title driverName" id="staticBackdropLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="playerDetail">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/index.js?v=1.1"></script>
 {{>layout/footer}}
 <script>
-    $(function(){
+    $(function () {
         index.init();
     });
 </script>
+
