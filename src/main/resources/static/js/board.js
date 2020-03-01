@@ -85,8 +85,8 @@ var board = {
                     console.log(data);
                     alert('댓글이 등록되었습니다.');
                     let html = '<tr>' +
-                        '<td>'+data.comment+'</td> '+
                         '<td>'+data.regId+'</td> '+
+                        '<td>'+data.comment+'</td> '+
                         '</tr>';
                     $('#commentList').append(html);
                 } else {
