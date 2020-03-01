@@ -82,7 +82,6 @@ var board = {
                 data: JSON.stringify(data)
             }).done(function (data) {
                 if (data.code == '0000') {
-                    console.log(data);
                     alert('댓글이 등록되었습니다.');
                     let html = '<tr>' +
                         '<td>'+data.regId+'</td> '+
