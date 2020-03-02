@@ -23,7 +23,13 @@
                     {{#list}}
                         <tr>
                             <td class="text-center">{{no}}</td>
-                            <td><a href="/bbs/{{nameSeq}}/{{seq}}"><b>{{title}}</b></a></td>
+                            <td>
+                                <a href="/bbs/{{nameSeq}}/{{seq}}"><b>{{title}}</b>
+                                    {{#commentCntViewer}}
+                                        <small>({{commentCntViewer}})</small>
+                                    {{/commentCntViewer}}
+                                </a>
+                            </td>
                             <td>{{regId}}</td>
                         </tr>
                     {{/list}}

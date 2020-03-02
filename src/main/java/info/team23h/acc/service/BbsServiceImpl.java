@@ -38,6 +38,9 @@ public class BbsServiceImpl implements BbsService {
 		int bbsNo = totalCount -((bbsSearch.getCurrentPage() -1)* pageCount);
 		for(int i = 0; i < bbsList.size(); i++){
 			bbsList.get(i).setNo(bbsNo - i);
+			if(bbsList.get(i).getCommentCnt() > 0){
+				bbsList.get(i).setCommentCntViewer(String.valueOf(bbsList.get(i).getCommentCnt()));
+			}
 		}
 
 		HashMap<String, Object> map = new HashMap<String, Object>();

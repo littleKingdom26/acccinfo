@@ -18,6 +18,9 @@ public class BbsVO extends CommonVO {
 	private String regId;
 	private String password;
 	private List<CommentVO> commentList;
+	private int commentCnt;
+
+	private String commentCntViewer;
 
 
 }

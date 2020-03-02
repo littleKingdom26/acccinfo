@@ -8,6 +8,13 @@
         <collection property="commentList" column="{bbsSeq=SEQ}" javaType="java.util.List" ofType="info.team23h.acc.vo.CommentVO" select="loadCommentList"
                     autoMapping="true"/>
     </resultMap>
+
+
+    <resultMap id="bbsListMap" type="info.team23h.acc.vo.BbsVO" autoMapping="true">
+        <result property="seq" column="SEQ"/>
+        <collection property="commentCnt" column="{bbsSeq=SEQ}" javaType="java.lang.Integer"  select="loadCommnetListCnt"
+                    autoMapping="true"/>
+    </resultMap>
     
     <sql id="loadBasicSelect">
 		SELECT
@@ -48,7 +55,7 @@
         ) T
     </select>
 
-    <select id="loadBbsList" resultType="info.team23h.acc.vo.BbsVO" parameterType="info.team23h.acc.vo.BbsSearch">
+    <select id="loadBbsList" resultMap="bbsListMap" parameterType="info.team23h.acc.vo.BbsSearch">
         <include refid="loadBasicSelect"/>
         <include refid="loadBasicWhere"/>
         <include refid="loadBasicOrderBy"/>
@@ -102,6 +109,13 @@
             ,REG_DT
         FROM TB_COMMENT
         WHERE BBS_SEQ= #{bbsSeq}         
+    </select>
+
+    <select id="loadCommnetListCnt" resultType="int">
+        SELECT
+            count(*) as commentCnt
+        FROM TB_COMMENT
+        WHERE BBS_SEQ= #{bbsSeq}
     </select>
 
     <update id="update" parameterType="info.team23h.acc.vo.BbsVO">

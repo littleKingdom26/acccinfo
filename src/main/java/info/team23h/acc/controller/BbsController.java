@@ -49,7 +49,6 @@ public class BbsController {
 	public String loadMoreBbsList(Model model,
 							  @PathVariable("bbsNameSeq") long bbsNameSeq,
 							  @ModelAttribute("bbsSearch") BbsSearch bbsSearch) {
-		log.debug("bbsSearch.getCurrentPage() > " + bbsSearch.getCurrentPage());
 		bbsSearch.setNameSeq(bbsNameSeq);
 		// 게시판 조회
 		HashMap<String, Object> data = bbsService.loadBbsList(bbsSearch);
