@@ -25,11 +25,12 @@ public class CustomerErrorController implements ErrorController {
 						HttpServletResponse response
 						,Model model) {
 
-		log.debug("response.getStatus() > " + response.getStatus());
+
 		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 		HttpStatus httpStatus = HttpStatus.valueOf(Integer.valueOf(status.toString()));
 		log.error(httpStatus.toString());
-		log.error(status.toString());
+		log.error(httpStatus.getReasonPhrase());
+		log.error("에러 경로 > "+ request.getAttribute("javax.servlet.error.request_uri"));
 		String errorPage = "400";
 		if(response.getStatus()>500 && response.getStatus()<600){
 			errorPage = "500";
