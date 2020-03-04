@@ -21,21 +21,11 @@ var index = {
             var param = {
                 'playerId': $(this).data('playerid')
             };
-            $.ajax({
-                beforeSend: function () {
-                    $('#background').show(200);
-                },
-                complete: function () {
-                    $('#background').hide(200);
-                }
-                , dataType: "html"
-                , method: "POST"
-                , data: param
-                , url: "/recordPlayerDetailAjax"
-                , success: function (data) {
-                    $('#playerDetail').html(data);
-                }
+
+            common.ajax("POST","/recordPlayerDetailAjax", param,"html",'application/x-www-form-urlencoded; charset=UTF-8',function(data){
+                $('#playerDetail').html(data);
             });
+
         });
 
         $('#staticBackdrop').on('hidden.bs.modal',function(e){
@@ -45,22 +35,9 @@ var index = {
     },
     fnSubmit:function(){
         var param = $('#frm').serialize();
-        $.ajax({
-            beforeSend:function(){
-                $('#background').show(200);
-            },
-            complete:function(){
-                $('#background').hide(200);
-            }
-            , dataType : "html"
-            , method : "POST"
-            , data : param
-            , url : "/recordListAjax"
-            , success :function (data) {
-                $('#dataList').html(data);
-            }
+        common.ajax("POST","/recordListAjax", param, "html", 'application/x-www-form-urlencoded; charset=UTF-8', function (data) {
+            $('#dataList').html(data);
         });
-
     },
     driverDetail : function(){
         var driverName  = '';

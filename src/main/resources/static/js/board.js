@@ -9,16 +9,11 @@ var board = {
                 currentPage: currentPage
             };
 
-            $.ajax({
-                type: 'GET',
-                url: '/bbs/moreList/'+$('#nameSeq').val(),
-                dataType: 'html',
-                data: data
-            }).done(function(data){
+            common.ajax("GET", '/bbs/moreList/' + $('#nameSeq').val(), data, "html", 'application/json; charset=utf-8', function (data) {
                 $('#boardList').append(data);
-            }).fail(function (error) {
-                alert(JSON.stringify(error));
             });
+
+
         });
 
     },
@@ -39,21 +34,14 @@ var board = {
                 regId : $('#regId').val(),
                 password : $('#password').val()
             };
-            $.ajax({
-                type: 'POST',
-                url: '/bbs/saveBbs',
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify(data)
-            }).done(function (data) {
-                if(data.code == '0000'){
+
+            common.ajax("POST","/bbs/saveBbs", JSON.stringify(data), "json", 'application/json; charset=utf-8', function (data) {
+                if (data.code == '0000') {
                     alert('글이 등록되었습니다.');
-                    window.location.href = '/bbs/'+data.nameSeq;
-                }else{
+                    window.location.href = '/bbs/' + data.nameSeq;
+                } else {
                     alert('글 등록이 실패하였습니다. 다시 시도해주시기 바립니다.');
                 }
-            }).fail(function (error) {
-                alert(JSON.stringify(error));
             });
         });
     },
@@ -74,27 +62,21 @@ var board = {
                 bbsSeq: seq,
                 regId: $('#regId').val()
             };
-            $.ajax({
-                type: 'POST',
-                url: '/bbs/saveComment',
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify(data)
-            }).done(function (data) {
+
+            common.ajax("POST","/bbs/saveComment", JSON.stringify(data), "json",'application/json; charset=utf-8', function (data) {
                 if (data.code == '0000') {
                     alert('댓글이 등록되었습니다.');
                     let html = '<tr>' +
-                        '<td>'+data.regId+'</td> '+
-                        '<td>'+data.comment+'</td> '+
+                        '<td>' + data.regId + '</td> ' +
+                        '<td>' + data.comment + '</td> ' +
                         '</tr>';
                     $('#commentList').append(html);
+                    $('#comment').val('');
+                    $('#regId').val('')
                 } else {
                     alert('댓글 등록이 실패하였습니다. 다시 시도해주시기 바립니다.');
                 }
-            }).fail(function (error) {
-                alert(JSON.stringify(error));
             });
-
         });
     }
     ,update:function(){
@@ -107,22 +89,16 @@ var board = {
                 regId: $('#regId').val(),
                 password: $('#password').val()
             };
-            $.ajax({
-                type: 'POST',
-                url: '/bbs/updateBbs',
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify(data)
-            }).done(function (data) {
+
+            common.ajax("POST","/bbs/updateBbs", JSON.stringify(data), "json", 'application/json; charset=utf-8', function (data) {
                 if (data.code == '0000') {
                     alert('글이 등록되었습니다.');
-                    window.location.href = '/bbs/' + data.nameSeq+'/'+data.bbsSeq;
+                    window.location.href = '/bbs/' + data.nameSeq + '/' + data.bbsSeq;
                 } else {
                     alert('글 등록이 실패하였습니다. 다시 시도해주시기 바립니다.');
                 }
-            }).fail(function (error) {
-                alert(JSON.stringify(error));
             });
+
         });
     }
 
