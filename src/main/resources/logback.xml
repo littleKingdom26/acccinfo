@@ -7,8 +7,8 @@
 
     <!--<logger name="jdbc.sqlonly" level="INFO"/>
     <logger name="jdbc.resultsettable" level="INFO"/>-->
-    <logger name="info.team23h" level="FATAL" />
-    <root level="FATAL">
+    <logger name="info.team23h" level="ERROR" />
+    <root level="ERROR">
         <appender-ref ref="STDOUT"/>
     </root>
 
