@@ -18,18 +18,20 @@
 
     <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/common.js"></script>
-    <script src="/js/popper.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script>
         $(function () {
-            let currnetUrl = location.href;
+            let currentUrl = location.pathname;
             $('.nav-link').each(function(){
                 $(this).removeClass("active");
             });
-            if (currnetUrl.indexOf("bbs") > -1) {
-                $('#bbs').addClass("active");
+            if (currentUrl.indexOf("bbs") > -1) {
+                $('#'+ currentUrl.replace(/\//gi, '')).addClass("active");
+                $('#' + currentUrl.replace(/\//gi, '')).find('.sr-only').text('current');
             }else{
                 $('#main').addClass("active");
+                $('#main').find('.sr-only').text('current');
             }
         });
     </script>
