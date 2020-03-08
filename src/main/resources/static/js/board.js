@@ -1,4 +1,5 @@
 var board = {
+    editor : null,
     init:function(){
 
         $('#btn-more').click(function(){
@@ -26,22 +27,23 @@ var board = {
 
     },
     write:function(){
+        board.fnCkeditorSet();
+
         $('#btn-save').click(function () {
             let data ={
                 nameSeq : $('#nameSeq').val(),
                 title : $('#title').val(),
-                content : $('#content').val(),
+                content : board.editor.getData(),
                 regId : $('#regId').val(),
                 password : $('#password').val()
             };
-
             common.ajax("POST","/bbs/saveBbs", JSON.stringify(data), "json", 'application/json; charset=utf-8', function (data) {
-                if (data.code == '0000') {
-                    alert('글이 등록되었습니다.');
-                    window.location.href = '/bbs/' + data.nameSeq;
-                } else {
-                    alert('글 등록이 실패하였습니다. 다시 시도해주시기 바립니다.');
-                }
+                 if (data.code == '0000') {
+                     alert('글이 등록되었습니다.');
+                     window.location.href = '/bbs/' + data.nameSeq;
+                 } else {
+                     alert('글 등록이 실패하였습니다. 다시 시도해주시기 바립니다.');
+                 }
             });
         });
     },
@@ -80,12 +82,13 @@ var board = {
         });
     }
     ,update:function(){
+        board.fnCkeditorSet();
         $('#btn-update').click(function () {
             let data = {
                 nameSeq: $('#nameSeq').val(),
                 seq: $('#seq').val(),
                 title: $('#title').val(),
-                content: $('#content').val(),
+                content: board.editor.getData(),
                 regId: $('#regId').val(),
                 password: $('#password').val()
             };
@@ -100,6 +103,18 @@ var board = {
             });
 
         });
+    }
+    ,fnCkeditorSet :function(){
+       ClassicEditor
+            .create(document.querySelector('#content'), {
+                language: 'ko',
+                removePlugins : ['ImageUpload']
+            })
+            .then(editor => {
+                board.editor = editor;
+            })
+            .catch(error => {
+            });
     }
 
 };
