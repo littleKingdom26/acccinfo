@@ -9,22 +9,14 @@
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a id="main" class="nav-link active" href="/">Record <span class="sr-only"></span></a>
-            </li>
             {{#bbsList}}
                 <li class="nav-item">
                     <a id="bbs{{seq}}" class="nav-link" href="/bbs/{{seq}}">{{bbsName}} <span class="sr-only"></span></a>
                 </li>
             {{/bbsList}}
-            <!--<li class="nav-item dropdown">
-                <a id="bbs" class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Boards</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    {{#bbsList}}
-                        <a class="dropdown-item" href="/bbs/{{seq}}">{{bbsName}}</a>
-                    {{/bbsList}}
-                </div>
-            </li>-->
+            <li class="nav-item">
+                <a id="main" class="nav-link active" href="/">Record <span class="sr-only"></span></a>
+            </li>
         </ul>
     </div>
 </nav>
