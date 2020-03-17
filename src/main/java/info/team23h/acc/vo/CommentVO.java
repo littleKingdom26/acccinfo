@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class CommentVO  extends CommonVO{
 
+	private long seq;
 	private long bbsSeq;
 	private String comment;
 	private String regId;

@@ -51,4 +51,18 @@ public interface BbsService {
 	 * @return
 	 */
 	HashMap<String, Object> update(BbsVO bbsVO);
+
+	/**
+	 * 코멘트 삭제
+	 * @param commentVO
+	 * @return
+	 */
+	HashMap<String, Object> commentDel(CommentVO commentVO);
+
+	/**
+	 * 게시물 삭제
+	 * @param bbsVO
+	 * @return
+	 */
+	HashMap<String, Object> bbsDel(BbsVO bbsVO);
 }

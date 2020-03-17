@@ -1,0 +1,68 @@
+/*--------------------------------------
+	HTML Elements Default Properties
+---------------------------------------*/
+/* Login page
+---------------------------------------*/
+body.bodyLogin { background: url("/image/common/bg_pattern02.png") repeat scroll 0 0 #FAFAFA; }
+#loginWrap {padding: 50px 0;}
+#loginWrap .container { width: 610px; margin-right: auto; margin-left: auto; padding-left: 15px; padding-right: 15px; }
+#loginWrap .container .login-head { font-size: 28px; font-family: '맑은 고딕', 'Open Sans',sans-serif; font-weight: 700; padding: 30px 0 5px 0; }
+#loginWrap .container .login-head > span { font-size: 24px; }
+#loginWrap .container .loginBody { background: none repeat scroll 0 0 #FFFFFF; border: medium none; box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.1); margin: 60px 0 10px; padding: 15px; position: relative; z-index: 1; text-align: center !important; color: inherit; line-height: 30px; min-height: 20px; }
+#loginWrap .container .loginBody>div.box { background-size: 400px; border: 1px solid #E5E5E5; margin:0px;}
+#loginWrap .container .loginBody>div.box>img { border-radius: 10px; padding: 2px; }
+#loginWrap .container .loginBody>div.box>h3 { color: #C3C3C3; text-shadow: 0 1px 0 #FFFFFF; margin: 30px 0; text-transform: uppercase; font-family: '맑은 고딕', 'Open Sans',sans-serif; font-size: 16px; font-weight: 700; height: auto; line-height: normal; padding: 0px; background:none; border: 0px; overflow: auto; }
+#loginWrap .container .loginBody>div.box>h3:after { display: none;}
+#loginWrap .container .loginBody .loginForm { padding: 10px 20px 20px; }
+#loginWrap .container .loginBody .loginForm .loginInputWrap { padding: 10px 100px; }
+#loginWrap .container .btn.login { background:#42afda url('/image/common/icon_login03.png') no-repeat 10px center; padding-left:40px;}
+
+#loginWrap .loginBox li { margin-bottom:5px; border:1px solid #cccccc; border-radius: 5px; text-align: left; background: #fff;}
+#loginWrap .loginBox li input.textType { width:80%; border:0px; line-height:38px; height: 38px;}
+#loginWrap .loginBox li span { width:38px; height:38px; display: inline-block; background:#eee; text-indent: -9999px; font-size: 0px; vertical-align: middle; border-right: 1px solid #cccccc; border-radius: 5px 0 0 5px; float: left; text-align: center; line-height: 38px;}
+#loginWrap .loginBox li span.loginImg01 { background:#eee url('/image/common/icon_login01.png') no-repeat center; }
+#loginWrap .loginBox li span.loginImg02 { background:#eee url('/image/common/icon_login02.png') no-repeat center; }
+#loginWrap .loginBox li span.loginImg03 { text-indent: 0px; }
+#loginWrap .loginBox li span.loginImg03 input { width:16px; height:16px; margin-top: 10px;}
+#loginWrap .loginBox li label { line-height:38px; height:38px; display:block; margin-left:50px; color:#aaa;}
+
+.sperator { display: block; padding: 0;  border-top-color: #cbcccd; margin: 10px 0;  border: 0; border-top: 1px solid #ddd; border-bottom: 1px solid #ffffff;
+-webkit-margin-before: 0.5em;
+-webkit-margin-after: 0.5em;
+-webkit-margin-start: auto;
+-webkit-margin-end: auto;
+}
+
+
+/* MAIN
+---------------------------------------*/
+/* 코드 등록 */
+.menu-tree-addon { overflow: hidden; width: 100%; margin-bottom:10px;}
+.menu-tree-addon > li { list-style: none; position: relative; padding: 3px 0; text-align: left; }
+.menu-tree-addon > li > .menu-expander { position: absolute; top: 7px; left: 0; text-align: left; }						
+
+.input-group-sm>.form-control,
+.input-group-sm>.input-group-addon,
+.input-group-sm>.input-group-btn>.btn { padding: 5px 10px; font-size: 12px; line-height: 1.5;  color: #555; text-align: center; border: 1px solid #ccc; }
+						
+.input-group-addon,
+.input-group-btn,
+.input-group .form-control { display: table-cell; }			
+.input-group .form-control { position: relative; z-index: 2; float: left; width: 75%; margin-bottom: 0; border: 1px solid #e6e6e6; text-align: left; margin-left:-1px; padding:0 10px; height:28px; }
+
+.input-group .input-group-addon { background: #fff; border-color: #e6e6e6; float:left; }
+
+.sub-menu { margin-left: 25px; width: 96%; }
+span.bg_folder { width: 16px; height: 16px; vertical-align: top; display: inline-block;  margin: 0 5px 0 0; background-image: url(/image/common/icons_new01.png); background-position: -46px -354px;}
+span.expander { width: 16px; height: 16px; vertical-align: top; display: inline-block; background-image: url(/image/common/icons_new01.png); background-position: -3px -114px; }
+span.code_title { width: 16px; height: 17px; vertical-align: top; display: inline-block; background-image: url(/image/common/icons_new01.png); background-position: -6px -393px;}
+
+
+
+/* Layer Content
+---------------------------------------*/
+/* 제품정보 */
+.floatBox { display: block; overflow: hidden;}
+.floatBox .prodImg { float:left; margin-right:10px; border:1px solid #ccc; overflow: hidden; width:120px; height:120px;}
+.floatBox .prodImg img { width:100%; height:100%;}
+.floatBox table { float:right; width:75%;}

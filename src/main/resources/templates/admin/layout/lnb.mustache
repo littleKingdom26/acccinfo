@@ -1,0 +1,18 @@
+<div id="gnb" class="scrollBox mCustomScrollbar" data-mcs-theme="minimal">
+    <!-- GNB : S //-->
+    <h1><a href="/admin/main">team 23H</a></h1>
+    <ul id="gnbMenu" class="">
+        <li>
+            <h2 class="ready"><a href="#none" class="menuBtn" data-menu="board">게시판</a></h2>
+            <ul class="subGnb">
+                {{#bbsList}}
+                    <li class="menu-2depth"><a href="/admin/board/{{seq}}">{{bbsName}}</a></li>
+                {{/bbsList}}
+
+            </ul>
+        </li>
+        <!--<li>
+            <h2><a href="/" class="menuBtn">두번째 메뉴</a></h2>
+        </li>-->
+    </ul>
+</div>

@@ -9,7 +9,7 @@
     <div class="jumbotron">
         <div class="row">
             <div class="col-12">
-                <h4>{{data.bbsVO.title}}&nbsp;<small class="text-muted h-4">{{data.bbsVO.regId}}</small></h4>
+                <h4>{{data.bbsVO.title}}&nbsp;<small class="text-muted h-4">{{data.bbsVO.regName}}</small></h4>
             </div>
         </div>
         <hr class="my-1"/>
@@ -72,4 +72,15 @@
     $(function(){
         board.view();
     });
+    document.querySelectorAll('oembed[url]').forEach(element => {
+        // Create the <a href="..." class="embedly-card"></a> element that Embedly uses
+        // to discover the media.
+        const anchor = document.createElement('a');
+
+        anchor.setAttribute('href', element.getAttribute('url'));
+        anchor.className = 'embedly-card';
+
+        element.appendChild(anchor);
+    });
+
 </script>

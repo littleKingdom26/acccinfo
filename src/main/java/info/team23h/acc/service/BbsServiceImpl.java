@@ -1,6 +1,7 @@
 package info.team23h.acc.service;
 
 import info.team23h.acc.dao.BbsDAO;
+import info.team23h.acc.util.PageHelper;
 import info.team23h.acc.vo.BbsNameVO;
 import info.team23h.acc.vo.BbsSearch;
 import info.team23h.acc.vo.BbsVO;
@@ -38,14 +39,14 @@ public class BbsServiceImpl implements BbsService {
 		int bbsNo = totalCount -((bbsSearch.getCurrentPage() -1)* pageCount);
 		for(int i = 0; i < bbsList.size(); i++){
 			bbsList.get(i).setNo(bbsNo - i);
-			if(bbsList.get(i).getCommentCnt() > 0){
-				bbsList.get(i).setCommentCntViewer(String.valueOf(bbsList.get(i).getCommentCnt()));
-			}
 		}
-
+		PageHelper pageHelper = new PageHelper();
+		pageHelper.setCurrentPage(bbsSearch.getCurrentPage());
+		pageHelper.setTotalPage(bbsSearch.getTotalPage());
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("list", bbsList);
 		map.put("search", bbsSearch);
+		map.put("page", pageHelper);
 
 		return map;
 	}
@@ -96,6 +97,30 @@ public class BbsServiceImpl implements BbsService {
 			result.put("code", "0000");
 			result.put("nameSeq", bbsVO.getNameSeq());
 			result.put("bbsSeq", bbsVO.getSeq());
+		}else{
+			result.put("code", "9999");
+		}
+		return result;
+	}
+
+	@Override
+	public HashMap<String, Object> commentDel(CommentVO commentVO) {
+		int cnt = bbsDAO.commentDel(commentVO);
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		if(cnt > 0){
+			result.put("code", "0000");
+		}else{
+			result.put("code", "9999");
+		}
+		return result;
+	}
+
+	@Override
+	public HashMap<String, Object> bbsDel(BbsVO bbsVO) {
+		int cnt = bbsDAO.bbsDel(bbsVO);
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		if(cnt > 0){
+			result.put("code", "0000");
 		}else{
 			result.put("code", "9999");
 		}

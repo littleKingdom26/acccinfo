@@ -17,6 +17,8 @@
     </resultMap>
     
     <sql id="loadBasicSelect">
+        SELECT * FROM
+        (
 		SELECT
 		       SEQ
 		      ,NAME_SEQ
@@ -25,12 +27,20 @@
 		      ,REG_ID
 		      ,REG_DT
 		      ,UPD_DT
-           FROM TB_BBS
+		      ,(SELECT NAME FROM TB_MEMBER B WHERE B.ID = A.REG_ID) AS REG_NAME
+		      ,(SELECT COUNT(*) FROM TB_COMMENT C WHERE A.SEQ = C.BBS_SEQ ) AS COMMENT_CNT
+           FROM TB_BBS A
+        ) D
 	</sql>
 
     <sql id="loadBasicWhere">
 		WHERE NAME_SEQ = #{nameSeq}
-
+		<if test="keyword != null and keyword !='' ">
+            AND TITLE LIKE concat('%',#{keyword},'%')
+        </if>
+        <if test="schRegUserName != null and schRegUserName !='' ">
+            AND REG_NAME LIKE concat('%',#{schRegUserName},'%')
+        </if>
 	</sql>
 
     <sql id="loadBasicOrderBy">
@@ -55,7 +65,7 @@
         ) T
     </select>
 
-    <select id="loadBbsList" resultMap="bbsListMap" parameterType="info.team23h.acc.vo.BbsSearch">
+    <select id="loadBbsList" resultType="info.team23h.acc.vo.BbsVO" parameterType="info.team23h.acc.vo.BbsSearch">
         <include refid="loadBasicSelect"/>
         <include refid="loadBasicWhere"/>
         <include refid="loadBasicOrderBy"/>
@@ -132,6 +142,24 @@
         </if>
 
     </update>
+
+    <delete id="commentDel" parameterType="info.team23h.acc.vo.CommentVO">
+        DELETE FROM TB_COMMENT
+        <trim prefix="WHERE" prefixOverrides="WHERE">
+            <choose>
+                <when test="seq > 0 and seq != ''">
+                    SEQ = #{seq}
+                </when>
+                <when test="bbsSeq > 0 and bbsSeq != ''">
+                    BBS_SEQ = #{bbsSeq}
+                </when>
+            </choose>
+        </trim>
+    </delete>
+    <delete id="bbsDel" parameterType="info.team23h.acc.vo.BbsVO">
+        DELETE FROM TB_BBS WHERE SEQ = #{seq}
+
+    </delete>
 
 
 </mapper>

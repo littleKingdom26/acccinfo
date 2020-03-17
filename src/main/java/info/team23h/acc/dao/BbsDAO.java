@@ -44,4 +44,12 @@ public class BbsDAO {
 	public int update(BbsVO bbsVO) {
 		return sql.update(PREFIX + ".update", bbsVO);
 	}
+
+	public int commentDel(CommentVO commentVO) {
+		return sql.delete(PREFIX+".commentDel",commentVO);
+	}
+
+	public int bbsDel(BbsVO bbsVO) {
+		return sql.delete(PREFIX + ".bbsDel", bbsVO);
+	}
 }

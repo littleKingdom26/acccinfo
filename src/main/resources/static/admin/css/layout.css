@@ -1,0 +1,43 @@
+/*--------------------------------------
+	HTML Elements Default Properties
+	- layout
+---------------------------------------*/
+/* layout
+---------------------------------------*/
+#wrap { width: 100%; height: 100%; min-height: 100%; min-width: 1200px; }
+.inWrap { position:relative; min-height: 100%;}	
+
+#gnb { position: absolute; left:0px; top:0px; bottom:0px; width:170px; background:#303030; font-size:14px; z-index:10;}
+#gnb h1 { background:#42afda; text-align: center; padding:10px 0;}
+.scrollBox { min-height:100%; height: 100%; position: absolute; top:65px; left:0px; right:0px; bottom:0px;}
+
+#gnbMenu { display: block; margin:10px 0 50px;}
+#gnbMenu a { font-size:14px; color:#fff;font-weight: 300; display: block; position: relative; margin:0 20px;}
+#gnbMenu > li { display:block;  padding:0; line-height:40px;}
+#gnbMenu > li > h2.ready a { background:url('/image/common/blt_arrow01.png') no-repeat right center; transition: 0.5s;}
+#gnbMenu > li > h2.ready.on a { background:url('/image/common/blt_arrow02.png') no-repeat right center;}
+#gnbMenu > li > h2.ready.on {background:#474646;}
+
+#gnbMenu li:hover { background:#474646;}
+
+#gnbMenu .subGnb { border-top:1px solid #444; border-bottom:1px solid #444; background:#2c2c2c; display: none; transition: 0.5s;}
+#gnbMenu .subGnb li a { padding-left:10px;}
+#gnbMenu .subGnb li a:after { content: ''; position: absolute; left:0px; top:20px; width:4px; height:1px; background:#fff;}
+#gnbMenu .subGnb li.on { background:#3d3d3d;}
+
+
+#container { position: relative; margin:0 0 0 170px; min-height:500px;}
+.content { position: relative; padding:10px 10px 100px 10px;}
+/* top bar */
+.topBar { text-align:right; padding:18px 10px; border-bottom:1px solid #dfdfdf; background: #fff;}
+.topBar p { display: inline-block; margin-right:10px; color:#666;}
+.topBar p em { font-weight:bold; color:#444; margin:0 5px;}
+
+/* location*/
+.location { padding: 15px 24px; margin: 0;}			
+.location em.home { padding-left: 20px; background:url('/image/common/icon_home.png') no-repeat left center; }
+.location i { background: url('/image/common/blt_arrow03.png') no-repeat left top; width:5px; height:10px; display: inline-block; margin: 0 7px;}
+.location .active { font-weight: bold; color: #323232; }
+
+
+#footerArea { position: absolute; bottom:0px; right:0px; left:170px; padding:20px 10px; text-align: center; background: #dfdfdf; font-size:14px; font-weight: 400;}

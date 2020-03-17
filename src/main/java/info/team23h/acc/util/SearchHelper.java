@@ -12,10 +12,12 @@ public class SearchHelper {
 	 */
 	private String searchType;
 
+	private String regId;
+
 	/**
 	 * 검색어
 	 */
-	private String keyword;
+	private String keyword = "";
 
 	/**
 	 * 시작번호

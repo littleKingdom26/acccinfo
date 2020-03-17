@@ -1,0 +1,44 @@
+{{>admin/layout/header}}
+<body>
+<div id="loginWrap">
+    <div class="container">
+
+        <form id="loginForm" name="frm" method="post" action="">
+        <div class="loginBody">
+            <div class="box">
+                <h3>Team23H Admin</h3>
+                <div class="loginForm">
+                    <hr class="sperator" />
+                    <form action="/admin/login" method="post">
+                        {{!--message--}}
+                        <div class="loginInputWrap">
+                            <ul class="loginBox">
+                                <li>
+                                    <span class="loginImg01">ID</span>
+                                    <input type="text" id="txtId" name="id" class="textType" placeholder="아이디를 입력하세요." value="" />
+                                </li>
+                                <li>
+                                    <span class="loginImg02">PW</span>
+                                    <input type="password" id="txtPassword" name="password" class="textType" placeholder="비밀번호를 입력하세요." autocomplete="off" value="" />
+                                </li>
+                                <li>
+                                    <span class="loginImg03">
+                                        <input type="checkbox" id="remember-me"  name="remember-me" class="uniform"  />
+                                    </span>
+                                    <label for="chkSaveId">아이디 저장</label>
+                                </li>
+                            </ul>
+                        </div>
+                        <hr class="sperator" />
+                        <div class="btnArea">
+                            <button type="submit" id="btnLogin" class="btn btnBlue">LOGIN ADMIN</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+</body>
+{{>admin/layout/footer}}

@@ -20,6 +20,7 @@ public class BbsVO extends CommonVO {
 	private List<CommentVO> commentList;
 	private int commentCnt;
 
+	private String regName;
 	private String commentCntViewer;
 
 

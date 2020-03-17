@@ -81,4 +81,18 @@ public class Team23hAOP {
 			}
 		}
 	}
+
+	@After("execution(* info.team23h.acc.controller.admin.*.*(..))")
+	public void onAfterAdminHandler(JoinPoint joinPoint) {
+		Model model = null;
+		for(Object obj : joinPoint.getArgs()){
+			if(obj instanceof Model){
+				model = (Model) obj;
+			}
+		}
+		if(model != null){
+			List<BbsNameVO> bbsNameList = bbsService.loadBbsName();
+			model.addAttribute("bbsList", bbsNameList);
+		}
+	}
 }
