@@ -31,6 +31,7 @@ var index = {
         $('#staticBackdrop').on('hidden.bs.modal',function(e){
             $('#playerDetail').html('');
             $('.driverName').text('');
+            $('#modalProfile').html('');
         });
     },
     fnSubmit:function(){
@@ -46,7 +47,9 @@ var index = {
             driverName = $(this).val();
         });
         $('.driverName').text(driverName);
+
         $('#modalProfile').attr('href',"https://steamcommunity.com/profiles/"+ playerId.substring(1));
         $('#modalProfile').attr('target', "_blank");
+        $('#modalProfile').html('<img src="/image/steam.jpg" class="img-thumbnail ml-2" width="30px" />');
     }
 };
