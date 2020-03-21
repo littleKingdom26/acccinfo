@@ -12,22 +12,22 @@
                 <input type="hidden" id="nameSeq" name="nameSeq" value="{{bbsNameSeq}}"/>
                 <input type="hidden" id="seq" name="seq" value="{{bbsSeq}}" />
                 <div class="form-group">
-                    <label for="title">제목</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요"  value="{{data.bbsVO.title}}"/>
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Title"  value="{{data.bbsVO.title}}"/>
                 </div>
                 <div class="form-group">
-                    <label for="author"> 작성자 </label>
-                    <input type="text" class="form-control" id="regId" name="regId" placeholder="작성자를 입력하세요" {{^write}} value="관리자" readonly="readonly"{{/write}} />
+                    <label for="author">Write</label>
+                    <input type="text" class="form-control" id="regId" name="regId" placeholder="Writer" {{^write}} value="관리자" readonly="readonly"{{/write}} />
                 </div>
                 {{#write}}
                     <div class="form-group">
-                        <label for="author"> 비밀번호 </label>
-                        <input type="text" class="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요" value="{{data..bbsVO.password}}" />
+                        <label for="author">password</label>
+                        <input type="text" class="form-control" id="password" name="password" placeholder="password" value="{{data.bbsVO.password}}" />
                     </div>
                 {{/write}}
                 <div class="form-group">
-                    <label for="content"> 내용 </label>
-                    <textarea class="form-control" id="content" name="content" placeholder="내용을 입력하세요" rows="10">{{data.bbsVO.content}}</textarea>
+                    <label for="content">Content</label>
+                    <textarea class="form-control" id="content" name="content" placeholder="Content" rows="10">{{data.bbsVO.content}}</textarea>
                 </div>
                 {{#write}}
 
@@ -38,8 +38,8 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-12 text-right">
-            <a href="/bbs/{{bbsNameSeq}}/{{bbsSeq}}" role="button" class="btn btn-secondary">취소</a>
-            <button type="button" class="btn btn-primary" id="btn-update">수정</button>
+            <a href="/bbs/{{bbsNameSeq}}/{{bbsSeq}}" role="button" class="btn btn-secondary">cancel</a>
+            <button type="button" class="btn btn-primary" id="btn-update">modify</button>
        </div>
     </div>
 </main>

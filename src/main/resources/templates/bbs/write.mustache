@@ -11,21 +11,21 @@
             <form id="frm">
                 <input type="hidden" id="nameSeq" name="nameSeq" value="{{bbsNameSeq}}"/>
                 <div class="form-group">
-                    <label for="title">제목</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요" />
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Title" />
                 </div>
                 <div class="form-group">
-                    <label for="author"> 작성자 </label>
-                    <input type="text" class="form-control" id="regId" name="regId" placeholder="작성자를 입력하세요" {{^write}} value="관리자" readonly="readonly"{{/write}} />
+                    <label for="author">Writer</label>
+                    <input type="text" class="form-control" id="regId" name="regId" placeholder="Writer" {{^write}} value="관리자" readonly="readonly"{{/write}} />
                 </div>
                 {{#write}}
                     <div class="form-group">
-                        <label for="author"> 비밀번호 </label>
-                        <input type="text" class="form-control" id="author" name="password" placeholder="작성자를 입력하세요" />
+                        <label for="author">password</label>
+                        <input type="text" class="form-control" id="author" name="password" placeholder="password" />
                     </div>
                 {{/write}}
                 <div class="form-group">
-                    <label for="content"> 내용 </label>
+                    <label for="content">Content</label>
                     <textarea class="form-control" id="content" name="content" placeholder="내용을 입력하세요" rows="10"></textarea>
                     <!--<div id="content"></div>-->
                 </div>

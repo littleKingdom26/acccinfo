@@ -5,9 +5,9 @@
             <div class="form-group">
                 <label for="weekSel">Event</label>
                 <select id="weekSel" class="form-control">
-                    <option value="0">전체</option>
+                    <option value="0">All</option>
                     {{#weekList}}
-                        <option value="{{sessionId}}" {{#selected}} selected="selected"{{/selected}}  data-trackseq="{{trackSeq}}">{{startDt}} - {{#endDt}}{{endDt}}{{/endDt}}{{^endDt}}진행중{{/endDt}}</option>
+                        <option value="{{sessionId}}" {{#selected}} selected="selected"{{/selected}}  data-trackseq="{{trackSeq}}">{{startDt}} - {{#endDt}}{{endDt}}{{/endDt}}{{^endDt}}in progress{{/endDt}}</option>
                     {{/weekList}}
                 </select>
             </div>
@@ -93,6 +93,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title driverName" id="staticBackdropLabel" ></h5>
+                <a id="modalProfile" href=""><img src="/image/steam.jpg" class="img-thumbnail ml-2" width="30px" /></a>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -110,24 +111,6 @@
     <input type="hidden" name="sessionId" id="sessionId" />
     <input type="hidden" name="trackSeq" id="trackSeq" />
 </form>
-<div class="modal fade " id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title driverName" id="staticBackdropLabel"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="playerDetail">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 <script src="/js/index.js?v=1.1"></script>
 {{>layout/footer}}
 <script>

@@ -15,9 +15,9 @@
                     <col width="20%"/>
                 </colgroup>
                 <thead class="">
-                    <th class="text-center">글번호</th>
-                    <th>제목</th>
-                    <th>작성자</th>
+                    <th class="text-center">No</th>
+                    <th>Title</th>
+                    <th>Writer</th>
                 </thead>
                 <tbody id="boardList">
                     {{#list}}
@@ -39,12 +39,12 @@
                 <div class="col-12 ">
                     <input type="hidden" value="{{data.search.currentPage}}" id="currentPage" />
                     <input type="hidden" value="{{data.search.nameSeq}}" id="nameSeq" />
-                    <button type="button" class="btn btn-secondary" id="btn-more">더보기</button>
+                    <button type="button" class="btn btn-secondary" id="btn-more">More</button>
                 </div>
             </div>
             {{^list}}
                 <div class="col-12 text-center" >
-                    {{title}}이 없습니다.
+                    There are no {{title}}
                 </div>
             {{/list}}
         {{/data}}

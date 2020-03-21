@@ -40,10 +40,13 @@ var index = {
         });
     },
     driverDetail : function(){
-        var driverName  = '';
+        let driverName  = '';
+        let playerId = $('.popPlayerId').val();
         $('.popDriverName').each(function(){
             driverName = $(this).val();
         });
         $('.driverName').text(driverName);
+        $('#modalProfile').attr('href',"https://steamcommunity.com/profiles/"+ playerId.substring(1));
+        $('#modalProfile').attr('target', "_blank");
     }
 };
