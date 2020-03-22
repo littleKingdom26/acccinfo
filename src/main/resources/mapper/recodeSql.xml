@@ -87,6 +87,9 @@
                 INNER JOIN TB_PLAYER TP on A.PLAYER_ID = TP.PLAYER_ID
                 INNER JOIN TB_CAR TC ON A.CAR_MODEL = TC.CAR_MODEL
                 WHERE SESSION_ID = #{sessionId}
+                <if test='team23h eq "Y"'>
+                    AND TEAM_23 = #{team23h}
+                </if>
                 ORDER BY BEST_LAP
             ) A , (SELECT @ROWNUM := 0) B
     </select>
@@ -113,6 +116,9 @@
                  INNER JOIN TB_TRACK TT on C.TRACK_SEQ = TT.SEQ
                  INNER JOIN TB_PLAYER TP on C.PLAYER_ID = TP.PLAYER_ID
                  INNER JOIN TB_CAR TC ON C.CAR_MODEL = TC.CAR_MODEL
+        <if test='team23h eq "Y"'>
+            WHERE TEAM_23 = #{team23h}
+        </if>
         ORDER BY BEST_LAP ) D, (SELECT @ROWNUM := 0) E
     </select>
 

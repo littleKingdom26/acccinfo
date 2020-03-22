@@ -19,4 +19,6 @@ public class SearchVO {
 	private String playerId;
 
 
+	private String team23h;
+
 }

@@ -53,15 +53,28 @@ public class IndexController {
 	public String index(@ModelAttribute SearchVO searchVO,
 						HttpSession session,
 						Model model) {
+		searchVO.setTeam23h("N");
 		// 주차별 기록
 		model.addAttribute("recordList", recordService.getRecordDataList(searchVO));
 		//주차 구하기
 		model.addAttribute("weekList", weekService.getWeekList(searchVO));
 		// 트랙 구하기
 		model.addAttribute("trackList", trackService.getTrackList(searchVO));
+		return "index";
+	}
 
 
-
+	@GetMapping("/team23h")
+	public String team23h(@ModelAttribute SearchVO searchVO,
+						HttpSession session,
+						Model model) {
+		searchVO.setTeam23h("Y");
+		// 주차별 기록
+		model.addAttribute("recordList", recordService.getRecordDataList(searchVO));
+		//주차 구하기
+		model.addAttribute("weekList", weekService.getWeekList(searchVO));
+		// 트랙 구하기
+		model.addAttribute("trackList", trackService.getTrackList(searchVO));
 		return "index";
 	}
 
