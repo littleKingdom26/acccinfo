@@ -36,3 +36,7 @@ pre {
 .ck-content .table {
     width: auto;
 }
+
+.jumbotron img {
+    width : 100%
+}

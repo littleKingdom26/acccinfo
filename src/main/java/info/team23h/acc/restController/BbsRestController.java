@@ -35,4 +35,6 @@ public class BbsRestController {
 		HashMap<String, Object> result = bbsService.commentSave(commentVO);
 		return result;
 	}
+
+
 }

@@ -26,14 +26,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/js/**", "/css/**", "/image/**", "/admin/css/**");
+		web.ignoring().antMatchers("/js/**", "/css/**", "/image/**", "/admin/css/**","/uplaod/**");
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().headers().frameOptions().disable()// csrf t사용 안함
 				.and()
-				.authorizeRequests().antMatchers("/", "/bbs/*", "/bbs/*/*","/error","/recordPlayerDetailAjax","/recordListAjax","/api/*","/team23h").permitAll() // 전체권한
+				.authorizeRequests().antMatchers("/", "/bbs/*", "/bbs/*/*","/error","/recordPlayerDetailAjax","/recordListAjax","/api/*","/team23h","/ckEditorImgUpload").permitAll() // 전체권한
 				.anyRequest().hasRole(Role.ADMIN.name())  // 위 페이지 외 인증된 유저
 				.and() // 로그아웃 설정
 				.logout().logoutSuccessUrl("/").invalidateHttpSession(true).deleteCookies("JSESSIONID","remember-me")

@@ -104,16 +104,51 @@ var board = {
 
         });
     }
-    ,fnCkeditorSet :function(){
-       ClassicEditor
+    , fnCkeditorSet: function () {
+        ClassicEditor
             .create(document.querySelector('#content'), {
+                toolbar: {
+                    items: [
+                        'heading',
+                        '|',
+                        'bold',
+                        'italic',
+                        'link',
+                        'bulletedList',
+                        'numberedList',
+                        '|',
+                        'indent',
+                        'outdent',
+                        '|',
+                        'imageUpload',
+                        'blockQuote',
+                        'insertTable',
+                        'mediaEmbed',
+                        'undo',
+                        'redo'
+                    ]
+                },
                 language: 'ko',
-                removePlugins : ['ImageUpload']
+                image: {
+                    toolbar: [
+                        'imageTextAlternative',
+                        'imageStyle:full',
+                        'imageStyle:side'
+                    ]
+                },
+                table: {
+                    contentToolbar: [
+                        'tableColumn',
+                        'tableRow',
+                        'mergeTableCells'
+                    ]
+                }
             })
             .then(editor => {
                 board.editor = editor;
             })
             .catch(error => {
+
             });
     }
 

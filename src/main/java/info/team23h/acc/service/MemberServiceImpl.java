@@ -25,7 +25,6 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-		log.debug("id > " + id);
 		MemberVO memberVO = memberDAO.getMember(id);
 		List<GrantedAuthority> authorityList = new ArrayList<>();
 		if(Role.ADMIN.getKey().equals(memberVO.getRole())){
@@ -34,7 +33,6 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 			authorityList.add(new SimpleGrantedAuthority(Role.USER.getKey()));
 		}
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		log.debug("passwordEncoder.encode(1) > " + passwordEncoder.encode("team23hAdmin"));
 		return LoginUserVO.of(memberVO, authorityList);
 	}
 }

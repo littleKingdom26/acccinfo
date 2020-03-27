@@ -77,9 +77,4 @@ public class BbsController {
 		return "bbs/view";
 	}
 
-
-
-
-
-
 }
