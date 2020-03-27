@@ -6,6 +6,11 @@
         <div id="container">
             {{>admin/layout/topBar}}
             <div class="content">
+                테스트 입니다 ~
+                <form action="/fileUpload" method="post" enctype="multipart/form-data">
+                    <input type="file" name="uplaodFile"/>
+                    <button type="submit">저장</button>
+                </form>
             </div>
         </div>
         {{>admin/layout/bodyFooter}}
