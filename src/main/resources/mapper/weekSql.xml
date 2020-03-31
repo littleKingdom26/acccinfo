@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="weekSql">
     <select id="getRecently" resultType="info.team23h.acc.vo.WeekVO" >
-        select SESSION_ID,TRACK_SEQ from TB_WEEK WHERE SESSION_ID = (SELECT MAX(SESSION_ID) FROM TB_WEEK)
+        SELECT SESSION_ID,TRACK_SEQ FROM TB_WEEK WHERE SESSION_ID = (SELECT MAX(SESSION_ID) FROM TB_WEEK)
     </select>
 
     <update id="setLastSessionEnd">

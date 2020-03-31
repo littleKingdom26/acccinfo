@@ -102,7 +102,12 @@ public class IndexController {
 	public String recordPlayerDetailAjax(@ModelAttribute SearchVO searchVO,
 								 Model model) {
 		model.addAttribute("playerRecordList", recordService.recordPlayerDetail(searchVO));
+		Double score = recordService.playerSkillEvaluator(searchVO);
+		double ttScore = 100-score;
+		model.addAttribute("ttScore", Math.round(Math.floor(ttScore)));
 		return "ajax/recordPlayerDetail";
 	}
+
+
 
 }

@@ -34,4 +34,11 @@ public interface RecordService {
 	 * @return
 	 */
 	List<RecordVO> recordPlayerDetail(SearchVO searchVO);
+
+	/**
+	 * 플레이어 별 스코어
+	 * @param searchVO
+	 * @return
+	 */
+	Double playerSkillEvaluator(SearchVO searchVO);
 }

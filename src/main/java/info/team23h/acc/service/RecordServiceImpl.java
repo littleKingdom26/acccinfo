@@ -1,10 +1,12 @@
 package info.team23h.acc.service;
 
 import info.team23h.acc.dao.RecordDAO;
+import info.team23h.acc.util.AccumulatedSkillEvaluator;
 import info.team23h.acc.util.MathUtil;
 import info.team23h.acc.vo.RecordVO;
 import info.team23h.acc.vo.SearchVO;
 import info.team23h.acc.vo.WeekVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class RecordServiceImpl implements RecordService {
 
 	@Autowired
@@ -143,5 +146,33 @@ public class RecordServiceImpl implements RecordService {
 		}
 
 		return list;
+	}
+
+	@Override
+	public Double playerSkillEvaluator(SearchVO searchVO) {
+
+		// 최신주차 10개 구하기
+		WeekVO weekVO = weekService.getRecently();
+		int newSessionId = weekVO.getSessionId();
+
+		List<List<RecordVO>> result = new ArrayList<>();
+		for(int i = 0; i < 11; i++){
+			searchVO.setSessionId(String.valueOf(weekVO.getSessionId()-i));
+			result.add(recordDAO.getRecordDataListForWeek(searchVO));
+		}
+
+		AccumulatedSkillEvaluator user = new AccumulatedSkillEvaluator();
+
+		for(int i = 0; i < result.size(); i++){
+			List<RecordVO> recordVOList = result.get(i);
+			for(RecordVO recordVO : recordVOList){
+				if(searchVO.getPlayerId().equals(recordVO.getPlayerId())){
+					user.pushData(i,recordVO.getRank(), recordVOList.size());
+					log.debug("user.pushData("+i+", "+recordVO.getRank()+", "+recordVOList.size()+")");
+				}
+			}
+		}
+		log.debug("user.getScore() > " + user.getScore());
+		return user.getScore();
 	}
 }

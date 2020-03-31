@@ -43,10 +43,12 @@ var index = {
     driverDetail : function(){
         let driverName  = '';
         let playerId = $('.popPlayerId').val();
+        let ttscore = $('.ttScore').val();
         $('.popDriverName').each(function(){
             driverName = $(this).val();
         });
         $('.driverName').text(driverName);
+        $('.ttscore').text("TT Score : "+ttscore);
 
         $('#modalProfile').attr('href',"https://steamcommunity.com/profiles/"+ playerId.substring(1));
         $('#modalProfile').attr('target', "_blank");

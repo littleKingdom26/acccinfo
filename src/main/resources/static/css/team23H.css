@@ -32,3 +32,5 @@ pre {
     min-height: 200px;
     padding: 1.5em 2em;
 }
+
+.bg-black {background-color: #000000 !important;}
