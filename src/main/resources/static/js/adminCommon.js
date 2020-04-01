@@ -43,6 +43,13 @@ $(function(){
                     $(this).closest('li').find('.subGnb').show();
                 }
             }
+        }else if (url.indexOf("/player") > 0) {
+            if ($(this).data('menu') == 'player') {
+                $(this).closest('li').addClass('on');
+                if ($(this).closest('li').find('.subGnb').length > 0) {
+                    $(this).closest('li').find('.subGnb').show();
+                }
+            }
         }
     });
 });

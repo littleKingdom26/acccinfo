@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top bg-black">
-    <a class="navbar-brand" href="/">
-        <img src="/image/logo.jpg" style="width: 200px;"/>
+    <a class="navbar-brand" href="/" >
+        <img src="/image/logo.jpg" />
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -9,11 +9,11 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             {{#bbsList}}
-                <li class="nav-item">
+                <li class="nav-item nav-menu_23h">
                     <a id="bbs{{seq}}" class="nav-link" href="/bbs/{{seq}}">{{bbsName}} <span class="sr-only"></span></a>
                 </li>
             {{/bbsList}}
-            <li class="nav-item">
+            <li class="nav-item nav-menu_23h">
                 <a id="main" class="nav-link active" href="/">Record <span class="sr-only"></span></a>
             </li>
         </ul>
