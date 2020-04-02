@@ -1043,7 +1043,7 @@ span.code_title { width: 16px; height: 17px; vertical-align: top; display: inlin
 /* layer 팝업위치*/
 .layer { margin-left: 170px; }
 
-#footerArea { position: relative; bottom: 0px; right: 0px; left: 0px; padding: 20px 10px; text-align: center; background: #dfdfdf; font-size: 14px; font-weight: 400; }
+#footerArea { position: absolute; bottom: 0px; right: 0px; left: 0px; padding: 20px 10px; text-align: center; background: #dfdfdf; font-size: 14px; font-weight: 400; }
 
 /*--------------------------------------
 	HTML Elements Default Properties
