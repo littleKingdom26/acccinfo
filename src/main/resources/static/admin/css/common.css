@@ -985,7 +985,9 @@ span.code_title { width: 16px; height: 17px; vertical-align: top; display: inlin
 
 #gnb { position: absolute; left: 0px; top: 0px; bottom: 0px; width: 170px; background: #303030; font-size: 14px; z-index: 10; }
 
-#gnb h1 { background: #efefef; text-align: center; padding: 10px 0; }
+#gnb a img {width:150px;margin-top:9px;}
+
+#gnb h1 { background: #000000; text-align: center; padding: 10px 0; }
 
 .scrollBox { min-height: 100%; height: 100%; position: absolute; top: 65px; left: 0px; right: 0px; bottom: 0px; }
 
