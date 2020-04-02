@@ -1,5 +1,6 @@
 package info.team23h.acc.dao;
 
+import info.team23h.acc.vo.PlayerSearch;
 import info.team23h.acc.vo.PlayerVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,8 @@ public class PlayerDAO {
 
 	private final String  PREFIX = "playerSql";
 
-	public List<PlayerVO> getPlayerList() {
-		return sql.selectList(PREFIX+".getPlayerList");
+	public List<PlayerVO> getPlayerList(PlayerSearch playerSearch) {
+		return sql.selectList(PREFIX+".getPlayerList", playerSearch);
 	}
 
 	public int createDriver(PlayerVO playerVO) {

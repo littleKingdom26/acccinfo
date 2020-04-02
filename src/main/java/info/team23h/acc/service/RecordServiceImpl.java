@@ -3,6 +3,7 @@ package info.team23h.acc.service;
 import info.team23h.acc.dao.RecordDAO;
 import info.team23h.acc.util.AccumulatedSkillEvaluator;
 import info.team23h.acc.util.MathUtil;
+import info.team23h.acc.vo.PlayerVO;
 import info.team23h.acc.vo.RecordVO;
 import info.team23h.acc.vo.SearchVO;
 import info.team23h.acc.vo.WeekVO;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -153,8 +155,6 @@ public class RecordServiceImpl implements RecordService {
 
 		// 최신주차 10개 구하기
 		WeekVO weekVO = weekService.getRecently();
-		int newSessionId = weekVO.getSessionId();
-
 		List<List<RecordVO>> result = new ArrayList<>();
 		for(int i = 0; i < 11; i++){
 			searchVO.setSessionId(String.valueOf(weekVO.getSessionId()-i));
@@ -172,7 +172,44 @@ public class RecordServiceImpl implements RecordService {
 				}
 			}
 		}
-		log.debug("user.getScore() > " + user.getScore());
-		return user.getScore();
+
+		return 100 - user.getScore();
+	}
+
+	@Override
+	public List<PlayerVO> getPlayerSkillEvaluatorList(List<PlayerVO> driverList) {
+		WeekVO weekVO = weekService.getRecently();
+
+		List<List<RecordVO>> result = new ArrayList<>();
+		for(int i = 0; i < 11; i++){
+			SearchVO searchVO = new SearchVO();
+			searchVO.setSessionId(String.valueOf(weekVO.getSessionId() - i));
+			result.add(recordDAO.getRecordDataListForWeek(searchVO));
+		}
+
+		for(int i = 0; i < driverList.size(); i++){
+			PlayerVO playerVO =  driverList.get(i);
+			AccumulatedSkillEvaluator user = new AccumulatedSkillEvaluator();
+			for(int j = 0; j < result.size(); j++){
+				List<RecordVO> recordVOList = result.get(j);
+				for(RecordVO recordVO : recordVOList){
+					if(playerVO.getPlayerId().equals(recordVO.getPlayerId())){
+						user.pushData(i, recordVO.getRank(), recordVOList.size());
+						log.debug("user.pushData(" + i + ", " + recordVO.getRank() + ", " + recordVOList.size() + ")");
+					}
+				}
+			}
+			playerVO.setTtScore(Math.round(Math.floor(100 - user.getScore())));
+		}
+
+		driverList.sort(Comparator.reverseOrder());
+
+		for(int i = 0; i < driverList.size(); i++){
+			PlayerVO playerVO = driverList.get(i);
+			playerVO.setPlayerId(playerVO.getPlayerId().substring(1));
+			playerVO.setNo(i+1);
+		}
+
+		return driverList;
 	}
 }

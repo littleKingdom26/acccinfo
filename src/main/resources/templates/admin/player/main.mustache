@@ -12,7 +12,7 @@
                 <div class="content">
                     <div class="box">
                         <div class="inBox">
-                            <form id="searchFrm" action="/" method="post">
+                            <form id="searchFrm" action="/admin/player/main" method="get">
                                 <table class="formTable">
                                     <colgroup>
                                         <col width="150px" />
@@ -26,8 +26,7 @@
                                     </tbody>
                                 </table>
                                 <div class="btnArea mt20">
-                                    <a href="#" id="btnSearch" class="btn btnBi btnBlue">검색</a>
-                                    <a href="#" id="btnClear" class="btn btnBi btnDefalt">초기화</a>
+                                    <a href="javascript:void(0)" id="btnSearch" class="btn btnBi btnBlue">검색</a>
                                 </div>
                             </form>
                         </div>
@@ -45,14 +44,18 @@
                                     <th>No</th>
                                     <th>드라이버 명</th>
                                     <th>TT Score</th>
+                                    <th>등록일</th>
                                 </tr>
                                 </thead>
                                 <tbody >
+                                {{#driverList}}
                                     <tr>
-                                        <td colspan="3">
-                                            player 리스트 나올 예정
-                                        </td>
+                                        <td>{{no}}</td>
+                                        <td><a href="https://steamcommunity.com/profiles/{{playerId}}" target="_blank">{{firstName}} {{lastName}}</a></td>
+                                        <td>{{ttScore}}</td>
+                                        <td>{{regDt}}</td>
                                     </tr>
+                                {{/driverList}}
                                 </tbody>
                             </table>
                             {{!--{data.page.paging}--}}
@@ -61,20 +64,15 @@
                 </div>
             </div>
         </div>
-
         {{>admin/layout/bodyFooter}}
     </div>
 
 </body>
 {{>admin/layout/footer}}
-<script src="/js/adminBoard.js"></script>
+<script src="/js/adminPlayer.js"></script>
 <script>
     $(function () {
-        //board.init();
+        player.init();
     });
 
-    function paging(page) {
-        $('#currentPage').val(page);
-        $('#searchFrm').submit();
-    }
 </script>

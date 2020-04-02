@@ -1,5 +1,6 @@
 package info.team23h.acc.service;
 
+import info.team23h.acc.vo.PlayerVO;
 import info.team23h.acc.vo.RecordVO;
 import info.team23h.acc.vo.SearchVO;
 
@@ -41,4 +42,11 @@ public interface RecordService {
 	 * @return
 	 */
 	Double playerSkillEvaluator(SearchVO searchVO);
+
+	/**
+	 * 플레이어 리스트  tt 스코어 입력
+	 * @param driverList
+	 * @return
+	 */
+	List<PlayerVO> getPlayerSkillEvaluatorList(List<PlayerVO> driverList);
 }

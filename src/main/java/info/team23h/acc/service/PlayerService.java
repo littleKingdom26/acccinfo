@@ -1,5 +1,6 @@
 package info.team23h.acc.service;
 
+import info.team23h.acc.vo.PlayerSearch;
 import info.team23h.acc.vo.PlayerVO;
 
 import java.util.List;
@@ -36,4 +37,10 @@ public interface PlayerService {
 	int getPlayerDetail(PlayerVO playerVO);
 
 
+	/**
+	 * 플레이어 리스트 검색 목록
+	 * @param playerSearch
+	 * @return
+	 */
+	List<PlayerVO> getPlayerList(PlayerSearch playerSearch);
 }
