@@ -181,7 +181,7 @@ public class RecordServiceImpl implements RecordService {
 		WeekVO weekVO = weekService.getRecently();
 
 		List<List<RecordVO>> result = new ArrayList<>();
-		for(int i = 0; i < 11; i++){
+		for(int i = 0; i < 10; i++){
 			SearchVO searchVO = new SearchVO();
 			searchVO.setSessionId(String.valueOf(weekVO.getSessionId() - i));
 			result.add(recordDAO.getRecordDataListForWeek(searchVO));
@@ -194,8 +194,7 @@ public class RecordServiceImpl implements RecordService {
 				List<RecordVO> recordVOList = result.get(j);
 				for(RecordVO recordVO : recordVOList){
 					if(playerVO.getPlayerId().equals(recordVO.getPlayerId())){
-						user.pushData(i, recordVO.getRank(), recordVOList.size());
-						log.debug("user.pushData(" + i + ", " + recordVO.getRank() + ", " + recordVOList.size() + ")");
+						user.pushData(j, recordVO.getRank(), recordVOList.size());
 					}
 				}
 			}
