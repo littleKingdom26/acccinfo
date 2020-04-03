@@ -103,7 +103,7 @@ public class IndexController {
 								 Model model) {
 		model.addAttribute("playerRecordList", recordService.recordPlayerDetail(searchVO));
 		double score = recordService.playerSkillEvaluator(searchVO);
-		model.addAttribute("ttScore", Math.round(Math.floor(score)));
+		model.addAttribute("ttScore", (int)Math.round(Math.floor(score)));
 		return "ajax/recordPlayerDetail";
 	}
 

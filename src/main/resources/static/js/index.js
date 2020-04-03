@@ -32,6 +32,7 @@ var index = {
             $('#playerDetail').html('');
             $('.driverName').text('');
             $('#modalProfile').html('');
+            $('.ttscore').text('');
         });
     },
     fnSubmit:function(){

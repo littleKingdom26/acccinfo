@@ -156,7 +156,7 @@ public class RecordServiceImpl implements RecordService {
 		// 최신주차 10개 구하기
 		WeekVO weekVO = weekService.getRecently();
 		List<List<RecordVO>> result = new ArrayList<>();
-		for(int i = 0; i < 11; i++){
+		for(int i = 0; i < 10; i++){
 			searchVO.setSessionId(String.valueOf(weekVO.getSessionId()-i));
 			result.add(recordDAO.getRecordDataListForWeek(searchVO));
 		}
@@ -198,7 +198,7 @@ public class RecordServiceImpl implements RecordService {
 					}
 				}
 			}
-			playerVO.setTtScore(Math.round(Math.floor(100 - user.getScore())));
+			playerVO.setTtScore((int)Math.round(Math.floor(100 - user.getScore())));
 		}
 
 		driverList.sort(Comparator.reverseOrder());

@@ -41,6 +41,5 @@ public class AccumulatedSkillEvaluator {
 		finalScore = (100 - (100 - finalScore) * (9 - penalty) / 9);
 
 		return Math.max(0, Math.min(finalScore, 100));
-
 	}
 }

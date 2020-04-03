@@ -18,7 +18,7 @@ public class PlayerVO extends CommonVO implements Comparable<PlayerVO> {
 	/**
 	 * tt 스코어
 	 */
-	public double ttScore;
+	public int ttScore;
 
 	/**
 	 * 순서
