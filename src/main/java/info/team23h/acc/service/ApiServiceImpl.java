@@ -172,7 +172,7 @@ public class ApiServiceImpl  implements ApiService {
 			trackVO.setTrackName(String.valueOf(param.get("trackName")));
 			// 트랙 번호 조회
 			// 트랙 번호 없으면 입력
-			trackService.getSeqForTrackName(trackVO);
+			//trackService.getSeqForTrackName(trackVO);
 
 			// 세션 flag 확인
 			// 세션 flag 에 따라서 DB 정리
@@ -180,7 +180,7 @@ public class ApiServiceImpl  implements ApiService {
 			if(String.valueOf(param.get("sessionFlag")).equals("1")){
 				// 세션 변경 있음
 				// 마지막 세션 정보 조회
-				weekService.setSessionId(trackVO, Integer.parseInt(String.valueOf(param.get("sessionId"))));
+				//weekService.setSessionId(trackVO, Integer.parseInt(String.valueOf(param.get("sessionId"))));
 			}
 			// 리스트 돔
 			ArrayList<HashMap<String, Object>> recordList = (ArrayList<HashMap<String, Object>>) param.get("recordList");
