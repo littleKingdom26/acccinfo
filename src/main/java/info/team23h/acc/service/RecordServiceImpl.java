@@ -39,7 +39,6 @@ public class RecordServiceImpl implements RecordService {
 			param.setPlayerId(recordVO.getPlayerId());			
 			param.setTrackSeq(recordVO.getTrackSeq());
 			param.setLapCount(recordVO.getLapCount());
-
 			if(beforeRecord.getBestLap() > recordVO.getBestLap()){
 				// 기존 베스트 랩이 느림
 				param.setBestLap(recordVO.getBestLap());
@@ -57,6 +56,7 @@ public class RecordServiceImpl implements RecordService {
 				// 섹터 3 기존 기록이 느림
 				param.setSector3(recordVO.getSector3());
 			}
+
 			result = this.updateRecordData(param);
 		}else {
 			// 기존 기록 없음

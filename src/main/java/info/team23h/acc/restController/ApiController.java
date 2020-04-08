@@ -41,4 +41,28 @@ public class ApiController {
 	}
 
 
+	/**
+	 * 드라이버 목록을 가져 나감
+	 *
+	 * @return
+	 */
+	@GetMapping("/api/test/playerList")
+	public HashMap<String, Object> playertestList() {
+		return apiService.playerList();
+	}
+
+
+	/**
+	 * 기록 정보를 저장 한다.
+	 *
+	 * @param param
+	 * @return
+	 */
+	@PostMapping("/api/test/setRecord")
+	@Transactional(rollbackFor = Team23hException.class)
+	public HashMap<String, Object> setTestRecord(@RequestBody HashMap<String, Object> param) throws Team23hException {
+		return apiService.setTestRecord(param);
+	}
+
+
 }

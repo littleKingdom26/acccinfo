@@ -45,7 +45,7 @@
     <update id="updateRecordData" parameterType="info.team23h.acc.vo.RecordVO">
         UPDATE TB_RECORD SET
         TRACK_SEQ = #{trackSeq}
-        <!--, LAP_COUNT = LAP_COUNT + #{lapCount}-->
+        , LAP_COUNT = LAP_COUNT + #{lapCount}
         <if test="bestLap != null and bestLap > 0">
             ,BEST_LAP = #{bestLap}
             ,CAR_MODEL = #{carModel}
