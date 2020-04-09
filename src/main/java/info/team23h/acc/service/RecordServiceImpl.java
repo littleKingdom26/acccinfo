@@ -205,7 +205,6 @@ public class RecordServiceImpl implements RecordService {
 
 		for(int i = 0; i < driverList.size(); i++){
 			PlayerVO playerVO = driverList.get(i);
-			playerVO.setPlayerId(playerVO.getPlayerId().substring(1));
 			playerVO.setNo(i+1);
 		}
 

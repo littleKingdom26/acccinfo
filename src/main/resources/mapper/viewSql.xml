@@ -9,7 +9,7 @@
     <select id="getViewCount" resultType="info.team23h.acc.vo.ViewVo">
         SELECT
         SUM(PAGE_VIEW_COUNT) AS PAGE_VIEW_COUNT
-        , (SELECT PAGE_VIEW_COUNT from TB_VIEWCOUNT where DATE = DATE_FORMAT(NOW(), '%Y-%m-%d')) TODAY_VIEW_COUNT
+        , IFNULL((SELECT PAGE_VIEW_COUNT from TB_VIEWCOUNT where DATE = DATE_FORMAT(NOW(), '%Y-%m-%d')),0) TODAY_VIEW_COUNT
         FROM TB_VIEWCOUNT
     </select>
 

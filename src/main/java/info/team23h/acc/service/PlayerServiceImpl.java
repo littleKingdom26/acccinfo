@@ -36,6 +36,11 @@ public class PlayerServiceImpl implements PlayerService {
 		return playerDAO.getPlayerDetail(playerVO);
 	}
 
+	/**
+	 * 관리자용
+	 * @param playerSearch
+	 * @return
+	 */
 	@Override
 	public List<PlayerVO> getPlayerList(PlayerSearch playerSearch) {
 		return playerDAO.getPlayerList(playerSearch);

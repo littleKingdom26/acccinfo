@@ -1,0 +1,51 @@
+<div class="layerPop">
+    <p class="popTitle">
+        {{searchVO.firstName}} {{searchVO.lastName}}
+        <span>
+            <a href="https://steamcommunity.com/profiles/{{searchVO.playerId}}" target="_blank"><img src="/image/steam.png" class="img-thumbnail ml-2" width="30px" style="margin-top:10px;" /></a>
+        </span>
+        <small>
+            TT Score : {{ttScore}}
+        </small>
+    </p>
+    <div class="layerCont">
+        <div class="contBox">
+            <div class="inBox">
+                <table class="listTable">
+                    <colgroup>
+                        <col width="*">
+                        <col width="*">
+                        <col width="*">
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <th>
+                            Track
+                        </th>
+                        <th>
+                            Car
+                        </th>
+                        <th>
+                            Best Lap
+                        </th>
+                    </tr>
+                    {{#playerRecordList}}
+                        <tr>
+                            <td>
+                                {{#trackViewName}}{{trackViewName}}{{/trackViewName}}{{^trackViewName}}{{trackName}}{{/trackViewName}}
+                            </td>
+                            <td>{{carName}}</td>
+                            <td class="tac"><strong>{{bestLapView}}</strong></td>
+                        </tr>
+                    {{/playerRecordList}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <a href="#none" class="layerClose bPoupClose">닫기</a>
+</div>
+<script>
+
+
+</script>

@@ -53,6 +53,6 @@ var index = {
 
         $('#modalProfile').attr('href',"https://steamcommunity.com/profiles/"+ playerId.substring(1));
         $('#modalProfile').attr('target', "_blank");
-        $('#modalProfile').html('<img src="/image/steam.jpg" class="img-thumbnail ml-2" width="30px" />');
+        $('#modalProfile').html('<img src="/image/steam.png" class="img-thumbnail ml-2" width="30px" />');
     }
 };

@@ -1,5 +1,8 @@
 var common = {
     ajax:function(method,url,param,dataType, contentType,fnSuccess){
+        if (contentType == '') {
+            contentType = 'application/x-www-form-urlencoded; charset=UTF-8';
+        }
         $.ajax({
             beforeSend: function () {
                 $('#background').show(200);
@@ -13,7 +16,9 @@ var common = {
             , contentType :contentType
             , url: url
             , success: function (data) {
-                fnSuccess(data);
+                if (typeof fnSuccess === 'function') {
+                    fnSuccess(data);
+                }
             }
         });
     }

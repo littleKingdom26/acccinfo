@@ -21,4 +21,8 @@ public class SearchVO {
 
 	private String team23h;
 
+	private String firstName;
+
+	private String lastName;
+
 }
