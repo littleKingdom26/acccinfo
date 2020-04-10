@@ -80,7 +80,7 @@
                 A.SECTOR1,
                 A.SECTOR2,
                 A.SECTOR3,
-                <!--A.LAP_COUNT,-->
+                A.LAP_COUNT,
                 A.PLAYER_ID
                 from TB_RECORD A
                 INNER JOIN TB_TRACK TT on A.TRACK_SEQ = TT.SEQ
@@ -106,7 +106,7 @@
                C.SECTOR1,
                C.SECTOR2,
                C.SECTOR3,
-               <!--C.LAP_COUNT,-->
+               C.LAP_COUNT,
                B.PLAYER_ID
         FROM (SELECT MIN(A.BEST_LAP) AS BEST_LAP, A.PLAYER_ID
               FROM TB_RECORD A
@@ -134,17 +134,47 @@
         C.SECTOR1,
         C.SECTOR2,
         C.SECTOR3,
+        C.TRACK_SEQ,
         TT.TRACK_NAME,
-        TT.TRACK_VIEW_NAME
+        TT.TRACK_VIEW_NAME,
+        B.PLAYER_ID
         FROM (SELECT MIN(A.BEST_LAP) AS BEST_LAP, A.PLAYER_ID
-        FROM TB_RECORD A
-        WHERE A.PLAYER_ID = #{playerId}
-        GROUP BY A.TRACK_SEQ) B
+                FROM TB_RECORD A
+                WHERE A.PLAYER_ID = #{playerId}
+                GROUP BY A.TRACK_SEQ) B
         INNER JOIN TB_RECORD C ON B.PLAYER_ID = C.PLAYER_ID AND B.BEST_LAP = C.BEST_LAP
         INNER JOIN TB_TRACK TT on C.TRACK_SEQ = TT.SEQ
         INNER JOIN TB_PLAYER TP on C.PLAYER_ID = TP.PLAYER_ID
         INNER JOIN TB_CAR TC ON C.CAR_MODEL = TC.CAR_MODEL
         ORDER BY SESSION_ID DESC ) D, (SELECT @ROWNUM := 0) E
+
+    </select>
+
+
+    <select id="loadAllRecodeTrackData" resultType="info.team23h.acc.vo.RecordVO">
+        SELECT C.PLAYER_ID,
+               C.BEST_LAP,
+               C.SECTOR1,
+               C.SECTOR2,
+               C.SECTOR3,
+               C.LAP_COUNT,
+               C.TRACK_SEQ,
+               TT.TRACK_NAME,
+               TT.TRACK_VIEW_NAME,
+               TP.FIRST_NAME,
+               TP.LAST_NAME,
+               TC.CAR_NAME,
+               TC.CAR_MODEL,
+               C.SESSION_ID
+        FROM (SELECT A.SEQ, B.PLAYER_ID, MIN(B.BEST_LAP) AS BEST_LAP
+              FROM TB_TRACK A
+                       INNER JOIN TB_RECORD B ON A.SEQ = B.TRACK_SEQ
+              GROUP BY A.SEQ, B.PLAYER_ID) B
+                 INNER JOIN TB_RECORD C ON B.SEQ = C.TRACK_SEQ AND B.PLAYER_ID = C.PLAYER_ID AND B.BEST_LAP = C.BEST_LAP
+                 INNER JOIN TB_TRACK TT on C.TRACK_SEQ = TT.SEQ
+                 INNER JOIN TB_PLAYER TP on C.PLAYER_ID = TP.PLAYER_ID
+                 INNER JOIN TB_CAR TC ON C.CAR_MODEL = TC.CAR_MODEL
+        ORDER BY TRACK_SEQ DESC, BEST_LAP
 
     </select>
 

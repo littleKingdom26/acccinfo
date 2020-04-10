@@ -141,12 +141,25 @@ public class RecordServiceImpl implements RecordService {
 	public List<RecordVO> recordPlayerDetail(SearchVO searchVO) {
 
 		List<RecordVO> list = recordDAO.recordPlayerDetail(searchVO);
+		List<RecordVO> allRecode = recordDAO.loadAllRecodeTrackData();
 
 		for(int i = 0; i < list.size(); i++){
 			RecordVO temp = list.get(i);
 			viewSetting(temp);
-		}
+			int rank = 0;
+			int maxPlayer = 0;
+			for(RecordVO recordVO : allRecode){
 
+				if(temp.getTrackSeq() == recordVO.getTrackSeq()){
+					maxPlayer = maxPlayer +1;
+					if(temp.getPlayerId().equals(recordVO.getPlayerId())){
+						rank = maxPlayer;
+					}
+				}
+			}
+			temp.setRank(rank);
+			temp.setMaxPlayer(maxPlayer);
+		}
 		return list;
 	}
 

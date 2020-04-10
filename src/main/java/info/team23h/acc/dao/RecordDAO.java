@@ -39,4 +39,8 @@ public class RecordDAO {
 	public List<RecordVO> recordPlayerDetail(SearchVO searchVO) {
 		return sql.selectList(PREFIX +".recordPlayerDetail", searchVO);
 	}
+
+	public List<RecordVO> loadAllRecodeTrackData() {
+		return sql.selectList(PREFIX + ".loadAllRecodeTrackData");
+	}
 }

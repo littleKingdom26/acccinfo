@@ -94,4 +94,6 @@ public class RecordVO extends CommonVO {
 	private String potentialView;
 
 	private String rankImg;
+
+	private int maxPlayer;
 }

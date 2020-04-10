@@ -15,7 +15,8 @@
                     <colgroup>
                         <col width="*">
                         <col width="*">
-                        <col width="*">
+                        <col width="150px">
+                        <col width="150px">
                     </colgroup>
                     <tbody>
                     <tr>
@@ -28,6 +29,9 @@
                         <th>
                             Best Lap
                         </th>
+                        <th>
+                            Rank / Player
+                        </th>
                     </tr>
                     {{#playerRecordList}}
                         <tr>
@@ -36,6 +40,7 @@
                             </td>
                             <td>{{carName}}</td>
                             <td class="tac"><strong>{{bestLapView}}</strong></td>
+                            <td>{{rank}} / {{maxPlayer}}</td>
                         </tr>
                     {{/playerRecordList}}
                     </tbody>

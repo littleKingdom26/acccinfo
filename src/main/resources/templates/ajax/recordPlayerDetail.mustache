@@ -1,20 +1,28 @@
 <!DOCTYPE HTML>
 <table class="table table-striped">
+    <colgroup>
+        <col width="40%"/>
+        <col width="*"/>
+        <col width="10%"/>
+        <col width="10%"/>
+    </colgroup>
     <tr>
         <th>Track</th>
         <th>Car</th>
         <th>Best Lap</th>
+        <th>Rank</th>
     </tr>
     {{#playerRecordList}}
+        <input type="hidden" class="popDriverName" value="{{firstName}} {{lastName}}" />
+        <input type="hidden" class="popPlayerId" value="{{searchVO.playerId}}" />
+        <input type="hidden" class="ttScore" value="{{ttScore}}" />
         <tr>
-            <td>
-                <input type="hidden" class="popDriverName" value="{{firstName}} {{lastName}}"/>
-                <input type="hidden" class="popPlayerId" value="{{searchVO.playerId}}" />
-                <input type="hidden" class="ttScore" value="{{ttScore}}"/>
+            <td class="text-truncate" style="max-width:100px">
                 {{#trackViewName}}{{trackViewName}}{{/trackViewName}}{{^trackViewName}}{{trackName}}{{/trackViewName}}
             </td>
-            <td>{{carName}}</td>
+            <td class="text-truncate" style="max-width:100px">{{carName}}</td>
             <td><strong>{{bestLapView}}</strong></td>
+            <td>{{rank}}/{{maxPlayer}}</td>
         </tr>
     {{/playerRecordList}}
 </table>
