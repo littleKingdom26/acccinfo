@@ -125,28 +125,29 @@
     <select id="recordPlayerDetail" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.SearchVO">
         SELECT ROUND(@ROWNUM := @ROWNUM + 1) AS RANK, D.*
         FROM (
-        SELECT C.SESSION_ID,
-        TP.FIRST_NAME,
-        TP.LAST_NAME,
-        TC.CAR_NAME,
-        TC.CAR_MODEL,
-        C.BEST_LAP,
-        C.SECTOR1,
-        C.SECTOR2,
-        C.SECTOR3,
-        C.TRACK_SEQ,
-        TT.TRACK_NAME,
-        TT.TRACK_VIEW_NAME,
-        B.PLAYER_ID
-        FROM (SELECT MIN(A.BEST_LAP) AS BEST_LAP, A.PLAYER_ID
-                FROM TB_RECORD A
-                WHERE A.PLAYER_ID = #{playerId}
-                GROUP BY A.TRACK_SEQ) B
-        INNER JOIN TB_RECORD C ON B.PLAYER_ID = C.PLAYER_ID AND B.BEST_LAP = C.BEST_LAP
-        INNER JOIN TB_TRACK TT on C.TRACK_SEQ = TT.SEQ
-        INNER JOIN TB_PLAYER TP on C.PLAYER_ID = TP.PLAYER_ID
-        INNER JOIN TB_CAR TC ON C.CAR_MODEL = TC.CAR_MODEL
-        ORDER BY SESSION_ID DESC ) D, (SELECT @ROWNUM := 0) E
+            SELECT C.SESSION_ID,
+            TP.FIRST_NAME,
+            TP.LAST_NAME,
+            TC.CAR_NAME,
+            TC.CAR_MODEL,
+            C.BEST_LAP,
+            C.SECTOR1,
+            C.SECTOR2,
+            C.SECTOR3,
+            C.TRACK_SEQ,
+            B.LAP_COUNT,
+            TT.TRACK_NAME,
+            TT.TRACK_VIEW_NAME,
+            B.PLAYER_ID
+            FROM (SELECT MIN(A.BEST_LAP) AS BEST_LAP, A.PLAYER_ID, SUM(A.LAP_COUNT) AS LAP_COUNT
+            FROM TB_RECORD A
+            WHERE A.PLAYER_ID = #{playerId}
+            GROUP BY A.TRACK_SEQ) B
+            INNER JOIN TB_RECORD C ON B.PLAYER_ID = C.PLAYER_ID AND B.BEST_LAP = C.BEST_LAP
+            INNER JOIN TB_TRACK TT on C.TRACK_SEQ = TT.SEQ
+            INNER JOIN TB_PLAYER TP on C.PLAYER_ID = TP.PLAYER_ID
+            INNER JOIN TB_CAR TC ON C.CAR_MODEL = TC.CAR_MODEL
+            ORDER BY SESSION_ID DESC ) D, (SELECT @ROWNUM := 0) E
 
     </select>
 

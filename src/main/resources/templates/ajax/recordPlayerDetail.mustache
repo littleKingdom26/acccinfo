@@ -5,12 +5,14 @@
         <col width="*"/>
         <col width="10%"/>
         <col width="10%"/>
+        <col width="5%"/>
     </colgroup>
     <tr>
         <th>Track</th>
         <th>Car</th>
         <th>Best Lap</th>
         <th>Rank</th>
+        <th>Lap</th>
     </tr>
     {{#playerRecordList}}
         <input type="hidden" class="popDriverName" value="{{firstName}} {{lastName}}" />
@@ -23,6 +25,7 @@
             <td class="text-truncate" style="max-width:100px">{{carName}}</td>
             <td><strong>{{bestLapView}}</strong></td>
             <td>{{rank}}/{{maxPlayer}}</td>
+            <td>{{lapCount}}</td>
         </tr>
     {{/playerRecordList}}
 </table>
