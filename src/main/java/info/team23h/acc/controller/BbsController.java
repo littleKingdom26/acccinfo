@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.HashMap;
 
@@ -75,6 +76,49 @@ public class BbsController {
 		model.addAttribute("bbsNameSeq", bbsNameSeq);
 		model.addAttribute("data", bbsService.loadBbsView(bbsSearch));
 		return "bbs/view";
+	}
+
+	/**
+	 * 글 작성
+	 *
+	 * @param model      the model
+	 * @param bbsNameSeq the bbs name seq
+	 * @param bbsSearch  the bbs search
+	 * @return the string
+	 */
+	@GetMapping("/bbs/{bbsNameSeq}/write")
+	public String createBbs(Model model,
+							@PathVariable("bbsNameSeq") long bbsNameSeq,
+							@ModelAttribute("bbsSearch") BbsSearch bbsSearch
+							) {
+		bbsSearch.setNameSeq(bbsNameSeq);
+		model.addAttribute("bbsNameSeq", bbsNameSeq);
+		return "bbs/write";
+	}
+
+	/**
+	 * 글 수정
+	 *
+	 * @param model      the model
+	 * @param bbsNameSeq the bbs name seq
+	 * @param seq        the seq
+	 * @param bbsSearch  the bbs search
+	 * @return the string
+	 */
+	@PostMapping("/bbs/{bbsNameSeq}/{seq}/update")
+	public String createBbs(Model model,
+							@PathVariable("bbsNameSeq") long bbsNameSeq,
+							@PathVariable("seq") long seq,
+							@ModelAttribute("bbsSearch") BbsSearch bbsSearch) {
+		if(!"Y".equals(bbsSearch.getCheck())){
+			return "redirct:/bbs/"+bbsNameSeq+"/"+seq;
+		}
+		bbsSearch.setNameSeq(bbsNameSeq);
+		bbsSearch.setBbsSeq(seq);
+		model.addAttribute("data", bbsService.loadBbsView(bbsSearch));
+		model.addAttribute("bbsNameSeq", bbsNameSeq);
+		model.addAttribute("bbsSeq", seq);
+		return "bbs/update";
 	}
 
 }

@@ -53,6 +53,6 @@ public class FileUtil {
 		File newFile = new File(newFilePath);
 		newFile.createNewFile();
 		file.transferTo(newFile);
-		return newFilePath;
+		return newFileName;
 	}
 }

@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -19,10 +18,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final MemberServiceImpl memberServiceImpl;
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+	@Bean(name = "bCryptPasswordEncoder")
+	public BCryptPasswordEncoder bCryptPasswordEncoder(){return new BCryptPasswordEncoder();}
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
@@ -33,7 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().headers().frameOptions().disable()// csrf t사용 안함
 				.and()
-				.authorizeRequests().antMatchers("/", "/bbs/*", "/bbs/*/*","/error","/recordPlayerDetailAjax","/recordListAjax","/api/**","/team23h","/fileUpload","/imageView").permitAll() // 전체권한
+				.authorizeRequests().antMatchers("/", "/bbs/**","/error","/recordPlayerDetailAjax","/recordListAjax"
+				,"/api/**","/team23h","/fileUpload","/imageView/**","/ckEditorImgUpload","/calendar").permitAll() // 전체권한
 				.anyRequest().hasRole(Role.ADMIN.name())  // 위 페이지 외 인증된 유저
 				.and() // 로그아웃 설정
 				.logout().logoutSuccessUrl("/").invalidateHttpSession(true).deleteCookies("JSESSIONID","remember-me")
@@ -45,6 +43,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(memberServiceImpl).passwordEncoder(passwordEncoder());
+		auth.userDetailsService(memberServiceImpl).passwordEncoder(bCryptPasswordEncoder());
 	}
 }

@@ -9,7 +9,14 @@
     <div class="jumbotron">
         <div class="row">
             <div class="col-12">
-                <h4>{{data.bbsVO.title}}&nbsp;<small class="text-muted h-4">{{data.bbsVO.regName}}</small></h4>
+                <h4>{{data.bbsVO.title}}&nbsp;<small class="text-muted h-4">
+                    {{^data.bbsVO.regName}}
+                        {{data.bbsVO.regId}}
+                    {{/data.bbsVO.regName}}
+                    {{#data.bbsVO.regName}}
+                        {{data.bbsVO.regName}}
+                    {{/data.bbsVO.regName}}
+                </small></h4>
             </div>
         </div>
         <hr class="my-1"/>
@@ -46,6 +53,7 @@
                 <div class="col-3">
                     <div class="form-group">
                         <input type="text" class="form-control" id="regId" name="regId" placeholder="Write"  />
+                        <input type="hidden" id="nameSeq" name="nameSeq" value="{{bbsNameSeq}}" />
                     </div>
                 </div>
                 <div class="col-9">
@@ -66,9 +74,32 @@
     <div class="row justify-content-center mt-3">
         <div class="col-12 text-right">
             <a href="/bbs/{{bbsNameSeq}}" role="button" class="btn btn-secondary">list</a>
+            <a href="javascript:void(0);" role="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">Modify</a>
+        </div>
+    </div>
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    비밀번호 입력
+                </div>
+                <div class="modal-body " id="">
+                    <div class="form-group">
+                        <input type="password" id="password" name="password" class="form-control" value=""/>
+                        <input type="hidden" id="bbsSeq" name="bbsSeq" value="{{data.bbsVO.seq}}"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="modifyCheck">Modify</button>
+                </div>
+            </div>
         </div>
     </div>
 </main>
+<form id="frm" method="post" action="/bbs/{{bbsNameSeq}}/{{data.bbsVO.seq}}/update">
+    <input type="hidden" value="N" name="check" id="check"/>
+</form>
 {{>layout/footer}}
 <script src="/js/board.js"></script>
 <script>
@@ -76,13 +107,9 @@
         board.view();
     });
     document.querySelectorAll('oembed[url]').forEach(element => {
-        // Create the <a href="..." class="embedly-card"></a> element that Embedly uses
-        // to discover the media.
         const anchor = document.createElement('a');
-
         anchor.setAttribute('href', element.getAttribute('url'));
         anchor.className = 'embedly-card';
-
         element.appendChild(anchor);
     });
 

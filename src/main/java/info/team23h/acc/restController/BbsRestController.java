@@ -30,9 +30,23 @@ public class BbsRestController {
 		return result;
 	}
 
+	@PostMapping("/bbs/delete")
+	public HashMap<String, Object> delete(@RequestBody BbsVO bbsVO) {
+		HashMap<String, Object> result = bbsService.bbsDel(bbsVO);
+		return result;
+	}
+
+
+
 	@PostMapping("/bbs/saveComment")
 	public HashMap<String,Object> saveComment(@RequestBody CommentVO commentVO){
 		HashMap<String, Object> result = bbsService.commentSave(commentVO);
+		return result;
+	}
+
+	@PostMapping("/bbs/modifyCheck")
+	public HashMap<String, Object> modifyCheck(@RequestBody BbsVO bbsVO) {
+		HashMap<String, Object> result = bbsService.modifyCheck(bbsVO);
 		return result;
 	}
 

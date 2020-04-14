@@ -65,4 +65,11 @@ public interface BbsService {
 	 * @return
 	 */
 	HashMap<String, Object> bbsDel(BbsVO bbsVO);
+
+	/**
+	 * 게시물 비밀번호 체크
+	 * @param bbsVO
+	 * @return
+	 */
+	HashMap<String, Object> modifyCheck(BbsVO bbsVO);
 }

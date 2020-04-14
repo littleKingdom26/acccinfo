@@ -6,6 +6,7 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,23 +31,21 @@ public class CommonRestController {
 													 Model model) throws IOException {
 		Iterator<String> fileNames = request.getFileNames();
 		MultipartFile file = null;
-		String newPath = "";
+		String fileName = "";
 		if(fileNames.hasNext()){
 			file = request.getFile(fileNames.next());
-			newPath = FileUtil.save(file, "board");
+			fileName = FileUtil.save(file, "board");
 		}
-		log.debug("newPath > " + newPath);
+		log.debug("newPath > " + fileName);
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("uploaded", "1");
-		map.put("url", "http://localhost:8080/image/rank1.png");
+		map.put("url", "/imageView/board/"+ fileName);
 		return map;
 	}
 
-	@GetMapping("/imageView")
-	public byte[] getImageView() throws IOException{
-		String url = rootPath + File.separator + "board" + File.separator + "20200328131449650.jpg";
-
-//		InputStream in = getClass().getResourceAsStream(rootPath + File.separator + "board"+ File.separator+"20200328162902833.jpg");
+	@GetMapping("/imageView/{path}/{fileName}")
+	public byte[] getImageView(@PathVariable("path") String path ,@PathVariable("fileName") String fileName) throws IOException{
+		String url = rootPath + File.separator + path + File.separator + fileName;
 		File newFile = new File(url);
 		InputStream in = new FileInputStream(newFile);
 		return IOUtils.toByteArray(in);

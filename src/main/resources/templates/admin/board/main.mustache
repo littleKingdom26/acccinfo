@@ -66,7 +66,14 @@
                                     <tr>
                                         <td>{{no}}</td>
                                         <td><a href="javascript:void(0);" class="detailBtn" data-bbsseq="{{seq}}">{{title}}{{#commentCnt}} <small>({{commentCnt}})</small>{{/commentCnt}}</a></td>
-                                        <td>{{regName}}</td>
+                                        <td>
+                                            {{#regName}}
+                                                {{regName}}
+                                            {{/regName}}
+                                            {{^regName}}
+                                                {{regId}}
+                                            {{/regName}}
+                                        </td>
                                         <td>{{regDt}}</td>
                                     </tr>
                                 {{/data.list}}

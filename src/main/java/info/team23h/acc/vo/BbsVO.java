@@ -22,6 +22,8 @@ public class BbsVO extends CommonVO {
 
 	private String regName;
 	private String commentCntViewer;
+	
+	private String passwordChange;
 
 
 }

@@ -39,7 +39,12 @@
                                         <tr>
                                             <td>작성자</td>
                                             <td>
-                                                {{data.bbsVO.regName}}
+                                                {{#data.bbsVO.regName}}
+                                                    {{data.bbsVO.regName}}
+                                                {{/data.bbsVO.regName}}
+                                                {{^data.bbsVO.regName}}
+                                                    {{data.bbsVO.regId}}
+                                                {{/data.bbsVO.regName}}
                                                 <input type="hidden" id="regId" name="regId"  value="{{data.bbsVO.regId}}" />
                                             </td>
                                         </tr>

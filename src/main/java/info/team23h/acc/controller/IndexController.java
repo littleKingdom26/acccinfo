@@ -108,5 +108,12 @@ public class IndexController {
 	}
 
 
+	@GetMapping("/calendar")
+	public String calendar(@ModelAttribute SearchVO searchVO,
+						   Model model) {
+		return "calendar/calendar";
+	}
+
+
 
 }

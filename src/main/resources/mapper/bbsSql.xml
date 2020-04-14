@@ -27,6 +27,7 @@
 		      ,REG_ID
 		      ,REG_DT
 		      ,UPD_DT
+		      ,PASSWORD
 		      ,(SELECT NAME FROM TB_MEMBER B WHERE B.ID = A.REG_ID) AS REG_NAME
 		      ,(SELECT COUNT(*) FROM TB_COMMENT C WHERE A.SEQ = C.BBS_SEQ ) AS COMMENT_CNT
            FROM TB_BBS A
@@ -133,13 +134,13 @@
             TITLE = #{title}
             ,CONTENT = #{content}
             ,UPD_DT = now()
-            <if test="regId != null">
+            <if test="regId != null and regId != ''">
                 ,REG_ID = #{regId}
             </if>
+            <if test="password != null and password != ''">
+                , PASSWORD = #{password}
+            </if>
         WHERE NAME_SEQ = #{nameSeq} AND SEQ = #{seq}
-        <if test="password != null">
-            AND PASSWORD = #{password}
-        </if>
 
     </update>
 
@@ -158,7 +159,6 @@
     </delete>
     <delete id="bbsDel" parameterType="info.team23h.acc.vo.BbsVO">
         DELETE FROM TB_BBS WHERE SEQ = #{seq}
-
     </delete>
 
 

@@ -6,14 +6,17 @@ import info.team23h.acc.vo.BbsNameVO;
 import info.team23h.acc.vo.BbsSearch;
 import info.team23h.acc.vo.BbsVO;
 import info.team23h.acc.vo.CommentVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
 
+@Slf4j
 @Service
 public class BbsServiceImpl implements BbsService {
 
@@ -22,6 +25,9 @@ public class BbsServiceImpl implements BbsService {
 
 	@Value("${team23h.bbs.pageCount}")
 	private int pageCount;
+
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
 	public List<BbsNameVO> loadBbsName() {
@@ -54,6 +60,9 @@ public class BbsServiceImpl implements BbsService {
 	@Override
 	@Transactional
 	public HashMap<String, Object> save(BbsVO bbsVO) {
+		if(bbsVO.getPassword() != null && bbsVO.getPassword() != ""){
+			bbsVO.setPassword(bCryptPasswordEncoder.encode(bbsVO.getPassword()));
+		}
 		int cnt = bbsDAO.save(bbsVO);
 		HashMap<String,Object> result = new HashMap<String, Object>();
 		if(cnt > 0){
@@ -125,5 +134,20 @@ public class BbsServiceImpl implements BbsService {
 			result.put("code", "9999");
 		}
 		return result;
+	}
+
+	@Override
+	public HashMap<String, Object> modifyCheck(BbsVO bbsVO) {
+		BbsSearch bbsSearch = new BbsSearch();
+		bbsSearch.setNameSeq(bbsVO.getNameSeq());
+		bbsSearch.setBbsSeq(bbsVO.getSeq());
+		BbsVO result = bbsDAO.loadBbsView(bbsSearch);
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		if(bCryptPasswordEncoder.matches(bbsVO.getPassword(), result.getPassword())){
+			resultMap.put("code", "0000");
+		}else{
+			resultMap.put("code", "9999");
+		}
+		return resultMap;
 	}
 }

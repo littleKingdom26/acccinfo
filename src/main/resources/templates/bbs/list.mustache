@@ -39,7 +39,7 @@
                 <div class="col-12 ">
                     <input type="hidden" value="{{data.search.currentPage}}" id="currentPage" />
                     <input type="hidden" value="{{data.search.nameSeq}}" id="nameSeq" />
-                    <button type="button" class="btn btn-secondary" id="btn-more">More</button>
+                    <button type="button" class="btn btn-secondary"  id="btn-more" style="display:none;">More</button>
                 </div>
             </div>
             {{^list}}
@@ -51,7 +51,9 @@
     </div>
     {{#write}}
         <div class="row">
-
+            <div class="col-12 text-right">
+                <button type="button" id="write" class="btn btn-primary">Register</button>
+            </div>
         </div>
     {{/write}}
 </main>

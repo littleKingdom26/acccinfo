@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-12 text-center">
                 Services provided by team23h. <br />
-                Contributors: padagi20, nicol, little-kingdom, nottwo and jajuku.<br />
+                Contributors: padagi20, nicol, little-kingdom and jajuku.<br />
                 All data, services, marks, and copyrights are the property of their respective owners.<br />
             </div>
         </div>
@@ -20,8 +20,7 @@
     <script src="/js/common.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="/js/bootstrap.min.js"></script>
-    <Script src="/js/ckeditor/ckeditor.js"></Script>
-    <Script src="/js/ckeditor/ko.js"></Script>
+    <script src="/js/ckeditor/ckeditor.js"></script>
     <script>
         $(function () {
             let currentUrl = location.pathname;
@@ -29,9 +28,15 @@
                 $(this).removeClass("active");
             });
             if (currentUrl.indexOf("bbs") > -1) {
+                if(currentUrl.lastIndexOf("/") > 4){
+                    currentUrl = currentUrl.substring(0,6);
+                }
                 $('#'+ currentUrl.replace(/\//gi, '')).addClass("active");
-                $('#' + currentUrl.replace(/\//gi, '')).find('.sr-only').text('current');
-            }else{
+                $('#'+ currentUrl.replace(/\//gi, '')).find('.sr-only').text('current');
+            }else if(currentUrl.indexOf("calendar") > -1){
+                $('#calendar').addClass("active");
+                $('#calendar').find('.sr-only').text('current');
+            } else{
                 $('#main').addClass("active");
                 $('#main').find('.sr-only').text('current');
             }

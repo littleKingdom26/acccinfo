@@ -12,5 +12,6 @@ public class BbsSearch extends SearchHelper {
 	private long nameSeq;
 	private long bbsSeq;
 	private String schRegUserName = "";
+	private String check;
 
 }

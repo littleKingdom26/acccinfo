@@ -151,18 +151,14 @@ var board = {
                     ]
                 },
                 language: 'ko',
-                image: {
+                ckfinder: {
+                    uploadUrl: '/ckEditorImgUpload'
+                }
+                ,image: {
                     toolbar: [
-                        'imageTextAlternative',
-                        'imageStyle:alignLeft',
                         'imageStyle:full',
-                        'imageStyle:alignRight'
                     ],
-                    styles: [
-                        'full',
-                        'alignLeft',
-                        'alignRight'
-                    ]
+                    resizeUnit: 'px'
                 },
                 table: {
                     contentToolbar: [
