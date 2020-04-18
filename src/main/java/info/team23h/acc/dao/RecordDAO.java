@@ -43,4 +43,9 @@ public class RecordDAO {
 	public List<RecordVO> loadAllRecodeTrackData() {
 		return sql.selectList(PREFIX + ".loadAllRecodeTrackData");
 	}
+
+
+	public List<RecordVO> recordCarDetail(SearchVO searchVO) {
+		return sql.selectList(PREFIX + ".recordCarDetail", searchVO);
+	}
 }

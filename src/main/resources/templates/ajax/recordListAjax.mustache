@@ -10,7 +10,9 @@
             {{/rankImg}}
         </td>
         <td><a href="#" class="driverDetail" data-toggle="modal" data-target="#staticBackdrop" data-playerid="{{playerId}}">{{firstName}} {{lastName}}</a></td>
-        <td>{{carName}}</td>
+        <td>
+            <a href="javascript:void(0)" class="carDetail" data-toggle="modal" data-target="#carModal" data-carmodel="{{carModel}}">{{carName}}</a>
+        </td>
         <td><strong>{{bestLapView}}</strong></td>
         <td style="text-align: right">
             <div class="row">

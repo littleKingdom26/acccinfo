@@ -21,12 +21,21 @@ var index = {
             var param = {
                 'playerId': $(this).data('playerid')
             };
-
-            common.ajax("POST","/recordPlayerDetailAjax", param,"html",'application/x-www-form-urlencoded; charset=UTF-8',function(data){
+            common.ajax("POST","/ajax/recordPlayerDetailAjax", param,"html",'application/x-www-form-urlencoded; charset=UTF-8',function(data){
                 $('#playerDetail').html(data);
             });
-
         });
+
+        $('#dataList').on('click', '.carDetail', function () {
+            var param = {
+                'carModel': $(this).data('carmodel')
+            };
+            common.ajax("POST", "/ajax/recordCarDetailAjax", param, "html", 'application/x-www-form-urlencoded; charset=UTF-8', function (data) {
+                $('#carDetail').html(data);
+            });
+        });
+
+
 
         $('#staticBackdrop').on('hidden.bs.modal',function(e){
             $('#playerDetail').html('');
@@ -34,10 +43,15 @@ var index = {
             $('#modalProfile').html('');
             $('.ttscore').text('');
         });
+
+        $('#carModal').on('hidden.bs.modal', function (e) {
+            $('.carName').text('');
+            $('#carDetail').html('');
+        });
     },
     fnSubmit:function(){
         var param = $('#frm').serialize();
-        common.ajax("POST","/recordListAjax", param, "html", 'application/x-www-form-urlencoded; charset=UTF-8', function (data) {
+        common.ajax("POST","/ajax/recordListAjax", param, "html", 'application/x-www-form-urlencoded; charset=UTF-8', function (data) {
             $('#dataList').html(data);
         });
     },
@@ -54,5 +68,9 @@ var index = {
         $('#modalProfile').attr('href',"https://steamcommunity.com/profiles/"+ playerId.substring(1));
         $('#modalProfile').attr('target', "_blank");
         $('#modalProfile').html('<img src="/image/steam.png" class="img-thumbnail ml-2" width="30px" />');
+    }
+    ,carDetail : function(){
+        let carName = $(".popCarName").val();
+        $('.carName').text(carName);
     }
 };

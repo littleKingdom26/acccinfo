@@ -85,7 +85,7 @@ public class IndexController {
 	 * @param model    the model
 	 * @return the string
 	 */
-	@PostMapping("/recordListAjax")
+	@PostMapping("/ajax/recordListAjax")
 	public String recordListAjax(@ModelAttribute SearchVO searchVO,Model model) {
 		model.addAttribute("recordList", recordService.getRecordDataList(searchVO));
 		return "ajax/recordListAjax";
@@ -98,7 +98,7 @@ public class IndexController {
 	 * @param model    the model
 	 * @return the string
 	 */
-	@PostMapping("/recordPlayerDetailAjax")
+	@PostMapping("/ajax/recordPlayerDetailAjax")
 	public String recordPlayerDetailAjax(@ModelAttribute SearchVO searchVO,
 								 Model model) {
 		model.addAttribute("playerRecordList", recordService.recordPlayerDetail(searchVO));
@@ -107,7 +107,23 @@ public class IndexController {
 		return "ajax/recordPlayerDetail";
 	}
 
+	@PostMapping("/ajax/recordCarDetailAjax")
+	public String recordCarDetailAjax(@ModelAttribute SearchVO searchVO,
+										 Model model) {
+		model.addAttribute("playerRecordList", recordService.recordCarDetail(searchVO))
+		.addAttribute("searchVO", searchVO);
+		return "ajax/recordCarDetail";
+	}
 
+
+
+
+	/**
+	 * 달력
+	 * @param searchVO
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/calendar")
 	public String calendar(@ModelAttribute SearchVO searchVO,
 						   Model model) {

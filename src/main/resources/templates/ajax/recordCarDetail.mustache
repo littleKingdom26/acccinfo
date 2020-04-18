@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<table class="table table-striped">
+    <colgroup>
+        <col width="40%"/>
+        <col width="*"/>
+        <col width="10%"/>
+        <col width="10%"/>
+    </colgroup>
+    <tr>
+        <th>Track</th>
+        <th>Driver</th>
+        <th>Best Lap</th>
+        <th>Rank</th>
+    </tr>
+    <input type="hidden" class="popCarName" value="{{searchVO.carName}}" />
+    {{#playerRecordList}}
+        <tr>
+            <td class="text-truncate" style="max-width:100px">
+                {{#trackViewName}}{{trackViewName}}{{/trackViewName}}{{^trackViewName}}{{trackName}}{{/trackViewName}}
+            </td>
+            <td class="text-truncate" style="max-width:100px">{{firstName}} {{lastName}}</td>
+            <td><strong>{{bestLapView}}</strong></td>
+            <td>{{rank}}/{{maxPlayer}}</td>
+        </tr>
+    {{/playerRecordList}}
+</table>
+<script>
+    $(function () {
+        index.carDetail();
+    });
+</script>

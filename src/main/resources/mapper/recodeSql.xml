@@ -181,5 +181,31 @@
 
     </select>
 
+    <select id="recordCarDetail" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.SearchVO">
+        SELECT SESSION_ID,
+               A.PLAYER_ID,
+               B.BEST_LAP,
+               B.CAR_MODEL,
+               TC.CAR_NAME,
+               A.TRACK_SEQ,
+               TP.LAST_NAME,
+               TP.FIRST_NAME,
+               TT.SEQ,
+               TT.TRACK_VIEW_NAME,
+               TT.TRACK_NAME
+        FROM TB_RECORD A
+                 INNER JOIN (
+            SELECT TRACK_SEQ,
+                   MIN(BEST_LAP) AS BEST_LAP,
+                   CAR_MODEL
+            FROM TB_RECORD
+            WHERE CAR_MODEL = #{carModel}
+            GROUP BY TRACK_SEQ
+        ) B ON A.BEST_LAP = B.BEST_LAP AND A.CAR_MODEL = B.CAR_MODEL
+                 INNER JOIN TB_PLAYER TP on A.PLAYER_ID = TP.PLAYER_ID
+                 INNER JOIN TB_TRACK TT ON TT.SEQ = A.TRACK_SEQ
+                 INNER JOIN TB_CAR TC ON TC.CAR_MODEL = B.CAR_MODEL
+    </select>
+
 </mapper>
 

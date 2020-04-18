@@ -25,4 +25,8 @@ public class SearchVO {
 
 	private String lastName;
 
+	private String carModel;
+
+	private String carName;
+
 }

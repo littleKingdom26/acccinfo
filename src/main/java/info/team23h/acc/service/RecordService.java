@@ -37,6 +37,13 @@ public interface RecordService {
 	List<RecordVO> recordPlayerDetail(SearchVO searchVO);
 
 	/**
+	 * 차량 코스별 기록 조회
+	 * @param searchVO
+	 * @return
+	 */
+	List<RecordVO> recordCarDetail(SearchVO searchVO);
+
+	/**
 	 * 플레이어 별 스코어
 	 * @param searchVO
 	 * @return

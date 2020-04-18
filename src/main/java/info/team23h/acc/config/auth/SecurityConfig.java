@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().headers().frameOptions().disable()// csrf t사용 안함
 				.and()
-				.authorizeRequests().antMatchers("/", "/bbs/**","/error","/recordPlayerDetailAjax","/recordListAjax"
+				.authorizeRequests().antMatchers("/", "/bbs/**","/error","/ajax/**","/recode"
 				,"/api/**","/team23h","/fileUpload","/imageView/**","/ckEditorImgUpload","/calendar").permitAll() // 전체권한
 				.anyRequest().hasRole(Role.ADMIN.name())  // 위 페이지 외 인증된 유저
 				.and() // 로그아웃 설정
