@@ -1,0 +1,106 @@
+{{>admin/layout/header}}
+<body>
+    <div id="wrap">
+        <div class="inWrap">
+            {{>admin/layout/lnb}}
+            <div id="container">
+                {{>admin/layout/topBar}}
+                <div class="location">
+                    <em class="home">HOME</em><i></i>
+                    <em class="active">배너 관리</em>
+                </div>
+                <div class="content">
+                    <div class="box">
+                        <div class="inBox">
+                            <form id="frm" action="/admin/banner/save" method="post" enctype="multipart/form-data"  >
+                                <table class="formTable">
+                                    <colgroup>
+                                        <col width="100" />
+                                        <col width="*" />
+                                    </colgroup>
+                                    <tbody>
+                                        <tr>
+                                            <th>제목</th>
+                                            <td>
+                                                <input type="text" id="title" name="title" value="" class="textType" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>링크</th>
+                                            <td>
+                                                <input type="text" id="url" name="url" value="" class="textType"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>배너 등록</th>
+                                            <td>
+                                                <input type="file" id="bannerImg" name="bannerImg" value=""  />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="btnArea mt20">
+                                    <a href="#" id="btnSave" class="btn btnBi btnBlue">저장</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="inBox">
+                            <table class="listTable mt10">
+                                <colgroup>
+                                    <col width="10%">
+                                    <col width="*">
+                                    <col width="30%">
+                                    <col width="10%">
+                                    <col width="5%">
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th>배너 이미지</th>
+                                    <th>링크</th>
+                                    <th>제목</th>
+                                    <th>등록일</th>
+                                    <th>삭제</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {{#list}}
+                                        <tr>
+                                            <td>
+                                                <img src="{{filePath}}" width="120"/>
+                                            </td>
+                                            <td>
+                                                <a href="{{url}}" target="_blank">{{url}}</a>
+                                            </td>
+                                            <td>
+                                                {{title}}
+                                            </td>
+                                            <td>
+                                                {{regDt}}
+                                            </td>
+                                            <td>
+                                                <a href="#" data-seq="{{seq}}" class="btn btnDefalt btnDel">삭제</a>
+                                            </td>
+                                        </tr>
+                                    {{/list}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{>admin/layout/bodyFooter}}
+        </div>
+    </div>
+    <div id="divLayer" class="layer event_write-pop">
+
+    </div>
+</body>
+{{>admin/layout/footer}}
+<script src="/js/adminBanner.js"></script>
+<script>
+    $(function () {
+        banner.init();
+    });
+</script>

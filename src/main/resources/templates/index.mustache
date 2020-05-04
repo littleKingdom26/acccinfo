@@ -88,6 +88,19 @@
             </tbody>
         </table>
     </div>
+    <hr class="my-3" />
+    <div class="row banner-List">
+        {{#bannerList}}
+            <div class="col-3">
+                {{#url}}
+                    <a href="{{url}}" target="_blank"><img src="{{filePath}}" /></a>
+                {{/url}}
+                {{^url}}
+                    <img src="{{filePath}}"/>
+                {{/url}}
+            </div>
+        {{/bannerList}}
+    </div>
 
 
 </main>

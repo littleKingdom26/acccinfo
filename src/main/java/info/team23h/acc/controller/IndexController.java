@@ -1,8 +1,10 @@
 package info.team23h.acc.controller;
 
+import info.team23h.acc.service.BannerService;
 import info.team23h.acc.service.RecordService;
 import info.team23h.acc.service.TrackService;
 import info.team23h.acc.service.WeekService;
+import info.team23h.acc.vo.BannerSearch;
 import info.team23h.acc.vo.SearchVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,9 @@ public class IndexController {
 	@Autowired
 	TrackService trackService;
 
+	@Autowired
+	BannerService bannerService;
+
 
 
 	/**
@@ -60,6 +65,9 @@ public class IndexController {
 		model.addAttribute("weekList", weekService.getWeekList(searchVO));
 		// 트랙 구하기
 		model.addAttribute("trackList", trackService.getTrackList(searchVO));
+		// 배너 리스트
+		model.addAttribute("bannerList", bannerService.getBannerList(new BannerSearch()));
+
 		return "index";
 	}
 
@@ -129,7 +137,4 @@ public class IndexController {
 						   Model model) {
 		return "calendar/calendar";
 	}
-
-
-
 }
