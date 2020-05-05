@@ -40,3 +40,7 @@ pre {
 .navbar .navbar-brand img {width:270px;}
 
 .banner-List img {width:100%}
+
+.banner-List .row + .row {
+    margin-top: 1rem;
+}

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -54,6 +55,32 @@ public class BannerServiceImpl implements BannerService{
 		}else{
 			result.put("code", "9999");
 		}
+		return result;
+	}
+
+	@Override
+	public HashMap<String, Object> getFrontBannerList(BannerSearch bannerSearch) {
+		List<BannerVO> bannerList = this.getBannerList(bannerSearch);
+
+
+		int maxFor = bannerList.size()/4;
+		maxFor += bannerList.size()%4;
+		HashMap<String,Object> result = new HashMap<>();
+		List<HashMap<String, Object>> rowList = new ArrayList<>();
+		for(int i = 0; i < maxFor; i++){
+			int listSize = (i+1)*4;
+			if(listSize >= bannerList.size()){
+				listSize = bannerList.size();
+			}
+			HashMap<String,Object> colMap = new HashMap<>();
+			List<BannerVO> colList = new ArrayList<>();
+			for(int j=i*4;j<listSize;j++){
+				colList.add(bannerList.get(j));
+			}
+			colMap.put("colList", colList);
+			rowList.add(colMap);
+		}
+		result.put("rowList", rowList);
 		return result;
 	}
 }

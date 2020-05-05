@@ -89,17 +89,39 @@
         </table>
     </div>
     <hr class="my-3" />
+    <div class="row">
+        <div class="col-12">
+            <p>League Sponsor</p>
+        </div>
+    </div>
     <div class="row banner-List">
         {{#bannerList}}
-            <div class="col-3">
-                {{#url}}
-                    <a href="{{url}}" target="_blank"><img src="{{filePath}}" /></a>
-                {{/url}}
-                {{^url}}
-                    <img src="{{filePath}}"/>
-                {{/url}}
-            </div>
+            {{#rowList}}
+                <div class="row">
+                    {{#colList}}
+                        <div class="col-3">
+                            {{#url}}
+                            <a href="{{url}}" target="_blank"><img src="{{filePath}}" /></a>
+                            {{/url}}
+                            {{^url}}
+                            <img src="{{filePath}}"/>
+                        {{/url}}
+                        </div>
+                    {{/colList}}
+                </div>
+            {{/rowList}}
         {{/bannerList}}
+
+        {{!#bannerList}}
+            <!--<div class="col-3">
+                {{!#url}}
+                    <a href="{{!url}}" target="_blank"><img src="{{!filePath}}" /></a>
+                {{!/url}}
+                {{!^url}}
+                    <img src="{{!filePath}}"/>
+                {{!/url}}
+            </div>-->
+        {{!/bannerList}}
     </div>
 
 

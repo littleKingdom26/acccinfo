@@ -71,7 +71,9 @@
                                                 <img src="{{filePath}}" width="120"/>
                                             </td>
                                             <td>
-                                                <a href="{{url}}" target="_blank">{{url}}</a>
+                                                {{#url}}
+                                                    <a href="{{url}}" target="_blank">{{url}}</a>
+                                                {{/url}}
                                             </td>
                                             <td>
                                                 {{title}}

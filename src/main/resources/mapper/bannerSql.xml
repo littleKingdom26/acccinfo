@@ -6,19 +6,22 @@
     <insert id="saveBanner" parameterType="info.team23h.acc.vo.BannerVO">
         INSERT INTO TB_BANNER(
                               TITLE,
+                              <if test="url != null and url != ''">
                               URL,
+                              </if>
                               FILE_PATH,
                               USE_YN,
                               REG_DT
         )
         VALUES (
-                  #{title},
-                  #{url},
-                  #{filePath},
-                  #{useYn},
-                  sysdate()
+                  #{title}
+                    <if test="url != null and url != ''">
+                      ,#{url}
+                    </if>
+                  ,#{filePath}
+                  ,#{useYn}
+                  ,sysdate()
         )
-
     </insert>
 
     <select id="getBannerList" parameterType="info.team23h.acc.vo.BannerSearch" resultType="info.team23h.acc.vo.BannerVO">

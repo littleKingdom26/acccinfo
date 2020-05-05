@@ -14,4 +14,6 @@ public interface BannerService {
 	List<BannerVO> getBannerList(BannerSearch bannerSearch);
 
 	HashMap<String, Object> delBanner(BannerVO bannerVO);
+
+	HashMap<String, Object> getFrontBannerList(BannerSearch bannerSearch);
 }

@@ -66,7 +66,7 @@ public class IndexController {
 		// 트랙 구하기
 		model.addAttribute("trackList", trackService.getTrackList(searchVO));
 		// 배너 리스트
-		model.addAttribute("bannerList", bannerService.getBannerList(new BannerSearch()));
+		model.addAttribute("bannerList", bannerService.getFrontBannerList(new BannerSearch()));
 
 		return "index";
 	}
