@@ -94,35 +94,26 @@
             <p>League Sponsor</p>
         </div>
     </div>
-    <div class="row banner-List">
-        {{#bannerList}}
-            {{#rowList}}
-                <div class="row">
-                    {{#colList}}
-                        <div class="col-3">
-                            {{#url}}
-                            <a href="{{url}}" target="_blank"><img src="{{filePath}}" /></a>
-                            {{/url}}
-                            {{^url}}
-                            <img src="{{filePath}}"/>
-                        {{/url}}
+    {{#bannerList}}
+        {{#rowList}}
+            <div class="row banner-List">
+                {{#colList}}
+                    <div class="col-3">
+                        <div class="row">
+                            <div class="col-12">
+                                {{#url}}
+                                    <a href="{{url}}" target="_blank"><img src="{{filePath}}" /></a>
+                                {{/url}}
+                                {{^url}}
+                                    <img src="{{filePath}}"/>
+                                {{/url}}
+                            </div>
                         </div>
-                    {{/colList}}
-                </div>
-            {{/rowList}}
-        {{/bannerList}}
-
-        {{!#bannerList}}
-            <!--<div class="col-3">
-                {{!#url}}
-                    <a href="{{!url}}" target="_blank"><img src="{{!filePath}}" /></a>
-                {{!/url}}
-                {{!^url}}
-                    <img src="{{!filePath}}"/>
-                {{!/url}}
-            </div>-->
-        {{!/bannerList}}
-    </div>
+                    </div>
+                {{/colList}}
+            </div>
+        {{/rowList}}
+    {{/bannerList}}
 
 
 </main>

@@ -41,6 +41,6 @@ pre {
 
 .banner-List img {width:100%}
 
-.banner-List .row + .row {
+.banner-List {
     margin-top: 1rem;
 }
