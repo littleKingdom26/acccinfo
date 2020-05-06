@@ -42,7 +42,7 @@ public class TrackServiceImpl implements TrackService {
 		List<TrackVO> trackList = trackDAO.getTrackList();
 		for(int i = 0; i < trackList.size(); i++){
 			TrackVO temp = trackList.get(i);
-			if(searchVO.getTrackSeq().equals(String.valueOf(temp.getSeq()))){
+			if(String.valueOf(temp.getSeq()).equals(searchVO.getTrackSeq())){
 				temp.setSelected(true);
 			}
 		}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="statusSql">
+    <select id="getCarStatus" parameterType="info.team23h.acc.vo.StatusSearch" resultType="info.team23h.acc.vo.StatusVO">
+        SELECT *
+        FROM (
+                 SELECT A.TRACK_SEQ, TR.TRACK_VIEW_NAME, TR.TRACK_NAME, A.CAR_MODEL, TC.CAR_NAME, COUNT(A.CAR_MODEL) AS CNT
+                 FROM TB_RECORD A
+                          INNER JOIN TB_TRACK TR ON A.TRACK_SEQ = TR.SEQ
+                          INNER JOIN TB_CAR TC ON A.CAR_MODEL = TC.CAR_MODEL
+                 <if test="trackSeq != '' and trackSeq != null">
+                     WHERE TRACK_SEQ = #{trackSeq}
+                 </if>
+                 GROUP BY A.TRACK_SEQ, TR.TRACK_VIEW_NAME, TR.TRACK_NAME, A.CAR_MODEL, TC.CAR_NAME
+
+             ) C
+        ORDER BY C.TRACK_SEQ DESC, C.CNT DESC
+    </select>
+
+</mapper>
+
