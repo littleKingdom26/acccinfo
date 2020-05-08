@@ -4,6 +4,7 @@ and (max-device-width: 480px) {
     /* 이부분에 해당 조건의 css를 작성 */
     .pc-view{display: none;}
     .mobile-view{display:block;}
+    .navbar-brand {width:50%}
 }
 
 @media only screen
@@ -38,7 +39,7 @@ pre {
 .nav-menu_23h {margin:0 5px 0 5px;}
 .navbar .navbar-brand {margin-left: -5px;}
 .navbar .navbar-brand img {width:270px;}
-.navbar-brand {width:50%}
+
 
 .banner-List img {width:100%}
 
