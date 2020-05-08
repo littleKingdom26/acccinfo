@@ -34,20 +34,20 @@
                         </tr>
                     {{/list}}
                 </tbody>
-            </table>
-            <div class="row justify-content-center">
-                <div class="col-12 ">
-                    <input type="hidden" value="{{data.search.currentPage}}" id="currentPage" />
-                    <input type="hidden" value="{{data.search.nameSeq}}" id="nameSeq" />
-                    <button type="button" class="btn btn-secondary"  id="btn-more" style="display:none;">More</button>
-                </div>
-            </div>
+            </table>            
             {{^list}}
                 <div class="col-12 text-center" >
                     There are no {{title}}
                 </div>
             {{/list}}
         {{/data}}
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12 ">
+            <input type="hidden" value="{{data.search.currentPage}}" id="currentPage" />
+            <input type="hidden" value="{{data.search.nameSeq}}" id="nameSeq" />
+            <button type="button" class="btn btn-secondary"  id="btn-more" style="display:none;">More</button>
+        </div>
     </div>
     {{#write}}
         <div class="row">
