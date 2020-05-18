@@ -96,4 +96,6 @@ public class RecordVO extends CommonVO {
 	private String rankImg;
 
 	private int maxPlayer;
+
+	private String steamAvatar;
 }

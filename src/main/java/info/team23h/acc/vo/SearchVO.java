@@ -29,4 +29,6 @@ public class SearchVO {
 
 	private String carName;
 
+	private String steamAvatar;
+
 }

@@ -27,7 +27,7 @@
         <table class="table table-striped" style="margin-top:20px;">
             <colgroup>
                 <col width="5%" /> {{! 랭킹 }}
-                <col width="10%" /> {{! 드라이브명 }}
+                <col width="15%" /> {{! 드라이브명 }}
                 <col width="*" />   {{! 차량명 }}
                 <col width="10%" />  {{! 베스트랩 }}
                 <col width="5%" />  {{! 갭 }}
@@ -63,7 +63,12 @@
                         {{/rankImg}}
                     </td>
                     <td>
-                        <a href="javascript:void(0)" class="driverDetail" data-toggle="modal" data-target="#staticBackdrop" data-playerid="{{playerId}}">{{firstName}} {{lastName}}</a>
+                        <a href="javascript:void(0)" class="driverDetail" data-toggle="modal" data-target="#staticBackdrop" data-playerid="{{playerId}}">
+                            {{#steamAvatar}}
+                                <img src="{{steamAvatar}}"/>
+                            {{/steamAvatar}}
+                            {{firstName}} {{lastName}}
+                        </a>
                     </td>
                     <td class="car-name">
                         <a href="javascript:void(0)" class="carDetail" data-toggle="modal" data-target="#carModal" data-carmodel="{{carModel}}">{{carName}}</a>

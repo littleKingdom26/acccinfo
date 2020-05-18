@@ -3,8 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="playerSql">
     <select id="getPlayerList" resultType="info.team23h.acc.vo.PlayerVO" parameterType="info.team23h.acc.vo.PlayerSearch" >
-        SELECT PLAYER_ID,FIRST_NAME,LAST_NAME,REG_DT FROM TB_PLAYER
-        <if test="{keyword != ''}">
+        SELECT PLAYER_ID,FIRST_NAME,LAST_NAME,REG_DT,STEAM_AVATAR FROM TB_PLAYER
+        <if test="keyword != ''">
             WHERE FIRST_NAME LIKE CONCAT('%',#{keyword},'%') OR LAST_NAME LIKE CONCAT('%', #{keyword}, '%')
         </if>
     </select>
@@ -25,9 +25,16 @@
 
     <update id="updateDriver" parameterType="info.team23h.acc.vo.PlayerVO">
         UPDATE TB_PLAYER SET
-        FIRST_NAME = #{firstName}
-        ,LAST_NAME = #{lastName}
-        ,UPD_DT = now()
+            UPD_DT = now()
+            <if test="firstName != '' and firstName != null">
+                ,FIRST_NAME = #{firstName}
+            </if>
+            <if test="lastName != '' and lastName != null">
+                ,LAST_NAME = #{lastName}
+            </if>
+            <if test="steamAvatar != '' and steamAvatar != null">
+                ,STEAM_AVATAR = #{steamAvatar}
+            </if>
         WHERE PLAYER_ID = #{playerId}
 
     </update>

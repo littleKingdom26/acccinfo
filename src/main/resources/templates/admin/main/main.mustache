@@ -11,6 +11,9 @@
                     <input type="file" name="uplaodFile"/>
                     <button type="submit">저장</button>
                 </form>
+                <div class="mt10">
+                    <button id="avataCall">드라이버 스팀 이미지 불러오기</button>
+                </div>
             </div>
         </div>
         {{>admin/layout/bodyFooter}}
@@ -18,3 +21,13 @@
 </div>
 </body>
 {{>admin/layout/footer}}
+<script>
+    $(function () {
+        $('#avataCall').click(function () {
+            common.ajax("GET", "/admin/steam/api/getPlayer", '', "json", 'application/json; charset=utf-8', function (data) {
+                alert('이미지 불러오기를 완료 하였습니다.');
+            });
+        });
+    });
+
+</script>
