@@ -62,7 +62,7 @@ public class SteamApiRestController {
 		return returnMap;
 	}
 
-	private void steamAvatarUpdate(String steamIds) throws IOException, ParseException {
+	public void steamAvatarUpdate(String steamIds) throws IOException, ParseException {
 		HttpRequest httpRequest = new HttpRequest();
 		httpRequest.setUrl(steamUrl + "/ISteamUser/GetPlayerSummaries/v2");
 		HashMap<String, Object> paramMap = new HashMap<>();
