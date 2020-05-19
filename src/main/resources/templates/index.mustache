@@ -65,9 +65,13 @@
                     <td>
                         <a href="javascript:void(0)" class="driverDetail" data-toggle="modal" data-target="#staticBackdrop" data-playerid="{{playerId}}">
                             {{#steamAvatar}}
-                                <img src="{{steamAvatar}}"/>
+                                <div style="float:left">
+                                    <img src="{{steamAvatar}}" calss="rounded-circle"/>
+                                </div>                                
                             {{/steamAvatar}}
-                            {{firstName}} {{lastName}}
+                            <div style="overflow:hidden;padding-left:10px">
+                                {{firstName}} {{lastName}}
+                            </div>                            
                         </a>
                     </td>
                     <td class="car-name">
