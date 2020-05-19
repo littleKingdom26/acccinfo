@@ -9,8 +9,19 @@
                 {{rank}}
             {{/rankImg}}
         </td>
-        <td><a href="#" class="driverDetail" data-toggle="modal" data-target="#staticBackdrop" data-playerid="{{playerId}}">{{firstName}} {{lastName}}</a></td>
         <td>
+            <a href="#" class="driverDetail" data-toggle="modal" data-target="#staticBackdrop" data-playerid="{{playerId}}">
+                {{#steamAvatar}}
+                    <div style="float:left">
+                        <img src="{{steamAvatar}}" calss="rounded-circle"/>
+                    </div>                                
+                {{/steamAvatar}}
+                <div style="overflow:hidden;padding-left:10px">
+                    {{firstName}} {{lastName}}
+                </div>               
+            </a>
+        </td>
+        <td>        
             <a href="javascript:void(0)" class="carDetail" data-toggle="modal" data-target="#carModal" data-carmodel="{{carModel}}">{{carName}}</a>
         </td>
         <td><strong>{{bestLapView}}</strong></td>
