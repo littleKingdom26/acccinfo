@@ -9,7 +9,7 @@ public class MathUtil {
 	 * 초를 분초형태로
 	 *
 	 * @param rowData 시간
-	 * @param secZero  true : 초에 0 붙임 여부 false :  초에 0 안붙임
+	 * @param secZero  true : 초에 0 붙임 false :  초에 0 안붙임
 	 * @return string
 	 */
 	public static String secToMin(int rowData,boolean secZero){
@@ -36,5 +36,9 @@ public class MathUtil {
 
 		}
 		return result;
+	}
+
+	public static String secToMin(Object race_time) {
+		return secToMin(StringUtil.nvlToInt(race_time, 0),true);
 	}
 }

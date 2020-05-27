@@ -1,0 +1,70 @@
+<table class="listTable mt10" id="resultTable">
+    <colgroup>
+        <col width="5%" />
+        <col width="15%" />
+        <col width="5%" />
+        <col width="5%" />
+        {{#eventMeta}}
+            <col width="5%" />
+            <col width="5%" />
+            <col width="5%" />
+        {{/eventMeta}}
+    </colgroup>
+    <thead>
+    <tr>
+        <th rowspan="2">순위</th>
+        <th rowspan="2">드라이버</th>
+        <th rowspan="2">포인트</th>
+        <th rowspan="2">핸디캡</th>
+        {{#eventMeta}}
+            <th colspan="3">
+                {{#trackViewName}}
+                    {{trackViewName}}
+                {{/trackViewName}}
+                {{^trackViewName}}
+                    {{trackName}}
+                {{/trackViewName}}
+            </th>
+        {{/eventMeta}}
+    </tr>
+        <tr>
+            {{#roundViewList}}
+                <th>
+                    {{round}}R 순위
+                </th>
+                <th>
+                    {{round}}R 포인트
+                </th>
+                <th>
+                    {{round}}R 핸디캡
+                </th>
+            {{/roundViewList}}
+        </tr>
+    </thead>
+    <tbody>
+        {{#result}}
+        <tr>
+            <td>{{finalRank}}</td>
+            <td>
+                {{#STEAM_AVATAR}}
+                    <div style="float:left">
+                        <img src="{{STEAM_AVATAR}}" class="rounded-circle" />
+                    </div>
+                {{/STEAM_AVATAR}}
+                {{FIRST_NAME}} {{LAST_NAME}}
+            </td>
+            <td>
+                <b>{{SCORE}}</b>
+            </td>
+            <td>
+                <b style="color:red;">{{HANDICAP}}</b>
+            </td>
+                {{#roundList}}
+                    <td>{{value}}</td>
+                {{/roundList}}
+        </tr>
+        {{/result}}
+    </tbody>
+
+
+</table>

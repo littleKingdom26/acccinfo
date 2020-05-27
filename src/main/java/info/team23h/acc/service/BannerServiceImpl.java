@@ -61,8 +61,6 @@ public class BannerServiceImpl implements BannerService{
 	@Override
 	public HashMap<String, Object> getFrontBannerList(BannerSearch bannerSearch) {
 		List<BannerVO> bannerList = this.getBannerList(bannerSearch);
-
-
 		int maxFor = bannerList.size()/4;
 		maxFor += bannerList.size()%4;
 		HashMap<String,Object> result = new HashMap<>();

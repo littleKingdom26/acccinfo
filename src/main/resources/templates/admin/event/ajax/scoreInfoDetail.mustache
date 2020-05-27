@@ -1,0 +1,29 @@
+<p style="font-weight: bold">
+    {{#scoreInfo.defaultPointView}}
+        ※ 참여자에게 기본 1점 부여함
+    {{/scoreInfo.defaultPointView}}
+</p>
+<table class="listTable mt10">
+    <colgroup>
+        <col width="200px" />
+        <col width="*" />
+    </colgroup>
+    <thead>
+        <tr>
+            <th>순위</th>
+            <th>점수</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#scoreDetail}}
+            <tr>
+                <td>
+                    {{rank}}
+                </td>
+                <td>
+                    {{score}}
+                </td>
+            </tr>
+        {{/scoreDetail}}
+    </tbody>
+</table>

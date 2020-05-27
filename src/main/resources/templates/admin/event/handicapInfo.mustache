@@ -1,0 +1,113 @@
+{{>admin/layout/header}}
+<body>
+    <div id="wrap">
+        <div class="inWrap">
+            {{>admin/layout/lnb}}
+            <div id="container">
+                {{>admin/layout/topBar}}
+                <div class="location">
+                    <em class="home">HOME</em><i></i>
+                    <em>대회 관리</em><i></i>
+                    <em class="active">핸디캡 관리</em>
+                </div>
+                <div class="content">
+                    <div class="box">
+                        <div class="inBox">
+                            <form id="frm" action="/admin/event/handicapInfo/save" method="post" >
+                                <table class="formTable">
+                                    <colgroup>
+                                        <col width="20%" />
+                                        <col width="*" />
+                                    </colgroup>
+                                    <tbody>
+                                    <tr>
+                                        <th>제목</th>
+                                        <td>
+                                            <input type="text" id="title" name="title" value="" class="textType" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>핸디캡 정보</th>
+                                        <td>
+                                            <div class="inBox">
+                                                <table class="formTable">
+                                                    <colgroup>
+                                                        <col width="200px"/>
+                                                        <col width="*"/>
+
+                                                    </colgroup>
+
+                                                    <tbody id="handicapAddTable">
+                                                        <tr>
+                                                            <th>1등</th>
+                                                            <td>
+                                                                <input type="text" name="handicaps" class="textType" />
+                                                                <input type="hidden" name="ranks" value="1" />
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                       </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="btnArea mt20">
+                                    <a href="javascript:void(0);" id="btnAdd" class="btn btnBi btnBlue">추가</a>
+                                    <a href="#" id="btnSave" class="btn btnBi btnBlue">저장</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="inBox">
+                            <form id="searchFrm" action="" method="get">
+                                <table class="formTable">
+                                    <colgroup>
+                                        <col width="200px" />
+                                        <col width="*" />
+                                        <col width="100px" />
+                                    </colgroup>
+                                    <tbody>
+                                    <tr>
+                                        <th>핸디캡 제목</th>
+                                        <td>
+                                            <select id="handicapSelect">
+                                                <option value="">선택</option>
+                                                {{#handicapInfoList}}
+                                                    <option value="{{handicapInfoSeq}}">{{title}}</option>
+                                                {{/handicapInfoList}}
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <a href="#" id="btnDel" class="btn btnBi btnDefalt">삭제</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="inBox" id="handicapInfoDetail">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{>admin/layout/bodyFooter}}
+        </div>
+    </div>
+    <div id="divLayer" class="layer event_write-pop">
+
+    </div>
+</body>
+{{>admin/layout/footer}}
+<script src="/js/adminRace.js"></script>
+<script>
+    $(function () {
+        race.handicapInit();
+    });
+
+</script>

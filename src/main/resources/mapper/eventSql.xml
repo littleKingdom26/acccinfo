@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="eventSql">
+
+    <select id="getEventInfoList" resultType="info.team23h.acc.vo.EventInfoVO">
+        SELECT
+            TEI.EVENT_INFO_SEQ
+          , TEI.TITLE
+          , TEI.ROUND
+          , TEI.SCORE_INFO_SEQ
+          , TEI.HANDICAP_INFO_SEQ
+          , TS.TITLE AS SCORE_INFO_TITLE
+          , TH.TITLE AS HANDICAP_INFO_TITLE
+          , TEI.REG_DT
+        FROM TB_EVENT_INFO TEI
+             INNER JOIN TB_SCORE_INFO TS
+                        ON TEI.SCORE_INFO_SEQ = TS.SCORE_INFO_SEQ
+             INNER JOIN TB_HANDICAP_INFO TH
+                        ON TEI.HANDICAP_INFO_SEQ = TH.HANDICAP_INFO_SEQ
+        ORDER BY TEI.REG_DT DESC
+    </select>
+
+    <insert id="insertEventInfo" parameterType="info.team23h.acc.vo.EventInfoVO">
+        INSERT INTO TB_EVENT_INFO(
+                                 TITLE,
+                                 ROUND,
+                                 SCORE_INFO_SEQ,
+                                 HANDICAP_INFO_SEQ,
+                                 REG_DT
+                                 )
+        VALUES (
+               #{title},
+               #{round},
+               #{scoreInfoSeq},
+               #{handicapInfoSeq},
+               now()
+               )
+    </insert>
+
+    <delete id="delEventInfo" >
+        DELETE FROM TB_EVENT_INFO WHERE EVENT_INFO_SEQ = #{eventInfoSeq}
+    </delete>
+
+    <select id="getEventInfo" parameterType="info.team23h.acc.vo.EventInfoVO" resultType="info.team23h.acc.vo.EventInfoVO">
+        SELECT
+            EVENT_INFO_SEQ
+          , TITLE
+          , ROUND
+          , SCORE_INFO_SEQ
+          , HANDICAP_INFO_SEQ
+          , REG_DT
+          , UPD_DT
+        FROM TB_EVENT_INFO
+        WHERE
+            EVENT_INFO_SEQ = #{eventInfoSeq}
+    </select>
+
+    <insert id="insertPenalty" parameterType="info.team23h.acc.vo.PenaltyVO">
+        INSERT INTO
+            TB_PENALTY( EVENT_INFO_SEQ
+                      , ROUND
+                      , PLAYER_ID
+                      , ADD_TIME
+                      , CAR_ID
+                      , REASON
+                      , PENALTY
+                      , REG_DT )
+        VALUES ( #{eventInfoSeq}
+               , #{round}
+               , #{playerId}
+               , #{addTime}
+               , #{carId}
+               , #{reason}
+               , #{penalty}
+               , now() )
+    </insert>
+
+    <insert id="insertEvent" parameterType="info.team23h.acc.vo.EventVO">
+        INSERT INTO
+            TB_EVENT( EVENT_INFO_SEQ
+                    , ROUND
+                    , PLAYER_ID
+                    , CAR_ID
+                    , CAR_MODEL
+                    , RACE_TIME
+                    , TOTAL_TIME
+                    , TOTAL_LAP
+                    , BEST_LAP
+                    , SECTOR1
+                    , SECTOR2
+                    , SECTOR3
+                    , `RANK`
+                    , SCORE
+                    , HANDICAP
+                    , PENALTY
+                    , MISS_MANDATORY_PIT_STOP
+                    , REG_DT
+                    )
+        VALUES ( #{eventInfoSeq}
+               , #{round}
+               , #{playerId}
+               , #{carId}
+               , #{carModel}
+               , #{raceTime}
+               , #{totalTime}
+               , #{totalLap}
+               , #{bestLap}
+               , #{sector1}
+               , #{sector2}
+               , #{sector3}
+               , #{rank}
+               , #{score}
+               , #{handicap}
+               , #{penalty}
+               , #{missMandatoryPitStop}
+               , NOW()
+               )
+    </insert>
+
+    <insert id="insertEventSub" parameterType="info.team23h.acc.vo.EventSubVO">
+        INSERT INTO
+            TB_EVENT_SUB ( EVENT_INFO_SEQ
+                         , CAR_ID
+                         , ROUND
+                         , LAP
+                         , LAP_TIME
+                         , SECTOR1
+                         , SECTOR2
+                         , SECTOR3
+                         , REG_DT )
+        VALUES ( #{eventInfoSeq}
+               , #{carId}
+               , #{round}
+               , #{lap}
+               , #{lapTime}
+               , #{sector1}
+               , #{sector2}
+               , #{sector3}
+               , NOW() )
+    </insert>
+
+
+    <select id="getEventPlayerList" resultType="info.team23h.acc.vo.EventVO">
+        SELECT
+            PLAYER_ID
+        FROM TB_EVENT
+        WHERE
+            EVENT_INFO_SEQ = #{eventInfoSeq}
+        GROUP BY PLAYER_ID
+    </select>
+
+
+    <select id="insertEventMeta" parameterType="info.team23h.acc.vo.EventMetaVO">
+        INSERT INTO
+            TB_EVENT_META( EVENT_INFO_SEQ
+                         , ROUND
+                         , TRACK_NAME
+                         , REG_DT )
+        VALUES ( #{eventInfoSeq}
+               , #{round}
+               , #{trackName}
+               , now() )
+    </select>
+
+    <select id="getEventRoundResult" resultType="HashMap">
+        SELECT
+            TE.RANK
+          , TP.LAST_NAME
+          , TP.FIRST_NAME
+          , TP.STEAM_AVATAR
+          , TC.CAR_NAME
+          , CASE
+                WHEN TSI.PARTICIPATION_YN = 'Y' THEN
+                    IFNULL(TS.SCORE, 1)
+                ELSE
+                    IFNULL(TS.SCORE, 0)
+                END
+                AS SCORE
+         , IFNULL(TH.HANDICAP,0) AS HANDICAP
+          , TE.RACE_TIME
+          , TE.PENALTY
+          , TE.TOTAL_TIME
+          , TE.TOTAL_LAP
+          , TE.BEST_LAP
+          , TSI.PARTICIPATION_YN
+        FROM TB_EVENT TE
+             INNER JOIN TB_EVENT_INFO TEI
+                        on TE.EVENT_INFO_SEQ = TEI.EVENT_INFO_SEQ
+             INNER JOIN TB_PLAYER TP
+                        on TE.PLAYER_ID = TP.PLAYER_ID
+             INNER JOIN TB_CAR TC
+                        ON TE.CAR_MODEL = TC.CAR_MODEL
+             INNER JOIN TB_SCORE_INFO TSI
+                        on TEI.SCORE_INFO_SEQ = TSI.SCORE_INFO_SEQ
+             LEFT OUTER JOIN TB_HANDICAP TH
+                             on TE.`RANK` = TH.`RANK` AND TH.HANDICAP_INFO_SEQ = TEI.HANDICAP_INFO_SEQ
+             LEFT OUTER JOIN TB_SCORE TS
+                             ON TE.`RANK` = TS.`RANK` AND TS.SCORE_INFO_SEQ = TEI.SCORE_INFO_SEQ
+
+        WHERE
+              TE.EVENT_INFO_SEQ = #{eventInfoSeq}
+          AND TE.ROUND = #{round}
+        ORDER BY RANK
+    </select>
+
+    <select id="getEventMeta" resultType="info.team23h.acc.vo.EventMetaVO">
+        SELECT
+            TEM.TRACK_NAME
+          , TT.TRACK_VIEW_NAME
+        FROM TB_EVENT_META TEM
+             LEFT OUTER JOIN TB_TRACK TT
+                             ON TEM.TRACK_NAME = TT.TRACK_NAME
+        WHERE
+                EVENT_INFO_SEQ = #{eventInfoSeq}
+            AND ROUND = #{round}        
+    </select>
+
+    
+    <select id="getEventMetaList" resultType="info.team23h.acc.vo.EventMetaVO">
+        SELECT
+            TEM.TRACK_NAME
+          , TT.TRACK_VIEW_NAME
+        FROM TB_EVENT_META TEM
+             LEFT OUTER JOIN TB_TRACK TT
+                             ON TEM.TRACK_NAME = TT.TRACK_NAME
+        WHERE
+            EVENT_INFO_SEQ = #{eventInfoSeq}
+        ORDER BY ROUND ASC
+    </select>
+
+    <select id="getEventAllResult" resultType="HashMap">
+        SELECT
+            A.PLAYER_ID
+          , TP.FIRST_NAME
+          , TP.LAST_NAME
+          , TP.STEAM_AVATAR
+          , A.SCORE
+          , IFNULL(A.HANDICAP,0) AS HANDICAP
+             <foreach item="round" index="index" collection="rounds" >
+                 , CASE WHEN RANK_${round} IS NULL THEN '미참여' ELSE RANK_${round} END AS RANK_${round}
+                 , CASE WHEN ROUND_${round} IS NULL THEN 0 ELSE ROUND_${round} END AS ROUND_${round}
+                 , CASE WHEN HANDICAP_${round} IS NULL THEN 0 ELSE HANDICAP_${round} END AS HANDICAP_${round}
+             </foreach>
+        FROM (SELECT
+                  TE.PLAYER_ID
+                , SUM(TH.HANDICAP)                                                                                AS HANDICAP
+                , SUM(CASE WHEN TSI.PARTICIPATION_YN = 'Y' THEN IFNULL(TS.SCORE, 1) ELSE IFNULL(TS.SCORE, 0) END) AS SCORE
+              FROM TB_EVENT TE
+                   INNER JOIN TB_EVENT_INFO TEI
+                              ON TE.EVENT_INFO_SEQ = TEI.EVENT_INFO_SEQ
+                   INNER JOIN TB_PLAYER TP
+                              ON TE.PLAYER_ID = TP.PLAYER_ID
+                   INNER JOIN TB_SCORE_INFO TSI
+                              ON TEI.SCORE_INFO_SEQ = TSI.SCORE_INFO_SEQ
+                   LEFT OUTER JOIN TB_HANDICAP TH
+                                   ON TE.`RANK` = TH.`RANK` AND TH.HANDICAP_INFO_SEQ = TEI.HANDICAP_INFO_SEQ
+                   LEFT OUTER JOIN TB_SCORE TS
+                                   ON TE.`RANK` = TS.`RANK` AND TS.SCORE_INFO_SEQ = TEI.SCORE_INFO_SEQ
+              WHERE
+                  TE.EVENT_INFO_SEQ = #{eventInfoSeq}
+              GROUP BY PLAYER_ID) A
+             LEFT OUTER JOIN (
+            SELECT
+                TE.PLAYER_ID
+                 <foreach item="round" index="index" collection="rounds">
+                  , GROUP_CONCAT(IF(TE.ROUND = #{round}, CASE WHEN TSI.PARTICIPATION_YN = 'Y' THEN IFNULL(TS.SCORE, 1) ELSE IFNULL(TS.SCORE, 0) END, NULL)) AS ROUND_${round}
+                  , GROUP_CONCAT(IF(TE.ROUND = #{round}, TH.HANDICAP, NULL))                                                                                AS HANDICAP_${round}
+                  , GROUP_CONCAT(IF(TE.ROUND = #{round}, TE.`RANK`, NULL))                                                                                  AS RANK_${round}
+                 </foreach>
+            FROM TB_EVENT TE
+                 INNER JOIN TB_EVENT_INFO TEI
+                            ON TE.EVENT_INFO_SEQ = TEI.EVENT_INFO_SEQ
+                 INNER JOIN TB_PLAYER TP
+                            ON TE.PLAYER_ID = TP.PLAYER_ID
+                 INNER JOIN TB_SCORE_INFO TSI
+                            ON TEI.SCORE_INFO_SEQ = TSI.SCORE_INFO_SEQ
+                 LEFT OUTER JOIN TB_HANDICAP TH
+                                 ON TE.`RANK` = TH.`RANK` AND TH.HANDICAP_INFO_SEQ = TEI.HANDICAP_INFO_SEQ
+                 LEFT OUTER JOIN TB_SCORE TS
+                                 ON TE.`RANK` = TS.`RANK` AND TS.SCORE_INFO_SEQ = TEI.SCORE_INFO_SEQ
+            WHERE
+                TE.EVENT_INFO_SEQ = #{eventInfoSeq}
+
+            GROUP BY PLAYER_ID) B
+                             ON A.PLAYER_ID = B.PLAYER_ID
+             INNER JOIN TB_PLAYER TP
+                        ON A.PLAYER_ID = TP.PLAYER_ID
+        ORDER BY A.SCORE DESC
+    </select>
+
+    <delete id="delEvent">
+        DELETE
+        FROM TB_EVENT
+        WHERE
+              EVENT_INFO_SEQ = #{eventInfoSeq}
+          AND ROUND = #{round}
+    </delete>
+
+    <delete id="delEventSub">
+        DELETE
+        FROM TB_EVENT_SUB
+        WHERE
+              EVENT_INFO_SEQ = #{eventInfoSeq}
+          AND ROUND = #{round}
+    </delete>
+
+    <delete id="delEventMeta">
+        DELETE
+        FROM TB_EVENT_META
+        WHERE
+              EVENT_INFO_SEQ = #{eventInfoSeq}
+          AND ROUND = #{round}
+    </delete>
+
+
+
+</mapper>
+

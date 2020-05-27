@@ -1,0 +1,24 @@
+<table class="listTable mt10">
+    <colgroup>
+        <col width="200px" />
+        <col width="*" />
+    </colgroup>
+    <thead>
+        <tr>
+            <th>순위</th>
+            <th>핸디캡</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#handicapDetail}}
+            <tr>
+                <td>
+                    {{rank}}
+                </td>
+                <td>
+                    {{handicap}}
+                </td>
+            </tr>
+        {{/handicapDetail}}
+    </tbody>
+</table>

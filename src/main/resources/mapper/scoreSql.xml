@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="scoreSql">
+
+    <select id="getScoreInfoList" resultType="info.team23h.acc.vo.ScoreInfoVO">
+        SELECT SCORE_INFO_SEQ, TITLE, PARTICIPATION_YN, REG_DT
+        FROM TB_SCORE_INFO
+        ORDER BY REG_DT DESC
+    </select>
+
+    <insert id="insertScoreInfo" parameterType="info.team23h.acc.vo.ScoreInfoVO">
+        INSERT INTO TB_SCORE_INFO(TITLE, PARTICIPATION_YN, REG_DT)
+        VALUES (#{title}, #{participationYn}, now());
+        <selectKey resultType="int" keyProperty="scoreInfoSeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="insertScore" parameterType="info.team23h.acc.vo.ScoreVO">
+        INSERT INTO TB_SCORE(SCORE_INFO_SEQ, `RANK`, SCORE, REG_DT)
+        VALUES (#{scoreInfoSeq},#{rank},#{score},now())
+    </insert>
+
+    <select id="getScore" resultType="info.team23h.acc.vo.ScoreVO">
+        SELECT SCORE_INFO_SEQ,`RANK`,SCORE,REG_DT,UPD_DT FROM TB_SCORE
+            WHERE SCORE_INFO_SEQ = #{scoreInfoSeq}
+    </select>
+
+    <select id="getScoreInfo" resultType="info.team23h.acc.vo.ScoreInfoVO">
+        SELECT SCORE_INFO_SEQ, TITLE, PARTICIPATION_YN, REG_DT, UPD_DT
+        FROM TB_SCORE_INFO
+        WHERE SCORE_INFO_SEQ = #{scoreInfoSeq}
+    </select>
+
+    <delete id="delScoreInfo" >
+        DELETE
+        FROM TB_SCORE_INFO
+        WHERE SCORE_INFO_SEQ = #{scoreInfoSeq}
+    </delete>
+
+    <delete id="delScore">
+        DELETE
+        FROM TB_SCORE
+        WHERE SCORE_INFO_SEQ = #{scoreInfoSeq}
+    </delete>
+
+</mapper>
+

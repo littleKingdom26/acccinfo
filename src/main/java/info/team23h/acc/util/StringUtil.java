@@ -82,4 +82,18 @@ public class StringUtil {
 		return ("".equals(nvl(value))) ? nvl(repairValue) : value;
 	}
 
+	/**
+	 * Object > int
+	 * @param value
+	 * @param repairValue
+	 * @return
+	 */
+	public static int nvlToInt(Object value,int repairValue) {
+		return Integer.parseInt(nvl(String.valueOf(value), repairValue));
+	}
+
+	public static int nvlToInt(Object value) {
+		return Integer.parseInt(nvl(String.valueOf(value), 0));
+
+	}
 }

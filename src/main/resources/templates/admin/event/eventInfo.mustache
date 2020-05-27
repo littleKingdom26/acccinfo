@@ -1,0 +1,124 @@
+{{>admin/layout/header}}
+<body>
+    <div id="wrap">
+        <div class="inWrap">
+            {{>admin/layout/lnb}}
+            <div id="container">
+                {{>admin/layout/topBar}}
+                <div class="location">
+                    <em class="home">HOME</em><i></i>
+                    <em>대회 관리</em><i></i>
+                    <em class="active">대회 관리</em>
+                </div>
+                <div class="content">
+                    <div class="box">
+                        <div class="inBox">
+                            <form id="frm" action="/admin/event/eventInfo/save" method="post" >
+                                <table class="formTable">
+                                    <colgroup>
+                                        <col width="20%" />
+                                        <col width="*" />
+                                    </colgroup>
+                                    <tbody>
+                                    <tr>
+                                        <th>대회명 *</th>
+                                        <td>
+                                            <input type="text" id="title" name="title" value="" class="textType" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>총 라운드 *</th>
+                                        <td>
+                                            <input type="text" id="round" name="round" value="" class="textType" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>점수 방식 *</th>
+                                        <td>
+                                            <select id="scoreInfoSeq" name="scoreInfoSeq">
+                                                <option value="">선택</option>
+                                                {{#scoreInfoList}}
+                                                    <option value="{{scoreInfoSeq}}">{{title}}</option>
+                                                {{/scoreInfoList}}
+                                            </select>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                        <th>핸디캡 방식 *</th>
+                                        <td>
+                                            <select id="handicapInfoSeq" name="handicapInfoSeq">
+                                                <option value="">선택</option>
+                                                {{#handicapInfoList}}
+                                                    <option value="{{handicapInfoSeq}}">{{title}}</option>
+                                                {{/handicapInfoList}}
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="btnArea mt20">
+                                    <a href="#" id="btnSave" class="btn btnBi btnBlue">저장</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="inBox">
+                            <table class="listTable mt10">
+                                <colgroup>
+                                    <col width="*" />
+                                    <col width="10%" />
+                                    <col width="20%" />
+                                    <col width="20%" />
+                                    <col width="20%" />
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th>대회명</th>
+                                    <th>총라운드</th>
+                                    <th>점수방식</th>
+                                    <th>핸디캡방식</th>
+                                    <th>삭제</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {{#eventInfoList}}
+                                    <tr>
+                                        <td>
+                                            {{title}}
+                                        </td>
+                                        <td>
+                                            총 {{round}} 라운드
+                                        </td>
+                                        <td>
+                                            {{scoreInfoTitle}}
+                                        </td>
+                                        <td>
+                                            {{handicapInfoTitle}}
+                                        </td>
+                                        <td>
+                                            <a href="#"  class="btn btnBi btnDefalt btnDel" data-eventinfoseq="{{eventInfoSeq}}">삭제</a>
+                                        </td>
+                                    </tr>
+                                {{/eventInfoList}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{>admin/layout/bodyFooter}}
+        </div>
+    </div>
+    <div id="divLayer" class="layer event_write-pop">
+
+    </div>
+</body>
+{{>admin/layout/footer}}
+<script src="/js/adminRace.js"></script>
+<script>
+    $(function () {
+        race.eventInfoInit();
+    });
+
+</script>

@@ -1,0 +1,78 @@
+{{>admin/layout/header}}
+<body>
+    <div id="wrap">
+        <div class="inWrap">
+            {{>admin/layout/lnb}}
+            <div id="container">
+                {{>admin/layout/topBar}}
+                <div class="location">
+                    <em class="home">HOME</em><i></i>
+                    <em>대회 관리</em><i></i>
+                    <em class="active">기록 입력</em>
+                </div>
+                <div class="content">
+                    <div class="box">
+                        <div class="inBox">
+                            <form id="frm" action="/admin/event/event/save" method="post" enctype="multipart/form-data" >
+                                <table class="formTable">
+                                    <colgroup>
+                                        <col width="20%" />
+                                        <col width="*" />
+                                    </colgroup>
+                                    <tbody>
+                                        <tr>
+                                            <th>대회명 *</th>
+                                            <td>
+                                                <select id="eventInfoSeq" name="eventInfoSeq" >
+                                                       <option value="">선택</option>
+                                                    {{#eventInfoList}}
+                                                        <option value="{{eventInfoSeq}}" data-round="{{round}}">{{title}}</option>
+                                                    {{/eventInfoList}}
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>라운드 *</th>
+                                            <td>
+                                                <select id="round" name="round">
+
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>빅 그리드</th>
+                                            <td>
+                                                <input type="checkbox" name="bigGridYn" value="Y" class="box_type01" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>JSON 파일 업로드 * </th>
+                                            <td>
+                                                <input type="file" id="leagueData" name="leagueData" />
+                                           </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="btnArea mt20">
+                                    <a href="#" id="btnSave" class="btn btnBi btnBlue">저장</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{>admin/layout/bodyFooter}}
+        </div>
+    </div>
+    <div id="divLayer" class="layer event_write-pop">
+
+    </div>
+</body>
+{{>admin/layout/footer}}
+<script src="/js/adminRace.js"></script>
+<script>
+    $(function () {
+        race.eventInit();
+    });
+
+</script>
