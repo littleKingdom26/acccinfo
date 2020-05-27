@@ -79,4 +79,8 @@ public class EventDAO {
 	public int delEventMeta(EventInfoVO eventInfoVO) {
 		return sql.delete(PREFIX + ".delEventMeta", eventInfoVO);
 	}
+
+	public int delPenalty(EventInfoVO eventInfoVO) {
+		return sql.delete(PREFIX + ".delPenalty", eventInfoVO);
+	}
 }

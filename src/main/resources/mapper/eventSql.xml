@@ -312,6 +312,13 @@
               EVENT_INFO_SEQ = #{eventInfoSeq}
           AND ROUND = #{round}
     </delete>
+    <delete id="delPenalty">
+        DELETE
+        FROM TB_PENALTY
+        WHERE
+              EVENT_INFO_SEQ = #{eventInfoSeq}
+          AND ROUND = #{round}
+    </delete>
 
 
 

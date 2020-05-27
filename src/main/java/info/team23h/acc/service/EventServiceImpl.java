@@ -168,7 +168,7 @@ public class EventServiceImpl implements EventService {
 
 					if(penaltyVO.getAddTime() > 0){
 						eventVO.setPenalty(penaltyVO.getAddTime());
-						eventVO.setTotalTime(eventVO.getTotalTime() + penaltyVO.getAddTime());
+						eventVO.setTotalTime(eventVO.getTotalTime() + (penaltyVO.getAddTime()*1000));
 					}
 				}
 			}
@@ -189,7 +189,7 @@ public class EventServiceImpl implements EventService {
 			}
 			// 의무 피트스탑 안한 횟수
 			eventVO.setMissMandatoryPitStop(leaderBoardLines.getAsNumber("missingMandatoryPitstop").intValue());
-			if(eventVO.getTotalLap() > 0){ // 한바퀴 이상 돈 사람들
+			if(eventVO.getTotalTime() < 2147483647){ // 토탈 타임이 2147483647보다 적은 사람
 				rank++;
 				eventList.add(eventVO);
 			}
@@ -402,7 +402,7 @@ public class EventServiceImpl implements EventService {
 
 							if(penaltyVO.getAddTime() > 0){
 								eventVO.setPenalty(penaltyVO.getAddTime());
-								eventVO.setTotalTime(eventVO.getTotalTime() + penaltyVO.getAddTime());
+								eventVO.setTotalTime(eventVO.getTotalTime() + (penaltyVO.getAddTime() * 1000));
 							}
 						}
 					}
@@ -423,7 +423,7 @@ public class EventServiceImpl implements EventService {
 					}
 					// 의무 피트스탑 안한 횟수
 					eventVO.setMissMandatoryPitStop(leaderBoardLines.getAsNumber("missingMandatoryPitstop").intValue());
-					if(eventVO.getTotalLap() > 0){ // 한바퀴 이상 돈 사람들
+					if(eventVO.getTotalTime() < 2147483647){ // 토탈 타임이 이것보다 적은 사람
 						rank++;
 						eventList.add(eventVO);
 					}
@@ -565,6 +565,7 @@ public class EventServiceImpl implements EventService {
 		int cnt = eventDAO.delEvent(eventInfoVO);
 		cnt = eventDAO.delEventSub(eventInfoVO);
 		cnt = eventDAO.delEventMeta(eventInfoVO);
+		cnt = eventDAO.delPenalty(eventInfoVO);
 
 		return result;
 	}
