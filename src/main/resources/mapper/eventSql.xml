@@ -266,7 +266,7 @@
                  <foreach item="round" index="index" collection="rounds">
                   , GROUP_CONCAT(IF(TE.ROUND = #{round}, CASE WHEN TSI.PARTICIPATION_YN = 'Y' THEN IFNULL(TS.SCORE, 1) ELSE IFNULL(TS.SCORE, 0) END, NULL)) AS ROUND_${round}
                   , GROUP_CONCAT(IF(TE.ROUND = #{round}, TH.HANDICAP, NULL))                                                                                AS HANDICAP_${round}
-                  , GROUP_CONCAT(IF(TE.ROUND = #{round}, TE.`RANK`, NULL))                                                                                  AS RANK_${round}
+                  , GROUP_CONCAT(IF(TE.ROUND = #{round}, concat(TE.`RANK`,'위'), NULL))                                                                                  AS RANK_${round}
                  </foreach>
             FROM TB_EVENT TE
                  INNER JOIN TB_EVENT_INFO TEI
