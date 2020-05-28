@@ -22,22 +22,27 @@ public class EventSubVO extends CommonVO{
 	/**
 	 * 렙 타임
 	 */
-	private int lapTime;
+	private String lapTime;
 	/**
 	 * 섹터 1
 	 */
-	private int sector1;
+	private String sector1;
 	/**
 	 * 섹터 2
 	 */
-	private int sector2;
+	private String sector2;
 	/**
 	 * 섹터 3
 	 */
-	private int sector3;
+	private String sector3;
 
 	/**
 	 * 라운드
 	 */
 	private int round;
+
+	/**
+	 * 드라이버 명
+	 */
+	private String playerName;
 }

@@ -83,4 +83,12 @@ public class EventDAO {
 	public int delPenalty(EventInfoVO eventInfoVO) {
 		return sql.delete(PREFIX + ".delPenalty", eventInfoVO);
 	}
+
+	public List<PenaltyVO> getEventPenalty(EventInfoVO eventInfoVO) {
+		return sql.selectList(PREFIX+".getEventPenalty", eventInfoVO);
+	}
+
+	public List<EventSubVO> getEventSubList(EventSubVO eventSubVO) {
+		return sql.selectList(PREFIX + ".getEventSubList", eventSubVO);
+	}
 }

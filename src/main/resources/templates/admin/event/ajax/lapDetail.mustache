@@ -1,0 +1,45 @@
+<div class="layerPop">
+    <p class="popTitle">
+        {{eventSubVO.playerName}}렙 타임 정보
+    </p>
+    <div class="layerCont">
+        <div class="contBox">
+            <div class="inBox">
+                <table class="listTable">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="*">
+                        <col width="150px">
+                        <col width="150px">
+                        <col width="100px">
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <th>랩</th>
+                        <th>랩 타임</th>
+                        <th>섹터1</th>
+                        <th>섹터2</th>
+                        <th>섹터3</th>
+                    </tr>
+                    {{#eventSubList}}
+                        <tr>
+                            <td>
+                                {{lap}}
+                            </td>
+                            <td>{{lapTime}}</td>
+                            <td>{{sector1}}</td>
+                            <td>{{sector2}}</td>
+                            <td>{{sector3}}</td>
+                        </tr>
+                    {{/eventSubList}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <a href="#none" class="layerClose bPoupClose">닫기</a>
+</div>
+<script>
+
+
+</script>

@@ -39,4 +39,10 @@ public class PenaltyVO extends CommonVO {
 	 *
 	 */
 	private String penalty;
+
+	private String firstName;
+
+	private String lastName;
+
+	private String steamAvatar;
 }

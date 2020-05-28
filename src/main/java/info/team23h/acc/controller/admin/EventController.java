@@ -4,10 +4,7 @@ package info.team23h.acc.controller.admin;
 import info.team23h.acc.service.EventService;
 import info.team23h.acc.service.HandicapService;
 import info.team23h.acc.service.ScoreService;
-import info.team23h.acc.vo.EventInfoVO;
-import info.team23h.acc.vo.EventMetaVO;
-import info.team23h.acc.vo.HandicapInfoVO;
-import info.team23h.acc.vo.ScoreInfoVO;
+import info.team23h.acc.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +22,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * The type Event controller.
+ */
 @Controller
 @Slf4j
 @RequestMapping("/admin/event")
@@ -282,13 +282,36 @@ public class EventController {
 			// 라운드
 			EventMetaVO eventMeta = eventService.getEventMeta(eventInfoVO);
 			List<HashMap<String,Object>> result = eventService.getEventRoundResult(eventInfoVO);
+
+			// 패널티 정보 조회
+			List<PenaltyVO> penaltyList = eventService.getEventPenalty(eventInfoVO);
+
 			model.addAttribute("result",result);
 			model.addAttribute("eventMeta", eventMeta);
 			model.addAttribute("eventInfoVO", eventInfoVO);
+			model.addAttribute("penaltyList", penaltyList);
 			page = "/admin/event/ajax/resultRoundTable";
 		}
 		return page;
 	}
 
+
+	/**
+	 * 랩 상세 정보
+	 *
+	 * @param model      the model
+	 * @param eventSubVO the event sub vo
+	 * @return string string
+	 * @throws Exception
+	 */
+	@GetMapping("/result/lapDetail")
+	public String lapDetail(Model model,
+						 @ModelAttribute EventSubVO eventSubVO) {
+		// 렙 정보 조회
+		List<EventSubVO> eventSubList = eventService.getEventSubList(eventSubVO);
+		model.addAttribute("eventSubList", eventSubList);
+		model.addAttribute("eventSubVO", eventSubVO);
+		return "/admin/event/ajax/lapDetail";
+	}
 	/* 대회 리스트 e */
 }

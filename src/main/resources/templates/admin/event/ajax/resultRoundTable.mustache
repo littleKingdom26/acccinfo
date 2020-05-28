@@ -11,7 +11,7 @@
         <a href="javascript:void(0);" id="btnResultDel" class="btn btnBlue btnPopIns" data-eventinfoseq="{{eventInfoVO.eventInfoSeq}}" data-round="{{eventInfoVO.round}}">삭제</a>
     </div>
 </div>
-<table class="listTable mt10" id="resultTable">
+<table class="listTable mt10">
     <colgroup>
         <col width="5%" />
         <col width="10%" />
@@ -48,7 +48,9 @@
                        <img src="{{STEAM_AVATAR}}" class="rounded-circle" />
                    </div>
                {{/STEAM_AVATAR}}
-               {{FIRST_NAME}} {{LAST_NAME}}
+               <a href="#" class="lapDetail" data-carid="{{CAR_ID}}" data-playername="{{FIRST_NAME}} {{LAST_NAME}}">
+                    {{FIRST_NAME}} {{LAST_NAME}}
+               </a>
            </td>
             <td>{{CAR_NAME}}</td>
             <td><b>{{SCORE}}</b></td>
@@ -61,6 +63,46 @@
         </tr>
        {{/result}}
     </tbody>
+</table>
+<div class="mt10">
+    <div class="txtL">
+        <h2>패널티 정보</h2>
+    </div>
+
+</div>
+<table class="listTable mt10">
+    <thead>
+        <tr>
+            <th>드라이버</th>
+            <th>사유</th>
+            <th>패널티 종류</th>
+            <th>추가 시간(초)</th>
+        </tr>
+    </thead>
+    <tbody>
+    {{#penaltyList}}
+        <tr>
+            <td>
+                {{#steamAvatar}}
+                    <div style="float:left">
+                        <img src="{{steamAvatar}}" class="rounded-circle" />
+                    </div>
+                {{/steamAvatar}}
+                {{firstName}} {{lastName}}
+            </td>
+            <td>
+                {{reason}}
+            </td>
+            <td>
+                {{penalty}}
+            </td>
+            <td>
+                {{addTime}}
+            </td>
+        </tr>
+    {{/penaltyList}}
+    </tbody>
+
 </table>
 <script>
     $(function () {

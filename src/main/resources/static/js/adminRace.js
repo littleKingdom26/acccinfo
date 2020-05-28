@@ -215,5 +215,19 @@ var race = {
             }
         });
 
+        $('.lapDetail').click(function () {
+
+            let data = {carId: $(this).data('carid'),
+                eventInfoSeq : $('#eventInfoSeq').val(),
+                round : $('#round').val(),
+                playerName : $(this).data('playername')
+            };
+            common.ajax("GET", "/admin/event/result/lapDetail", data, 'html', '', function (data) {
+                $('#divLayer').html(data);
+                $('#divLayer').bPopup();
+            });
+
+        });
+
     }
 };

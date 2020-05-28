@@ -2,6 +2,8 @@ package info.team23h.acc.service;
 
 import info.team23h.acc.vo.EventInfoVO;
 import info.team23h.acc.vo.EventMetaVO;
+import info.team23h.acc.vo.EventSubVO;
+import info.team23h.acc.vo.PenaltyVO;
 import net.minidev.json.parser.ParseException;
 
 import java.util.HashMap;
@@ -84,4 +86,19 @@ public interface EventService {
 	 * @return
 	 */
 	HashMap<String, Object> delEvent(EventInfoVO eventInfoVO);
+
+	/**
+	 * 패널티 조회
+	 * @param eventInfoVO
+	 * @return
+	 */
+	List<PenaltyVO> getEventPenalty(EventInfoVO eventInfoVO);
+
+	/**
+	 * 이벤트 렙 정보 조회
+	 *
+	 * @param eventSubVO the event sub vo
+	 * @return the event sub list
+	 */
+	List<EventSubVO> getEventSubList(EventSubVO eventSubVO);
 }

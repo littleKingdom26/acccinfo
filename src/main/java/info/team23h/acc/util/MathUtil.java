@@ -38,6 +38,11 @@ public class MathUtil {
 		return result;
 	}
 
+	public static String secToMin(String StringRowData,
+								  boolean secZero) {
+		return secToMin(StringUtil.nvlToInt(StringRowData, 0), secZero);
+	}
+
 	public static String secToMin(Object race_time) {
 		return secToMin(StringUtil.nvlToInt(race_time, 0),true);
 	}

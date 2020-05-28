@@ -51,6 +51,11 @@ public class EventServiceImpl implements EventService {
 	public HashMap<String, Object> delEventInfo(EventInfoVO param) throws Exception {
 		int cnt = eventDAO.delEventInfo(param);
 
+		cnt = eventDAO.delEvent(param);
+		cnt= eventDAO.delEventMeta(param);
+		cnt = eventDAO.delEventSub(param);
+		cnt = eventDAO.delPenalty(param);
+
 		HashMap<String, Object> result = new HashMap<>();
 		if(cnt == 0){
 			throw new Exception();
@@ -226,20 +231,20 @@ public class EventServiceImpl implements EventService {
 			eventSubVO.setEventInfoSeq(eventInfoVO.getEventInfoSeq());
 			eventSubVO.setRound(eventInfoVO.getRound());
 			eventSubVO.setCarId(lap.getAsString("carId"));
-			eventSubVO.setLapTime(lap.getAsNumber("laptime").intValue());
+			eventSubVO.setLapTime(lap.getAsString("laptime"));
 			eventSubVO.setLap(lapCnt);
 			JSONArray splits = (JSONArray) lap.get("splits");
 			for(int i = 0; i < splits.size(); i++){
 				Object split = splits.get(i);
 				switch(i){
 					case 0:
-						eventSubVO.setSector1(StringUtil.nvlToInt(split));
+						eventSubVO.setSector1(StringUtil.nvl(split));
 						break;
 					case 1:
-						eventSubVO.setSector2(StringUtil.nvlToInt(split));
+						eventSubVO.setSector2(StringUtil.nvl(split));
 						break;
 					case 2:
-						eventSubVO.setSector3(StringUtil.nvlToInt(split));
+						eventSubVO.setSector3(StringUtil.nvl(split));
 						break;
 				}
 			}
@@ -463,20 +468,20 @@ public class EventServiceImpl implements EventService {
 					eventSubVO.setEventInfoSeq(eventInfoVO.getEventInfoSeq());
 					eventSubVO.setRound(eventInfoVO.getRound());
 					eventSubVO.setCarId(lap.getAsString("carId"));
-					eventSubVO.setLapTime(lap.getAsNumber("laptime").intValue());
+					eventSubVO.setLapTime(lap.getAsString("laptime"));
 					eventSubVO.setLap(lapCnt);
 					JSONArray splits = (JSONArray) lap.get("splits");
 					for(int i = 0; i < splits.size(); i++){
 						Object split = splits.get(i);
 						switch(i){
 							case 0:
-								eventSubVO.setSector1(StringUtil.nvlToInt(split));
+								eventSubVO.setSector1(StringUtil.nvl(split));
 								break;
 							case 1:
-								eventSubVO.setSector2(StringUtil.nvlToInt(split));
+								eventSubVO.setSector2(StringUtil.nvl(split));
 								break;
 							case 2:
-								eventSubVO.setSector3(StringUtil.nvlToInt(split));
+								eventSubVO.setSector3(StringUtil.nvl(split));
 								break;
 						}
 					}
@@ -567,6 +572,23 @@ public class EventServiceImpl implements EventService {
 		cnt = eventDAO.delEventMeta(eventInfoVO);
 		cnt = eventDAO.delPenalty(eventInfoVO);
 
+		return result;
+	}
+
+	@Override
+	public List<PenaltyVO> getEventPenalty(EventInfoVO eventInfoVO) {
+		return eventDAO.getEventPenalty(eventInfoVO);
+	}
+
+	@Override
+	public List<EventSubVO> getEventSubList(EventSubVO eventSubVO) {
+		List<EventSubVO> result = eventDAO.getEventSubList(eventSubVO);
+		for(EventSubVO subVO : result){
+			subVO.setLapTime(MathUtil.secToMin(subVO.getLapTime(),true));
+			subVO.setSector1(MathUtil.secToMin(subVO.getSector1(),true));
+			subVO.setSector2(MathUtil.secToMin(subVO.getSector2(),true));
+			subVO.setSector3(MathUtil.secToMin(subVO.getSector3(),true));
+		}
 		return result;
 	}
 

@@ -166,6 +166,7 @@
     <select id="getEventRoundResult" resultType="HashMap">
         SELECT
             TE.RANK
+          , TE.CAR_ID
           , TP.LAST_NAME
           , TP.FIRST_NAME
           , TP.STEAM_AVATAR
@@ -294,7 +295,9 @@
         FROM TB_EVENT
         WHERE
               EVENT_INFO_SEQ = #{eventInfoSeq}
-          AND ROUND = #{round}
+        <if test="round > 0">
+            AND ROUND = #{round}
+        </if>
     </delete>
 
     <delete id="delEventSub">
@@ -302,7 +305,9 @@
         FROM TB_EVENT_SUB
         WHERE
               EVENT_INFO_SEQ = #{eventInfoSeq}
-          AND ROUND = #{round}
+        <if test="round > 0">
+            AND ROUND = #{round}
+        </if>
     </delete>
 
     <delete id="delEventMeta">
@@ -310,17 +315,51 @@
         FROM TB_EVENT_META
         WHERE
               EVENT_INFO_SEQ = #{eventInfoSeq}
-          AND ROUND = #{round}
+        <if test="round > 0">
+            AND ROUND = #{round}
+          </if>
     </delete>
     <delete id="delPenalty">
         DELETE
         FROM TB_PENALTY
         WHERE
               EVENT_INFO_SEQ = #{eventInfoSeq}
+        <if test="round > 0">
           AND ROUND = #{round}
+        </if>
     </delete>
 
 
+    <select id="getEventPenalty" resultType="info.team23h.acc.vo.PenaltyVO">
+        SELECT
+            T.FIRST_NAME
+          , T.LAST_NAME
+          , T.STEAM_AVATAR
+          , TP.ADD_TIME
+          , TP.REASON
+          , TP.PENALTY
+        FROM TB_PENALTY TP
+             INNER JOIN TB_PLAYER T
+                        on TP.PLAYER_ID = T.PLAYER_ID
+        WHERE
+              EVENT_INFO_SEQ = #{eventInfoSeq}
+          AND ROUND = #{round}
+    </select>
 
+    <select id="getEventSubList" resultType="info.team23h.acc.vo.EventSubVO">
+        SELECT
+            CAR_ID
+          , LAP
+          , LAP_TIME
+          , SECTOR1
+          , SECTOR2
+          , SECTOR3
+        FROM TB_EVENT_SUB
+        WHERE
+              EVENT_INFO_SEQ = #{eventInfoSeq}
+          AND ROUND = #{round}
+          AND CAR_ID = #{carId}
+
+    </select>
 </mapper>
 
