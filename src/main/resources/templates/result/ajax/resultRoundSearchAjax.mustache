@@ -1,3 +1,13 @@
+<div class="col-12">
+    <h3>
+        {{#eventMeta.trackViewName}}
+            {{eventMeta.trackViewName}}
+        {{/eventMeta.trackViewName}}
+        {{^eventMeta.trackViewName}}
+            {{eventMeta.trackName}}
+        {{/eventMeta.trackViewName}}
+    </h3>
+</div>
 <table class="table table-striped" style="margin-top:20px;">
     <colgroup>
         <col width="3%" />
