@@ -222,6 +222,7 @@
         SELECT
             TEM.TRACK_NAME
           , TT.TRACK_VIEW_NAME
+          , TEM.ROUND
         FROM TB_EVENT_META TEM
              LEFT OUTER JOIN TB_TRACK TT
                              ON TEM.TRACK_NAME = TT.TRACK_NAME
@@ -239,7 +240,7 @@
           , A.SCORE
           , IFNULL(A.HANDICAP,0) AS HANDICAP
              <foreach item="round" index="index" collection="rounds" >
-                 , CASE WHEN RANK_${round} IS NULL THEN 'Absence' ELSE RANK_${round} END AS RANK_${round}
+                 , CASE WHEN RANK_${round} IS NULL THEN 'Blank' ELSE RANK_${round} END AS RANK_${round}
                  , CASE WHEN ROUND_${round} IS NULL THEN 0 ELSE ROUND_${round} END AS ROUND_${round}
                  , CASE WHEN HANDICAP_${round} IS NULL THEN 0 ELSE HANDICAP_${round} END AS HANDICAP_${round}
              </foreach>
@@ -267,7 +268,7 @@
                  <foreach item="round" index="index" collection="rounds">
                   , GROUP_CONCAT(IF(TE.ROUND = #{round}, CASE WHEN TSI.PARTICIPATION_YN = 'Y' THEN IFNULL(TS.SCORE, 1) ELSE IFNULL(TS.SCORE, 0) END, NULL)) AS ROUND_${round}
                   , GROUP_CONCAT(IF(TE.ROUND = #{round}, TH.HANDICAP, NULL))                                                                                AS HANDICAP_${round}
-                  , GROUP_CONCAT(IF(TE.ROUND = #{round}, concat('Rank. ',TE.`RANK`), NULL))                                                                 AS RANK_${round}
+                  , GROUP_CONCAT(IF(TE.ROUND = #{round}, TE.`RANK`, NULL))                                                                 AS RANK_${round}
                  </foreach>
             FROM TB_EVENT TE
                  INNER JOIN TB_EVENT_INFO TEI

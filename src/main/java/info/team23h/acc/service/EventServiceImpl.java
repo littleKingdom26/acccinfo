@@ -540,13 +540,13 @@ public class EventServiceImpl implements EventService {
 			List<HashMap<String,Object>> roundList = new ArrayList<>();
 			for(int i = 0; i < eventInfoVO.getRounds().size(); i++){
 				HashMap<String, Object> temp2 = new HashMap<>();
-				temp2.put("value", tempMap.get("RANK_" + (i + 1)));
+				temp2.put("value", "<span>" +tempMap.get("RANK_" + (i + 1)) + "</span>");
 				roundList.add(temp2);
 				HashMap<String, Object> temp1 = new HashMap<>();
-				temp1.put("value", tempMap.get("ROUND_" + (i + 1)));
+				temp1.put("value", "<span style='color:blue;'>" +tempMap.get("ROUND_" + (i + 1)) + "</span>");
 				roundList.add(temp1);
 				HashMap<String, Object> temp3 = new HashMap<>();
-				temp3.put("value", tempMap.get("HANDICAP_" + (i + 1)));
+				temp3.put("value", "<span style='color:red;'>" +tempMap.get("HANDICAP_" + (i + 1)) + "</span>");
 				roundList.add(temp3);
 				/*roundList.add(tempMap.get("ROUND_" + (i + 1)));
 				roundList.add(tempMap.get("RANK_" + (i + 1)));
