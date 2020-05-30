@@ -2,13 +2,7 @@ var result = {
     init:function(){
         let _th = this;
         $('#league').change(function(){
-            let formax = $('#league option:selected').data('round');
-            let html = "<option value='0'>All</option>";
-            for (let i=1;i<=formax;i++ ){
-                html+= "<option value="+i+">"+i +" Round</option>";
-            }
-            $('#round').html(html);
-            _th.fnResult();
+           _th.fnRoundSet();
         });
 
         $('#round').change(function(){
@@ -19,6 +13,19 @@ var result = {
             $('#lapDetail').html('');
             $('.driverName').text('');
         });
+
+        $('#league option:eq(1)').prop("selected", true);
+        _th.fnRoundSet();
+    },
+    fnRoundSet:function(){
+        let _th = this;
+        let formax = $('#league option:selected').data('round');
+        let html = "<option value='0'>All</option>";
+        for (let i = 1; i <= formax; i++) {
+            html += "<option value=" + i + ">" + i + " Round</option>";
+        }
+        $('#round').html(html);
+        _th.fnResult();
     },
     fnResult:function(){
         let data = {
