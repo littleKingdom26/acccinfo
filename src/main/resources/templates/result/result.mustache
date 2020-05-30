@@ -1,0 +1,55 @@
+{{>layout/header_index}}
+<main role="main" class="container-fluid">
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label for="league">League</label>
+                <select id="league" class="form-control">
+                    <option value="">select..</option>
+                    {{#eventInfoList}}
+                        <option value="{{eventInfoSeq}}" data-round="{{round}}">{{title}}</option>
+                    {{/eventInfoList}}
+                </select>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label for="round">Round</label>
+                <select id="round" class="form-control">
+
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive" id="resultData">
+        <h1>Please select a league.</h1>
+    </div>
+</main>
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title driverName" id="staticBackdropLabel"></h5>
+                <a id="modalProfile" href=""></a>
+                <small class="ttscore text-muted h200 mt-2 ml-2"></small>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="lapDetail">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/result.js?v=1.1"></script>
+{{>layout/footer}}
+<script>
+    $(function () {
+        result.init();
+    });
+</script>
+

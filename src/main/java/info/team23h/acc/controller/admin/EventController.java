@@ -248,7 +248,7 @@ public class EventController {
 
 
 	/**
-	 * 점수 상세 정보 삭제
+	 * 점수 상세 정보 검색
 	 *
 	 * @param eventInfoVO
 	 * @return
@@ -277,6 +277,7 @@ public class EventController {
 			model.addAttribute("result", result);
 			model.addAttribute("roundViewList", roundViewList);
 			model.addAttribute("eventMeta", eventMeta);
+			model.addAttribute("totalDriver",result.size());
 			page = "/admin/event/ajax/resultAllRoundTable";
 		}else {
 			// 라운드
@@ -290,6 +291,7 @@ public class EventController {
 			model.addAttribute("eventMeta", eventMeta);
 			model.addAttribute("eventInfoVO", eventInfoVO);
 			model.addAttribute("penaltyList", penaltyList);
+			model.addAttribute("totalDriver", result.size());
 			page = "/admin/event/ajax/resultRoundTable";
 		}
 		return page;

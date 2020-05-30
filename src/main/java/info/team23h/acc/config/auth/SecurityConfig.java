@@ -18,6 +18,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final MemberServiceImpl memberServiceImpl;
 
+
+	private final AuthFailureHandler authFailUreHandler;
+
+
 	@Bean(name = "bCryptPasswordEncoder")
 	public BCryptPasswordEncoder bCryptPasswordEncoder(){return new BCryptPasswordEncoder();}
 
@@ -31,12 +35,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable().headers().frameOptions().disable()// csrf t사용 안함
 				.and()
 				.authorizeRequests().antMatchers("/", "/bbs/**","/error","/ajax/**","/recode"
-				,"/api/**","/team23h","/fileUpload","/imageView/**","/ckEditorImgUpload","/calendar").permitAll() // 전체권한
+				,"/api/**","/team23h","/fileUpload","/imageView/**","/ckEditorImgUpload","/calendar","/result","/result/**","/admin/login").permitAll() // 전체권한
 				.anyRequest().hasRole(Role.ADMIN.name())  // 위 페이지 외 인증된 유저
 				.and() // 로그아웃 설정
 				.logout().logoutSuccessUrl("/").invalidateHttpSession(true).deleteCookies("JSESSIONID","remember-me")
 				.and() // 로그인 설정
-				.formLogin().loginPage("/admin/login").permitAll().passwordParameter("password").usernameParameter("id").defaultSuccessUrl("/admin/main").failureUrl("/admin/login")
+				.formLogin().loginPage("/admin/login").permitAll().passwordParameter("password").usernameParameter("id").defaultSuccessUrl("/admin/main")
+				.failureHandler(authFailUreHandler)
 				.and().rememberMe().key("team23h").rememberMeParameter("remember-me").tokenValiditySeconds(86400);
 
 		}

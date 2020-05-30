@@ -263,7 +263,10 @@ public class EventServiceImpl implements EventService {
 			eventDAO.insertEventSub(eventSubVO);
 		}
 
-		int cnt = eventDAO.insertEventMeta(eventMetaVO);
+		int cnt = 0;
+		if(eventDAO.selectEventMeta(eventMetaVO) == 0){
+			cnt = eventDAO.insertEventMeta(eventMetaVO);
+		}
 
 		return 1;
 	}
@@ -502,7 +505,10 @@ public class EventServiceImpl implements EventService {
 			eventDAO.insertEventSub(eventSubVO);
 		}
 
-		int cnt = eventDAO.insertEventMeta(eventMetaVO);
+		int cnt=0;
+		if(eventDAO.selectEventMeta(eventMetaVO) == 0){
+			cnt = eventDAO.insertEventMeta(eventMetaVO);
+		}
 
 		return 1;
 	}
@@ -529,6 +535,7 @@ public class EventServiceImpl implements EventService {
 		List<HashMap<String, Object>> result = eventDAO.getEventAllResult(eventInfoVO);
 		int finalRank = 0;
 		int tempScore = 0;
+		int tempRank = 0;
 		for(HashMap<String, Object> tempMap : result){
 			List<HashMap<String,Object>> roundList = new ArrayList<>();
 			for(int i = 0; i < eventInfoVO.getRounds().size(); i++){
@@ -547,9 +554,12 @@ public class EventServiceImpl implements EventService {
 			}
 			tempMap.put("roundList",roundList);
 			int checkScore = StringUtil.nvlToInt(tempMap.get("SCORE"),0);
+			tempRank++;
 			if(tempScore != checkScore){
 				tempScore = checkScore;
-				finalRank++;
+				finalRank = tempRank;
+			}else{
+
 			}
 			tempMap.put("finalRank",finalRank);
 		}

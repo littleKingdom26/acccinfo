@@ -1,0 +1,105 @@
+<table class="table table-striped" style="margin-top:20px;">
+    <colgroup>
+        <col width="3%" />
+        <col width="10%" />
+        <col width="10%" />
+        <col width="5%" />
+        <col width="5%" />
+        <col width="5%" />
+        <col width="5%" />
+        <col width="5%" />
+        <col width="5%" />
+        <col width="5%" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th class="text-center">Rank</th>
+        <th class="text-center">Driver</th>
+        <th class="text-center">Car</th>
+        <th class="text-center">Point</th>
+        <th class="text-center">Ballast</th>
+        <th class="text-center">Race Time</th>
+        <th class="text-center">Add Time</th>
+        <th class="text-center">Total Time</th>
+        <th class="text-center">Total Lap</th>
+        <th class="text-center">Best Lap</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#result}}
+        <tr>
+            <td class="text-center">{{RANK}}</td>
+            <td>
+                <a href="#" class="lapDetail" data-toggle="modal" data-target="#staticBackdrop" data-carid="{{CAR_ID}}" data-playername="{{FIRST_NAME}} {{LAST_NAME}}">
+                    {{#STEAM_AVATAR}}
+                        <div style="float:left">
+                            <img src="{{STEAM_AVATAR}}" class="rounded-circle" />
+                        </div>
+                    {{/STEAM_AVATAR}}
+                    <div style="overflow:hidden;padding-left:10px">
+                        {{FIRST_NAME}} {{LAST_NAME}}
+                    </div>
+                </a>
+            </td>
+            <td>{{CAR_NAME}}</td>
+            <td class="text-center"><b>{{SCORE}}</b></td>
+            <td class="text-center"><b style="color:red;">{{HANDICAP}}</b></td>
+            <td class="text-center">{{RACE_TIME}}</td>
+            <td class="text-center">{{PENALTY}}</td>
+            <td class="text-center">{{TOTAL_TIME}}</td>
+            <td class="text-center">{{TOTAL_LAP}}</td>
+            <td class="text-center">{{BEST_LAP}}</td>
+        </tr>
+    {{/result}}
+    </tbody>
+</table>
+<hr class="my-3" />
+<div class="col-12">
+    <h5>Penalty</h5>
+</div>
+<table class="table table-striped" style="margin-top:20px;">
+    <colgroup>
+        <col width="30%" />
+        <col width="20%" />
+        <col width="20%" />
+        <col width="20%" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th>Driver</th>
+        <th>Reason</th>
+        <th>penalty</th>
+        <th class="text-center">Add Time(sec)</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#penaltyList}}
+        <tr>
+            <td>
+                {{#steamAvatar}}
+                    <div style="float:left">
+                        <img src="{{steamAvatar}}" class="rounded-circle" />
+                    </div>
+                {{/steamAvatar}}
+                <div style="overflow:hidden;padding-left:10px">
+                    {{firstName}} {{lastName}}
+                </div>
+            </td>
+            <td>
+                {{reason}}
+            </td>
+            <td>
+                {{penalty}}
+            </td>
+            <td class="text-center">
+                {{addTime}}
+            </td>
+        </tr>
+    {{/penaltyList}}
+    </tbody>
+</table>
+<script>
+    $(function () {
+        result.roundSearch();
+    });
+</script>

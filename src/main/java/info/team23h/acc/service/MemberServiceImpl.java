@@ -26,11 +26,18 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 	public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
 		MemberVO memberVO = memberDAO.getMember(id);
 		List<GrantedAuthority> authorityList = new ArrayList<>();
-		if(Role.ADMIN.getKey().equals(memberVO.getRole())){
-			authorityList.add(new SimpleGrantedAuthority(Role.ADMIN.getKey()));
+
+		if(memberVO != null){
+
+			if(Role.ADMIN.getKey().equals(memberVO.getRole())){
+				authorityList.add(new SimpleGrantedAuthority(Role.ADMIN.getKey()));
+			}else{
+				authorityList.add(new SimpleGrantedAuthority(Role.USER.getKey()));
+			}
+			return LoginUserVO.of(memberVO, authorityList);
 		}else{
-			authorityList.add(new SimpleGrantedAuthority(Role.USER.getKey()));
+			throw new UsernameNotFoundException("존재하지 않는 사용자입니다.");
 		}
-		return LoginUserVO.of(memberVO, authorityList);
+
 	}
 }

@@ -1,0 +1,31 @@
+<table class="table table-striped table-hover">
+    <colgroup>
+        <col width="10%">
+        <col width="*">
+        <col width="150px">
+        <col width="150px">
+        <col width="100px">
+    </colgroup>
+    <tr>
+        <th class="text-center">Lap</th>
+        <th class="text-center">Lap Time</th>
+        <th class="text-center">Sector 1</th>
+        <th class="text-center">Sector 2</th>
+        <th class="text-center">Sector 3</th>
+    </tr>
+    {{#eventSubList}}
+        <tr>
+            <td class="text-center">
+                {{lap}}
+            </td>
+            <td class="text-center"><b>{{lapTime}}</b></td>
+            <td class="text-center">{{sector1}}</td>
+            <td class="text-center">{{sector2}}</td>
+            <td class="text-center">{{sector3}}</td>
+        </tr>
+    {{/eventSubList}}
+</table>
+<script>
+    result.lapDetail();
+    $('.driverName').text('{{eventSubVO.playerName}}');
+</script>

@@ -91,4 +91,8 @@ public class EventDAO {
 	public List<EventSubVO> getEventSubList(EventSubVO eventSubVO) {
 		return sql.selectList(PREFIX + ".getEventSubList", eventSubVO);
 	}
+
+	public int selectEventMeta(EventMetaVO eventMetaVO) {
+		return sql.selectOne(PREFIX+".selectEventMeta", eventMetaVO);
+	}
 }

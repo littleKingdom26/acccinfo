@@ -151,7 +151,7 @@
     </select>
 
 
-    <select id="insertEventMeta" parameterType="info.team23h.acc.vo.EventMetaVO">
+    <insert id="insertEventMeta" parameterType="info.team23h.acc.vo.EventMetaVO">
         INSERT INTO
             TB_EVENT_META( EVENT_INFO_SEQ
                          , ROUND
@@ -161,7 +161,7 @@
                , #{round}
                , #{trackName}
                , now() )
-    </select>
+    </insert>
 
     <select id="getEventRoundResult" resultType="HashMap">
         SELECT
@@ -239,7 +239,7 @@
           , A.SCORE
           , IFNULL(A.HANDICAP,0) AS HANDICAP
              <foreach item="round" index="index" collection="rounds" >
-                 , CASE WHEN RANK_${round} IS NULL THEN '미참여' ELSE RANK_${round} END AS RANK_${round}
+                 , CASE WHEN RANK_${round} IS NULL THEN 'Absence' ELSE RANK_${round} END AS RANK_${round}
                  , CASE WHEN ROUND_${round} IS NULL THEN 0 ELSE ROUND_${round} END AS ROUND_${round}
                  , CASE WHEN HANDICAP_${round} IS NULL THEN 0 ELSE HANDICAP_${round} END AS HANDICAP_${round}
              </foreach>
@@ -267,7 +267,7 @@
                  <foreach item="round" index="index" collection="rounds">
                   , GROUP_CONCAT(IF(TE.ROUND = #{round}, CASE WHEN TSI.PARTICIPATION_YN = 'Y' THEN IFNULL(TS.SCORE, 1) ELSE IFNULL(TS.SCORE, 0) END, NULL)) AS ROUND_${round}
                   , GROUP_CONCAT(IF(TE.ROUND = #{round}, TH.HANDICAP, NULL))                                                                                AS HANDICAP_${round}
-                  , GROUP_CONCAT(IF(TE.ROUND = #{round}, concat(TE.`RANK`,'위'), NULL))                                                                                  AS RANK_${round}
+                  , GROUP_CONCAT(IF(TE.ROUND = #{round}, concat('Rank. ',TE.`RANK`), NULL))                                                                 AS RANK_${round}
                  </foreach>
             FROM TB_EVENT TE
                  INNER JOIN TB_EVENT_INFO TEI
@@ -360,6 +360,15 @@
           AND ROUND = #{round}
           AND CAR_ID = #{carId}
 
+    </select>
+
+    <select id="selectEventMeta" resultType="int">
+        SELECT
+            COUNT(*) as CNT
+        FROM TB_EVENT_META
+        WHERE
+              EVENT_INFO_SEQ = #{eventInfoSeq}
+          AND ROUND = #{round}
     </select>
 </mapper>
 

@@ -35,8 +35,6 @@ var index = {
             });
         });
 
-
-
         $('#staticBackdrop').on('hidden.bs.modal',function(e){
             $('#playerDetail').html('');
             $('.driverName').text('');
