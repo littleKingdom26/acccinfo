@@ -20,12 +20,24 @@ public class RecordDAO {
 		return sql.selectOne(PREFIX+".getRecordData", recordVO);
 	}
 
+	public RecordVO getRecordData_GT4(RecordVO recordVO) {
+		return sql.selectOne(PREFIX + ".getRecordData_GT4",recordVO);
+	}
+
 	public int createRecordData(RecordVO recordVO) {
 		return sql.insert(PREFIX +".createRecordData", recordVO);
 	}
 
+	public int createRecordData_GT4(RecordVO recordVO) {
+		return sql.insert(PREFIX + ".createRecordData_GT4",recordVO);
+	}
+
 	public int updateRecordData(RecordVO recordVO) {
 		return sql.update(PREFIX +".updateRecordData", recordVO);
+	}
+
+	public int updateRecordData_GT4(RecordVO recordVO) {
+		return sql.update(PREFIX + ".updateRecordData_GT4",recordVO);
 	}
 
 	public List<RecordVO> getRecordDataListForWeek(SearchVO searchVO) {

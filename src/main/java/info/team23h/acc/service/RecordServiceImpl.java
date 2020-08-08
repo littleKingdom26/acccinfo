@@ -65,6 +65,46 @@ public class RecordServiceImpl implements RecordService {
 		return result;
 	}
 
+	@Override
+	public int setRecordData_GT4(RecordVO recordVO) {
+
+		int result = 0;
+		// 내 기록중 내 베렙보다 빠른게 있는지 확인 필요
+		RecordVO beforeRecord = this.getRecordData_GT4(recordVO);
+
+		if(beforeRecord != null && beforeRecord.getBestLap() > 0){
+			// 기존 기록이 있음
+			RecordVO param = new RecordVO();
+			param.setSessionId(recordVO.getSessionId());
+			param.setPlayerId(recordVO.getPlayerId());
+			param.setTrackSeq(recordVO.getTrackSeq());
+			param.setLapCount(recordVO.getLapCount());
+			if(beforeRecord.getBestLap() > recordVO.getBestLap()){
+				// 기존 베스트 랩이 느림
+				param.setBestLap(recordVO.getBestLap());
+				param.setCarModel(recordVO.getCarModel());
+			}
+			if(beforeRecord.getSector1() > recordVO.getSector1()){
+				// 섹터 1 기존 기록이 느림
+				param.setSector1(recordVO.getSector1());
+			}
+			if(beforeRecord.getSector2() > recordVO.getSector2()){
+				// 섹터 2 기존 기록이 느림
+				param.setSector2(recordVO.getSector2());
+			}
+			if(beforeRecord.getSector3() > recordVO.getSector3()){
+				// 섹터 3 기존 기록이 느림
+				param.setSector3(recordVO.getSector3());
+			}
+
+			result = this.updateRecordData_GT4(param);
+		}else{
+			// 기존 기록 없음
+			result = this.createRecordData_GT4(recordVO);
+		}
+		return result;
+	}
+
 	/**
 	 * 기록 저장
 	 * @param recordVO
@@ -72,6 +112,10 @@ public class RecordServiceImpl implements RecordService {
 	 */
 	private int createRecordData(RecordVO recordVO) {
 		return recordDAO.createRecordData(recordVO);
+	}
+
+	private int createRecordData_GT4(RecordVO recordVO) {
+		return recordDAO.createRecordData_GT4(recordVO);
 	}
 
 	/**
@@ -83,10 +127,17 @@ public class RecordServiceImpl implements RecordService {
 		return recordDAO.updateRecordData(recordVO);
 	}
 
+	private int updateRecordData_GT4(RecordVO recordVO) {
+		return recordDAO.updateRecordData_GT4(recordVO);
+	}
+
 	@Override
 	public RecordVO getRecordData(RecordVO recordVO) {
-
 		return recordDAO.getRecordData(recordVO);
+	}
+
+	public RecordVO getRecordData_GT4(RecordVO recordVO) {
+		return recordDAO.getRecordData_GT4(recordVO);
 	}
 
 	@Override

@@ -19,6 +19,24 @@
             AND SESSION_ID = #{sessionId}
     </select>
 
+
+    <select id="getRecordData_GT4" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.RecordVO">
+        SELECT
+            SEQ
+          , SESSION_ID
+          , PLAYER_ID
+          , BEST_LAP
+          , SECTOR1
+          , SECTOR2
+          , SECTOR3
+          , CAR_MODEL
+          , TRACK_SEQ
+        FROM TB_RECORD_GT4
+        WHERE
+              PLAYER_ID = #{playerId}
+          AND SESSION_ID = #{sessionId}
+    </select>
+
     <insert id="createRecordData" parameterType="info.team23h.acc.vo.RecordVO">
         INSERT INTO TB_RECORD(
             SESSION_ID
@@ -44,8 +62,55 @@
             ,NOW())
     </insert>
 
+
+    <insert id="createRecordData_GT4" parameterType="info.team23h.acc.vo.RecordVO">
+        INSERT INTO
+            TB_RECORD_GT4( SESSION_ID
+                     , PLAYER_ID
+                     , BEST_LAP
+                     , SECTOR1
+                     , SECTOR2
+                     , SECTOR3
+                     , CAR_MODEL
+                     , TRACK_SEQ
+                     , LAP_COUNT
+                     , REG_DT )
+        VALUES ( #{sessionId}
+               , #{playerId}
+               , #{bestLap}
+               , #{sector1}
+               , #{sector2}
+               , #{sector3}
+               , #{carModel}
+               , #{trackSeq}
+               , #{lapCount}
+               , NOW() )
+    </insert>
+
     <update id="updateRecordData" parameterType="info.team23h.acc.vo.RecordVO">
         UPDATE TB_RECORD SET
+        TRACK_SEQ = #{trackSeq}
+        , LAP_COUNT = LAP_COUNT + #{lapCount}
+        <if test="bestLap != null and bestLap > 0">
+            ,BEST_LAP = #{bestLap}
+            ,CAR_MODEL = #{carModel}
+        </if>
+        <if test="sector1 != null and sector1 > 0">
+            ,SECTOR1 = #{sector1}
+        </if>
+        <if test="sector2 != null and sector2 > 0">
+            ,SECTOR2 = #{sector2}
+        </if>
+        <if test="sector3 != null and sector3 > 0">
+            ,SECTOR3 = #{sector3}
+        </if>
+        ,UPD_DT = NOW()
+        WHERE PLAYER_ID = #{playerId}
+        AND SESSION_ID = #{sessionId}
+    </update>
+
+    <update id="updateRecordData_GT4" parameterType="info.team23h.acc.vo.RecordVO">
+        UPDATE TB_RECORD_GT4 SET
         TRACK_SEQ = #{trackSeq}
         , LAP_COUNT = LAP_COUNT + #{lapCount}
         <if test="bestLap != null and bestLap > 0">

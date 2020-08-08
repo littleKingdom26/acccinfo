@@ -2,10 +2,7 @@ package info.team23h.acc.service;
 
 import info.team23h.acc.config.Team23hException;
 import info.team23h.acc.util.StringUtil;
-import info.team23h.acc.vo.PlayerVO;
-import info.team23h.acc.vo.RecordVO;
-import info.team23h.acc.vo.TrackVO;
-import info.team23h.acc.vo.WeekVO;
+import info.team23h.acc.vo.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +29,9 @@ public class ApiServiceImpl  implements ApiService {
 
 	@Autowired
 	RecordService recordService;
+
+	@Autowired
+	CarService carService;
 
 	@Value("${team23h.apiKey.value}")
 	String apiKey;
@@ -74,6 +74,8 @@ public class ApiServiceImpl  implements ApiService {
 			// 리스트 돔
 			ArrayList<HashMap<String, Object>> recordList = (ArrayList<HashMap<String, Object>>) param.get("recordList");
 
+			List<CarVO> carList = carService.findAllCarList();
+
 			for(HashMap<String, Object> recordData : recordList){
 				if(recordData.get("PlayerId") == null || "".equals(recordData.get("PlayerId"))){
 					throw new Team23hException("PlayerId 확인 해주세요.");
@@ -107,6 +109,7 @@ public class ApiServiceImpl  implements ApiService {
 					playerService.createDriver(playerVO);
 				}
 
+				String carModel = String.valueOf(recordData.get("carModel"));
 				RecordVO recordVO = new RecordVO();
 				recordVO.setSessionId(String.valueOf(param.get("sessionId")));
 				recordVO.setTrackSeq(trackVO.getSeq());
@@ -118,7 +121,17 @@ public class ApiServiceImpl  implements ApiService {
 				recordVO.setSector3(Integer.parseInt(String.valueOf(recordData.get("sector3"))));
 				recordVO.setLapCount(Integer.parseInt(StringUtil.nvl(StringUtil.nvl(recordData.get("lapCount")),"0")));
 				// 레코드 입력
-				recordService.setRecordData(recordVO);
+				String carType = "";
+				for(CarVO carVO : carList){
+					if(carVO.getCarModel().equals(carModel)){
+						carType = carVO.getCarType();
+					}
+				}
+				if(carType.equals("GT3")){
+					recordService.setRecordData(recordVO);
+				}else if(carType.equals("GT4")){
+					recordService.setRecordData_GT4(recordVO);
+				}
 			}
 			result.put("status", "200");
 			result.put("message", "기록 저장이 잘 되었습니다.");

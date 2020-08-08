@@ -15,6 +15,9 @@ public interface RecordService {
 	 */
 	int setRecordData(RecordVO recordVO);
 
+
+	int setRecordData_GT4(RecordVO recordVO);
+
 	/**
 	 * 기존 데이터 조회  [베렙 가장 낮은것]
 	 * @param recordVO
