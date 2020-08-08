@@ -1,43 +1,151 @@
 <!DOCTYPE HTML>
-{{#recordList}}
-    <tr>
-        <td style="text-align: center;">
-            {{#rankImg}}
-                <img src="{{rankImg}}" class="img-fluid lank-img" />
-            {{/rankImg}}
-            {{^rankImg}}
-                {{rank}}
-            {{/rankImg}}
-        </td>
-        <td>
-            <a href="#" class="driverDetail" data-toggle="modal" data-target="#staticBackdrop" data-playerid="{{playerId}}">
-                {{#steamAvatar}}
-                    <div style="float:left">
-                        <img src="{{steamAvatar}}" class="rounded-circle"/>
-                    </div>                                
-                {{/steamAvatar}}
-                <div style="overflow:hidden;padding-left:10px">
-                    {{firstName}} {{lastName}}
-                </div>               
-            </a>
-        </td>
-        <td>        
-            <a href="javascript:void(0)" class="carDetail" data-toggle="modal" data-target="#carModal" data-carmodel="{{carModel}}">{{carName}}</a>
-        </td>
-        <td><strong>{{bestLapView}}</strong></td>
-        <td style="text-align: right">
-            <div class="row">
-                <div class="col-10">
-                    {{#gap}}
-                        +{{gap}}
-                    {{/gap}}
-                </div>
-            </div>
-        </td>
-        <td class="pcview">{{sector1View}}</td>
-        <td class="pcview">{{sector2View}}</td>
-        <td class="pcview">{{sector3View}}</td>
-        <td class="pcview">{{potentialView}}</td>
-        <!--<td style="text-align: center">{{!lapCount}}</td>-->
-    </tr>
-{{/recordList}}
+<h5>GT3</h5>
+<div class="table-responsive">
+    <table class="table table-striped" style="margin-top:20px;">
+        <colgroup>
+            <col width="5%" /> {{! 랭킹 }}
+            <col width="15%" /> {{! 드라이브명 }}
+            <col width="*" />   {{! 차량명 }}
+            <col width="10%" />  {{! 베스트랩 }}
+            <col width="5%" />  {{! 갭 }}
+            <col width="7%" />  {{! 섹터1 }}
+            <col width="7%" />  {{! 섹터2 }}
+            <col width="7%" />  {{! 섹터3 }}
+            <col width="7%" />  {{! 포텐셜 }}
+            <!--<col width="7%" />  {{! 랩 카운트 }}-->
+        </colgroup>
+        <thead class="">
+        <tr>
+            <th style="text-align: center; vertical-align: middle; ">Rank</th>
+            <th style="vertical-align: middle;">Driver</th>
+            <th style="vertical-align: middle;">Car</th>
+            <th style="vertical-align: middle;">Best Lap</th>
+            <th style="text-align:center; vertical-align: middle;">Gap</th>
+            <th class="" style="vertical-align: middle;">Best S1</th>
+            <th class="" style="vertical-align: middle;">Best S2</th>
+            <th class="" style="vertical-align: middle;">Best S3</th>
+            <th class="" style="vertical-align: middle;">Potential</th>
+            <!--<th style="text-align:center;vertical-align: middle;">Lap Count</th>-->
+        </tr>
+        </thead>
+        <tbody>
+        {{#recordList}}
+            <tr>
+                <td style="text-align: center;">
+                    {{#rankImg}}
+                        <img src="{{rankImg}}" class="img-fluid lank-img" />
+                    {{/rankImg}}
+                    {{^rankImg}}
+                        {{rank}}
+                    {{/rankImg}}
+                </td>
+                <td>
+                    <a href="javascript:void(0)" class="driverDetail" data-toggle="modal" data-target="#staticBackdrop" data-playerid="{{playerId}}">
+                        {{#steamAvatar}}
+                            <div style="float:left">
+                                <img src="{{steamAvatar}}" class="rounded-circle" />
+                            </div>
+                        {{/steamAvatar}}
+                        <div style="overflow:hidden;padding-left:10px">
+                            {{firstName}} {{lastName}}
+                        </div>
+                    </a>
+                </td>
+                <td class="car-name">
+                    <a href="javascript:void(0)" class="carDetail" data-toggle="modal" data-target="#carModal" data-carmodel="{{carModel}}">{{carName}}</a>
+                </td>
+                <td><strong>{{bestLapView}}</strong></td>
+                <td style="text-align: right">
+                    <div class="row">
+                        <div class="col-10">
+                            {{#gap}}
+                                +{{gap}}
+                            {{/gap}}
+                        </div>
+                    </div>
+                </td>
+                <td class="">{{sector1View}}</td>
+                <td class="">{{sector2View}}</td>
+                <td class="">{{sector3View}}</td>
+                <td class="">{{potentialView}}</td>
+            </tr>
+        {{/recordList}}
+
+        </tbody>
+    </table>
+</div>
+<h5 class="mt-2">GT4</h5>
+<div class="table-responsive">
+    <table class="table table-striped" style="margin-top:20px;">
+        <colgroup>
+            <col width="5%" /> {{! 랭킹 }}
+            <col width="15%" /> {{! 드라이브명 }}
+            <col width="*" />   {{! 차량명 }}
+            <col width="10%" />  {{! 베스트랩 }}
+            <col width="5%" />  {{! 갭 }}
+            <col width="7%" />  {{! 섹터1 }}
+            <col width="7%" />  {{! 섹터2 }}
+            <col width="7%" />  {{! 섹터3 }}
+            <col width="7%" />  {{! 포텐셜 }}
+            <!--<col width="7%" />  {{! 랩 카운트 }}-->
+        </colgroup>
+        <thead class="">
+        <tr>
+            <th style="text-align: center; vertical-align: middle; ">Rank</th>
+            <th style="vertical-align: middle;">Driver</th>
+            <th style="vertical-align: middle;">Car</th>
+            <th style="vertical-align: middle;">Best Lap</th>
+            <th style="text-align:center; vertical-align: middle;">Gap</th>
+            <th class="" style="vertical-align: middle;">Best S1</th>
+            <th class="" style="vertical-align: middle;">Best S2</th>
+            <th class="" style="vertical-align: middle;">Best S3</th>
+            <th class="" style="vertical-align: middle;">Potential</th>
+            <!--<th style="text-align:center;vertical-align: middle;">Lap Count</th>-->
+        </tr>
+        </thead>
+        <tbody id="dataList">
+        {{#recordList_GT4}}
+            <tr>
+                <td style="text-align: center;">
+                    {{#rankImg}}
+                        <img src="{{rankImg}}" class="img-fluid lank-img" />
+                    {{/rankImg}}
+                    {{^rankImg}}
+                        {{rank}}
+                    {{/rankImg}}
+                </td>
+                <td>
+                    <a href="javascript:void(0)" class="driverDetail" data-toggle="modal" data-target="#staticBackdrop" data-playerid="{{playerId}}">
+                        {{#steamAvatar}}
+                            <div style="float:left">
+                                <img src="{{steamAvatar}}" class="rounded-circle" />
+                            </div>
+                        {{/steamAvatar}}
+                        <div style="overflow:hidden;padding-left:10px">
+                            {{firstName}} {{lastName}}
+                        </div>
+                    </a>
+                </td>
+                <td class="car-name">
+                    <a href="javascript:void(0)" class="carDetail" data-toggle="modal" data-target="#carModal" data-carmodel="{{carModel}}">{{carName}}</a>
+                </td>
+                <td><strong>{{bestLapView}}</strong></td>
+                <td style="text-align: right">
+                    <div class="row">
+                        <div class="col-10">
+                            {{#gap}}
+                                +{{gap}}
+                            {{/gap}}
+                        </div>
+                    </div>
+                </td>
+                <td class="">{{sector1View}}</td>
+                <td class="">{{sector2View}}</td>
+                <td class="">{{sector3View}}</td>
+                <td class="">{{potentialView}}</td>
+            </tr>
+        {{/recordList_GT4}}
+
+        </tbody>
+    </table>
+</div>

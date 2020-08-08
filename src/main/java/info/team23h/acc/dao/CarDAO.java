@@ -1,6 +1,7 @@
 package info.team23h.acc.dao;
 
 import info.team23h.acc.vo.CarVO;
+import info.team23h.acc.vo.SearchVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,5 +18,9 @@ public class CarDAO {
 
 	public List<CarVO> findAllCarList() {
 		return sql.selectList(PREFIX+".findAllCarList");
+	}
+
+	public CarVO findCarDetail(SearchVO searchVO) {
+		return sql.selectOne(PREFIX + ".findCarDetail",searchVO);
 	}
 }

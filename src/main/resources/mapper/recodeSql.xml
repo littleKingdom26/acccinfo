@@ -162,6 +162,36 @@
             ) A , (SELECT @ROWNUM := 0) B
     </select>
 
+    <select id="getRecordDataListForWeek_GT4" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.SearchVO">
+        SELECT
+        ROUND(@ROWNUM := @ROWNUM +1) AS RANK
+        , A.*
+        FROM (
+        SELECT
+        SESSION_ID,
+        FIRST_NAME,
+        LAST_NAME,
+        TP.STEAM_AVATAR,
+        TC.CAR_NAME,
+        TC.CAR_MODEL,
+        A.BEST_LAP,
+        A.SECTOR1,
+        A.SECTOR2,
+        A.SECTOR3,
+        A.LAP_COUNT,
+        A.PLAYER_ID
+        from TB_RECORD_GT4 A
+        INNER JOIN TB_TRACK TT on A.TRACK_SEQ = TT.SEQ
+        INNER JOIN TB_PLAYER TP on A.PLAYER_ID = TP.PLAYER_ID
+        INNER JOIN TB_CAR TC ON A.CAR_MODEL = TC.CAR_MODEL
+        WHERE SESSION_ID = #{sessionId}
+        <if test='team23h eq "Y"'>
+            AND TEAM_23 = #{team23h}
+        </if>
+        ORDER BY BEST_LAP
+        ) A , (SELECT @ROWNUM := 0) B
+    </select>
+
     <select id="getRecordDataListForTrackSeq" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.SearchVO">
         SELECT ROUND(@ROWNUM := @ROWNUM + 1) AS RANK, D.*
         FROM (
@@ -185,6 +215,36 @@
                  INNER JOIN TB_TRACK TT on C.TRACK_SEQ = TT.SEQ
                  INNER JOIN TB_PLAYER TP on C.PLAYER_ID = TP.PLAYER_ID
                  INNER JOIN TB_CAR TC ON C.CAR_MODEL = TC.CAR_MODEL
+        <if test='team23h eq "Y"'>
+            WHERE TEAM_23 = #{team23h}
+        </if>
+        ORDER BY BEST_LAP ) D, (SELECT @ROWNUM := 0) E
+    </select>
+
+
+    <select id="getRecordDataListForTrackSeq_GT4" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.SearchVO">
+        SELECT ROUND(@ROWNUM := @ROWNUM + 1) AS RANK, D.*
+        FROM (
+        SELECT C.SESSION_ID,
+        TP.FIRST_NAME,
+        TP.LAST_NAME,
+        TP.STEAM_AVATAR,
+        TC.CAR_NAME,
+        TC.CAR_MODEL,
+        C.BEST_LAP,
+        C.SECTOR1,
+        C.SECTOR2,
+        C.SECTOR3,
+        C.LAP_COUNT,
+        B.PLAYER_ID
+        FROM (SELECT MIN(A.BEST_LAP) AS BEST_LAP, A.PLAYER_ID , MIN(A.SECTOR1) AS SECTOR1
+        FROM TB_RECORD_GT4 A
+        WHERE TRACK_SEQ = #{trackSeq}
+        GROUP BY A.PLAYER_ID) B
+        INNER JOIN TB_RECORD_GT4 C ON B.PLAYER_ID = C.PLAYER_ID AND B.BEST_LAP = C.BEST_LAP AND B.SECTOR1 = C.SECTOR1
+        INNER JOIN TB_TRACK TT on C.TRACK_SEQ = TT.SEQ
+        INNER JOIN TB_PLAYER TP on C.PLAYER_ID = TP.PLAYER_ID
+        INNER JOIN TB_CAR TC ON C.CAR_MODEL = TC.CAR_MODEL
         <if test='team23h eq "Y"'>
             WHERE TEAM_23 = #{team23h}
         </if>
@@ -221,6 +281,40 @@
 
     </select>
 
+    <select id="recordPlayerDetail_GT4" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.SearchVO">
+        SELECT
+            ROUND(@ROWNUM := @ROWNUM + 1) AS RANK, D.*
+        FROM (
+            SELECT C.SESSION_ID
+           , TP.FIRST_NAME
+           , TP.LAST_NAME
+           , TP.STEAM_AVATAR
+           , TC.CAR_NAME
+           , TC.CAR_MODEL
+           , C.BEST_LAP
+           , C.SECTOR1
+           , C.SECTOR2
+           , C.SECTOR3
+           , C.TRACK_SEQ
+           , B.LAP_COUNT
+           , TT.TRACK_NAME
+           , TT.TRACK_VIEW_NAME
+           , B.PLAYER_ID
+            FROM (SELECT MIN(A.BEST_LAP) AS BEST_LAP
+           , A.PLAYER_ID
+           , SUM(A.LAP_COUNT) AS LAP_COUNT
+            FROM TB_RECORD_GT4 A
+            WHERE A.PLAYER_ID = #{playerId}
+            GROUP BY A.TRACK_SEQ) B
+            INNER JOIN TB_RECORD_GT4 C ON B.PLAYER_ID = C.PLAYER_ID AND B.BEST_LAP = C.BEST_LAP
+            INNER JOIN TB_TRACK TT on C.TRACK_SEQ = TT.SEQ
+            INNER JOIN TB_PLAYER TP on C.PLAYER_ID = TP.PLAYER_ID
+            INNER JOIN TB_CAR TC ON C.CAR_MODEL = TC.CAR_MODEL
+            ORDER BY SESSION_ID DESC ) D
+           , (SELECT @ROWNUM := 0) E
+
+    </select>
+
 
     <select id="loadAllRecodeTrackData" resultType="info.team23h.acc.vo.RecordVO">
         SELECT C.PLAYER_ID,
@@ -250,6 +344,46 @@
 
     </select>
 
+
+    <select id="loadAllRecodeTrackData_GT4" resultType="info.team23h.acc.vo.RecordVO">
+        SELECT
+            C.PLAYER_ID
+          , C.BEST_LAP
+          , C.SECTOR1
+          , C.SECTOR2
+          , C.SECTOR3
+          , C.LAP_COUNT
+          , C.TRACK_SEQ
+          , TT.TRACK_NAME
+          , TT.TRACK_VIEW_NAME
+          , TP.FIRST_NAME
+          , TP.LAST_NAME
+          , TP.STEAM_AVATAR
+          , TC.CAR_NAME
+          , TC.CAR_MODEL
+          , C.SESSION_ID
+        FROM (SELECT
+                  A.SEQ
+                , B.PLAYER_ID
+                , MIN(B.BEST_LAP) AS BEST_LAP
+              FROM TB_TRACK A
+                   INNER JOIN TB_RECORD_GT4 B
+                              ON A.SEQ = B.TRACK_SEQ
+              GROUP BY A.SEQ
+                     , B.PLAYER_ID) B
+             INNER JOIN TB_RECORD_GT4 C
+                        ON B.SEQ = C.TRACK_SEQ AND B.PLAYER_ID = C.PLAYER_ID AND B.BEST_LAP = C.BEST_LAP
+             INNER JOIN TB_TRACK TT
+                        on C.TRACK_SEQ = TT.SEQ
+             INNER JOIN TB_PLAYER TP
+                        on C.PLAYER_ID = TP.PLAYER_ID
+             INNER JOIN TB_CAR TC
+                        ON C.CAR_MODEL = TC.CAR_MODEL
+        ORDER BY TRACK_SEQ DESC
+               , BEST_LAP
+
+    </select>
+
     <select id="recordCarDetail" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.SearchVO">
         SELECT SESSION_ID,
                A.PLAYER_ID,
@@ -275,6 +409,41 @@
                  INNER JOIN TB_PLAYER TP on A.PLAYER_ID = TP.PLAYER_ID
                  INNER JOIN TB_TRACK TT ON TT.SEQ = A.TRACK_SEQ
                  INNER JOIN TB_CAR TC ON TC.CAR_MODEL = B.CAR_MODEL
+    </select>
+
+
+    <select id="recordCarDetail_GT4" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.SearchVO">
+        SELECT
+            SESSION_ID
+          , A.PLAYER_ID
+          , B.BEST_LAP
+          , B.CAR_MODEL
+          , TC.CAR_NAME
+          , A.TRACK_SEQ
+          , TP.LAST_NAME
+          , TP.FIRST_NAME
+          , TP.STEAM_AVATAR
+          , TT.SEQ
+          , TT.TRACK_VIEW_NAME
+          , TT.TRACK_NAME
+        FROM TB_RECORD_GT4 A
+             INNER JOIN (
+            SELECT
+                TRACK_SEQ
+              , MIN(BEST_LAP) AS BEST_LAP
+              , CAR_MODEL
+            FROM TB_RECORD_GT4
+            WHERE
+                CAR_MODEL = #{carModel}
+            GROUP BY TRACK_SEQ
+        ) B
+                        ON A.BEST_LAP = B.BEST_LAP AND A.CAR_MODEL = B.CAR_MODEL
+             INNER JOIN TB_PLAYER TP
+                        on A.PLAYER_ID = TP.PLAYER_ID
+             INNER JOIN TB_TRACK TT
+                        ON TT.SEQ = A.TRACK_SEQ
+             INNER JOIN TB_CAR TC
+                        ON TC.CAR_MODEL = B.CAR_MODEL
     </select>
 
 </mapper>

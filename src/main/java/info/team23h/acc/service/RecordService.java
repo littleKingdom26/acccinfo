@@ -32,12 +32,16 @@ public interface RecordService {
 	 */
 	List<RecordVO> getRecordDataList(SearchVO searchVO);
 
+	List<RecordVO> getRecordDataList_GT4(SearchVO searchVO);
+
 	/**
 	 * 플레이어 코스별 기록 조회
 	 * @param searchVO
 	 * @return
 	 */
 	List<RecordVO> recordPlayerDetail(SearchVO searchVO);
+
+	List<RecordVO> recordPlayerDetail_GT4(SearchVO searchVO);
 
 	/**
 	 * 차량 코스별 기록 조회

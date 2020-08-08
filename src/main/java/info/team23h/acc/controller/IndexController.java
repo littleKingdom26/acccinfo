@@ -59,8 +59,12 @@ public class IndexController {
 						HttpSession session,
 						Model model) {
 		searchVO.setTeam23h("N");
-		// 주차별 기록
+		// GT 3 주차별 기록
 		model.addAttribute("recordList", recordService.getRecordDataList(searchVO));
+
+		// GT4 주차별 기록
+		model.addAttribute("recordList_GT4",recordService.getRecordDataList_GT4(searchVO));
+
 		//주차 구하기
 		model.addAttribute("weekList", weekService.getWeekList(searchVO));
 		// 트랙 구하기
@@ -77,8 +81,11 @@ public class IndexController {
 						HttpSession session,
 						Model model) {
 		searchVO.setTeam23h("Y");
-		// 주차별 기록
+		// GT3 주차별 기록
 		model.addAttribute("recordList", recordService.getRecordDataList(searchVO));
+
+		// GT4 주차별 기록
+		model.addAttribute("recordList_GT4",recordService.getRecordDataList_GT4(searchVO));
 		//주차 구하기
 		model.addAttribute("weekList", weekService.getWeekList(searchVO));
 		// 트랙 구하기
@@ -96,6 +103,7 @@ public class IndexController {
 	@PostMapping("/ajax/recordListAjax")
 	public String recordListAjax(@ModelAttribute SearchVO searchVO,Model model) {
 		model.addAttribute("recordList", recordService.getRecordDataList(searchVO));
+		model.addAttribute("recordList_GT4",recordService.getRecordDataList_GT4(searchVO));
 		return "ajax/recordListAjax";
 	}
 
@@ -110,6 +118,8 @@ public class IndexController {
 	public String recordPlayerDetailAjax(@ModelAttribute SearchVO searchVO,
 								 Model model) {
 		model.addAttribute("playerRecordList", recordService.recordPlayerDetail(searchVO));
+
+		//model.addAttribute("playerRecordList_GT4",recordService.recordPlayerDetail_GT4(searchVO));
 		double score = recordService.playerSkillEvaluator(searchVO);
 		model.addAttribute("ttScore", (int)Math.round(Math.floor(score)));
 		return "ajax/recordPlayerDetail";
@@ -118,13 +128,9 @@ public class IndexController {
 	@PostMapping("/ajax/recordCarDetailAjax")
 	public String recordCarDetailAjax(@ModelAttribute SearchVO searchVO,
 										 Model model) {
-		model.addAttribute("playerRecordList", recordService.recordCarDetail(searchVO))
-		.addAttribute("searchVO", searchVO);
+		model.addAttribute("playerRecordList", recordService.recordCarDetail(searchVO)).addAttribute("searchVO", searchVO);
 		return "ajax/recordCarDetail";
 	}
-
-
-
 
 	/**
 	 * 달력

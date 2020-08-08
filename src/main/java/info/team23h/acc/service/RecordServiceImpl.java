@@ -3,10 +3,7 @@ package info.team23h.acc.service;
 import info.team23h.acc.dao.RecordDAO;
 import info.team23h.acc.util.AccumulatedSkillEvaluator;
 import info.team23h.acc.util.MathUtil;
-import info.team23h.acc.vo.PlayerVO;
-import info.team23h.acc.vo.RecordVO;
-import info.team23h.acc.vo.SearchVO;
-import info.team23h.acc.vo.WeekVO;
+import info.team23h.acc.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +21,9 @@ public class RecordServiceImpl implements RecordService {
 
 	@Autowired
 	WeekService weekService;
+
+	@Autowired
+	CarService carService;
 
 	@Override
 	public int setRecordData(RecordVO recordVO) {
@@ -179,6 +179,45 @@ public class RecordServiceImpl implements RecordService {
 		return list;
 	}
 
+	@Override
+	public List<RecordVO> getRecordDataList_GT4(SearchVO searchVO) {
+
+		if(searchVO.getSessionId() == null && searchVO.getTrackSeq() == null || "".equals(searchVO.getSessionId()) && "".equals(searchVO.getTrackSeq())){
+			WeekVO weekVO = weekService.getRecently();
+			if(weekVO != null){
+				searchVO.setSessionId(String.valueOf(weekVO.getSessionId()));
+				searchVO.setTrackSeq(String.valueOf(weekVO.getTrackSeq()));
+			}
+		}
+		List<RecordVO> list = new ArrayList<RecordVO>();
+		if("0".equals(searchVO.getSessionId())){
+			list = recordDAO.getRecordDataListForTrackSeq_GT4(searchVO);
+		}else{
+			list = recordDAO.getRecordDataListForWeek_GT4(searchVO);
+		}
+
+		int bestLap = 0;
+		for(int i = 0; i < list.size(); i++){
+			RecordVO temp = list.get(i);
+			if(bestLap == 0){
+				bestLap = temp.getBestLap();
+			}else{
+				temp.setGap(MathUtil.secToMin(temp.getBestLap() - bestLap,
+											  false));
+			}
+			viewSetting(temp);
+			if(temp.getRank() == 1){
+				temp.setRankImg("/image/rank1.png");
+			}else if(temp.getRank() == 2){
+				temp.setRankImg("/image/rank2.png");
+			}else if(temp.getRank() == 3){
+				temp.setRankImg("/image/rank3.png");
+			}
+
+		}
+		return list;
+	}
+
 	private void viewSetting(RecordVO temp) {
 		temp.setBestLapView(MathUtil.secToMin(temp.getBestLap(), true));
 		temp.setSector1View(MathUtil.secToMin(temp.getSector1(), true));
@@ -196,11 +235,27 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
+	public List<RecordVO> recordPlayerDetail_GT4(SearchVO searchVO) {
+
+		List<RecordVO> list = recordDAO.recordPlayerDetail_GT4(searchVO);
+		return getRecordVOS(list);
+	}
+
+	@Override
 	public List<RecordVO> recordCarDetail(SearchVO searchVO) {
 
-		List<RecordVO> list = recordDAO.recordCarDetail(searchVO);
+		CarVO carVO = carService.findCarDetail(searchVO);
+		List<RecordVO> list = null;
+		if(carVO.getCarType().equals("GT3")){
+			list = recordDAO.recordCarDetail(searchVO);
+			list = getRecordVOS(list);
+		}else if(carVO.getCarType().equals("GT4")){
+			list = recordDAO.recordCarDetail_GT4(searchVO);
+			list = getRecordVOS_GT4(list);
+		}
+
 		searchVO.setCarName(list.get(0).getCarName());
-		return getRecordVOS(list);
+		return list;
 	}
 
 	private List<RecordVO> getRecordVOS(List<RecordVO> list) {
@@ -214,6 +269,28 @@ public class RecordServiceImpl implements RecordService {
 				if(temp.getTrackSeq() == recordVO.getTrackSeq()){
 					maxPlayer = maxPlayer + 1;
 					if(temp.getPlayerId().equals(recordVO.getPlayerId())){
+						rank = maxPlayer;
+					}
+				}
+			}
+			temp.setRank(rank);
+			temp.setMaxPlayer(maxPlayer);
+		}
+		return list;
+	}
+
+	private List<RecordVO> getRecordVOS_GT4(List<RecordVO> list) {
+		List<RecordVO> allRecode = recordDAO.loadAllRecodeTrackData_GT4();
+		for(int i = 0; i < list.size(); i++){
+			RecordVO temp = list.get(i);
+			viewSetting(temp);
+			int rank = 0;
+			int maxPlayer = 0;
+			for(RecordVO recordVO : allRecode){
+				if(temp.getTrackSeq() == recordVO.getTrackSeq()){
+					maxPlayer = maxPlayer + 1;
+					if(temp.getPlayerId()
+						   .equals(recordVO.getPlayerId())){
 						rank = maxPlayer;
 					}
 				}

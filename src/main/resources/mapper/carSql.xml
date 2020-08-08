@@ -7,5 +7,10 @@
             FROM TB_CAR
     </select>
 
+
+    <select id="findCarDetail" resultType="info.team23h.acc.vo.CarVO" parameterType="info.team23h.acc.vo.SearchVO">
+        SELECT CAR_MODEL, CAR_NAME, CAR_TYPE FROM TB_CAR WHERE CAR_MODEL = #{carModel}
+    </select>
+
 </mapper>
 

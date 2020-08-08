@@ -44,20 +44,41 @@ public class RecordDAO {
 		return sql.selectList(PREFIX +".getRecordDataListForWeek", searchVO);
 	}
 
+	public List<RecordVO> getRecordDataListForWeek_GT4(SearchVO searchVO) {
+		return sql.selectList(PREFIX + ".getRecordDataListForWeek_GT4",searchVO);
+	}
+
 	public List<RecordVO> getRecordDataListForTrackSeq(SearchVO searchVO) {
 		return sql.selectList(PREFIX +".getRecordDataListForTrackSeq", searchVO);
+	}
+
+	public List<RecordVO> getRecordDataListForTrackSeq_GT4(SearchVO searchVO) {
+
+		return sql.selectList(PREFIX + ".getRecordDataListForTrackSeq_GT4",searchVO);
 	}
 
 	public List<RecordVO> recordPlayerDetail(SearchVO searchVO) {
 		return sql.selectList(PREFIX +".recordPlayerDetail", searchVO);
 	}
 
+	public List<RecordVO> recordPlayerDetail_GT4(SearchVO searchVO) {
+		return sql.selectList(PREFIX + ".recordPlayerDetail_GT4",searchVO);
+	}
+
 	public List<RecordVO> loadAllRecodeTrackData() {
 		return sql.selectList(PREFIX + ".loadAllRecodeTrackData");
+	}
+
+	public List<RecordVO> loadAllRecodeTrackData_GT4() {
+		return sql.selectList(PREFIX + ".loadAllRecodeTrackData_GT4");
 	}
 
 
 	public List<RecordVO> recordCarDetail(SearchVO searchVO) {
 		return sql.selectList(PREFIX + ".recordCarDetail", searchVO);
+	}
+
+	public List<RecordVO> recordCarDetail_GT4(SearchVO searchVO) {
+		return sql.selectList(PREFIX + ".recordCarDetail_GT4",searchVO);
 	}
 }
