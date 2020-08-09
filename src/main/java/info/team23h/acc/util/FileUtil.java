@@ -37,10 +37,6 @@ public class FileUtil {
 		String fileName = file.getOriginalFilename();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuuMMddHHmmssSSS");
 		String newFileName = LocalDateTime.now().format(dtf) + extension;
-		System.out.println("newFileName > " + newFileName);
-		System.out.println("fileName > " + fileName);
-		System.out.println("extension > " + extension);
-		System.out.println("rootPath > " + ROOT_PATH);
 
 		String newPath = ROOT_PATH + File.separator + subFolder;
 		Path path = Paths.get(newPath);
