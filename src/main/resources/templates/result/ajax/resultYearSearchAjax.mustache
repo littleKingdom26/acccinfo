@@ -1,0 +1,40 @@
+<table class="table table-striped  table-hover" style="margin-top:20px;">
+    <colgroup>
+        <col width="5%" />
+        <col width="5%" />
+        <col width="10%" />
+    </colgroup>
+    <thead>
+        <tr class="">
+            <th colspan="3">Total : {{totalDriver}} Drivers</th>
+        </tr>
+        <tr class="">
+            <th class="text-center">Rank</th>
+            <th class="text-center">Driver</th>
+            <th class="text-center">Total Point</th>
+        </tr>
+    </thead>
+    <tbody>
+    {{#result}}
+        <tr>
+            <td class="text-center">{{RANK}}</td>
+            <td class="">
+                {{#STEAM_AVATAR}}
+                    <div style="float:left">
+                        <img src="{{STEAM_AVATAR}}" class="rounded-circle" />
+                    </div>
+                {{/STEAM_AVATAR}}
+                <div style="overflow:hidden;padding-left:10px">
+                    {{FIRST_NAME}} {{LAST_NAME}}
+                </div>
+            </td>
+            <td class="text-center">{{SCORE}}</td>
+        </tr>
+    {{/result}}
+
+
+
+
+    </tbody>
+
+</table>

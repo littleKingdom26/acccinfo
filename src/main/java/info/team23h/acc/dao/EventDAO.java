@@ -95,4 +95,8 @@ public class EventDAO {
 	public int selectEventMeta(EventMetaVO eventMetaVO) {
 		return sql.selectOne(PREFIX+".selectEventMeta", eventMetaVO);
 	}
+
+	public List<HashMap<String, Object>> getEventYearResult(EventInfoVO eventInfoVO) {
+		return sql.selectList(PREFIX+".getEventYearResult",eventInfoVO);
+	}
 }

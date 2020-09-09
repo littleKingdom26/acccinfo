@@ -371,5 +371,27 @@
               EVENT_INFO_SEQ = #{eventInfoSeq}
           AND ROUND = #{round}
     </select>
+
+    <select id="getEventYearResult" resultType="HashMap">
+        SELECT
+            SUM(SCORE) SCORE
+          , A.PLAYER_ID
+          , TP.FIRST_NAME
+          , TP.LAST_NAME
+          , TP.STEAM_AVATAR
+        FROM (
+                 SELECT
+                     TE.PLAYER_ID
+                   , IFNULL(TS.SCORE, 1) AS SCORE
+                 FROM TB_EVENT TE
+                      LEFT OUTER JOIN TB_SCORE TS
+                                      ON TE.`RANK` = TS.`RANK`
+                 WHERE
+                     DATE_FORMAT(TE.REG_DT, '%Y') = #{round}) A
+             INNER JOIN TB_PLAYER TP
+                        ON A.PLAYER_ID = TP.PLAYER_ID
+        GROUP BY PLAYER_ID
+        ORDER BY SCORE DESC
+    </select>
 </mapper>
 

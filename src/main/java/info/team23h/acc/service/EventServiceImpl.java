@@ -517,7 +517,6 @@ public class EventServiceImpl implements EventService {
 	public List<HashMap<String, Object>> getEventRoundResult(EventInfoVO eventInfoVO) {
 		List<HashMap<String, Object>> result = eventDAO.getEventRoundResult(eventInfoVO);
 		for(HashMap<String, Object> tempMap : result){
-			log.debug("tempMap.toString() > " + tempMap.toString());
 			tempMap.put("RACE_TIME", MathUtil.secToMin(tempMap.get("RACE_TIME")));
 			tempMap.put("TOTAL_TIME", MathUtil.secToMin(tempMap.get("TOTAL_TIME")));
 			tempMap.put("BEST_LAP", MathUtil.secToMin(tempMap.get("BEST_LAP")));
@@ -600,6 +599,11 @@ public class EventServiceImpl implements EventService {
 			subVO.setSector3(MathUtil.secToMin(subVO.getSector3(),true));
 		}
 		return result;
+	}
+
+	@Override
+	public List<HashMap<String, Object>> getEventYearResult(EventInfoVO eventInfoVO) {
+		return eventDAO.getEventYearResult(eventInfoVO);
 	}
 
 

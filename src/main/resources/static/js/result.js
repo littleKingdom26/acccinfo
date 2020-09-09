@@ -14,15 +14,25 @@ var result = {
             $('.driverName').text('');
         });
 
-        $('#league option:eq(1)').prop("selected", true);
+        /*$('#league option:eq(1)').prop("selected", true);*/
         _th.fnRoundSet();
     },
     fnRoundSet:function(){
         let _th = this;
-        let formax = $('#league option:selected').data('round');
-        let html = "<option value='0'>All</option>";
-        for (let i = 1; i <= formax; i++) {
-            html += "<option value=" + i + ">" + i + " Round</option>";
+        let html = '';
+        if($('#league option:selected').val() == '0') {
+            let date = new Date();
+            for (let i=2020;i<=date.getFullYear();i++){
+                html += "<option value='"+i+"'>"+i+"</option>";
+            }
+            $('#roundText').text("Year");
+        }else{
+            let formax = $('#league option:selected').data('round');
+            html = "<option value='0'>All</option>";
+            for (let i = 1; i <= formax; i++) {
+                html += "<option value=" + i + ">" + i + " Round</option>";
+            }
+            $('#roundText').text("Round");
         }
         $('#round').html(html);
         _th.fnResult();

@@ -5,7 +5,7 @@
             <div class="form-group">
                 <label for="league">League</label>
                 <select id="league" class="form-control">
-                    <option value="">select..</option>
+                    <option value="0">All</option>
                     {{#eventInfoList}}
                         <option value="{{eventInfoSeq}}" data-round="{{round}}">{{title}}</option>
                     {{/eventInfoList}}
@@ -14,9 +14,9 @@
         </div>
         <div class="col-6">
             <div class="form-group">
-                <label for="round">Round</label>
+                <label for="round" id="roundText">Year</label>
                 <select id="round" class="form-control">
-
+                    <option value="2020" >2020</option>
                 </select>
             </div>
         </div>
