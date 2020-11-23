@@ -28,7 +28,7 @@ public class Team extends BaseTimeEntity {
 	Player player;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="teamInfoSeq")
+	@JoinColumn(name="TEAM_INFO_SEQ")
 	TeamInfo teamInfo;
 
 }

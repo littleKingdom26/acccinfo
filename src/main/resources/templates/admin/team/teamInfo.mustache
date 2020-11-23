@@ -1,0 +1,77 @@
+{{>admin/layout/header}}
+<body>
+<div id="wrap">
+	<div class="inWrap">
+		{{>admin/layout/lnb}}
+		<div id="container">
+			{{>admin/layout/topBar}}
+			<div class="location">
+				<em class="home">HOME</em><i></i>
+				<em>팀관리</em><i></i>
+				<em class="active">팀 관리</em>
+			</div>
+			<div class="content">
+				<div class="box">
+					<div class="inBox">
+						<form id="insertFrm" action="/admin/team/teamInfo/save" method="post" onsubmit="return false">
+							<table class="formTable">
+								<colgroup>
+									<col width="10%" />
+									<col width="*" />
+								</colgroup>
+								<tbody>
+								<tr>
+									<th>팀 명</th>
+									<td>
+										<input type="text" name="teamName" id="teamName" class="textType" />
+									</td>
+								</tr>
+								</tbody>
+							</table>
+							<div class="btnArea mt20">
+								<a href="javascript:void(0)" id="btnSave" class="btn btnBi btnBlue">저장</a>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="box">
+					<div class="inBox">
+						<table class="listTable mt10">
+							<colgroup>
+								<col width="50%" />
+								<col width="20%" />
+								<col width="20%" />
+							</colgroup>
+							<thead>
+							<tr>
+								<th>팀명</th>
+								<th>팀원수</th>
+								<th>삭제</th>
+							</tr>
+							</thead>
+							<tbody>
+								{{#teamInfoList}}
+									<tr>
+										<td>{{teamName}}</td>
+										<td>{{teamCount}}명</td>
+										<td><a href="#" class="btn btnBi btnDefalt btnDel" data-teaminfoseq="{{teamInfoSeq}}">삭제</a></td>
+									</tr>
+								{{/teamInfoList}}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{>admin/layout/bodyFooter}}
+	</div>
+</div>
+</body>
+{{>admin/layout/footer}}
+<script src="/js/adminTeam.js"></script>
+<script>
+	$(function () {
+		teamInfo.init();
+	});
+
+</script>

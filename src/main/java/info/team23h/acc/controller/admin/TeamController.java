@@ -6,7 +6,10 @@ import info.team23h.acc.vo.team.TeamInfoSaveVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
@@ -19,25 +22,16 @@ public class TeamController {
 	final TeamInfoService teamInfoService;
 
 
-	@GetMapping(value = "/teamInsert")
-	public String insertViewer(){
-
-		TeamInfoSaveVO teamInfoSaveVO = new TeamInfoSaveVO();
-		teamInfoSaveVO.setTeamName("test");
-		TeamInfo save = teamInfoService.save(teamInfoSaveVO);
-
-		return "/admin/test";
+	@GetMapping(value = "/teamInfo")
+	public String teamInfo(Model model){
+		model.addAttribute("teamInfoList", teamInfoService.findAll());
+		return "/admin/team/teamInfo";
 	}
 
-
-	@GetMapping(value = "/test")
-	public String test() {
-
-		TeamInfoSaveVO teamInfoSaveVO = new TeamInfoSaveVO();
-		teamInfoSaveVO.setTeamName("test");
-		TeamInfo save = teamInfoService.save(teamInfoSaveVO);
-
-		return "test";
+	@GetMapping(value = "/team")
+	public String team(Model model) {
+		model.addAttribute("teamInfoList", teamInfoService.findAll());
+		return "/admin/team/team";
 	}
 
 }
