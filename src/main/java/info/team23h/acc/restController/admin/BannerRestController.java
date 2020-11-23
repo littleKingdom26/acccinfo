@@ -1,7 +1,7 @@
 package info.team23h.acc.restController.admin;
 
-import info.team23h.acc.service.BannerService;
-import info.team23h.acc.vo.BannerVO;
+import info.team23h.acc.service.banner.BannerService;
+import info.team23h.acc.vo.banner.BannerVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,10 +1,10 @@
 package info.team23h.acc.controller.admin;
 
-import info.team23h.acc.service.BbsService;
-import info.team23h.acc.vo.BbsNameVO;
-import info.team23h.acc.vo.BbsSearch;
-import info.team23h.acc.vo.BbsVO;
-import info.team23h.acc.vo.LoginUserVO;
+import info.team23h.acc.service.bbs.BbsService;
+import info.team23h.acc.vo.bbs.BbsNameVO;
+import info.team23h.acc.vo.bbs.BbsSearch;
+import info.team23h.acc.vo.bbs.BbsVO;
+import info.team23h.acc.vo.login.LoginUserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

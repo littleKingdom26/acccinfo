@@ -1,7 +1,7 @@
 package info.team23h.acc.dao;
 
-import info.team23h.acc.vo.PlayerSearch;
-import info.team23h.acc.vo.PlayerVO;
+import info.team23h.acc.vo.player.PlayerSearch;
+import info.team23h.acc.vo.player.PlayerVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

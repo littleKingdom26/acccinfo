@@ -1,7 +1,7 @@
 package info.team23h.acc.dao;
 
-import info.team23h.acc.vo.RecordVO;
-import info.team23h.acc.vo.SearchVO;
+import info.team23h.acc.vo.common.SearchVO;
+import info.team23h.acc.vo.recode.RecordVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

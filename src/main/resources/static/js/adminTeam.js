@@ -40,7 +40,10 @@ var teamInfo = {
 };
 var team = {
     init:function(){
-
+        $('#btnSearch').click(function (e){
+            e.preventDefault();
+            $('#searchFrm').submit();
+        })
     }
 
 };

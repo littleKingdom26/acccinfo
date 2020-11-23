@@ -1,10 +1,10 @@
 package info.team23h.acc.controller;
 
-import info.team23h.acc.service.EventService;
-import info.team23h.acc.vo.EventInfoVO;
-import info.team23h.acc.vo.EventMetaVO;
-import info.team23h.acc.vo.EventSubVO;
-import info.team23h.acc.vo.PenaltyVO;
+import info.team23h.acc.service.event.EventService;
+import info.team23h.acc.vo.event.EventInfoVO;
+import info.team23h.acc.vo.event.EventMetaVO;
+import info.team23h.acc.vo.event.EventSubVO;
+import info.team23h.acc.vo.penalty.PenaltyVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

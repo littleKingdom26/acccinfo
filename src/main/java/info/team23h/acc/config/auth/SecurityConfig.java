@@ -1,6 +1,6 @@
 package info.team23h.acc.config.auth;
 
-import info.team23h.acc.service.MemberServiceImpl;
+import info.team23h.acc.service.member.MemberServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

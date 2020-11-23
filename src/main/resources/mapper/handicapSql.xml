@@ -3,13 +3,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="handicapSql">
 
-    <select id="getHandicapInfoList" resultType="info.team23h.acc.vo.HandicapInfoVO">
+    <select id="getHandicapInfoList" resultType="info.team23h.acc.vo.handicap.HandicapInfoVO">
         SELECT HANDICAP_INFO_SEQ, TITLE, REG_DT
         FROM TB_HANDICAP_INFO
         ORDER BY REG_DT DESC
     </select>
 
-    <insert id="insertHandicapInfo" parameterType="info.team23h.acc.vo.HandicapInfoVO">
+    <insert id="insertHandicapInfo" parameterType="info.team23h.acc.vo.handicap.HandicapInfoVO">
         INSERT INTO TB_HANDICAP_INFO(TITLE, REG_DT)
         VALUES (#{title}, now());
         <selectKey resultType="int" keyProperty="handicapInfoSeq" order="AFTER">
@@ -17,17 +17,17 @@
         </selectKey>
     </insert>
 
-    <insert id="insertHandicap" parameterType="info.team23h.acc.vo.HandicapVO">
+    <insert id="insertHandicap" parameterType="info.team23h.acc.vo.handicap.HandicapVO">
         INSERT INTO TB_HANDICAP(HANDICAP_INFO_SEQ, `RANK`, HANDICAP, REG_DT)
         VALUES (#{handicapInfoSeq},#{rank},#{handicap},now())
     </insert>
 
-    <select id="getHandicap" resultType="info.team23h.acc.vo.HandicapVO">
+    <select id="getHandicap" resultType="info.team23h.acc.vo.handicap.HandicapVO">
         SELECT HANDICAP_INFO_SEQ, `RANK`, HANDICAP, REG_DT, UPD_DT FROM TB_HANDICAP
             WHERE HANDICAP_INFO_SEQ = #{handicapInfoSeq}
     </select>
 
-    <select id="getHandicapInfo" resultType="info.team23h.acc.vo.HandicapInfoVO">
+    <select id="getHandicapInfo" resultType="info.team23h.acc.vo.handicap.HandicapInfoVO">
         SELECT HANDICAP_INFO_SEQ, TITLE, REG_DT, UPD_DT
         FROM TB_HANDICAP_INFO
         WHERE HANDICAP_INFO_SEQ = #{handicapInfoSeq}

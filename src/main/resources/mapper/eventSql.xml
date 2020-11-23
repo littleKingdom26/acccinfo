@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="eventSql">
 
-    <select id="getEventInfoList" resultType="info.team23h.acc.vo.EventInfoVO">
+    <select id="getEventInfoList" resultType="info.team23h.acc.vo.event.EventInfoVO">
         SELECT
             TEI.EVENT_INFO_SEQ
           , TEI.TITLE
@@ -21,7 +21,7 @@
         ORDER BY TEI.REG_DT DESC
     </select>
 
-    <insert id="insertEventInfo" parameterType="info.team23h.acc.vo.EventInfoVO">
+    <insert id="insertEventInfo" parameterType="info.team23h.acc.vo.event.EventInfoVO">
         INSERT INTO TB_EVENT_INFO(
                                  TITLE,
                                  ROUND,
@@ -42,7 +42,7 @@
         DELETE FROM TB_EVENT_INFO WHERE EVENT_INFO_SEQ = #{eventInfoSeq}
     </delete>
 
-    <select id="getEventInfo" parameterType="info.team23h.acc.vo.EventInfoVO" resultType="info.team23h.acc.vo.EventInfoVO">
+    <select id="getEventInfo" parameterType="info.team23h.acc.vo.event.EventInfoVO" resultType="info.team23h.acc.vo.event.EventInfoVO">
         SELECT
             EVENT_INFO_SEQ
           , TITLE
@@ -56,7 +56,7 @@
             EVENT_INFO_SEQ = #{eventInfoSeq}
     </select>
 
-    <insert id="insertPenalty" parameterType="info.team23h.acc.vo.PenaltyVO">
+    <insert id="insertPenalty" parameterType="info.team23h.acc.vo.penalty.PenaltyVO">
         INSERT INTO
             TB_PENALTY( EVENT_INFO_SEQ
                       , ROUND
@@ -76,7 +76,7 @@
                , now() )
     </insert>
 
-    <insert id="insertEvent" parameterType="info.team23h.acc.vo.EventVO">
+    <insert id="insertEvent" parameterType="info.team23h.acc.vo.event.EventVO">
         INSERT INTO
             TB_EVENT( EVENT_INFO_SEQ
                     , ROUND
@@ -118,7 +118,7 @@
                )
     </insert>
 
-    <insert id="insertEventSub" parameterType="info.team23h.acc.vo.EventSubVO">
+    <insert id="insertEventSub" parameterType="info.team23h.acc.vo.event.EventSubVO">
         INSERT INTO
             TB_EVENT_SUB ( EVENT_INFO_SEQ
                          , CAR_ID
@@ -141,7 +141,7 @@
     </insert>
 
 
-    <select id="getEventPlayerList" resultType="info.team23h.acc.vo.EventVO">
+    <select id="getEventPlayerList" resultType="info.team23h.acc.vo.event.EventVO">
         SELECT
             PLAYER_ID
         FROM TB_EVENT
@@ -151,7 +151,7 @@
     </select>
 
 
-    <insert id="insertEventMeta" parameterType="info.team23h.acc.vo.EventMetaVO">
+    <insert id="insertEventMeta" parameterType="info.team23h.acc.vo.event.EventMetaVO">
         INSERT INTO
             TB_EVENT_META( EVENT_INFO_SEQ
                          , ROUND
@@ -205,7 +205,7 @@
         ORDER BY RANK
     </select>
 
-    <select id="getEventMeta" resultType="info.team23h.acc.vo.EventMetaVO">
+    <select id="getEventMeta" resultType="info.team23h.acc.vo.event.EventMetaVO">
         SELECT
             TEM.TRACK_NAME
           , TT.TRACK_VIEW_NAME
@@ -218,7 +218,7 @@
     </select>
 
     
-    <select id="getEventMetaList" resultType="info.team23h.acc.vo.EventMetaVO">
+    <select id="getEventMetaList" resultType="info.team23h.acc.vo.event.EventMetaVO">
         SELECT
             TEM.TRACK_NAME
           , TT.TRACK_VIEW_NAME
@@ -331,7 +331,7 @@
     </delete>
 
 
-    <select id="getEventPenalty" resultType="info.team23h.acc.vo.PenaltyVO">
+    <select id="getEventPenalty" resultType="info.team23h.acc.vo.penalty.PenaltyVO">
         SELECT
             T.FIRST_NAME
           , T.LAST_NAME
@@ -347,7 +347,7 @@
           AND ROUND = #{round}
     </select>
 
-    <select id="getEventSubList" resultType="info.team23h.acc.vo.EventSubVO">
+    <select id="getEventSubList" resultType="info.team23h.acc.vo.event.EventSubVO">
         SELECT
             CAR_ID
           , LAP

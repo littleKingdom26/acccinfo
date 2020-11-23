@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="weekSql">
-    <select id="getRecently" resultType="info.team23h.acc.vo.WeekVO" >
+    <select id="getRecently" resultType="info.team23h.acc.vo.week.WeekVO" >
         SELECT SESSION_ID,TRACK_SEQ FROM TB_WEEK WHERE SESSION_ID = (SELECT MAX(SESSION_ID) FROM TB_WEEK)
     </select>
 
@@ -12,7 +12,7 @@
         WHERE SESSION_ID = ${value}-1
     </update>
 
-    <insert id="setNewSession" parameterType="info.team23h.acc.vo.WeekVO">
+    <insert id="setNewSession" parameterType="info.team23h.acc.vo.week.WeekVO">
         INSERT INTO TB_WEEK(
             SESSION_ID,
             TRACK_SEQ,
@@ -25,7 +25,7 @@
             SYSDATE()
         )</insert>
 
-    <select id="getWeekList" resultType="info.team23h.acc.vo.WeekVO">
+    <select id="getWeekList" resultType="info.team23h.acc.vo.week.WeekVO">
         SELECT SESSION_ID ,
          TRACK_SEQ ,
          START_DT ,

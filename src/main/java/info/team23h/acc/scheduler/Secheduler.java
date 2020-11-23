@@ -1,8 +1,8 @@
 package info.team23h.acc.scheduler;
 
 import info.team23h.acc.restController.admin.SteamApiRestController;
-import info.team23h.acc.service.PlayerService;
-import info.team23h.acc.vo.PlayerVO;
+import info.team23h.acc.service.player.PlayerService;
+import info.team23h.acc.vo.player.PlayerVO;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;

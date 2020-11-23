@@ -1,6 +1,6 @@
 package info.team23h.acc.controller.admin;
 
-import info.team23h.acc.vo.LoginUserVO;
+import info.team23h.acc.vo.login.LoginUserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;

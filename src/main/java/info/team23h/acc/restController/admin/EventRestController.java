@@ -1,11 +1,11 @@
 package info.team23h.acc.restController.admin;
 
-import info.team23h.acc.service.EventService;
-import info.team23h.acc.service.HandicapService;
-import info.team23h.acc.service.ScoreService;
-import info.team23h.acc.vo.EventInfoVO;
-import info.team23h.acc.vo.HandicapInfoVO;
-import info.team23h.acc.vo.ScoreInfoVO;
+import info.team23h.acc.service.event.EventService;
+import info.team23h.acc.service.handicap.HandicapService;
+import info.team23h.acc.service.score.ScoreService;
+import info.team23h.acc.vo.event.EventInfoVO;
+import info.team23h.acc.vo.handicap.HandicapInfoVO;
+import info.team23h.acc.vo.score.ScoreInfoVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;

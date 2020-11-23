@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="playerSql">
-    <select id="getPlayerList" resultType="info.team23h.acc.vo.PlayerVO" parameterType="info.team23h.acc.vo.PlayerSearch" >
+    <select id="getPlayerList" resultType="info.team23h.acc.vo.player.PlayerVO" parameterType="info.team23h.acc.vo.player.PlayerSearch" >
         SELECT PLAYER_ID,FIRST_NAME,LAST_NAME,REG_DT,STEAM_AVATAR FROM TB_PLAYER
         <if test="keyword != ''">
             WHERE FIRST_NAME LIKE CONCAT('%',#{keyword},'%') OR LAST_NAME LIKE CONCAT('%', #{keyword}, '%')
         </if>
     </select>
 
-    <insert id="createDriver" parameterType="info.team23h.acc.vo.PlayerVO">
+    <insert id="createDriver" parameterType="info.team23h.acc.vo.player.PlayerVO">
         INSERT INTO TB_PLAYER(
                 PLAYER_ID
                 ,FIRST_NAME
@@ -23,7 +23,7 @@
     </insert>
 
 
-    <update id="updateDriver" parameterType="info.team23h.acc.vo.PlayerVO">
+    <update id="updateDriver" parameterType="info.team23h.acc.vo.player.PlayerVO">
         UPDATE TB_PLAYER SET
             UPD_DT = now()
             <if test="firstName != '' and firstName != null">
@@ -39,7 +39,7 @@
 
     </update>
 
-    <select id="getPlayerDetail" resultType="int" parameterType="info.team23h.acc.vo.PlayerVO">
+    <select id="getPlayerDetail" resultType="int" parameterType="info.team23h.acc.vo.player.PlayerVO">
         SELECT count(*)
         FROM TB_PLAYER
         WHERE PLAYER_ID = #{playerId}

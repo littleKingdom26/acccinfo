@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="viewSql">
-    <update id="updateViewCount" parameterType="info.team23h.acc.vo.ViewVo">
+    <update id="updateViewCount" parameterType="info.team23h.acc.vo.common.ViewVo">
         UPDATE TB_VIEWCOUNT SET PAGE_VIEW_COUNT = PAGE_VIEW_COUNT + 1 WHERE DATE = DATE_FORMAT(NOW(),'%Y-%m-%d')
     </update>
 
-    <select id="getViewCount" resultType="info.team23h.acc.vo.ViewVo">
+    <select id="getViewCount" resultType="info.team23h.acc.vo.common.ViewVo">
         SELECT
         SUM(PAGE_VIEW_COUNT) AS PAGE_VIEW_COUNT
         , IFNULL((SELECT PAGE_VIEW_COUNT from TB_VIEWCOUNT where DATE = DATE_FORMAT(NOW(), '%Y-%m-%d')),0) TODAY_VIEW_COUNT

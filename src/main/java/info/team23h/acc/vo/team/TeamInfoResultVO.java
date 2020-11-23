@@ -2,7 +2,7 @@ package info.team23h.acc.vo.team;
 
 import info.team23h.acc.entity.team.Team;
 import info.team23h.acc.entity.team.TeamInfo;
-import info.team23h.acc.vo.CommonVO;
+import info.team23h.acc.vo.common.CommonVO;
 import lombok.*;
 
 import java.util.List;

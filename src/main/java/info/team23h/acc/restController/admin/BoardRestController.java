@@ -1,8 +1,8 @@
 package info.team23h.acc.restController.admin;
 
-import info.team23h.acc.service.BbsService;
-import info.team23h.acc.vo.BbsVO;
-import info.team23h.acc.vo.CommentVO;
+import info.team23h.acc.service.bbs.BbsService;
+import info.team23h.acc.vo.bbs.BbsVO;
+import info.team23h.acc.vo.comment.CommentVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

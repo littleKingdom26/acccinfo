@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="recordSql">
 
-    <select id="getRecordData" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.RecordVO">
+    <select id="getRecordData" resultType="info.team23h.acc.vo.recode.RecordVO" parameterType="info.team23h.acc.vo.recode.RecordVO">
         SELECT
             SEQ,
             SESSION_ID,
@@ -20,7 +20,7 @@
     </select>
 
 
-    <select id="getRecordData_GT4" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.RecordVO">
+    <select id="getRecordData_GT4" resultType="info.team23h.acc.vo.recode.RecordVO" parameterType="info.team23h.acc.vo.recode.RecordVO">
         SELECT
             SEQ
           , SESSION_ID
@@ -37,7 +37,7 @@
           AND SESSION_ID = #{sessionId}
     </select>
 
-    <insert id="createRecordData" parameterType="info.team23h.acc.vo.RecordVO">
+    <insert id="createRecordData" parameterType="info.team23h.acc.vo.recode.RecordVO">
         INSERT INTO TB_RECORD(
             SESSION_ID
             ,PLAYER_ID
@@ -63,7 +63,7 @@
     </insert>
 
 
-    <insert id="createRecordData_GT4" parameterType="info.team23h.acc.vo.RecordVO">
+    <insert id="createRecordData_GT4" parameterType="info.team23h.acc.vo.recode.RecordVO">
         INSERT INTO
             TB_RECORD_GT4( SESSION_ID
                      , PLAYER_ID
@@ -87,7 +87,7 @@
                , NOW() )
     </insert>
 
-    <update id="updateRecordData" parameterType="info.team23h.acc.vo.RecordVO">
+    <update id="updateRecordData" parameterType="info.team23h.acc.vo.recode.RecordVO">
         UPDATE TB_RECORD SET
         TRACK_SEQ = #{trackSeq}
         , LAP_COUNT = LAP_COUNT + #{lapCount}
@@ -109,7 +109,7 @@
         AND SESSION_ID = #{sessionId}
     </update>
 
-    <update id="updateRecordData_GT4" parameterType="info.team23h.acc.vo.RecordVO">
+    <update id="updateRecordData_GT4" parameterType="info.team23h.acc.vo.recode.RecordVO">
         UPDATE TB_RECORD_GT4 SET
         TRACK_SEQ = #{trackSeq}
         , LAP_COUNT = LAP_COUNT + #{lapCount}
@@ -132,7 +132,7 @@
     </update>
 
 
-    <select id="getRecordDataListForWeek" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.SearchVO">
+    <select id="getRecordDataListForWeek" resultType="info.team23h.acc.vo.recode.RecordVO" parameterType="info.team23h.acc.vo.common.SearchVO">
         SELECT
             ROUND(@ROWNUM := @ROWNUM +1) AS RANK
             , A.*
@@ -162,7 +162,7 @@
             ) A , (SELECT @ROWNUM := 0) B
     </select>
 
-    <select id="getRecordDataListForWeek_GT4" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.SearchVO">
+    <select id="getRecordDataListForWeek_GT4" resultType="info.team23h.acc.vo.recode.RecordVO" parameterType="info.team23h.acc.vo.common.SearchVO">
         SELECT
         ROUND(@ROWNUM := @ROWNUM +1) AS RANK
         , A.*
@@ -192,7 +192,7 @@
         ) A , (SELECT @ROWNUM := 0) B
     </select>
 
-    <select id="getRecordDataListForTrackSeq" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.SearchVO">
+    <select id="getRecordDataListForTrackSeq" resultType="info.team23h.acc.vo.recode.RecordVO" parameterType="info.team23h.acc.vo.common.SearchVO">
         SELECT ROUND(@ROWNUM := @ROWNUM + 1) AS RANK, D.*
         FROM (
         SELECT C.SESSION_ID,
@@ -222,7 +222,7 @@
     </select>
 
 
-    <select id="getRecordDataListForTrackSeq_GT4" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.SearchVO">
+    <select id="getRecordDataListForTrackSeq_GT4" resultType="info.team23h.acc.vo.recode.RecordVO" parameterType="info.team23h.acc.vo.common.SearchVO">
         SELECT ROUND(@ROWNUM := @ROWNUM + 1) AS RANK, D.*
         FROM (
         SELECT C.SESSION_ID,
@@ -251,7 +251,7 @@
         ORDER BY BEST_LAP ) D, (SELECT @ROWNUM := 0) E
     </select>
 
-    <select id="recordPlayerDetail" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.SearchVO">
+    <select id="recordPlayerDetail" resultType="info.team23h.acc.vo.recode.RecordVO" parameterType="info.team23h.acc.vo.common.SearchVO">
         SELECT ROUND(@ROWNUM := @ROWNUM + 1) AS RANK, D.*
         FROM (
             SELECT C.SESSION_ID,
@@ -281,7 +281,7 @@
 
     </select>
 
-    <select id="recordPlayerDetail_GT4" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.SearchVO">
+    <select id="recordPlayerDetail_GT4" resultType="info.team23h.acc.vo.recode.RecordVO" parameterType="info.team23h.acc.vo.common.SearchVO">
         SELECT
             ROUND(@ROWNUM := @ROWNUM + 1) AS RANK, D.*
         FROM (
@@ -316,7 +316,7 @@
     </select>
 
 
-    <select id="loadAllRecodeTrackData" resultType="info.team23h.acc.vo.RecordVO">
+    <select id="loadAllRecodeTrackData" resultType="info.team23h.acc.vo.recode.RecordVO">
         SELECT C.PLAYER_ID,
                C.BEST_LAP,
                C.SECTOR1,
@@ -345,7 +345,7 @@
     </select>
 
 
-    <select id="loadAllRecodeTrackData_GT4" resultType="info.team23h.acc.vo.RecordVO">
+    <select id="loadAllRecodeTrackData_GT4" resultType="info.team23h.acc.vo.recode.RecordVO">
         SELECT
             C.PLAYER_ID
           , C.BEST_LAP
@@ -384,7 +384,7 @@
 
     </select>
 
-    <select id="recordCarDetail" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.SearchVO">
+    <select id="recordCarDetail" resultType="info.team23h.acc.vo.recode.RecordVO" parameterType="info.team23h.acc.vo.common.SearchVO">
         SELECT SESSION_ID,
                A.PLAYER_ID,
                B.BEST_LAP,
@@ -412,7 +412,7 @@
     </select>
 
 
-    <select id="recordCarDetail_GT4" resultType="info.team23h.acc.vo.RecordVO" parameterType="info.team23h.acc.vo.SearchVO">
+    <select id="recordCarDetail_GT4" resultType="info.team23h.acc.vo.recode.RecordVO" parameterType="info.team23h.acc.vo.common.SearchVO">
         SELECT
             SESSION_ID
           , A.PLAYER_ID

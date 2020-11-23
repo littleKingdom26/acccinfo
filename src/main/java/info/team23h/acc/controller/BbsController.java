@@ -1,7 +1,7 @@
 package info.team23h.acc.controller;
 
-import info.team23h.acc.service.BbsService;
-import info.team23h.acc.vo.BbsSearch;
+import info.team23h.acc.service.bbs.BbsService;
+import info.team23h.acc.vo.bbs.BbsSearch;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

@@ -3,14 +3,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bbsSql">
 
-    <resultMap id="bbsResultMap" type="info.team23h.acc.vo.BbsVO" autoMapping="true">
+    <resultMap id="bbsResultMap" type="info.team23h.acc.vo.bbs.BbsVO" autoMapping="true">
         <result property="seq" column="SEQ"/>
-        <collection property="commentList" column="{bbsSeq=SEQ}" javaType="java.util.List" ofType="info.team23h.acc.vo.CommentVO" select="loadCommentList"
+        <collection property="commentList" column="{bbsSeq=SEQ}" javaType="java.util.List" ofType="info.team23h.acc.vo.comment.CommentVO" select="loadCommentList"
                     autoMapping="true"/>
     </resultMap>
 
 
-    <resultMap id="bbsListMap" type="info.team23h.acc.vo.BbsVO" autoMapping="true">
+    <resultMap id="bbsListMap" type="info.team23h.acc.vo.bbs.BbsVO" autoMapping="true">
         <result property="seq" column="SEQ"/>
         <collection property="commentCnt" column="{bbsSeq=SEQ}" javaType="java.lang.Integer"  select="loadCommnetListCnt"
                     autoMapping="true"/>
@@ -53,12 +53,12 @@
 		LIMIT ${startNum}, ${endNum}
 	</sql>
 
-    <select id="loadBbsName" resultType="info.team23h.acc.vo.BbsNameVO">
+    <select id="loadBbsName" resultType="info.team23h.acc.vo.bbs.BbsNameVO">
         SELECT SEQ , BBS_NAME FROM TB_BBS_NAME
     </select>
 
 
-    <select id="loadBbsListCount" parameterType="info.team23h.acc.vo.BbsSearch" resultType="int">
+    <select id="loadBbsListCount" parameterType="info.team23h.acc.vo.bbs.BbsSearch" resultType="int">
         SELECT COUNT(1) AS TOTALCOUNT
         FROM (
         <include refid="loadBasicSelect"/>
@@ -66,14 +66,14 @@
         ) T
     </select>
 
-    <select id="loadBbsList" resultType="info.team23h.acc.vo.BbsVO" parameterType="info.team23h.acc.vo.BbsSearch">
+    <select id="loadBbsList" resultType="info.team23h.acc.vo.bbs.BbsVO" parameterType="info.team23h.acc.vo.bbs.BbsSearch">
         <include refid="loadBasicSelect"/>
         <include refid="loadBasicWhere"/>
         <include refid="loadBasicOrderBy"/>
         <include refid="loadBasicPaging"/>
     </select>
 
-    <insert id="save" parameterType="info.team23h.acc.vo.BbsVO">
+    <insert id="save" parameterType="info.team23h.acc.vo.bbs.BbsVO">
         INSERT INTO TB_BBS
             (NAME_SEQ
             ,TITLE
@@ -92,13 +92,13 @@
             )
     </insert>
 
-    <select id="loadBbsView" resultMap="bbsResultMap" parameterType="info.team23h.acc.vo.BbsSearch">
+    <select id="loadBbsView" resultMap="bbsResultMap" parameterType="info.team23h.acc.vo.bbs.BbsSearch">
         <include refid="loadBasicSelect"/>
         <include refid="loadBasicWhere"/>
         AND SEQ = #{bbsSeq}
     </select>
 
-    <insert id="commentSave" parameterType="info.team23h.acc.vo.CommentVO">
+    <insert id="commentSave" parameterType="info.team23h.acc.vo.comment.CommentVO">
         INSERT INTO TB_COMMENT
         (BBS_SEQ
         ,COMMENT
@@ -112,7 +112,7 @@
         )
     </insert>
     
-    <select id="loadCommentList" resultType="info.team23h.acc.vo.CommentVO">
+    <select id="loadCommentList" resultType="info.team23h.acc.vo.comment.CommentVO">
         SELECT
             SEQ
             ,COMMENT
@@ -129,7 +129,7 @@
         WHERE BBS_SEQ= #{bbsSeq}
     </select>
 
-    <update id="update" parameterType="info.team23h.acc.vo.BbsVO">
+    <update id="update" parameterType="info.team23h.acc.vo.bbs.BbsVO">
         UPDATE TB_BBS SET
             TITLE = #{title}
             ,CONTENT = #{content}
@@ -144,7 +144,7 @@
 
     </update>
 
-    <delete id="commentDel" parameterType="info.team23h.acc.vo.CommentVO">
+    <delete id="commentDel" parameterType="info.team23h.acc.vo.comment.CommentVO">
         DELETE FROM TB_COMMENT
         <trim prefix="WHERE" prefixOverrides="WHERE">
             <choose>
@@ -157,7 +157,7 @@
             </choose>
         </trim>
     </delete>
-    <delete id="bbsDel" parameterType="info.team23h.acc.vo.BbsVO">
+    <delete id="bbsDel" parameterType="info.team23h.acc.vo.bbs.BbsVO">
         DELETE FROM TB_BBS WHERE SEQ = #{seq}
     </delete>
 

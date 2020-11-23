@@ -1,7 +1,7 @@
 package info.team23h.acc.dao;
 
-import info.team23h.acc.vo.StatusSearch;
-import info.team23h.acc.vo.StatusVO;
+import info.team23h.acc.vo.status.StatusSearch;
+import info.team23h.acc.vo.status.StatusVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

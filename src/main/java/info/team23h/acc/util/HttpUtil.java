@@ -1,6 +1,6 @@
 package info.team23h.acc.util;
 
-import info.team23h.acc.vo.HttpRequest;
+import info.team23h.acc.vo.common.HttpRequest;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;

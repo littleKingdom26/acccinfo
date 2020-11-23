@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="carSql">
-    <select id="findAllCarList" resultType="info.team23h.acc.vo.CarVO">
+    <select id="findAllCarList" resultType="info.team23h.acc.vo.car.CarVO">
         SELECT CAR_MODEL,CAR_NAME,CAR_TYPE
             FROM TB_CAR
     </select>
 
 
-    <select id="findCarDetail" resultType="info.team23h.acc.vo.CarVO" parameterType="info.team23h.acc.vo.SearchVO">
+    <select id="findCarDetail" resultType="info.team23h.acc.vo.car.CarVO" parameterType="info.team23h.acc.vo.common.SearchVO">
         SELECT CAR_MODEL, CAR_NAME, CAR_TYPE FROM TB_CAR WHERE CAR_MODEL = #{carModel}
     </select>
 

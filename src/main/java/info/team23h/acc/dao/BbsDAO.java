@@ -1,9 +1,9 @@
 package info.team23h.acc.dao;
 
-import info.team23h.acc.vo.BbsNameVO;
-import info.team23h.acc.vo.BbsSearch;
-import info.team23h.acc.vo.BbsVO;
-import info.team23h.acc.vo.CommentVO;
+import info.team23h.acc.vo.bbs.BbsNameVO;
+import info.team23h.acc.vo.bbs.BbsSearch;
+import info.team23h.acc.vo.bbs.BbsVO;
+import info.team23h.acc.vo.comment.CommentVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

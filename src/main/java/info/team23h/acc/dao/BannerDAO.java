@@ -1,7 +1,7 @@
 package info.team23h.acc.dao;
 
-import info.team23h.acc.vo.BannerSearch;
-import info.team23h.acc.vo.BannerVO;
+import info.team23h.acc.vo.banner.BannerSearch;
+import info.team23h.acc.vo.banner.BannerVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

@@ -1,11 +1,11 @@
 package info.team23h.acc.controller.admin;
 
-import info.team23h.acc.service.PlayerService;
-import info.team23h.acc.service.RecordService;
-import info.team23h.acc.vo.PlayerSearch;
-import info.team23h.acc.vo.PlayerVO;
-import info.team23h.acc.vo.RecordVO;
-import info.team23h.acc.vo.SearchVO;
+import info.team23h.acc.service.player.PlayerService;
+import info.team23h.acc.service.record.RecordService;
+import info.team23h.acc.vo.common.SearchVO;
+import info.team23h.acc.vo.player.PlayerSearch;
+import info.team23h.acc.vo.player.PlayerVO;
+import info.team23h.acc.vo.recode.RecordVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

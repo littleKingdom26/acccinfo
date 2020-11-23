@@ -1,6 +1,10 @@
 package info.team23h.acc.dao;
 
-import info.team23h.acc.vo.*;
+import info.team23h.acc.vo.event.EventInfoVO;
+import info.team23h.acc.vo.event.EventMetaVO;
+import info.team23h.acc.vo.event.EventSubVO;
+import info.team23h.acc.vo.event.EventVO;
+import info.team23h.acc.vo.penalty.PenaltyVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

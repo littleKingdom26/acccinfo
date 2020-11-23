@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="trackSql">
-    <select id="getTrackSeq" parameterType="info.team23h.acc.vo.TrackVO" resultType="long">
+    <select id="getTrackSeq" parameterType="info.team23h.acc.vo.track.TrackVO" resultType="long">
         SELECT IFNULL(MAX(SEQ),0) as SEQ FROM TB_TRACK  WHERE TRACK_NAME = #{trackName}
     </select>
 
@@ -10,11 +10,11 @@
         INSERT INTO TB_TRACK(TRACK_NAME,REG_DT) VALUES (#{trackName},now())
     </insert>
 
-    <select id="getTrackNameForSeq" parameterType="info.team23h.acc.vo.TrackVO" resultType="info.team23h.acc.vo.TrackVO">
+    <select id="getTrackNameForSeq" parameterType="info.team23h.acc.vo.track.TrackVO" resultType="info.team23h.acc.vo.track.TrackVO">
         SELECT SEQ,TRACK_NAME FROM TB_TRACK WHERE SEQ = ${seq}
     </select>
     
-    <select id="getTrackList" resultType="info.team23h.acc.vo.TrackVO">
+    <select id="getTrackList" resultType="info.team23h.acc.vo.track.TrackVO">
         SELECT SEQ, TRACK_NAME, TRACK_VIEW_NAME FROM TB_TRACK
     </select>
 </mapper>

@@ -1,9 +1,9 @@
 package info.team23h.acc.controller.error;
 
-import info.team23h.acc.service.BbsService;
-import info.team23h.acc.service.ViewService;
-import info.team23h.acc.vo.BbsNameVO;
-import info.team23h.acc.vo.ViewVo;
+import info.team23h.acc.service.bbs.BbsService;
+import info.team23h.acc.service.view.ViewService;
+import info.team23h.acc.vo.bbs.BbsNameVO;
+import info.team23h.acc.vo.common.ViewVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;

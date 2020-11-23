@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bannerSql">
 
-    <insert id="saveBanner" parameterType="info.team23h.acc.vo.BannerVO">
+    <insert id="saveBanner" parameterType="info.team23h.acc.vo.banner.BannerVO">
         INSERT INTO TB_BANNER(
                               TITLE,
                               <if test="url != null and url != ''">
@@ -24,11 +24,11 @@
         )
     </insert>
 
-    <select id="getBannerList" parameterType="info.team23h.acc.vo.BannerSearch" resultType="info.team23h.acc.vo.BannerVO">
+    <select id="getBannerList" parameterType="info.team23h.acc.vo.banner.BannerSearch" resultType="info.team23h.acc.vo.banner.BannerVO">
         SELECT SEQ,TITLE,URL,FILE_PATH,USE_YN,REG_DT FROM TB_BANNER WHERE USE_YN = #{useYn}
     </select>
     
-    <delete id="delBanner" parameterType="info.team23h.acc.vo.BannerVO">
+    <delete id="delBanner" parameterType="info.team23h.acc.vo.banner.BannerVO">
         DELETE FROM TB_BANNER WHERE SEQ = #{seq}
 
     </delete>
