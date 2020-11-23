@@ -20,18 +20,17 @@
 									<col width="*" />
 								</colgroup>
 								<tbody>
-								<tr>
-									<th>팀 선택</th>
-									<td>
-										<select id="teamInfoSeq" name="teamInfoSeq">
-											<option value="">선택</option>
-											{{#teamInfoList}}
-												<option value="{{teamInfoSeq}}"> {{teamName}}</option>
-											{{/teamInfoList}}
-										</select>
-									</td>
-								</tr>
-
+									<tr>
+										<th>팀 선택</th>
+										<td>
+											<select id="teamInfoSeq" name="teamInfoSeq">
+												<option value="">선택</option>
+												{{#teamInfoList}}
+													<option value="{{teamInfoSeq}}"> {{teamName}}</option>
+												{{/teamInfoList}}
+											</select>
+										</td>
+									</tr>
 								</tbody>
 							</table>
 							<div class="btnArea mt20">
@@ -49,14 +48,47 @@
 							</colgroup>
 							<thead>
 							<tr>
-								<th>드라이버 명</th>
+								<th>드라이버 명(first/last)</th>
 								<th>삭제</th>
 							</tr>
 							</thead>
 							<tbody>
-
+								{{#playerList}}
+									<tr>
+										<td>{{player.firstName}} {{player.lastName}} </td>
+										<td><a href="#" class="btn btnBi btnDefalt btnDel" data-teamseq="{{teamSeq}}">삭제</a></td>
+									</tr>
+								{{/playerList}}
+								{{^playerList}}
+									<tr>
+										<td colspan="2">팀을 선택하세요</td>
+									</tr>
+								{{/playerList}}
 							</tbody>
 						</table>
+					</div>
+				</div>
+				<div class="box">
+					<div class="inBox">
+						<form id="playerSearchFrm" action="" method="get">
+							<table class="formTable">
+								<colgroup>
+									<col width="10%" />
+									<col width="*" />
+								</colgroup>
+								<tbody>
+								<tr>
+									<th>선수 검색</th>
+									<td>
+										<input type="text" id="name" name="name" class="textType">
+									</td>
+								</tr>
+								</tbody>
+							</table>
+							<div class="btnArea mt20">
+								<a href="javascript:void(0)" id="btnPlayerSearch" class="btn btnBi btnBlue">조회</a>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -70,6 +102,9 @@
 <script>
 	$(function () {
 		team.init();
+		{{#teamSearchVO.teamInfoSeq}}
+			team.selected('{{teamSearchVO.teamInfoSeq}}');
+		{{/teamSearchVO.teamInfoSeq}}
 	});
 
 </script>

@@ -31,4 +31,5 @@ public class Team extends BaseTimeEntity {
 	@JoinColumn(name="TEAM_INFO_SEQ")
 	TeamInfo teamInfo;
 
+
 }

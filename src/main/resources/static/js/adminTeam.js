@@ -43,7 +43,10 @@ var team = {
         $('#btnSearch').click(function (e){
             e.preventDefault();
             $('#searchFrm').submit();
-        })
+        });
+    }, selected:function(teamInfoSeq){
+        $('#teamInfoSeq').val(teamInfoSeq);
+        //console.log('teamInfoSeq', teamInfoSeq);
     }
 
 };
