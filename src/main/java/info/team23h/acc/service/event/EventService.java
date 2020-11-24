@@ -2,8 +2,10 @@ package info.team23h.acc.service.event;
 
 import info.team23h.acc.vo.event.EventInfoVO;
 import info.team23h.acc.vo.event.EventMetaVO;
+import info.team23h.acc.vo.event.EventResultVO;
 import info.team23h.acc.vo.event.EventSubVO;
 import info.team23h.acc.vo.penalty.PenaltyVO;
+import info.team23h.acc.vo.team.TeamScoreSaveVO;
 import net.minidev.json.parser.ParseException;
 
 import java.util.HashMap;
@@ -128,4 +130,7 @@ public interface EventService {
 	 * @return the event year result
 	 */
 	List<HashMap<String, Object>> getEventYearResult(EventInfoVO eventInfoVO);
+
+
+	List<EventResultVO> findByEventList(TeamScoreSaveVO teamScoreSaveVO);
 }

@@ -65,9 +65,7 @@ var team = {
                 return false;
             }
             let data = {"teamInfoSeq": $('#teamInfoSeq').val(),"playerId":$(this).data("playerid")};
-            console.log("data", data);
             common.ajax('POST', '/admin/team/team/save', data, 'json', '', function (data) {
-                console.log("data", data);
                 if(data.success) {
                     _this.teamSearch();
                 }else{

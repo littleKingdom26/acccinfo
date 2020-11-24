@@ -215,6 +215,17 @@ var race = {
             }
         });
 
+        $('#btnTeamPoint').click(function(e){
+            e.preventDefault();
+            alert("팀포인트 계산");
+            let round = $(this).data('round');
+            let eventInfoSeq = $(this).data('eventinfoseq');
+            console.log("round", round);
+            console.log("eventInfoSeq", eventInfoSeq);
+
+
+        });
+
         $('.lapDetail').click(function () {
 
             let data = {carId: $(this).data('carid'),

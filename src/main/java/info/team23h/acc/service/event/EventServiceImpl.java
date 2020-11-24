@@ -1,19 +1,19 @@
 package info.team23h.acc.service.event;
 
 import info.team23h.acc.dao.EventDAO;
+import info.team23h.acc.repository.event.EventRepository;
 import info.team23h.acc.service.handicap.HandicapService;
 import info.team23h.acc.service.score.ScoreService;
 import info.team23h.acc.util.MathUtil;
 import info.team23h.acc.util.StringUtil;
-import info.team23h.acc.vo.event.EventInfoVO;
-import info.team23h.acc.vo.event.EventMetaVO;
-import info.team23h.acc.vo.event.EventSubVO;
-import info.team23h.acc.vo.event.EventVO;
+import info.team23h.acc.vo.event.*;
 import info.team23h.acc.vo.handicap.HandicapInfoVO;
 import info.team23h.acc.vo.handicap.HandicapVO;
 import info.team23h.acc.vo.penalty.PenaltyVO;
 import info.team23h.acc.vo.score.ScoreInfoVO;
 import info.team23h.acc.vo.score.ScoreVO;
+import info.team23h.acc.vo.team.TeamScoreSaveVO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -21,6 +21,7 @@ import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,17 +30,22 @@ import java.util.Map;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class EventServiceImpl implements EventService {
 
 
-	@Autowired
-	EventDAO eventDAO;
+	final EventDAO eventDAO;
 
-	@Autowired
-	ScoreService scoreService;
 
-	@Autowired
-	HandicapService handicapService;
+	final ScoreService scoreService;
+
+
+	final HandicapService handicapService;
+
+	final EventRepository eventRepository;
+
+
 
 	@Override
 	public List<EventInfoVO> getEventInfoList() {
@@ -614,6 +620,12 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public List<HashMap<String, Object>> getEventYearResult(EventInfoVO eventInfoVO) {
 		return eventDAO.getEventYearResult(eventInfoVO);
+	}
+
+	@Override
+	public List<EventResultVO> findByEventList(TeamScoreSaveVO teamScoreSaveVO) {
+		List<EventResultVO> resultList = eventRepository.findByEventList(teamScoreSaveVO);
+		return null;
 	}
 
 
