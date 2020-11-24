@@ -1,0 +1,17 @@
+{{#playerList}}
+	<tr>
+		<td>
+			{{#steamAvatar}}
+				<div style="float:left">
+					<img src="{{steamAvatar}}" class="rounded-circle" />
+				</div>
+			{{/steamAvatar}}
+			{{firstName}} / {{lastName}} </td>
+		<td><a href="#" class="btn btnBi btnDefalt btnSave" data-playerid="{{playerId}}">팀원추가</a></td>
+	</tr>
+{{/playerList}}
+{{^playerList}}
+	<tr>
+		<td colspan="2">검색결과가 없습니다.</td>
+	</tr>
+{{/playerList}}

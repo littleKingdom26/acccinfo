@@ -1,0 +1,17 @@
+{{#teamList}}
+	<tr>
+		<td>
+			{{#player.steamAvatar}}
+				<div style="float:left">
+					<img src="{{player.steamAvatar}}" class="rounded-circle" />
+				</div>
+			{{/player.steamAvatar}}
+			{{player.firstName}} / {{player.lastName}} </td>
+		<td><a href="#" class="btn btnBi btnDefalt btnDel" data-teamseq="{{teamSeq}}">삭제</a></td>
+	</tr>
+{{/teamList}}
+{{^teamList}}
+	<tr>
+		<td colspan="2">해당팀의 팀원이 없습니다.</td>
+	</tr>
+{{/teamList}}

@@ -1,29 +1,36 @@
 package info.team23h.acc.service.player;
 
 import info.team23h.acc.dao.PlayerDAO;
+import info.team23h.acc.repository.player.PlayerRepository;
 import info.team23h.acc.vo.player.PlayerSearch;
 import info.team23h.acc.vo.player.PlayerVO;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PlayerServiceImpl implements PlayerService {
 
-	@Autowired
-	PlayerDAO playerDAO;
+	final PlayerDAO playerDAO;
+
+	final PlayerRepository playerRepository;
 
 	@Override
 	public List<PlayerVO> getPlayerList() {
-
 		return playerDAO.getPlayerList(new PlayerSearch());
 	}
 
 	@Override
 	public int createDriver(PlayerVO playerVO) {
 		return playerDAO.createDriver(playerVO);
-
 	}
 
 	@Override
@@ -43,7 +50,11 @@ public class PlayerServiceImpl implements PlayerService {
 	 */
 	@Override
 	public List<PlayerVO> getPlayerList(PlayerSearch playerSearch) {
-		return playerDAO.getPlayerList(playerSearch);
+		//
+		List<PlayerVO> resultList = playerRepository
+				.findAllByFirstNameContainsOrLastNameContains(playerSearch.getKeyword(), playerSearch.getKeyword()).stream().map(PlayerVO::new)
+				.collect(Collectors.toList());
+		return resultList;
 	}
 
 }

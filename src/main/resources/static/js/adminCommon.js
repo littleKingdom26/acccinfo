@@ -8,7 +8,7 @@ var common = {
                 $('#background').show(200);
             },
             complete: function () {
-                $('#background').hide(200);
+                $('#background').hide(0);
             }
             , dataType: dataType
             , method: method

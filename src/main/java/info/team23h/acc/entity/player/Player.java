@@ -1,6 +1,7 @@
 package info.team23h.acc.entity.player;
 
 
+import info.team23h.acc.entity.BaseTimeEntity;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -18,7 +19,7 @@ import javax.persistence.Table;
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "TB_PLAYER")
-public class Player {
+public class Player extends BaseTimeEntity {
 
 	@Id
 	@Column(name = "PLAYER_ID")

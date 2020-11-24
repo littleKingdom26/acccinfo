@@ -24,7 +24,6 @@ public class TeamInfoServiceImpl implements TeamInfoService {
 	@Override
 	@Transactional
 	public TeamInfo save(TeamInfoSaveVO teamInfoSaveVO) {
-
 		TeamInfo save = teamInfoRepository.save(TeamInfo.builder().teamName(teamInfoSaveVO.getTeamName()).build());
 		return save;
 	}

@@ -40,13 +40,65 @@ var teamInfo = {
 };
 var team = {
     init:function(){
+        let _this = this;
         $('#btnSearch').click(function (e){
             e.preventDefault();
-            $('#searchFrm').submit();
+            _this.teamSearch();
         });
-    }, selected:function(teamInfoSeq){
-        $('#teamInfoSeq').val(teamInfoSeq);
-        //console.log('teamInfoSeq', teamInfoSeq);
+
+        $('#teamInfoSeq').change(function(e){
+            _this.teamSearch();
+        });
+
+        $('#teamSearch').on('click', '.btnDel', function () {
+            common.ajax("DELETE", "/admin/team/team/delete/" + $(this).data('teamseq'), '', 'json', '', function (data) {
+                if(data.success) {
+                    _this.teamSearch();
+                }
+            });
+        });
+
+        $('#playerSearch').on('click', '.btnSave', function () {
+
+            if($('#teamInfoSeq').val() == '') {
+                alert("팀 선택을 먼저 하시기 바랍니다.");
+                return false;
+            }
+            let data = {"teamInfoSeq": $('#teamInfoSeq').val(),"playerId":$(this).data("playerid")};
+            console.log("data", data);
+            common.ajax('POST', '/admin/team/team/save', data, 'json', '', function (data) {
+                console.log("data", data);
+                if(data.success) {
+                    _this.teamSearch();
+                }else{
+                    alert(data.msg);
+                }
+            });
+        });
+
+        $('#btnPlayerSearch').click(function (e) {
+            e.preventDefault();
+            _this.playerSearch();
+        });
+
+        $('#keyword').keypress(function (e) {
+            if(e.keyCode == 13) {
+                _this.playerSearch();
+            }
+        });
+
+    },
+    teamSearch :function(){
+        common.ajax("GET","/admin/team/team/search",{teamInfoSeq:$('#teamInfoSeq').val()},'html','',function(data){
+            $('#teamSearch').html(data);
+        });
+    },
+    playerSearch :function(){
+        let keyword = $('#keyword').val();
+        common.ajax("GET", "/admin/team/player/search", {keyword: keyword}, 'html', '', function (data) {
+            $('#playerSearch').html(data);
+        });
+
     }
 
 };

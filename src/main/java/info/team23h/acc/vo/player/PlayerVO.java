@@ -1,11 +1,17 @@
 package info.team23h.acc.vo.player;
 
 
+import info.team23h.acc.entity.player.Player;
 import info.team23h.acc.vo.common.CommonVO;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter @Setter
+import java.time.format.DateTimeFormatter;
+
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class PlayerVO extends CommonVO implements Comparable<PlayerVO> {
 
 
@@ -27,6 +33,14 @@ public class PlayerVO extends CommonVO implements Comparable<PlayerVO> {
 	 */
 	private int no;
 
+	public PlayerVO(Player player) {
+		this.playerId = player.getPlayerId();
+		this.firstName = player.getFirstName();
+		this.lastName = player.getLastName();
+		this.steamAvatar = player.getSteamAvatar();
+		this.regDt = player.getRegDt().format(DateTimeFormatter.ISO_LOCAL_DATE);
+	}
+
 	@Override
 	public int compareTo(PlayerVO o) {
 		double  target = o.getTtScore();
@@ -38,4 +52,6 @@ public class PlayerVO extends CommonVO implements Comparable<PlayerVO> {
 			return  -1;
 		}
 	}
+
+
 }

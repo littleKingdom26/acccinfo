@@ -18,6 +18,7 @@
 								<colgroup>
 									<col width="10%" />
 									<col width="*" />
+									<col width="10%" />
 								</colgroup>
 								<tbody>
 									<tr>
@@ -30,12 +31,10 @@
 												{{/teamInfoList}}
 											</select>
 										</td>
+										<td><a href="javascript:void(0)" id="btnSearch" class="btn btnBi btnBlue">조회</a></td>
 									</tr>
 								</tbody>
 							</table>
-							<div class="btnArea mt20">
-								<a href="javascript:void(0)" id="btnSearch" class="btn btnBi btnBlue">조회</a>
-							</div>
 						</form>
 					</div>
 				</div>
@@ -52,43 +51,53 @@
 								<th>삭제</th>
 							</tr>
 							</thead>
-							<tbody>
-								{{#playerList}}
-									<tr>
-										<td>{{player.firstName}} {{player.lastName}} </td>
-										<td><a href="#" class="btn btnBi btnDefalt btnDel" data-teamseq="{{teamSeq}}">삭제</a></td>
-									</tr>
-								{{/playerList}}
-								{{^playerList}}
-									<tr>
-										<td colspan="2">팀을 선택하세요</td>
-									</tr>
-								{{/playerList}}
+							<tbody id="teamSearch">
+								<tr>
+									<td colspan="2">팀을 선택하세요</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
 				<div class="box">
 					<div class="inBox">
-						<form id="playerSearchFrm" action="" method="get">
+						<form id="playerSearchFrm" action="" method="get" onsubmit="return false">
 							<table class="formTable">
 								<colgroup>
 									<col width="10%" />
 									<col width="*" />
+									<col width="10%" />
 								</colgroup>
 								<tbody>
 								<tr>
-									<th>선수 검색</th>
+									<th>드리이버 검색</th>
 									<td>
-										<input type="text" id="name" name="name" class="textType">
+										<input type="text" id="keyword" name="keyword" class="textType" placeholder="드라이버 명을 입력하세요">
+									</td>
+									<td>
+										<a href="javascript:void(0)" id="btnPlayerSearch" class="btn btnBi btnBlue">조회</a>
 									</td>
 								</tr>
 								</tbody>
 							</table>
-							<div class="btnArea mt20">
-								<a href="javascript:void(0)" id="btnPlayerSearch" class="btn btnBi btnBlue">조회</a>
-							</div>
 						</form>
+						<table class="listTable mt10">
+							<colgroup>
+								<col width="50%" />
+								<col width="20%" />
+							</colgroup>
+							<thead>
+							<tr>
+								<th>드라이버 명(first/last)</th>
+								<th>선택</th>
+							</tr>
+							</thead>
+							<tbody id="playerSearch">
+							<tr>
+								<td colspan="2">드라이버 조회하세요</td>
+							</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
@@ -103,7 +112,7 @@
 	$(function () {
 		team.init();
 		{{#teamSearchVO.teamInfoSeq}}
-			team.selected('{{teamSearchVO.teamInfoSeq}}');
+			team.teamSearch('{{teamSearchVO.teamInfoSeq}}');
 		{{/teamSearchVO.teamInfoSeq}}
 	});
 

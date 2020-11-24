@@ -2,6 +2,7 @@ package info.team23h.acc.entity.team;
 
 import info.team23h.acc.entity.BaseTimeEntity;
 import info.team23h.acc.entity.player.Player;
+import info.team23h.acc.vo.team.TeamSaveVO;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -32,4 +33,8 @@ public class Team extends BaseTimeEntity {
 	TeamInfo teamInfo;
 
 
+	public Team(Player player, TeamInfo teamInfo) {
+		this.player = player;
+		this.teamInfo = teamInfo;
+	}
 }
