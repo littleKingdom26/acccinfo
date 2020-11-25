@@ -2,16 +2,13 @@ package info.team23h.acc.restController.admin;
 
 import info.team23h.acc.config.Team23hException;
 import info.team23h.acc.config.variable.CommonResponse;
-import info.team23h.acc.entity.team.Team;
 import info.team23h.acc.entity.team.TeamInfo;
 import info.team23h.acc.model.response.CommonResult;
-import info.team23h.acc.model.response.SingleResult;
 import info.team23h.acc.service.event.EventService;
 import info.team23h.acc.service.response.ResponseService;
 import info.team23h.acc.service.team.TeamService;
 import info.team23h.acc.service.teamInfo.TeamInfoService;
 import info.team23h.acc.service.teamScore.TeamScoreService;
-import info.team23h.acc.vo.event.EventResultVO;
 import info.team23h.acc.vo.team.TeamInfoSaveVO;
 import info.team23h.acc.vo.team.TeamResultVO;
 import info.team23h.acc.vo.team.TeamSaveVO;
@@ -19,9 +16,6 @@ import info.team23h.acc.vo.team.TeamScoreSaveVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 @RestController
 @Slf4j
@@ -93,12 +87,13 @@ public class TeamRestController {
 	public CommonResult teamScoreSave(@ModelAttribute TeamScoreSaveVO teamScoreSaveVO){
 		log.debug("teamScoreSaveVO.toString() > {}", teamScoreSaveVO.toString());
 
+		try{
+			teamScoreService.save(teamScoreSaveVO);
+			return responseService.getSuccessResult();
+		}catch( Exception e){
+			return responseService.getFailResult();
+		}
 
-		teamScoreService.save(teamScoreSaveVO);
-
-
-
-		return responseService.getSuccessResult();
 	}
 
 }

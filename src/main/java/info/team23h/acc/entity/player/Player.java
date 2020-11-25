@@ -23,7 +23,7 @@ public class Player extends BaseTimeEntity {
 
 	@Id
 	@Column(name = "PLAYER_ID")
-	private String PlayerId;
+	private String playerId;
 
 	@Column(name = "FIRST_NAME")
 	private String firstName;

@@ -1,7 +1,7 @@
 package info.team23h.acc.service.teamInfo;
 
 import info.team23h.acc.entity.team.TeamInfo;
-import info.team23h.acc.repository.team.TeamInfoRepository;
+import info.team23h.acc.repository.teamInfo.TeamInfoRepository;
 import info.team23h.acc.vo.team.TeamInfoResultVO;
 import info.team23h.acc.vo.team.TeamInfoSaveVO;
 import lombok.RequiredArgsConstructor;

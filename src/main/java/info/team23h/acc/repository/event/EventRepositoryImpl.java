@@ -5,7 +5,6 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.StringTemplate;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import info.team23h.acc.entity.car.QCar;
 import info.team23h.acc.entity.event.*;
@@ -44,13 +43,13 @@ public class EventRepositoryImpl extends QuerydslRepositorySupport implements Ev
 
 		StringTemplate formattedDate = Expressions.stringTemplate("DATE_FORMAT({0}, {1})", eventInfo.regDt, ConstantImpl.create("%Y-%m"));
 
-		/* nike OrderProductMapperRepositoryImpl 참고 */
 		List<EventResultVO> resultList = queryFactory.select(Projections.bean(EventResultVO.class,
 																			  event.rank,
 																			  event.carId,
 																			  player.lastName,
 																			  player.firstName,
 																			  player.steamAvatar,
+																			  player.playerId,
 																			  car.carName,
 																			  new CaseBuilder()
 																					 .when(scoreInfo.participationYn.eq("Y"))
@@ -67,7 +66,7 @@ public class EventRepositoryImpl extends QuerydslRepositorySupport implements Ev
 															 				 , formattedDate.as("regDt"))
 															).from(event)
 													 .innerJoin(eventInfo).on(event.eventInfoSeq.eq(eventInfo.eventInfoSeq))
-													 .innerJoin(player).on(event.player.PlayerId.eq(player.PlayerId))
+													 .innerJoin(player).on(event.player.playerId.eq(player.playerId))
 													 .innerJoin(car).on(event.car.carModel.eq(car.carModel))
 													 .innerJoin(scoreInfo).on(eventInfo.scoreInfo.scoreInfoSeq.eq(scoreInfo.scoreInfoSeq))
 													 .leftJoin(handicap).on(event.rank.eq(handicap.rank).and(eventInfo.handicapInfo.handicapInfoSeq.eq(handicap.handicapInfo.handicapInfoSeq)))

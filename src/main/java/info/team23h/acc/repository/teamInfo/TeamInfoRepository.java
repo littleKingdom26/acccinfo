@@ -1,4 +1,4 @@
-package info.team23h.acc.repository.team;
+package info.team23h.acc.repository.teamInfo;
 
 import info.team23h.acc.entity.team.TeamInfo;
 import org.springframework.data.jpa.repository.JpaRepository;

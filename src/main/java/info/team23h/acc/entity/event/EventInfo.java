@@ -29,7 +29,7 @@ public class EventInfo  extends BaseTimeEntity {
 	@Column(name = "ROUND")
 	private Long round;
 
-	@Column(name = "DIVISION")
+	@Column(name = "DEVISION")
 	private Long devision;
 
 	@OneToOne

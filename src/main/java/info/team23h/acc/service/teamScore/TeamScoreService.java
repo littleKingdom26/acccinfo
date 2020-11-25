@@ -4,5 +4,5 @@ import info.team23h.acc.vo.team.TeamScoreSaveVO;
 
 public interface TeamScoreService {
 
-	void save(TeamScoreSaveVO teamScoreSaveVO);
+	void save(TeamScoreSaveVO teamScoreSaveVO) throws Exception;
 }

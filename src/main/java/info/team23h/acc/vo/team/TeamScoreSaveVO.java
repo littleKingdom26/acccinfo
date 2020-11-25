@@ -1,7 +1,8 @@
 package info.team23h.acc.vo.team;
 
+import info.team23h.acc.entity.event.EventInfo;
 import info.team23h.acc.entity.team.Team;
-import info.team23h.acc.entity.team.TeamInfo;
+import info.team23h.acc.vo.common.CommonVO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,7 +10,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class TeamScoreSaveVO  {
+public class TeamScoreSaveVO extends CommonVO {
 
 	private Long round;
 
@@ -19,7 +20,6 @@ public class TeamScoreSaveVO  {
 
 	private Team team;
 
-	private TeamInfo teamInfo;
-
+	private EventInfo eventInfo;
 
 }
