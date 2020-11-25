@@ -30,7 +30,7 @@ public class ScoreInfo extends BaseTimeEntity {
 	private String participationYn;
 
 	@OneToMany(mappedBy = "scoreInfo",fetch = FetchType.LAZY)
-	private List<Score> ScoreList;
+	private List<ScoreSub> scoreSubList;
 
 
 

@@ -27,6 +27,6 @@ public class HandicapInfo extends BaseTimeEntity {
 	private String title;
 
 	@OneToMany(mappedBy = "handicapInfo",fetch = FetchType.LAZY)
-	private List<Handicap> handicapList;
+	private List<HandicapSub> handicapSubList;
 
 }

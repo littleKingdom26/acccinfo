@@ -217,11 +217,17 @@ var race = {
 
         $('#btnTeamPoint').click(function(e){
             e.preventDefault();
-            alert("팀포인트 계산");
             let round = $(this).data('round');
             let eventInfoSeq = $(this).data('eventinfoseq');
             console.log("round", round);
             console.log("eventInfoSeq", eventInfoSeq);
+            let data = {
+                "eventInfoSeq": $(this).data('eventinfoseq'),
+                "round": $(this).data('round')
+            };
+            common.ajax("POST","/admin/team/teamScore/save", data,"json",'',function(data){
+               console.log(data);
+            });
 
 
         });

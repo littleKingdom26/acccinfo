@@ -10,6 +10,7 @@ import info.team23h.acc.service.event.EventService;
 import info.team23h.acc.service.response.ResponseService;
 import info.team23h.acc.service.team.TeamService;
 import info.team23h.acc.service.teamInfo.TeamInfoService;
+import info.team23h.acc.service.teamScore.TeamScoreService;
 import info.team23h.acc.vo.event.EventResultVO;
 import info.team23h.acc.vo.team.TeamInfoSaveVO;
 import info.team23h.acc.vo.team.TeamResultVO;
@@ -20,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @Slf4j
@@ -34,6 +36,8 @@ public class TeamRestController {
 	final TeamService teamService;
 
 	final EventService eventService;
+
+	final TeamScoreService teamScoreService;
 
 	@DeleteMapping("/teamInfo/delete/{teamInfoSeq}")
 	public CommonResult teamInfoDel(@PathVariable("teamInfoSeq") Long teamInfoSeq) {
@@ -89,13 +93,10 @@ public class TeamRestController {
 	public CommonResult teamScoreSave(@ModelAttribute TeamScoreSaveVO teamScoreSaveVO){
 		log.debug("teamScoreSaveVO.toString() > {}", teamScoreSaveVO.toString());
 
-		// 1. 이벤트 조회
-		List<EventResultVO> eventResultList =  eventService.findByEventList(teamScoreSaveVO);
 
-		// 2. 팀원 조회
-		// 3. 1 / 2 번조회한곳에서 플레이어 아이디 같은사람 찾기
-		// 4. 팀스코어 테이블에서 3번에서 조회한 아이디가 있는지 체크 후 있다면 삭제
-		// 5. 팀 스코어에 값 입력
+		teamScoreService.save(teamScoreSaveVO);
+
+
 
 		return responseService.getSuccessResult();
 	}

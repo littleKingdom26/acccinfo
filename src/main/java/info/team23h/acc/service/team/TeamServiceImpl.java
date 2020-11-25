@@ -55,4 +55,9 @@ public class TeamServiceImpl implements TeamService{
 		TeamInfo teamInfo = teamInfoRepository.findById(teamSaveVO.getTeamInfoSeq()).orElseThrow(Exception::new);
 		return new TeamResultVO(teamRepository.save(new Team(player, teamInfo)));
 	}
+
+	@Override
+	public TeamResultVO findByPlayerId(String playerId) {
+		return new TeamResultVO(teamRepository.findByPlayer(playerRepository.findById(playerId).orElse(new Player())).orElse(new Team()));
+	}
 }

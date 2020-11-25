@@ -15,7 +15,7 @@ import javax.persistence.*;
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "TB_SCORE")
-public class Score  extends BaseTimeEntity {
+public class ScoreSub extends BaseTimeEntity {
 
 
 	@Id

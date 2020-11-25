@@ -1,6 +1,7 @@
 package info.team23h.acc.entity.team;
 
 import info.team23h.acc.entity.BaseTimeEntity;
+import info.team23h.acc.vo.team.TeamScoreSaveVO;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -22,6 +23,7 @@ public class TeamScore  extends BaseTimeEntity {
 	@Column(name = "TEAM_SCORE_SEQ")
 	private Long teamScoreSeq;
 
+
 	@Column(name = "ROUND")
 	private Long round;
 
@@ -35,5 +37,14 @@ public class TeamScore  extends BaseTimeEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "TEAM_INFO_SEQ")
 	private TeamInfo teamInfo;
+
+
+	@Builder
+	public TeamScore(final TeamScoreSaveVO teamScoreSaveVO,Team team,TeamInfo teamInfo) {
+		this.round = teamScoreSaveVO.getRound();
+		this.score = teamScoreSaveVO.getScore();
+		this.team = team;
+		this.teamInfo = teamInfo;
+	}
 
 }

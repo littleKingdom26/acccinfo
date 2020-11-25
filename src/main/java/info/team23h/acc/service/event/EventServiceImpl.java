@@ -625,7 +625,7 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public List<EventResultVO> findByEventList(TeamScoreSaveVO teamScoreSaveVO) {
 		List<EventResultVO> resultList = eventRepository.findByEventList(teamScoreSaveVO);
-		return null;
+		return resultList;
 	}
 
 

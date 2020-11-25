@@ -9,19 +9,27 @@ import lombok.Setter;
 public class EventResultVO extends CommonVO {
 
 	/** 이벤스 시퀀스 */
-	private int eventSeq;
+	private Long eventSeq;
 	/**
 	 * 이벤트 정보 시퀀스
 	 */
-	private int eventInfoSeq;
+	private Long eventInfoSeq;
 	/**
 	 * 라운드
 	 */
-	private int round;
+	private Long round;
 	/**
 	 * 플레이어 아이디
 	 */
 	private String playerId;
+
+	private String lastName;
+
+	private String firstName;
+
+	private String steamAvatar;
+
+	private String carName;
 	/**
 	 * 차 아이디
 	 */
@@ -29,55 +37,58 @@ public class EventResultVO extends CommonVO {
 	/**
 	 * 레이스 타임
 	 */
-	private int raceTime;
+	private Long raceTime;
 	/**
 	 * 총 타임
 	 */
-	private int totalTime;
+	private Long totalTime;
 	/**
 	 * 총 렙
 	 */
-	private int totalLap;
+	private Long totalLap;
 	/**
 	 * 베스트랩
 	 */
-	private int bestLap;
+	private Long bestLap;
 	/**
 	 * 섹터1
 	 */
-	private int sector1;
+	private Long sector1;
 	/**
 	 * 섹터2
 	 */
-	private int sector2;
+	private Long sector2;
 	/**
 	 * 섹터3
 	 */
-	private int sector3;
+	private Long sector3;
 	/**
 	 * 순위
 	 */
-	private int rank;
+	private Long rank;
 	/**
 	 * 스코어
 	 */
-	private int score;
+	private Long score;
 	/**
 	 * 핸디캡
 	 */
-	private int handicap;
+	private Long handicap;
 	/**
 	 * 패널티
 	 */
-	private int penalty;
+	private Long penalty;
 
 	/**
 	 * 차량모델
 	 */
-	private int carModel;
+	private Long carModel;
 
 	/**
 	 * 의무 피트 스톱 남은 수
 	 */
-	private int missMandatoryPitStop;
+	private Long missMandatoryPitStop;
+
+	private String participationYn;
+
 }
