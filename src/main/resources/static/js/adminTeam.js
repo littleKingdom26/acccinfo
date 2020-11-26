@@ -1,4 +1,4 @@
-var teamInfo = {
+let teamInfo = {
     init:function(){
         let _this = this;
         $("#btnSave").click(function(e){
@@ -38,7 +38,7 @@ var teamInfo = {
     }
 
 };
-var team = {
+let team = {
     init:function(){
         let _this = this;
         $('#btnSearch').click(function (e){
@@ -99,4 +99,9 @@ var team = {
 
     }
 
+};
+let teamScore = {
+  init:function(){
+      let _this = this;
+  }
 };

@@ -3,9 +3,11 @@ package info.team23h.acc.controller.admin;
 import info.team23h.acc.service.player.PlayerService;
 import info.team23h.acc.service.team.TeamService;
 import info.team23h.acc.service.teamInfo.TeamInfoService;
+import info.team23h.acc.service.teamScore.TeamScoreService;
 import info.team23h.acc.vo.player.PlayerSearch;
 import info.team23h.acc.vo.player.PlayerVO;
 import info.team23h.acc.vo.team.TeamResultVO;
+import info.team23h.acc.vo.team.TeamScoreSearchVO;
 import info.team23h.acc.vo.team.TeamSearchVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,8 @@ public class TeamController {
 	final TeamService teamService;
 
 	final PlayerService playerService;
+
+	final TeamScoreService teamScoreService;
 
 
 	@GetMapping(value = "/teamInfo")
@@ -62,6 +66,14 @@ public class TeamController {
 		return "/admin/team/ajax/playerSearch";
 	}
 
+
+	@GetMapping(value = "/teamScore")
+	public String teamScore(Model model, @ModelAttribute TeamScoreSearchVO teamScoreSearchVO) {
+		List<TeamScoreSearchVO> eventList =  teamScoreService.findAllEventDtGroupBy();
+		model.addAttribute("eventList", eventList);
+
+		return "/admin/team/teamScore";
+	}
 
 
 }

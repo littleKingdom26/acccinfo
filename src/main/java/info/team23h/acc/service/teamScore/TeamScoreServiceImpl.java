@@ -11,6 +11,7 @@ import info.team23h.acc.repository.teamInfo.TeamInfoRepository;
 import info.team23h.acc.repository.teamScore.TeamScoreRepository;
 import info.team23h.acc.vo.event.EventResultVO;
 import info.team23h.acc.vo.team.TeamScoreSaveVO;
+import info.team23h.acc.vo.team.TeamScoreSearchVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -31,7 +33,6 @@ public class TeamScoreServiceImpl implements TeamScoreService{
 
 	final TeamInfoRepository teamInfoRepository;
 	final TeamScoreRepository teamScoreRepository;
-
 	final EventInfoRepository eventInfoRepository;
 
 	@Transactional
@@ -64,5 +65,11 @@ public class TeamScoreServiceImpl implements TeamScoreService{
 				}
 			}
 		});
+	}
+
+	@Override
+	public List<TeamScoreSearchVO> findAllEventDtGroupBy() {
+		List<TeamScoreSearchVO> resultList = teamScoreRepository.findAllEventDtGroupBy();
+		return resultList;
 	}
 }

@@ -73,11 +73,6 @@ public class EventController {
 	}
 
 
-	/**
-	 * 점수 조회
-	 * @param model
-	 * @return
-	 */
 	@GetMapping("/scoreInfo/{scoreInfoSeq}")
 	public String scoreDetail(Model model, @PathVariable("scoreInfoSeq") int scoreInfoSeq) {
 		// 스코어 정보 조회
