@@ -33,31 +33,27 @@ public class TeamServiceImpl implements TeamService{
 	@Override
 	public List<TeamResultVO> findByTeamInfoSeq(Long teamInfoSeq) {
 		TeamInfo teamInfo = teamInfoRepository.findById(teamInfoSeq).orElse(new TeamInfo());
-		List<TeamResultVO> teamList = teamRepository.findByTeamInfo(teamInfo).stream().map(TeamResultVO::new).collect(Collectors.toList());
+		List<TeamResultVO> teamList = teamRepository.findByTeamInfoAndDelYn(teamInfo,"N").stream().map(TeamResultVO::new).collect(Collectors.toList());
 		return teamList;
 	}
 
 	@Override
 	@Transactional
 	public void delete(Long teamSeq) throws Exception {
-		teamRepository.delete(teamRepository.findById(teamSeq).orElseThrow(Exception::new));
 
+		Team team = teamRepository.findById(teamSeq).orElseThrow(Exception::new);
+		team.updateDel();
 	}
 
 	@Override
 	@Transactional
 	public TeamResultVO save(TeamSaveVO teamSaveVO) throws Exception {
 		Player player = playerRepository.findById(teamSaveVO.getPlayerId()).orElseThrow(Exception::new);
-		Optional<Team> checkPlayer = teamRepository.findByPlayer(player);
+		Optional<Team> checkPlayer = teamRepository.findByPlayerAndDelYn(player,"N");
 		if(checkPlayer.isPresent()){
 			throw new Team23hException("해당 유저는 팀에 소속 있습니다. 팀명-"+ checkPlayer.get().getTeamInfo().getTeamName()) ;
 		}
 		TeamInfo teamInfo = teamInfoRepository.findById(teamSaveVO.getTeamInfoSeq()).orElseThrow(Exception::new);
 		return new TeamResultVO(teamRepository.save(new Team(player, teamInfo)));
-	}
-
-	@Override
-	public TeamResultVO findByPlayerId(String playerId) {
-		return new TeamResultVO(teamRepository.findByPlayer(playerRepository.findById(playerId).orElse(new Player())).orElse(new Team()));
 	}
 }

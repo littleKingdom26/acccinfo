@@ -117,6 +117,17 @@
             <artifactId>querydsl-jpa</artifactId>
             <version>4.2.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-sql-spring</artifactId>
+            <version>4.2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-sql</artifactId>
+            <version>4.2.2</version>
+        </dependency>
     </dependencies>
 
     <build>

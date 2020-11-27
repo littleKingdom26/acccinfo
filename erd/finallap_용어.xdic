@@ -146,4 +146,5 @@
   <term name="페이지" physicalName="PAGE"/>
   <term name="시작" physicalName="START"/>
   <term name="종료" physicalName="END"/>
+  <term name="삭제" physicalName="DEL"/>
 </tm:TermDictionary>

@@ -12,5 +12,4 @@ public interface TeamService {
 
 	TeamResultVO save(TeamSaveVO teamSaveVO) throws Exception;
 
-	TeamResultVO findByPlayerId(String playerId);
 }

@@ -86,7 +86,6 @@ public class TeamRestController {
 	@PostMapping(value="/teamScore/save")
 	public CommonResult teamScoreSave(@ModelAttribute TeamScoreSaveVO teamScoreSaveVO){
 		log.debug("teamScoreSaveVO.toString() > {}", teamScoreSaveVO.toString());
-
 		try{
 			teamScoreService.save(teamScoreSaveVO);
 			return responseService.getSuccessResult();
@@ -95,5 +94,6 @@ public class TeamRestController {
 		}
 
 	}
+
 
 }

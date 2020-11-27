@@ -1,9 +1,10 @@
 package info.team23h.acc.vo.team;
 
-import info.team23h.acc.entity.event.EventInfo;
+import info.team23h.acc.entity.event.EventMeta;
 import info.team23h.acc.entity.team.Team;
 import info.team23h.acc.vo.common.CommonVO;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -17,6 +18,8 @@ public class TeamScoreSaveVO extends CommonVO {
 
 	private Team team;
 
-	private EventInfo eventInfo;
+	//private EventInfo eventInfo;
+
+	private EventMeta eventMeta;
 
 }

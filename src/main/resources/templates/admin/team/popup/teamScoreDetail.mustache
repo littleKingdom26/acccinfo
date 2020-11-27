@@ -1,0 +1,54 @@
+<div class="layerPop">
+	<p class="popTitle">
+		<span>
+            {{#teamScoreResultVO}}
+				{{TeamInfoResultVO.teamName}}
+			{{/teamScoreResultVO}}
+        </span>
+	</p>
+	<div class="layerCont">
+		<div class="contBox">
+			<div class="inBox">
+				<table class="listTable">
+					<colgroup>
+						<col width="*">
+						<col width="*">
+						<col width="150px">
+						<col width="150px">
+						<col width="100px">
+					</colgroup>
+					<tbody>
+						<tr>
+							<th>드라이버(first/last) </th>
+							<th>리그명</th>
+							<th>라운드</th>
+							<th>트랙명</th>
+							<th>포인트</th>
+						</tr>
+						{{#teamScoreResultVO.teamScoreResultDetailList}}
+							<tr>
+								<td>
+									{{#steamAvatar}}
+										<div style="float:left">
+											<img src="{{steamAvatar}}" class="rounded-circle" />
+										</div>
+									{{/steamAvatar}}
+									{{firstName}} / {{lastName}}
+								</td>
+								<td>{{title}}</td>
+								<td>{{round}}</td>
+								<td>{{trackViewName}}</td>
+								<td>{{score}}</td>
+							</tr>
+						{{/teamScoreResultVO.teamScoreResultDetailList}}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<a href="#none" class="layerClose bPoupClose">닫기</a>
+</div>
+<script>
+
+
+</script>

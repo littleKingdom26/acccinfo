@@ -13,7 +13,7 @@
 			<div class="content">
 				<div class="box">
 					<div class="inBox">
-						<form id="searchFrm" action="/admin/team/team" method="get">
+						<form id="searchFrm" action="" method="get">
 							<table class="formTable">
 								<colgroup>
 									<col width="10%" />
@@ -24,7 +24,7 @@
 									<tr>
 										<th>기간 선택</th>
 										<td>
-											<select id="teamInfoSeq" name="teamInfoSeq">
+											<select id="searchEventDt" name="searchEventDt">
 												<option value="">선택</option>
 												{{#eventList}}
 													<option value="{{eventDt}}"> {{eventDt}}</option>
@@ -42,18 +42,20 @@
 					<div class="inBox">
 						<table class="listTable mt10">
 							<colgroup>
+								<col width="10%" />
 								<col width="50%" />
-								<col width="20%" />
+								<col width="30%" />
 							</colgroup>
 							<thead>
 							<tr>
-								<th>드라이버 명(first/last)</th>
-								<th>삭제</th>
+								<th>순위</th>
+								<th>팀명</th>
+								<th>점수</th>
 							</tr>
 							</thead>
-							<tbody id="teamSearch">
+							<tbody id="teamScoreTable">
 								<tr>
-									<td colspan="2">팀을 선택하세요</td>
+									<td colspan="3">팀을 선택하세요</td>
 								</tr>
 							</tbody>
 						</table>
@@ -64,12 +66,15 @@
 		{{>admin/layout/bodyFooter}}
 	</div>
 </div>
+<div id="divLayer" class="layer event_write-pop">
+
+</div>
 </body>
 {{>admin/layout/footer}}
 <script src="/js/adminTeam.js"></script>
 <script>
 	$(function () {
-		team.init();
+		teamScore.init();
 	});
 
 </script>

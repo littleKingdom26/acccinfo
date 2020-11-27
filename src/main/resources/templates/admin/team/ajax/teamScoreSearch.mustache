@@ -1,0 +1,12 @@
+{{#teamScoreResultList}}
+	<tr>
+		<td>{{rank}}</td>
+		<td><a href="#" class="btnTeamDetail" data-teaminfoseq="{{teamInfoSeq}}">{{teamName}}</a></td>
+		<td>{{teamScore}}</td>
+	</tr>
+{{/teamScoreResultList}}
+{{^teamScoreResultList}}
+	<tr>
+		<td colspan="3">조회결과가 없습니다.</td>
+	</tr>
+{{/teamScoreResultList}}

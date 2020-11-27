@@ -6,9 +6,7 @@ import info.team23h.acc.service.teamInfo.TeamInfoService;
 import info.team23h.acc.service.teamScore.TeamScoreService;
 import info.team23h.acc.vo.player.PlayerSearch;
 import info.team23h.acc.vo.player.PlayerVO;
-import info.team23h.acc.vo.team.TeamResultVO;
-import info.team23h.acc.vo.team.TeamScoreSearchVO;
-import info.team23h.acc.vo.team.TeamSearchVO;
+import info.team23h.acc.vo.team.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -71,9 +69,37 @@ public class TeamController {
 	public String teamScore(Model model, @ModelAttribute TeamScoreSearchVO teamScoreSearchVO) {
 		List<TeamScoreSearchVO> eventList =  teamScoreService.findAllEventDtGroupBy();
 		model.addAttribute("eventList", eventList);
-
 		return "/admin/team/teamScore";
 	}
+
+	@GetMapping(value = "/teamScore/search")
+	public String teamScoreSearch(Model model, @ModelAttribute TeamScoreSearchVO teamScoreSearchVO) {
+		log.debug("teamScoreSearchVO.getSearchEventDt() > {}", teamScoreSearchVO.getSearchEventDt());
+		List<TeamScoreTeamInfoResultVO> teamScoreResultList = teamScoreService.findTeamScore(teamScoreSearchVO);
+		model.addAttribute("teamScoreResultList", teamScoreResultList);
+		return "/admin/team/ajax/teamScoreSearch";
+	}
+
+
+	@GetMapping(value = "/teamScore/detail")
+	public String teamScoreDetail(Model model, @ModelAttribute TeamScoreSearchVO teamScoreSearchVO) {
+		log.debug("teamScoreSearchVO.getSearchEventDt() > {}", teamScoreSearchVO.getSearchEventDt());
+		log.debug("teamScoreSearchVO.getTeamInfoSeq() > {}", teamScoreSearchVO.getTeamInfoSeq());
+
+		TeamScoreResultVO teamScoreResultVO =  teamScoreService.findTeamScoreDetail(teamScoreSearchVO);
+		model.addAttribute("teamScoreResultVO", teamScoreResultVO);
+		return "/admin/team/popup/teamScoreDetail";
+	}
+
+
+
+
+
+
+
+
+
+
 
 
 }

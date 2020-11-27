@@ -1,5 +1,5 @@
 var common = {
-    ajax:function(method,url,param,dataType, contentType,fnSuccess){
+    ajax:function(method,url,param,dataType, contentType,fnSuccess,fnError){
         if (contentType == '') {
             contentType = 'application/x-www-form-urlencoded; charset=UTF-8';
         }
@@ -20,6 +20,12 @@ var common = {
                     fnSuccess(data);
                 }
             }
+            , error: function(jqXHR, textStatus, errorThrown){
+                if(typeof fnError === 'function') {
+                    fnError(jqXHR, textStatus, errorThrown);
+                }
+            }
+
         });
     }
 };

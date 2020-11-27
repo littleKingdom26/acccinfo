@@ -38,7 +38,6 @@ var race = {
 
         $('#btnDel').click(function (e) {
             e.preventDefault();
-            console.log($('#scoreSelect').val());
             if (confirm("점수를 삭제 합니다. 해당 점수를 사용하는 이벤트는 재 설정 필요합니다.")) {
                 common.ajax("DELETE", "/admin/event/scoreInfo/del/"+ $('#scoreSelect').val(), "", "json", 'application/json; charset=utf-8', function (data) {
                     if (data.code == '0000') {
@@ -81,7 +80,6 @@ var race = {
         $('#handicapSelect').change(function (e) {
             if($(this).val() != ''){
                 common.ajax("GET", "/admin/event/handicapInfo/" + $(this).val(), "", "html", 'application/x-www-form-urlencoded; charset=UTF-8', function (data) {
-                    console.log(data);
                     $('#handicapInfoDetail').html(data);
                 });
             }
@@ -192,6 +190,8 @@ var race = {
 
             common.ajax("GET", "/admin/event/result/search", data, "html", 'application/x-www-form-urlencoded; charset=UTF-8', function (data) {
                 $('#resultTable').html(data);
+            },function (jqXHR, textStatus, errorThrown){
+                $('#resultTable').html('');
             });
         })
     },
@@ -219,14 +219,14 @@ var race = {
             e.preventDefault();
             let round = $(this).data('round');
             let eventInfoSeq = $(this).data('eventinfoseq');
-            console.log("round", round);
-            console.log("eventInfoSeq", eventInfoSeq);
             let data = {
                 "eventInfoSeq": $(this).data('eventinfoseq'),
                 "round": $(this).data('round')
             };
             common.ajax("POST","/admin/team/teamScore/save", data,"json",'',function(data){
-               console.log(data);
+                if(data.success) {
+                    alert('팀포인트계산이 완료 되었습니다.');
+                }
             });
 
 

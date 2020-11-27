@@ -13,7 +13,15 @@ public class TeamScoreSearchVO extends CommonVO {
 
 	private String eventDt;
 
+	private String searchEventDt;
+
+	private Long teamInfoSeq;
+
 	public TeamScoreSearchVO(TeamScore teamScore) {
 		this.eventDt = teamScore.getEventDt();
 	}
+
+
+
+
 }

@@ -27,7 +27,14 @@ public class TeamInfoResultVO  extends CommonVO {
 	}
 
 	public int getTeamCount(){
-		return this.team.size();
+
+		int i = 0;
+		for(Team temp : team){
+			if("N".equals(temp.getDelYn())){
+				i++;
+			}
+		}
+		return i;
 	}
 
 }

@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public interface TeamRepository extends JpaRepository<Team, Long> {
 
-	List<Team> findByTeamInfo(TeamInfo teamInfo);
+	List<Team> findByTeamInfoAndDelYn(TeamInfo teamInfo,String delYn);
 
-	Optional<Team> findByPlayer(Player player);
+	Optional<Team> findByPlayerAndDelYn(Player player,String delYn);
 
 
 }

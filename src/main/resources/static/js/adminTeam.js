@@ -101,7 +101,28 @@ let team = {
 
 };
 let teamScore = {
-  init:function(){
-      let _this = this;
-  }
+    init:function(){
+        let _this = this;
+        _this.submit();
+        $('#searchEventDt').change(function (e){
+            _this.submit();
+        });
+
+        $('#teamScoreTable').on('click', '.btnTeamDetail', function (e) {
+            e.preventDefault();
+            let teamInfoSeq = $(this).data('teaminfoseq');
+            let searchEventDt = $('#searchEventDt').val();
+            console.log('teamInfoSeq', teamInfoSeq);
+            common.ajax("GEt","/admin/team/teamScore/detail",{teamInfoSeq : teamInfoSeq,searchEventDt:searchEventDt},'html','',function(data){
+                $('#divLayer').html(data);
+                $('#divLayer').bPopup();
+            });
+        });
+
+    },
+    submit : function(){
+        common.ajax("GET", "/admin/team/teamScore/search", {searchEventDt: $('#searchEventDt').val()}, 'html', '', function (data) {
+            $('#teamScoreTable').html(data);
+        });
+    }
 };

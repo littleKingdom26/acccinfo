@@ -1,7 +1,7 @@
 package info.team23h.acc.entity.team;
 
 import info.team23h.acc.entity.BaseTimeEntity;
-import info.team23h.acc.entity.event.EventInfo;
+import info.team23h.acc.entity.event.EventMeta;
 import info.team23h.acc.vo.team.TeamScoreSaveVO;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -24,18 +24,21 @@ public class TeamScore  extends BaseTimeEntity {
 	@Column(name = "TEAM_SCORE_SEQ")
 	private Long teamScoreSeq;
 
-	@Column(name = "ROUND")
-	private Long round;
-
 	@Column(name = "SCORE")
 	private Long score;
 
 	@Column(name = "EVENT_DT")
 	private String eventDt;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="EVENT_INFO_SEQ")
-	private EventInfo eventInfo;
+	/*@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="EVENT_INFO_SEQ",updatable = false,insertable = false)
+	private EventInfo eventInfo;*/
+
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumns({@JoinColumn(name="EVENT_INFO_SEQ",referencedColumnName = "EVENT_INFO_SEQ")
+			,@JoinColumn(name="ROUND",referencedColumnName = "ROUND")})
+	private EventMeta eventMeta;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "TEAM_SEQ")
@@ -48,12 +51,11 @@ public class TeamScore  extends BaseTimeEntity {
 
 	@Builder
 	public TeamScore(final TeamScoreSaveVO teamScoreSaveVO) {
-		this.round = teamScoreSaveVO.getRound();
 		this.score = teamScoreSaveVO.getScore();
 		this.eventDt = teamScoreSaveVO.getRegDt();
 		this.team = teamScoreSaveVO.getTeam();
 		this.teamInfo = teamScoreSaveVO.getTeam().getTeamInfo();
-		this.eventInfo = teamScoreSaveVO.getEventInfo();
+		this.eventMeta = teamScoreSaveVO.getEventMeta();
 	}
 
 	public void update(Long score) {
