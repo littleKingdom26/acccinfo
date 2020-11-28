@@ -74,7 +74,6 @@ public class TeamController {
 
 	@GetMapping(value = "/teamScore/search")
 	public String teamScoreSearch(Model model, @ModelAttribute TeamScoreSearchVO teamScoreSearchVO) {
-		log.debug("teamScoreSearchVO.getSearchEventDt() > {}", teamScoreSearchVO.getSearchEventDt());
 		List<TeamScoreTeamInfoResultVO> teamScoreResultList = teamScoreService.findTeamScore(teamScoreSearchVO);
 		model.addAttribute("teamScoreResultList", teamScoreResultList);
 		return "/admin/team/ajax/teamScoreSearch";
@@ -83,9 +82,6 @@ public class TeamController {
 
 	@GetMapping(value = "/teamScore/detail")
 	public String teamScoreDetail(Model model, @ModelAttribute TeamScoreSearchVO teamScoreSearchVO) {
-		log.debug("teamScoreSearchVO.getSearchEventDt() > {}", teamScoreSearchVO.getSearchEventDt());
-		log.debug("teamScoreSearchVO.getTeamInfoSeq() > {}", teamScoreSearchVO.getTeamInfoSeq());
-
 		TeamScoreResultVO teamScoreResultVO =  teamScoreService.findTeamScoreDetail(teamScoreSearchVO);
 		model.addAttribute("teamScoreResultVO", teamScoreResultVO);
 		return "/admin/team/popup/teamScoreDetail";

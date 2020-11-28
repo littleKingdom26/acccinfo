@@ -92,7 +92,8 @@ public class TeamScoreRepositoryImpl extends QuerydslRepositorySupport implement
 				.innerJoin(track).on(score.eventMeta.track.trackName.eq(track.trackName))
 				.where(eqTeamInfo(teamScoreSearchVO).and(eqEventDT(teamScoreSearchVO)))
 //				.orderBy(score.teamInfo.teamInfoSeq.desc(),score.eventMeta.round.desc(),score.score.desc()).fetch();
-				.orderBy(score.score.desc()).fetch();
+//				.orderBy(score.score.desc()).fetch();
+				.orderBy(score.team.player.playerId.desc(),score.score.desc()).fetch();
 
 
 		return resultList;
