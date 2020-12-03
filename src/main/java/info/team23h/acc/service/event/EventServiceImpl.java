@@ -19,7 +19,6 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,6 +52,7 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
+	@Transactional
 	public int insertEventInfo(EventInfoVO eventInfoVO) {
 		return eventDAO.insertEventInfo(eventInfoVO);
 	}
@@ -82,6 +82,7 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
+	@Transactional
 	public int setEvent(EventInfoVO eventInfoVO) throws ParseException {
 
 		JSONParser parser = new JSONParser(JSONParser.DEFAULT_PERMISSIVE_MODE);
@@ -289,6 +290,7 @@ public class EventServiceImpl implements EventService {
 
 
 	@Override
+	@Transactional
 	public int setEventBigGrid(EventInfoVO eventInfoVO) throws ParseException {
 
 		JSONParser parser = new JSONParser(JSONParser.DEFAULT_PERMISSIVE_MODE);
