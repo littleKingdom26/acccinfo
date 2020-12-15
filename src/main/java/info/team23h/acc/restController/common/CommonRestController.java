@@ -52,8 +52,7 @@ public class CommonRestController {
 	}
 
 	@GetMapping("/steam/api/getPlayer")
-	public HashMap<String, Object> player(MultipartHttpServletRequest request,
-											  Model model) throws IOException {
+	public HashMap<String, Object> player(MultipartHttpServletRequest request,Model model) throws IOException {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("data", "1");
 		return map;
