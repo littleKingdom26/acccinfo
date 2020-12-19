@@ -1,11 +1,15 @@
 package info.team23h.acc.repository.teamScore;
 
+import info.team23h.acc.service.player.PlayerService;
 import info.team23h.acc.service.teamScore.TeamScoreService;
+import info.team23h.acc.vo.player.PlayerVO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
+@ActiveProfiles("local")
 class TeamScoreRepositoryTest {
 
 	@Autowired
@@ -14,30 +18,20 @@ class TeamScoreRepositoryTest {
 	@Autowired
 	TeamScoreService teamScoreService;
 
+	@Autowired
+	PlayerService playerService;
+
 	@Test
 	public void test(){
+		PlayerVO playerVO = new PlayerVO();
+		playerVO.setPlayerId("S76561198004892038");
+		int playerDetail = playerService.getPlayerDetail(playerVO);
+		System.out.println(playerDetail);
 
 		/*TeamScoreSearchVO teamScoreSearchVO = new TeamScoreSearchVO();
 		teamScoreSearchVO.setSearchEventDt("2020-11");
 		List<TeamScoreTeamInfoResultVO> teamScore = teamScoreRepository.findTeamScore(teamScoreSearchVO);*/
 
-
-	}
-
-	@Test
-	public void 리스트조회_test() {
-
-		/*List<TeamScoreSearchVO> allEventDtGroupBy = teamScoreRepository.findAllEventDtGroupBy();*/
-
-	}
-
-	@Test
-	public void 팀_디테일_조회(){
-		/*TeamScoreSearchVO teamScoreSearchVO = new TeamScoreSearchVO();
-		//teamScoreSearchVO.setSearchEventDt("2020-10");
-		teamScoreSearchVO.setTeamInfoSeq(5L);
-
-		teamScoreService.findTeamScoreDetail(teamScoreSearchVO);*/
 
 	}
 
