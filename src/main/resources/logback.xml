@@ -12,8 +12,10 @@
             <fileNamePattern>/home/ubuntu/logs/logback-%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <!-- or whenever the file size reaches 100MB -->
-                <maxHistory>30</maxHistory>
+                <maxFileSize>100MB</maxFileSize>
+
             </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
             <pattern>[%d{yyyy-MM-dd HH:mm:ss}][%thread][%c{0}] [%L] [%p] %m %n</pattern>
@@ -25,7 +27,7 @@
     <logger name="info.team23h" level="INFO" />
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
-        <appender-ref ref="ROLLING"/>
+        <!--<appender-ref ref="ROLLING"/>-->
     </root>
 
 </configuration>
