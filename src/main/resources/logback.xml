@@ -7,14 +7,10 @@
 
     <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>/home/ubuntu/logs/logback/catalina.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- rollover daily -->
             <fileNamePattern>/home/ubuntu/logs/logback-%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <!-- or whenever the file size reaches 100MB -->
-                <maxFileSize>100MB</maxFileSize>
-
-            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxFileSize>100MB</maxFileSize>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
@@ -27,7 +23,7 @@
     <logger name="info.team23h" level="INFO" />
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
-        <!--<appender-ref ref="ROLLING"/>-->
+        <appender-ref ref="ROLLING"/>
     </root>
 
 </configuration>
