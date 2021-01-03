@@ -26,6 +26,8 @@ var result = {
                 html += "<option value='"+i+"'>"+i+"</option>";
             }
             $('#roundText').text("Year");
+            $('#round').html(html);
+            $('#round').val('2021').prop('selected', true);
         }else{
             let formax = $('#league option:selected').data('round');
             html = "<option value='0'>All</option>";
@@ -33,8 +35,8 @@ var result = {
                 html += "<option value=" + i + ">" + i + " Round</option>";
             }
             $('#roundText').text("Round");
+            $('#round').html(html);
         }
-        $('#round').html(html);
         _th.fnResult();
     },
     fnResult:function(){
