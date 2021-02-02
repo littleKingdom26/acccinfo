@@ -42,20 +42,23 @@
             {{/list}}
         {{/data}}
     </div>
-    <div class="row justify-content-center">
-        <div class="col-12 ">
+    <div class="row justify-content-center mb-2">
+        <div class="col-6 ">
             <input type="hidden" value="{{data.search.currentPage}}" id="currentPage" />
             <input type="hidden" value="{{data.search.nameSeq}}" id="nameSeq" />
             <button type="button" class="btn btn-secondary"  id="btn-more" style="display:none;">More</button>
         </div>
+		<div class="col-6">
+			{{#write}}
+				<div class="row">
+					<div class="col-12 text-right">
+						<button type="button" id="write" class="btn btn-primary">Register</button>
+					</div>
+				</div>
+			{{/write}}
+
+		</div>
     </div>
-    {{#write}}
-        <div class="row">
-            <div class="col-12 text-right">
-                <button type="button" id="write" class="btn btn-primary">Register</button>
-            </div>
-        </div>
-    {{/write}}
 	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 	<!-- 디스플레이 광고 -->
 	<ins class="adsbygoogle"

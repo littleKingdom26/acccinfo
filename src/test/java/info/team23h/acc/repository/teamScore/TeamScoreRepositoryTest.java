@@ -2,7 +2,6 @@ package info.team23h.acc.repository.teamScore;
 
 import info.team23h.acc.service.player.PlayerService;
 import info.team23h.acc.service.teamScore.TeamScoreService;
-import info.team23h.acc.vo.player.PlayerVO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,10 +22,11 @@ class TeamScoreRepositoryTest {
 
 	@Test
 	public void test(){
-		PlayerVO playerVO = new PlayerVO();
-		playerVO.setPlayerId("S76561198004892038");
-		int playerDetail = playerService.getPlayerDetail(playerVO);
-		System.out.println(playerDetail);
+
+//		PlayerVO playerVO = new PlayerVO();
+//		playerVO.setPlayerId("S76561198004892038");
+//		int playerDetail = playerService.getPlayerDetail(playerVO);
+//		System.out.println(playerDetail);
 
 		/*TeamScoreSearchVO teamScoreSearchVO = new TeamScoreSearchVO();
 		teamScoreSearchVO.setSearchEventDt("2020-11");
