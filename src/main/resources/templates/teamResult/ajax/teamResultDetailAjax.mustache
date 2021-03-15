@@ -1,0 +1,52 @@
+<div class="col-12">
+    <h3>
+		{{#teamScoreResultVO}}
+			{{TeamInfoResultVO.teamName}}
+		{{/teamScoreResultVO}}
+    </h3>
+</div>
+<table class="table table-striped" style="margin-top:20px;">
+    <colgroup>
+        <col width="" />
+        <col width="" />
+        <col width="" />
+        <col width="" />
+        <col width="" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th class="text-center">Driver</th>
+        <th class="text-center">League</th>
+        <th class="text-center">Round</th>
+        <th class="text-center">Track Name</th>
+        <th class="text-center">Point</th>
+    </tr>
+    </thead>
+    <tbody>
+	{{#teamScoreResultVO.teamScoreResultDetailList}}
+        <tr>
+            <td>
+				{{#steamAvatar}}
+					<div style="float:left">
+						<img src="{{steamAvatar}}" class="rounded-circle" />
+					</div>
+				{{/steamAvatar}}
+				<div style="overflow:hidden;padding-left:10px">
+					{{firstName}} {{lastName}}
+				</div>
+			</td>
+            <td>
+				{{title}}
+            </td>
+            <td style="text-align: center">{{round}}</td>
+            <td style="text-align: center">{{trackViewName}}</td>
+            <td style="text-align: center">{{score}}</td>
+        </tr>
+    {{/teamScoreResultVO.teamScoreResultDetailList}}
+    </tbody>
+</table>
+<script>
+    $(function () {
+        // result.roundSearch();
+    });
+</script>

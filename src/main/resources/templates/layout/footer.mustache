@@ -36,7 +36,10 @@
             }else if(currentUrl.indexOf("calendar") > -1){
                 $('#calendar').addClass("active");
                 $('#calendar').find('.sr-only').text('current');
-            }else if(currentUrl.indexOf("result") > -1){
+            }else if(currentUrl.indexOf("teamResult") > -1){
+				$('#teamResult').addClass("active");
+				$('#teamResult').find('.sr-only').text('current');
+			}else if(currentUrl.indexOf("result") > -1){
                 $('#result').addClass("active");
                 $('#result').find('.sr-only').text('current');
             }else{

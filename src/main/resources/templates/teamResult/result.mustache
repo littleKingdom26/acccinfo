@@ -1,0 +1,59 @@
+{{>layout/header_index}}
+<main role="main" class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+                <label for="eventDt">Event</label>
+                <select id="eventDt" class="form-control">
+                    {{#eventList}}
+                        <option value="{{eventDt}}">{{eventDt}}</option>
+                    {{/eventList}}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive" id="resultData">
+        <!--<h1>Please select a league.</h1>-->
+    </div>
+	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<!-- 디스플레이 광고 -->
+	<ins class="adsbygoogle"
+		 style="display:block"
+		 data-ad-client="ca-pub-6528472744224593"
+		 data-ad-slot="9111109626"
+		 data-ad-format="auto"
+		 data-full-width-responsive="true"></ins>
+	<script>
+		(adsbygoogle = window.adsbygoogle || []).push({});
+	</script>
+</main>
+
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title driverName" id="staticBackdropLabel"></h5>
+                <a id="modalProfile" href=""></a>
+                <small class="ttscore text-muted h200 mt-2 ml-2"></small>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="teamScoreDetail">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/teamResult.js?v=1.2"></script>
+{{>layout/footer}}
+<script>
+    $(function () {
+		teamResult.init();
+    });
+</script>
+

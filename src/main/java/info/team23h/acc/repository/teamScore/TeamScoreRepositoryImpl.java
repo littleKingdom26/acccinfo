@@ -91,9 +91,9 @@ public class TeamScoreRepositoryImpl extends QuerydslRepositorySupport implement
 				.innerJoin(eventMeta).on(score.eventMeta.eventInfoSeq.eq(eventMeta.eventInfoSeq).and(score.eventMeta.round.eq(eventMeta.round)))
 				.innerJoin(track).on(score.eventMeta.track.trackName.eq(track.trackName))
 				.where(eqTeamInfo(teamScoreSearchVO).and(eqEventDT(teamScoreSearchVO)))
-//				.orderBy(score.teamInfo.teamInfoSeq.desc(),score.eventMeta.round.desc(),score.score.desc()).fetch();
+				.orderBy(score.teamInfo.teamInfoSeq.desc(),score.eventMeta.round.asc(),score.score.desc()).fetch();
 //				.orderBy(score.score.desc()).fetch();
-				.orderBy(score.team.player.playerId.desc(),score.score.desc()).fetch();
+//				.orderBy(score.team.player.playerId.desc(),score.score.desc()).fetch();
 
 
 		return resultList;

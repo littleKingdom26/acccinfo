@@ -21,7 +21,8 @@ public class TeamScoreSearchVO extends CommonVO {
 		this.eventDt = teamScore.getEventDt();
 	}
 
-
-
-
+	@Override
+	public String toString() {
+		return "TeamScoreSearchVO{" + "eventDt='" + eventDt + '\'' + ", searchEventDt='" + searchEventDt + '\'' + ", teamInfoSeq=" + teamInfoSeq + '}';
+	}
 }
