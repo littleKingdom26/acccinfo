@@ -26,8 +26,10 @@ var teamResult = {
     teamSearchDetail:function(){
 
         $(".btnTeamDetail").click(function () {
+            let searchEventDt = $('#eventDt').val();
             let param = {
-                'teamInfoSeq': $(this).data('teaminfoseq')
+                'teamInfoSeq': $(this).data('teaminfoseq'),
+                'searchEventDt': searchEventDt
             };
             console.log('param', param);
             common.ajax("GET", "/teamResult/teamResultDetail", param, "html", 'application/x-www-form-urlencoded; charset=UTF-8', function (data) {

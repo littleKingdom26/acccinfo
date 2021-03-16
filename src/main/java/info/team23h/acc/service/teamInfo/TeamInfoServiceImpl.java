@@ -1,7 +1,9 @@
 package info.team23h.acc.service.teamInfo;
 
 import info.team23h.acc.entity.team.TeamInfo;
+import info.team23h.acc.entity.team.TeamScore;
 import info.team23h.acc.repository.teamInfo.TeamInfoRepository;
+import info.team23h.acc.repository.teamScore.TeamScoreRepository;
 import info.team23h.acc.vo.team.TeamInfoResultVO;
 import info.team23h.acc.vo.team.TeamInfoSaveVO;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,8 @@ public class TeamInfoServiceImpl implements TeamInfoService {
 
 	final TeamInfoRepository teamInfoRepository;
 
+	final TeamScoreRepository teamScoreRepository;
+
 	@Override
 	@Transactional
 	public TeamInfo save(TeamInfoSaveVO teamInfoSaveVO) {
@@ -36,6 +40,11 @@ public class TeamInfoServiceImpl implements TeamInfoService {
 	@Override
 	@Transactional
 	public void delete(Long teamInfoSeq) throws Exception {
-		teamInfoRepository.delete(teamInfoRepository.findById(teamInfoSeq).orElseThrow(Exception::new));
+
+		TeamInfo teamInfo = teamInfoRepository.findById(teamInfoSeq).orElseThrow(Exception::new);
+		List<TeamScore> allByTeamInfo = teamScoreRepository.findAllByTeamInfo(teamInfo);
+		teamScoreRepository.deleteAll(allByTeamInfo);
+
+		teamInfoRepository.delete(teamInfo);
 	}
 }
