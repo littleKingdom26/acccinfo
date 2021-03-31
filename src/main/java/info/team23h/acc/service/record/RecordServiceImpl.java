@@ -11,9 +11,11 @@ import info.team23h.acc.vo.player.PlayerVO;
 import info.team23h.acc.vo.recode.RecordVO;
 import info.team23h.acc.vo.week.WeekVO;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -149,10 +151,9 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	public List<RecordVO> getRecordDataList(SearchVO searchVO) {
 
-		if(searchVO.getSessionId() == null && searchVO.getTrackSeq() == null
-		|| "".equals(searchVO.getSessionId()) && "".equals(searchVO.getTrackSeq())){
+		if(searchVO.getSessionId() == null && searchVO.getTrackSeq() == null || "".equals(searchVO.getSessionId()) && "".equals(searchVO.getTrackSeq())){
 			WeekVO weekVO = weekService.getRecently();
-			if(weekVO!= null){
+			if(weekVO != null){
 				searchVO.setSessionId(String.valueOf(weekVO.getSessionId()));
 				searchVO.setTrackSeq(String.valueOf(weekVO.getTrackSeq()));
 			}
@@ -173,14 +174,27 @@ public class RecordServiceImpl implements RecordService {
 				temp.setGap(MathUtil.secToMin(temp.getBestLap() - bestLap,false));
 			}
 			viewSetting(temp);
+			final LocalDate now = LocalDate.now();
+			final boolean equal = now.isEqual(LocalDate.of(2021, 4, 1));
 			if(temp.getRank() == 1){
 				temp.setRankImg("/image/rank1.png");
+				if(equal){
+					temp.setFirstName("루이스");
+					temp.setLastName("해밀턴");
+				}
 			}else if(temp.getRank() == 2){
 				temp.setRankImg("/image/rank2.png");
+				if(equal){
+					temp.setFirstName("막스");
+					temp.setLastName("베르스타펜");
+				}
 			}else if(temp.getRank() == 3){
 				temp.setRankImg("/image/rank3.png");
+				if(equal){
+					temp.setFirstName("발테리");
+					temp.setLastName("보타스");
+				}
 			}
-
 		}
 		return list;
 	}
