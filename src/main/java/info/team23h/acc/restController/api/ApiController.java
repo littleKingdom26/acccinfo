@@ -39,7 +39,7 @@ public class ApiController {
 	@Transactional(rollbackFor = Team23hException.class)
 	public HashMap<String, Object> setRecord(@RequestBody HashMap<String, Object> param) throws Team23hException {
 		// TODO [YTH] 테스트입니다.
-		// 컴플릿 수정했어요
+		// 컴플릿 수정했어요 수정
 		return apiService.setRecord(param);
 	}
 
