@@ -58,6 +58,8 @@ public class IndexController {
 	public String index(@ModelAttribute SearchVO searchVO,
 						HttpSession session,
 						Model model) {
+
+
 		searchVO.setTeam23h("N");
 		// GT 3 주차별 기록
 		model.addAttribute("recordList", recordService.getRecordDataList(searchVO));
@@ -80,6 +82,7 @@ public class IndexController {
 	public String team23h(@ModelAttribute SearchVO searchVO,
 						HttpSession session,
 						Model model) {
+		// TODO 뒷 작업
 		searchVO.setTeam23h("Y");
 		// GT3 주차별 기록
 		model.addAttribute("recordList", recordService.getRecordDataList(searchVO));
@@ -141,6 +144,7 @@ public class IndexController {
 	@GetMapping("/calendar")
 	public String calendar(@ModelAttribute SearchVO searchVO,
 						   Model model) {
+		// TODO 삭제 예정
 		return "calendar/calendar";
 	}
 }

@@ -79,6 +79,8 @@ public class BannerServiceImpl implements BannerService{
 			rowList.add(colMap);
 		}
 		result.put("rowList", rowList);
+
 		return result;
 	}
+
 }

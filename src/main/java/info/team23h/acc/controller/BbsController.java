@@ -110,6 +110,7 @@ public class BbsController {
 							@PathVariable("bbsNameSeq") long bbsNameSeq,
 							@PathVariable("seq") long seq,
 							@ModelAttribute("bbsSearch") BbsSearch bbsSearch) {
+		// TODO [YTH] 추후에 삭제 할 예정..
 		if(!"Y".equals(bbsSearch.getCheck())){
 			return "redirct:/bbs/"+bbsNameSeq+"/"+seq;
 		}
