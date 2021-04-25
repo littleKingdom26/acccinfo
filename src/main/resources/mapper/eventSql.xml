@@ -178,7 +178,7 @@
                     IFNULL(TS.SCORE, 0)
                 END
                 AS SCORE
-         , IFNULL(TH.HANDICAP,0) AS HANDICAP
+         , IFNULL(TH.HANDICAP,-30) AS HANDICAP /* 밸러스트 하드코딩.. ㅠㅠ*/
           , TE.RACE_TIME
           , TE.PENALTY
           , TE.TOTAL_TIME
@@ -246,7 +246,12 @@
              </foreach>
         FROM (SELECT
                   TE.PLAYER_ID
-                , SUM(TH.HANDICAP)                                                                                AS HANDICAP
+                <![CDATA[
+                , case when SUM(TH.HANDICAP) > 100 then 100
+                        when SUM(TH.HANDICAP) < 0 then 0
+                        else SUM(TH.HANDICAP)
+                        end as HANDICAP
+                      ]]>
                 , SUM(CASE WHEN TSI.PARTICIPATION_YN = 'Y' THEN IFNULL(TS.SCORE, 1) ELSE IFNULL(TS.SCORE, 0) END) AS SCORE
               FROM TB_EVENT TE
                    INNER JOIN TB_EVENT_INFO TEI

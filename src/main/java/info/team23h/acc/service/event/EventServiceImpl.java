@@ -203,12 +203,22 @@ public class EventServiceImpl implements EventService {
 					eventVO.setScore(scoreVO.getScore());
 				}
 			}
+			boolean handiCheck = true;
+			int appencRank = 0;
 			// 핸디캡 정보 넣기
 			for(HandicapVO handicapVO : handicapList){
 				if(handicapVO.getRank() == rank){
+					handiCheck = false;
 					eventVO.setHandicap(handicapVO.getHandicap());
 				}
 			}
+
+			// 핸드캡이 안들어갔다면 핸디캡 마지막껄로..
+			if(handiCheck){
+				eventVO.setHandicap(handicapList.get(handicapList.size() - 1).getHandicap());
+			}
+
+
 			// 의무 피트스탑 안한 횟수
 			eventVO.setMissMandatoryPitStop(leaderBoardLines.getAsNumber("missingMandatoryPitstop").intValue());
 			if(eventVO.getTotalTime() < 2147483647){ // 토탈 타임이 2147483647보다 적은 사람
