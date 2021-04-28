@@ -5,7 +5,6 @@ import info.team23h.acc.service.view.ViewService;
 import info.team23h.acc.vo.bbs.BbsNameVO;
 import info.team23h.acc.vo.bbs.BbsSearch;
 import info.team23h.acc.vo.common.ViewVo;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
@@ -24,7 +23,6 @@ import java.util.List;
 
 @Component
 @Aspect
-@Slf4j
 public class Team23hAOP {
 
 	@Autowired

@@ -4,7 +4,6 @@ import info.team23h.acc.config.auth.Role;
 import info.team23h.acc.dao.MemberDAO;
 import info.team23h.acc.vo.login.LoginUserVO;
 import info.team23h.acc.vo.member.MemberVO;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Slf4j
 public class MemberServiceImpl implements MemberService, UserDetailsService {
 	@Autowired
 	MemberDAO memberDAO;
