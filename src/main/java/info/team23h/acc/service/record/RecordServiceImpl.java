@@ -11,7 +11,6 @@ import info.team23h.acc.vo.player.PlayerVO;
 import info.team23h.acc.vo.recode.RecordVO;
 import info.team23h.acc.vo.week.WeekVO;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -327,14 +326,14 @@ public class RecordServiceImpl implements RecordService {
 		// 최신주차 10개 구하기
 		WeekVO weekVO = weekService.getRecently();
 		List<List<RecordVO>> result = new ArrayList<>();
-		for(int i = 0; i < 10; i++){
+		for(int i = 0; i < 11; i++){
 			searchVO.setSessionId(String.valueOf(weekVO.getSessionId()-i));
 			result.add(recordDAO.getRecordDataListForWeek(searchVO));
 		}
 
 		AccumulatedSkillEvaluator user = new AccumulatedSkillEvaluator();
 
-		for(int i = 0; i < result.size(); i++){
+		for(int i = 1; i < result.size(); i++){
 			List<RecordVO> recordVOList = result.get(i);
 			for(RecordVO recordVO : recordVOList){
 				if(searchVO.getPlayerId().equals(recordVO.getPlayerId())){
@@ -352,13 +351,13 @@ public class RecordServiceImpl implements RecordService {
 		WeekVO weekVO = weekService.getRecently();
 
 		List<List<RecordVO>> result = new ArrayList<>();
-		for(int i = 0; i < 10; i++){
+		for(int i = 0; i < 11; i++){
 			SearchVO searchVO = new SearchVO();
 			searchVO.setSessionId(String.valueOf(weekVO.getSessionId() - i));
 			result.add(recordDAO.getRecordDataListForWeek(searchVO));
 		}
 
-		for(int i = 0; i < driverList.size(); i++){
+		for(int i = 1; i < driverList.size(); i++){
 			PlayerVO playerVO =  driverList.get(i);
 			AccumulatedSkillEvaluator user = new AccumulatedSkillEvaluator();
 			for(int j = 0; j < result.size(); j++){

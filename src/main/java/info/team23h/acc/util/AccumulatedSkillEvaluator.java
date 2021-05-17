@@ -4,13 +4,13 @@ public class AccumulatedSkillEvaluator {
 	private double scoreSum = 0;
 	private double weightSum = 0;
 	private final double eventPeroid = 10;
-	private final boolean[] participated = {false, false, false, false, false, false, false, false, false, false};
+	private final boolean[] participated = {false, false, false, false, false, false, false, false, false, false,false};
 
 
 	public void pushData(int eventID,
 						 int rank,
 						 int participantNo) {
-		assert (eventID >= 0 && eventID < 10);
+		assert (eventID >= 1 && eventID < 12);
 		assert (rank > 0 && rank <= participantNo);
 		assert (participantNo > 0 && participantNo < 10000);
 
