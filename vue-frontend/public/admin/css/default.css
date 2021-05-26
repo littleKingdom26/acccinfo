@@ -1,0 +1,165 @@
+@charset "utf-8";
+/*--------------------------------------
+	HTML Elements Default Properties
+---------------------------------------*/
+/* = Reset
+---------------------------------------*/
+/*@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);*/
+*{ margin:0; padding:0; }
+html,body{width:100%;height:100%}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,form,fieldset,p,button, div {margin:0;padding:0}
+body,h1,h2,h3,h4,input,button { font-family:'맑은 고딕', 'Helvetica Neue', 'Helvetica, Arial', 'sans-serif'; color:#666;}
+h1,h2,h3,h4,h5,h6 {color:#444;}
+body{ background:#f6f6f6; word-break:keep-all; -ms-word-break:keep-all; font-size:13px; word-wrap: break-word;}/*break-all*/
+ul,ol,dl,li {list-style:none}
+input,select,button,textarea{vertical-align:middle;} /*form *, */
+form { margin:0; padding:0;/*height:100%;*/}
+fieldset { margin:0; padding:0; border:none 0 transparent; }
+legend { display:none; }
+i,em,address{font-style:normal}
+label,button{cursor:pointer;}
+input,button {overflow:visible;}
+button{margin:0;padding:0;}
+button *{position:relative}
+button img {left:-3px;}/**left:auto*/
+option{padding-right:6px}
+hr{display:none}
+caption { display:none;}
+legend,caption{} /**width:0*/
+img,fieldset,iframe{border:0 none}
+img{vertical-align:top}
+select { width:100%; }
+a { background:transparent; text-decoration:none; color:#666; display:inline-block;}/* vertical-align:baseline; */
+a:hover{text-decoration:underline}
+table { border-collapse:collapse;table-layout:fixed; border-spacing:0;color:#555;  width:100%; border:0px;} /* border:0px !important; */
+table tr th img,
+table tr td img{ vertical-align:middle;}
+table th, table td{ border:0px;  font-weight: 400;}
+table a {color:#666;}
+table a:hover,
+table a:focus{ text-decoration:underline; }
+
+textarea { border:1px solid #e6e6e6; color:#666; padding:10px;}
+input[type="file"]{}
+input[type="radio"]{ width:14px; height:14px; vertical-align: middle;  margin-top:-3px;}
+input[type="checkbox"]{ width:14px; height:14px; vertical-align: middle; margin-top:-2px;} /*width:14px; height:14px;*/
+.textType { border:1px solid #e6e6e6; padding: 0 10px; line-height: 30px; height:30px; font-size:13px;} /*-webkit-appearance:none;border-radius:0; -webkit-border-radius: 0; -moz-border-radius: 0; */
+.btnSearch { width: 38px; height: 38px; border: 0px; font-size: 0px; background:#bbb url('/image/common/icon_search02.png') no-repeat center; cursor:pointer; }
+.btnSearch02 { width: 25px; height: 24px; border: 0px; font-size: 0px; background:url('/image/common/icon_search.png') no-repeat center; cursor:pointer; }
+input:-ms-input-placeholder { color: #aaa; font-size:12px; letter-spacing: -1px; } /* Internet Explorer 10 이상에 적용 */
+input::-webkit-input-placeholder { color: #aaa; font-size:12px; letter-spacing: -1px;} /*  Webkit, Blink, Edge */
+input::-moz-placeholder { color: #aaa; font-size:12px; letter-spacing: -1px; } /* Mozilla Firefox 4 부터 18에 적용 */
+input::-moz-placeholder { color: #aaa; font-size:12px; letter-spacing: -1px;} /* Mozilla Firefox 19 이상에 적용 */
+
+/* INPUT FILE 디자인 */
+.filebox { position: relative; display: inline-block;}
+.filebox input[type="file"] { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }						
+.filebox label { display: inline-block; padding: .6em 1.2em; color: #666; font-size: 12px; line-height: normal; vertical-align: middle; background: #eee; cursor: pointer; border: 1px solid #ccc; border-radius: .25em; margin-left:5px; }
+.filebox .upload-name { display: inline-block; padding: 0 10px 0; width:300px; font-size: 12px; height: 30px; line-height: 30px; color: #555; vertical-align: middle; background-color: #fff; border: 1px solid #e6e6e6; border-radius:0; 
+	-webkit-appearance: none; /* 네이티브 외형 감추기 */
+	-moz-appearance: none; appearance: none;
+}
+.filebox .fileDel { position:absolute; left:295px; top:6px; width:20px; font-size:0px; cursor: pointer; background:url('/image/common/blt_del.png') no-repeat center; padding:10px; font-size:0px; text-indent: 9999px; border:0px;}
+
+
+#fileInfo { position: relative; display: inline-block;}
+#fileInfo input[type="file"] { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }						
+#fileInfo label { display: inline-block; padding: .6em 1.2em; color: #666; font-size: 12px; line-height: normal; vertical-align: middle; background: #eee; cursor: pointer; border: 1px solid #ccc; border-radius: .25em; margin-left:5px; }
+#fileInfo .upload-name { display: inline-block; padding: 0 10px 0; width:300px; font-size: 12px; height: 30px; line-height: 30px; color: #555; vertical-align: middle; background-color: #fff; border: 1px solid #e6e6e6; border-radius:0; 
+	-webkit-appearance: none; /* 네이티브 외형 감추기 */
+	-moz-appearance: none; appearance: none;
+}
+
+/* select box ----- */
+select {
+/*width: 200px;  원하는 너비설정 */
+padding:0 30px 0 8px; /* 여백으로 높이 설정 */
+font-family: inherit;  /* 폰트 상속 */
+background:#fff url('/image/common/blt_down01.png') no-repeat right 50%; /* 네이티브 화살표를 커스텀 화살표로 대체 */
+border: 1px solid #e6e6e6; height:32px; line-height:32px; color:#666; text-overflow: ellipsis; white-space: nowrap;
+border-radius: 0px; /* iOS 둥근모서리 제거 */
+-webkit-appearance: none; /* 네이티브 외형 감추기 */
+-moz-appearance: none;
+appearance: none;
+}
+/* IE 10, 11의 네이티브 화살표 숨기기 */
+select::-ms-expand { display: none; }
+select option { line-height:32px; height:32px;}
+  
+/* 체크박스 디자인 */
+.checks { position: relative; display:inline-block;}
+.checks input[type="checkbox"] { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0 }/* 실제 체크박스는 화면에서 숨김 */
+.checks input[type="checkbox"] + label { display: inline-block; position: relative; padding-left: 30px;/* 글자와 체크박스 사이의 간격을 변경 */ cursor: pointer; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; line-height:16px;}
+.checks input[type="checkbox"] + label:before {
+content: ''; position: absolute; left: 0; top: 0px; /* 이 값을 변경해서 글자와의 정렬 */
+width: 16px; /* 체크박스의 너비를 지정 */
+height: 16px; /* 체크박스의 높이를 지정 */
+line-height: 15px; /* 세로정렬을 위해 높이값과 일치 */
+text-align: center; background: #fff; border: 1px solid #ccc; border-radius: 0px; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05); }
+.checks input[type="checkbox"] + label:active:before,
+.checks input[type="checkbox"]:checked + label:active:before {
+box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px 1px 3px rgba(0, 0, 0, 0.1);
+}/* 가짜 체크박스 */
+.checks input[type="checkbox"]:checked + label:before { content: '\2714'; /* 체크표시 유니코드 사용 */
+color: #4cabd8; text-shadow: 1px 1px #fff; background: #fff; border-color: #ccc; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05), inset 15px 10px -12px rgba(255, 255, 255, 0.1); }/* 체크박스를 체크했을때 */
+
+/* 라디오버튼 디자인 */
+.checks { position: relative;  display:inline-block;}
+.checks input[type="radio"] { position: absolute; width: 1px;  height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+.checks input[type="radio"] + label { display: inline-block; position: relative; padding-left: 30px; cursor: pointer; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; word-break: break-word;}
+.checks input[type="radio"] + label:before {
+content: ''; position: absolute;
+left: 0; top: 0px; width: 18px; height: 18px; text-align: center; background: #fafafa; border: 1px solid #cacece; border-radius: 100%; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05); }
+.checks input[type="radio"] + label:active:before,
+.checks input[type="radio"]:checked + label:active:before { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px 1px 3px rgba(0, 0, 0, 0.1); }
+.checks input[type="radio"]:checked + label:before { background: #fff; border-color: #adb8c0; }
+.checks input[type="radio"]:checked + label:after { content: ''; position: absolute; top: 5px; left: 5px; width: 10px; height: 10px; background: #4cabd8; border-radius: 100%; box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.3); }
+
+/* 체크박스 - right 위치 할때 */
+.checkRight .checks input[type="checkbox"] + label:before { margin-top:0px; right:0px; left:inherit;}
+.checkRight .checks input[type="checkbox"] + label { padding-right:30px; padding-left:0px;}
+
+
+/* = Font Face
+---------------------------------------*/
+.noto_t {  font-weight: 100 !important; } /* Thin */
+.noto_l {  font-weight: 300 !important; } /* Light */ 
+.noto_r {  font-weight: 400; } /* Regular */
+.noto_m {  font-weight: 500 !important; } /* Medium */
+.noto_b {  font-weight: 700; } /* Bold */
+.noto_bb { font-weight: 900; } /* Black */
+
+/* Global Class
+---------------------------------------*/
+.clear{clear:both;}
+/* .png24{tmp:expression(setPng24(this));} */
+
+.Auto-clear{ clear:both; }
+/* clear float without additional element */
+.Auto-clearSelf:after{content:".";height:0;visibility:hidden;display:block;clear:both;}
+/*.Auto-clearSelf{display:inline-block;}*/
+.Auto-hideLabel{position:absolute;left:-5000px;width:0;}
+.hide { display:none !important; }
+.hide02 { height:0px; position: absolute;}
+
+/* File tag
+---------------------------------------*/
+.filetag img{margin-left:5px;padding:0px;}
+input.filetag{vertical-align:middle;position:absolute;cursor:pointer;filter:alpha(opacity: 0);outline: none;opacity:0;selector-dummy:expression(this.hideFocus=true);-moz-opacity:0;}
+
+/* Skip Navigation
+---------------------------------------*/
+.accessibility{position:absolute;width:100%; height:0;}
+.accessibility a{position:absolute; left:0; top:0; display:block; overflow:hidden; width:1px; height:1px; text-align:center; color:#000; white-space:nowrap; font-weight:bold;}
+.accessibility a:focus, .accessibility a:hover, .accessibility a:active {width:100%; height:auto; padding:10px 0; background:#000; color:#fff; z-index:1000;}
+
+.blind, .bind { position:absolute; top:-99999px; left:0px; width:0px; height:0px; overflow:hidden; font-size:0px; line-height:0px;}
+.buttonList{margin-top:50px;}
+.buttonList li{margin-top:10px;}
+
+/* For Print
+---------------------------------------*/
+@media print{
+	#wrap,#content{ width:auto !important}
+	#gnb,#fotoerArea,.accessibility { display: none !important}
+}
