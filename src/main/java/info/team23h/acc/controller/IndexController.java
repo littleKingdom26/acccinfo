@@ -4,7 +4,6 @@ import info.team23h.acc.service.banner.BannerService;
 import info.team23h.acc.service.record.RecordService;
 import info.team23h.acc.service.track.TrackService;
 import info.team23h.acc.service.week.WeekService;
-import info.team23h.acc.vo.banner.BannerSearch;
 import info.team23h.acc.vo.common.SearchVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import javax.servlet.http.HttpSession;
 
 /**
  * The type Index controller.
@@ -54,7 +51,7 @@ public class IndexController {
 	 * @param model    the model
 	 * @return the string
 	 */
-	@GetMapping("/")
+	/*@GetMapping("/")
 	public String index(@ModelAttribute SearchVO searchVO,
 						HttpSession session,
 						Model model) {
@@ -75,10 +72,10 @@ public class IndexController {
 		model.addAttribute("bannerList", bannerService.getFrontBannerList(new BannerSearch()));
 
 		return "index";
-	}
+	}*/
 
 
-	@GetMapping("/team23h")
+	/*@GetMapping("/team23h")
 	public String team23h(@ModelAttribute SearchVO searchVO,
 						HttpSession session,
 						Model model) {
@@ -94,7 +91,7 @@ public class IndexController {
 		// 트랙 구하기
 		model.addAttribute("trackList", trackService.getTrackList(searchVO));
 		return "index";
-	}
+	}*/
 
 	/**
 	 * Record list ajax string.
