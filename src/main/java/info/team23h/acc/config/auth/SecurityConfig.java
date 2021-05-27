@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/js/**", "/css/**","/img/**", "/image/**", "/admin/css/**", "/uplaod/**", "/ads.txt");
+		web.ignoring().antMatchers("/js/**", "/css/**", "/img/**", "/image/**", "/admin/css/**", "/uplaod/**", "/ads.txt", "/swagger-ui/**","/swagger-ui.html", "/webjars/**", "/swagger-resources/**", "/v2/**");
 	}
 
 	@Override
@@ -43,7 +43,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.formLogin().loginPage("/admin/login").permitAll().passwordParameter("password").usernameParameter("id").defaultSuccessUrl("/admin/main")
 				.failureHandler(authFailUreHandler)
 				.and().rememberMe().key("team23h").rememberMeParameter("remember-me").tokenValiditySeconds(86400);
-
 		}
 
 	@Override

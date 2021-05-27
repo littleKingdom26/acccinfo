@@ -2,6 +2,7 @@ package info.team23h.acc.restController.api;
 
 import info.team23h.acc.config.Team23hException;
 import info.team23h.acc.service.api.ApiService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ public class ApiController {
 	 *
 	 * @return
 	 */
+	@ApiOperation(value="플레이어 정보")
 	@GetMapping("/api/playerList")
 	public HashMap<String, Object> playerList() {
 		return apiService.playerList();
