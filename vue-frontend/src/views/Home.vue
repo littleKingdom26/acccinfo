@@ -18,6 +18,7 @@
                 </h1>
                 <div class="trophy"></div>
                 <div class="seasonChamp">
+                    <div class="seasonChampBg" />
                     SEASON CHAMPION
                 </div>
             </div>
@@ -137,9 +138,9 @@ export default {
     display: initial;
     position: relative;
     cursor: pointer;
+    clip-path: inset(0 0 0 0 round 100px);
 }
-.hero .titleWrap .seasonChamp:before {
-    content: "";
+.hero .titleWrap .seasonChampBg {
     display: inline-block;
     background-color: var(--yellow);
     height: 100%;
@@ -155,7 +156,7 @@ export default {
     animation-duration: 1s;
     animation-name: slideout;
 }
-.hero .titleWrap .seasonChamp:hover:before {
+.hero .titleWrap .seasonChamp:hover .seasonChampBg {
     animation-duration: 1s;
     animation-name: slidein;
     opacity: 1;
@@ -163,7 +164,7 @@ export default {
 @keyframes slidein {
     from {
         width: 0%;
-        opacity: 0;
+        opacity: 1;
     }
     to {
         width: 100%;
@@ -173,7 +174,7 @@ export default {
 @keyframes slideout {
     to {
         width: 0%;
-        opacity: 0;
+        opacity: 1;
     }
     from {
         width: 100%;
