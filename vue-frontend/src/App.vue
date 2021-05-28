@@ -1,32 +1,44 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div id="app">
+        <router-view />
     </div>
-    <router-view/>
-  </div>
 </template>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;400;700;900&family=Staatliches&display=swap");
+@import url("https://fonts.googleapis.com/earlyaccess/jejugothic.css");
+
+html,
+body {
+    background-color: #000;
+    margin: 0;
+    padding: 0;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+    font-family: "Jeju Gothic", Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #fff;
+
+    --yellow: #e8af05;
 }
 
+.Staatliches * {
+    font-family: Staatliches, cursive, Helvetica, Arial, sans-serif;
+}
+.Inter * {
+    font-family: "Inter", sans-serif, Helvetica, Arial, sans-serif;
+}
 #nav {
-  padding: 30px;
+    padding: 30px;
 }
 
 #nav a {
-  font-weight: bold;
-  color: #2c3e50;
+    font-weight: bold;
+    color: #2c3e50;
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+    color: #42b983;
 }
 </style>
