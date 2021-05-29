@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface EventRepositoryCustom {
 	List<EventResultVO> findByEventList(TeamScoreSaveVO teamScoreSaveVO);
+
+	List<EventResultVO> findByEventRanker(Long eventInfoSeq);
 }

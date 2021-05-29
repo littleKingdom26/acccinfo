@@ -1,12 +1,16 @@
 package info.team23h.acc.service.event;
 
 import info.team23h.acc.dao.EventDAO;
+import info.team23h.acc.entity.event.EventInfo;
 import info.team23h.acc.repository.event.EventRepository;
+import info.team23h.acc.repository.eventInfo.EventInfoRepository;
 import info.team23h.acc.service.handicap.HandicapService;
 import info.team23h.acc.service.score.ScoreService;
 import info.team23h.acc.util.MathUtil;
 import info.team23h.acc.util.StringUtil;
 import info.team23h.acc.vo.event.*;
+import info.team23h.acc.vo.front.main.BeforeLeagueRankerGroupResultVO;
+import info.team23h.acc.vo.front.main.BeforeLeagueRankerResultVO;
 import info.team23h.acc.vo.handicap.HandicapInfoVO;
 import info.team23h.acc.vo.handicap.HandicapVO;
 import info.team23h.acc.vo.penalty.PenaltyVO;
@@ -19,6 +23,7 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -36,7 +42,6 @@ public class EventServiceImpl implements EventService {
 
 	final EventDAO eventDAO;
 
-
 	final ScoreService scoreService;
 
 
@@ -45,6 +50,7 @@ public class EventServiceImpl implements EventService {
 	final EventRepository eventRepository;
 
 
+	final EventInfoRepository eventInfoRepository;
 
 	@Override
 	public List<EventInfoVO> getEventInfoList() {
@@ -637,6 +643,34 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public List<EventResultVO> findByEventList(TeamScoreSaveVO teamScoreSaveVO) {
 		List<EventResultVO> resultList = eventRepository.findByEventList(teamScoreSaveVO);
+		return resultList;
+	}
+
+	@Override
+	public List<BeforeLeagueRankerGroupResultVO> getBeforeLeagueRanker() {
+		final List<EventInfo> eventAllList = eventInfoRepository.findAll(Sort.by(Sort.Direction.DESC,"eventInfoSeq"));
+		final List<EventInfo> eventFinishList = eventAllList.stream().filter(eventInfo ->eventInfo.getRound()==eventInfo.getEventMetaList().size()).collect(Collectors.toList());
+		List<BeforeLeagueRankerGroupResultVO> resultList = new ArrayList<>();
+		if(eventFinishList.size()>3){
+			for(int i = 0; i < 3; i++){
+				final EventInfo eventInfo = eventFinishList.get(i);
+				final List<EventResultVO> byEventRanker = eventRepository.findByEventRanker(eventInfo.getEventInfoSeq());
+				final List<EventResultVO> eventResultVOS = byEventRanker.subList(0, 3);
+				int rank = 0;
+				eventInfo.getTitle();
+				List<BeforeLeagueRankerResultVO> subResultList = new ArrayList<>();
+				for(EventResultVO eventResultVO : eventResultVOS){
+					rank+=1;
+					subResultList.add(BeforeLeagueRankerResultVO.builder()
+															 .rank(rank)
+															 .firstName(eventResultVO.getFirstName())
+															 .lastName(eventResultVO.getLastName())
+															 .steamAvatar(eventResultVO.getSteamAvatar())
+															 .build());
+				}
+				resultList.add(BeforeLeagueRankerGroupResultVO.builder().leagueName(eventInfo.getTitle()).beforeLeagueRankerResultList(subResultList).build());
+			}
+		}
 		return resultList;
 	}
 

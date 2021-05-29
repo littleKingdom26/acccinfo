@@ -7,6 +7,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -39,4 +40,8 @@ public class EventInfo  extends BaseTimeEntity {
 	@OneToOne
 	@JoinColumn(name = "HANDICAP_INFO_SEQ")
 	private HandicapInfo handicapInfo;
+
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "EVENT_INFO_SEQ")
+	private List<EventMeta> eventMetaList;
 }

@@ -4,6 +4,7 @@ import info.team23h.acc.vo.event.EventInfoVO;
 import info.team23h.acc.vo.event.EventMetaVO;
 import info.team23h.acc.vo.event.EventResultVO;
 import info.team23h.acc.vo.event.EventSubVO;
+import info.team23h.acc.vo.front.main.BeforeLeagueRankerGroupResultVO;
 import info.team23h.acc.vo.penalty.PenaltyVO;
 import info.team23h.acc.vo.team.TeamScoreSaveVO;
 import net.minidev.json.parser.ParseException;
@@ -133,4 +134,13 @@ public interface EventService {
 
 
 	List<EventResultVO> findByEventList(TeamScoreSaveVO teamScoreSaveVO);
+
+
+	/**
+	 * 이전 시즌 랭커 조회
+	 * @return
+	 */
+	List<BeforeLeagueRankerGroupResultVO> getBeforeLeagueRanker();
+
+
 }
