@@ -1,13 +1,20 @@
 <template>
     <div class="home">
         <div class="header">
-            <div class="logo"></div>
+            <b-button variant="link" class="logo" to="/"></b-button>
+
             <div class="menus Staatliches">
-                <ul>
-                    <li v-for="(menu, menuIdx) in menus" :key="menuIdx">
-                        {{ menu.title }}
-                    </li>
-                </ul>
+                <b-button
+                    variant="link"
+                    v-for="(menu, menuIdx) in menus"
+                    :key="menuIdx"
+                    :to="menu.to"
+                    :class="{
+                        active: menu.to == $router.currentRoute.path,
+                    }"
+                >
+                    {{ menu.title }}
+                </b-button>
             </div>
         </div>
         <div class="hero">
@@ -22,7 +29,7 @@
                     SEASON CHAMPION
                 </div>
             </div>
-            <div class="carousel"></div>
+            <div class="heroCarousel"></div>
         </div>
         <div class="session schedule">
             <h1 class="title">
@@ -32,6 +39,89 @@
                 Here Is Our Schedule
             </h3>
             <hr class="yellow" />
+
+            <div class="tabs">
+                <b-button
+                    class="roundedBtn"
+                    :class="{ active: checkLeagueSchedule == 'wed' }"
+                    variant="outline-secondary"
+                    @click="checkLeagueSchedule = 'wed'"
+                    >수요일</b-button
+                >
+                <b-button
+                    class="roundedBtn"
+                    :class="{ active: checkLeagueSchedule != 'wed' }"
+                    variant="outline-secondary"
+                    @click="checkLeagueSchedule = 'sun'"
+                    >일요일</b-button
+                >
+            </div>
+            <h2 class="title">REGULAR LEAGUE</h2>
+            <div class="tabContent">
+                <b-row>
+                    <b-col>1</b-col>
+                    <b-col>2</b-col>
+                    <b-col>3</b-col>
+                </b-row>
+                <b-row>
+                    <b-col>1</b-col>
+                    <b-col>2</b-col>
+                    <b-col>3</b-col>
+                </b-row>
+                <b-row>
+                    <b-col>1</b-col>
+                    <b-col>2</b-col>
+                    <b-col>3</b-col>
+                </b-row>
+            </div>
+        </div>
+        <div class="session champion">
+            <h1 class="title">
+                SEASON CHAMPION
+            </h1>
+            <h3 class="subTitle">
+                Present Season Championship
+            </h3>
+            <hr class="yellow" />
+
+            <div class="tabs"></div>
+        </div>
+        <div class="session gallery">
+            <h1 class="title">
+                GALLERY
+            </h1>
+            <h3 class="subTitle">
+                Sim Racing User Gallery
+            </h3>
+            <hr class="yellow" />
+            <div class="tabs"></div>
+        </div>
+        <div class="session contact">
+            <h1 class="title">
+                CONTACT
+            </h1>
+            <h3 class="subTitle">
+                Join Our Social Community
+            </h3>
+            <hr class="yellow" />
+
+            <div class="tabs">
+                <b-row>
+                    <b-col
+                        class="sns"
+                        v-for="(sns, snsIdx) in snsTypes"
+                        :key="snsIdx"
+                        :class="sns.type"
+                        @click="onClickOpenUrl(sns.url)"
+                    >
+                        <div class="snsLogo"></div>
+                        <div class="bottomTitle">{{ sns.title }}</div>
+                    </b-col>
+                </b-row>
+            </div>
+        </div>
+        <div class="text-center mb-5">
+            <b-button variant="link" class="logo" to="/"></b-button>
         </div>
     </div>
 </template>
@@ -44,18 +134,45 @@ export default {
     components: {},
     data() {
         return {
+            checkLeagueSchedule: "wed",
             menus: [
-                { title: "HOME" },
-                { title: "NOTICE" },
-                { title: "LEAGUE" },
-                { title: "TIME TRIAL" },
-                { title: "RESULT" },
-                { title: "EVENT" },
-                { title: "GALLERY" },
-                { title: "REGISTER" },
-                { title: "FAQ" },
+                { title: "HOME", to: "/" },
+                { disabled: true, title: "NOTICE", to: "/notice" },
+                { disabled: true, title: "LEAGUE", to: "/league" },
+                { disabled: true, title: "TIME TRIAL", to: "/timetrial" },
+                { disabled: true, title: "RESULT", to: "/result" },
+                { disabled: true, title: "EVENT", to: "/event" },
+                { disabled: true, title: "GALLERY", to: "/gallery" },
+                { disabled: true, title: "REGISTER", to: "/register" },
+                { disabled: true, title: "FAQ", to: "/faq" },
+            ],
+            snsTypes: [
+                { type: "twitch", title: "TWITCH", url: "https://twitch.com" },
+                {
+                    type: "youtube",
+                    title: "YOUTUBE",
+                    url: "https://youtube.com",
+                },
+                {
+                    type: "discord",
+                    title: "DISCORD",
+                    url: "https://discord.com",
+                },
+                {
+                    type: "opentalk",
+                    title: "OPEN TALK",
+                    url: "https://opentalk.com",
+                },
             ],
         };
+    },
+    mounted() {
+        console.info(this.$router.currentRoute);
+    },
+    methods: {
+        onClickOpenUrl(link) {
+            window.open(link);
+        },
     },
 };
 </script>
@@ -67,7 +184,7 @@ export default {
 .header {
     max-width: 1140px;
     margin: 0 auto;
-    margin-top: 27px;
+    margin-top: 0.5rem;
     position: fixed;
     top: 0;
     left: 0;
@@ -86,15 +203,24 @@ export default {
 }
 .menus {
     max-width: 50%;
-    min-width: 460px;
+    min-width: 670px;
     width: 100%;
     float: right;
+    margin-top: 10px;
+    text-align: right;
 }
 .menus ul {
     list-style-type: none;
-    display: flex;
     margin: 0;
-    justify-content: space-between;
+}
+.menus > a {
+    text-decoration: none;
+    color: #fff;
+    padding: 0.25rem 1rem;
+}
+.menus > a:hover,
+.menus > a.active {
+    color: var(--yellow);
 }
 
 .hero {
@@ -140,49 +266,27 @@ export default {
     cursor: pointer;
     clip-path: inset(0 0 0 0 round 100px);
 }
-.hero .titleWrap .seasonChampBg {
+.hero .titleWrap .seasonChamp .seasonChampBg {
     display: inline-block;
     background-color: var(--yellow);
     height: 100%;
-    width: 100%;
     position: absolute;
-    top: -2px;
-    left: -2px;
     border-radius: 20px;
     z-index: -1;
     transition: width 1s;
     border: 2px solid var(--yellow);
-    opacity: 0;
-    animation-duration: 1s;
-    animation-name: slideout;
+    width: 0;
+    opacity: 1;
+    left: -4px;
+    top: 0;
 }
 .hero .titleWrap .seasonChamp:hover .seasonChampBg {
-    animation-duration: 1s;
-    animation-name: slidein;
+    width: 102%;
     opacity: 1;
-}
-@keyframes slidein {
-    from {
-        width: 0%;
-        opacity: 1;
-    }
-    to {
-        width: 100%;
-        opacity: 1;
-    }
-}
-@keyframes slideout {
-    to {
-        width: 0%;
-        opacity: 1;
-    }
-    from {
-        width: 100%;
-        opacity: 1;
-    }
+    left: -2px;
 }
 
-.hero .carousel {
+.hero .heroCarousel {
     width: 100%;
     height: 100%;
     background-image: url("/vue_assets/img/ps4yxbox_3109823b.jpeg");
@@ -191,21 +295,126 @@ export default {
 }
 
 .session {
-    padding-top: 10rem;
+    padding: 10rem 0;
     max-width: 1060px;
     margin: 0 auto;
     text-align: center;
 }
-.subTitle {
-    margin-top: 2rem;
+.session:last-child {
+    padding-bottom: 5rem;
+}
+.session h1.title {
+    font-size: 2rem;
+}
+.session h2.title {
+    font-size: 1.5rem;
+    color: var(--yellow);
+}
+.session .subTitle {
+    margin-top: 1rem;
     color: #8a8a8a;
     font-weight: 100;
+    font-size: 1rem;
 }
 hr.yellow {
     max-width: 50px;
     border-width: 3px;
     border-color: var(--yellow);
-    margin-top: 2rem;
+    margin: 1rem auto;
     border-style: solid;
+    opacity: 1;
+}
+
+.tabs {
+    margin: 5rem 0;
+}
+.tabs .roundedBtn {
+    border-radius: 20px;
+    margin: 1rem;
+    padding: 0.25rem 6rem;
+    border-color: #fff;
+    background-color: #fff;
+}
+.tabs .roundedBtn.active,
+.tabs .roundedBtn:hover {
+    background-color: var(--yellow);
+}
+.tabContent {
+    max-width: 620px;
+    margin: 0 auto;
+}
+.tabContent .row:first-child {
+    border-top: 1px solid #fff;
+}
+.tabContent .row {
+    border-bottom: 1px solid #fff;
+}
+
+.contact .sns {
+    min-height: 300px;
+    margin: 0 20px;
+    padding: 0;
+    position: relative;
+    background-color: #fff;
+    cursor: pointer;
+}
+.contact .sns.twitch:hover {
+    background-color: #6441a5;
+}
+.contact .sns.youtube:hover {
+    background-color: #e52927;
+}
+.contact .sns.discord:hover {
+    background-color: #7389dc;
+}
+.contact .sns.opentalk:hover {
+    background-color: #ffe600;
+}
+
+.contact .sns .snsLogo {
+    height: calc(100% - 47px);
+    background-repeat: no-repeat;
+    background-size: 50%;
+    background-position: center;
+}
+.contact .sns.twitch .snsLogo {
+    background-image: url("/vue_assets/img/TWITCH@2x.png");
+}
+.contact .sns.youtube .snsLogo {
+    background-image: url("/vue_assets/img/YOUTUBE@2x.png");
+}
+.contact .sns.discord .snsLogo {
+    background-image: url("/vue_assets/img/DISCORD@2x.png");
+}
+.contact .sns.opentalk .snsLogo {
+    background-image: url("/vue_assets/img/KAKAO@2x.png");
+}
+.contact .sns.twitch:hover .snsLogo {
+    background-image: url("/vue_assets/img/TWITCH_WHITE@2x.png");
+}
+.contact .sns.youtube:hover .snsLogo {
+    background-image: url("/vue_assets/img/YOUTUBE_WHITE@2x.png");
+}
+.contact .sns.discord:hover .snsLogo {
+    background-image: url("/vue_assets/img/DISCORD_WHITE@2x.png");
+}
+.contact .sns.opentalk:hover .snsLogo {
+    background-image: url("/vue_assets/img/KAKAO_WHITE@2x.png");
+}
+
+.contact .sns .bottomTitle {
+    background-color: #8a8a8a;
+    min-height: 47px;
+    font-weight: 800;
+    font-size: 1.5rem;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    line-height: 47px;
+}
+.contact .sns:hover .bottomTitle {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
 }
 </style>
