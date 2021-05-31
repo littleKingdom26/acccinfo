@@ -1,14 +1,22 @@
 package info.team23h.acc.service.bbs;
 
 import info.team23h.acc.dao.BbsDAO;
+import info.team23h.acc.entity.bbs.Bbs;
+import info.team23h.acc.entity.bbs.TbBbsName;
+import info.team23h.acc.repository.bbs.BbsNameRepository;
+import info.team23h.acc.repository.bbs.BbsRepository;
 import info.team23h.acc.util.PageHelper;
 import info.team23h.acc.vo.bbs.BbsNameVO;
 import info.team23h.acc.vo.bbs.BbsSearch;
 import info.team23h.acc.vo.bbs.BbsVO;
 import info.team23h.acc.vo.comment.CommentVO;
+import info.team23h.acc.vo.front.Bbs.BbsSearchVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +36,12 @@ public class BbsServiceImpl implements BbsService {
 
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
+
+	@Autowired
+	BbsNameRepository bbsNameRepository;
+
+	@Autowired
+	BbsRepository bbsRepository;
 
 	@Override
 	public List<BbsNameVO> loadBbsName() {
@@ -149,5 +163,16 @@ public class BbsServiceImpl implements BbsService {
 			resultMap.put("code", "9999");
 		}
 		return resultMap;
+	}
+
+	@Override
+	public Page<Bbs> findPages(PageRequest pageRequest, BbsSearch bbsSearch) {
+		return bbsNameRepository.findPages(pageRequest, bbsSearch);
+	}
+
+	@Override
+	public Page<Bbs> findByAllPages(BbsSearchVO bbsSearch) {
+		final TbBbsName tbBbsName = bbsNameRepository.findById(bbsSearch.getNameSeq()).orElse(new TbBbsName());
+		return bbsRepository.findAllByTbBbsName(tbBbsName, PageRequest.of(bbsSearch.getPage()-1, bbsSearch.getSize(), Sort.by("seq").descending()));
 	}
 }

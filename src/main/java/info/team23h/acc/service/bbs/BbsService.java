@@ -1,14 +1,21 @@
 package info.team23h.acc.service.bbs;
 
 
+import info.team23h.acc.entity.bbs.Bbs;
 import info.team23h.acc.vo.bbs.BbsNameVO;
 import info.team23h.acc.vo.bbs.BbsSearch;
 import info.team23h.acc.vo.bbs.BbsVO;
 import info.team23h.acc.vo.comment.CommentVO;
+import info.team23h.acc.vo.front.Bbs.BbsSearchVO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * The interface Bbs service.
+ */
 public interface BbsService {
 
 	/**
@@ -72,4 +79,15 @@ public interface BbsService {
 	 * @return
 	 */
 	HashMap<String, Object> modifyCheck(BbsVO bbsVO);
+
+	/**
+	 * 노티스 정보 조회
+	 *
+	 * @param pageRequest the page request
+	 * @param bbsSearch   the bbs search
+	 * @return the page
+	 */
+	Page<Bbs> findPages(PageRequest pageRequest, BbsSearch bbsSearch);
+
+	Page<Bbs> findByAllPages(BbsSearchVO bbsSearch);
 }

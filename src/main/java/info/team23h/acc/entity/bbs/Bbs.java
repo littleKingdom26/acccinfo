@@ -23,7 +23,7 @@ public class Bbs extends BaseTimeEntity {
 	@ManyToOne(fetch = FetchType.LAZY )
 	@JoinColumn(name="NAME_SEQ")
 	@JsonManagedReference
-	private BbsName bbsName;
+	private TbBbsName tbBbsName;
 
 	@Column(name = "TITLE")
 	private String title;

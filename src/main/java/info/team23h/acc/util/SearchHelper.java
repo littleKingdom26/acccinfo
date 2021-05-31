@@ -37,7 +37,7 @@ public class SearchHelper {
 	/**
 	 * 1페이지의 데이터 수
 	 */
-	private int pageCount;
+	private int pageCount = 15;
 
 	/**
 	 * 총 페이지 수
