@@ -56,23 +56,84 @@
                     >일요일</b-button
                 >
             </div>
-            <h2 class="title">REGULAR LEAGUE</h2>
-            <div class="tabContent">
-                <b-row>
-                    <b-col>1</b-col>
-                    <b-col>2</b-col>
-                    <b-col>3</b-col>
-                </b-row>
-                <b-row>
-                    <b-col>1</b-col>
-                    <b-col>2</b-col>
-                    <b-col>3</b-col>
-                </b-row>
-                <b-row>
-                    <b-col>1</b-col>
-                    <b-col>2</b-col>
-                    <b-col>3</b-col>
-                </b-row>
+            <div v-show="checkLeagueSchedule == 'wed'">
+                <h2 class="title">ONE MAKE LEAGUE</h2>
+                <div class="tabContent Inter">
+                    <b-row>
+                        <b-col class="frstColumn">
+                            <img src="/vue_assets/img/RED_LED@2x.png" />
+                        </b-col>
+                        <b-col cols="3" class="secColumn">
+                            <span>PRACTICE</span>
+                        </b-col>
+                        <b-col cols="7" class="thrColumn">
+                            <span>22 : 00 - 22 : 30 (30min)</span></b-col
+                        >
+                    </b-row>
+                    <b-row>
+                        <b-col class="frstColumn">
+                            <img src="/vue_assets/img/ORANGE_LED@2x.png" />
+                        </b-col>
+                        <b-col cols="3" class="secColumn">
+                            <span>QUALIFYING</span>
+                        </b-col>
+                        <b-col cols="7" class="thrColumn">
+                            <span>22 : 30 - 22 : 40 (10min)</span></b-col
+                        >
+                    </b-row>
+                    <b-row>
+                        <b-col class="frstColumn">
+                            <img src="/vue_assets/img/GREEN_LED@2x.png" />
+                        </b-col>
+                        <b-col cols="3" class="secColumn">
+                            <span>RACE</span>
+                        </b-col>
+                        <b-col cols="7" class="thrColumn">
+                            <span>22 : 40 - 23 : 20 (40min)</span></b-col
+                        >
+                    </b-row>
+                </div>
+            </div>
+            <div v-show="checkLeagueSchedule != 'wed'">
+                <h2 class="title">REGULAR LEAGUE</h2>
+                <div class="tabContent Inter">
+                    <b-row>
+                        <b-col class="frstColumn">
+                            <img src="/vue_assets/img/RED_LED@2x.png" />
+                        </b-col>
+                        <b-col cols="3" class="secColumn">
+                            <span>PRACTICE</span>
+                        </b-col>
+                        <b-col cols="7" class="thrColumn">
+                            <span>[MAS] 22 : 00 - 22 : 30 (30min)</span>
+                            <span>[PRO] 22 : 00 - 22 : 30 (30min)</span>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col class="frstColumn">
+                            <img src="/vue_assets/img/ORANGE_LED@2x.png" />
+                        </b-col>
+                        <b-col cols="3" class="secColumn">
+                            <span>QUALIFYING</span>
+                        </b-col>
+                        <b-col cols="7" class="thrColumn">
+                            <span>[MAS] 22 : 30 - 22 : 40 (10min)</span>
+                            <span>[PRO] 22 : 30 - 22 : 40 (10min)</span>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col class="frstColumn">
+                            <img src="/vue_assets/img/GREEN_LED@2x.png" />
+                        </b-col>
+                        <b-col cols="3" class="secColumn">
+                            <span>RACE</span>
+                        </b-col>
+                        <b-col cols="7" class="thrColumn">
+                            <span>[MAS] 22 : 40 - 23 : 20 (40min)</span>
+                            <span>[PRO] 22 : 40 - 23 : 20 (40min)</span>
+                        </b-col>
+                    </b-row>
+                </div>
             </div>
         </div>
         <div class="session champion">
@@ -84,7 +145,88 @@
             </h3>
             <hr class="yellow" />
 
-            <div class="tabs"></div>
+            <div class="tabs">
+                <b-row>
+                    <b-col class="tabContentWrap">
+                        <h2 class="title">PRO LEAGUE</h2>
+                        <div class="tabContent Inter">
+                            <div class="podiumWrap">
+                                <h3 class="title">1ST</h3>
+                                <div class="podium gold text-center">
+                                    <div class="profile"></div>
+                                    <span class="userName">SWEET SRD</span>
+                                </div>
+                            </div>
+                            <div class="podiumWrap">
+                                <h3 class="title">2ND</h3>
+                                <div class="podium text-center">
+                                    <div class="profile"></div>
+                                    <span class="userName">SWEET SRD</span>
+                                </div>
+                            </div>
+                            <div class="podiumWrap">
+                                <h3 class="title">3RD</h3>
+                                <div class="podium text-center">
+                                    <div class="profile"></div>
+                                    <span class="userName">SWEET SRD</span>
+                                </div>
+                            </div>
+                        </div>
+                    </b-col>
+                    <b-col class="tabContentWrap">
+                        <h2 class="title">MASTER LEAGUE</h2>
+                        <div class="tabContent Inter">
+                            <div class="podiumWrap">
+                                <h3 class="title">1ST</h3>
+                                <div class="podium gold text-center">
+                                    <div class="profile"></div>
+                                    <span class="userName">SWEET SRD</span>
+                                </div>
+                            </div>
+                            <div class="podiumWrap">
+                                <h3 class="title">2ND</h3>
+                                <div class="podium text-center">
+                                    <div class="profile"></div>
+                                    <span class="userName">SWEET SRD</span>
+                                </div>
+                            </div>
+                            <div class="podiumWrap">
+                                <h3 class="title">3RD</h3>
+                                <div class="podium text-center">
+                                    <div class="profile"></div>
+                                    <span class="userName">SWEET SRD</span>
+                                </div>
+                            </div>
+                        </div>
+                    </b-col>
+                    <b-col class="tabContentWrap">
+                        <h2 class="title">ONE MAKE LEAGUE</h2>
+                        <div class="tabContent Inter">
+                            <div class="podiumWrap">
+                                <h3 class="title">1ST</h3>
+                                <div class="podium gold text-center">
+                                    <div class="profile"></div>
+                                    <span class="userName">SWEET SRD</span>
+                                </div>
+                            </div>
+                            <div class="podiumWrap">
+                                <h3 class="title">2ND</h3>
+                                <div class="podium text-center">
+                                    <div class="profile"></div>
+                                    <span class="userName">SWEET SRD</span>
+                                </div>
+                            </div>
+                            <div class="podiumWrap">
+                                <h3 class="title">3RD</h3>
+                                <div class="podium text-center">
+                                    <div class="profile"></div>
+                                    <span class="userName">SWEET SRD</span>
+                                </div>
+                            </div>
+                        </div>
+                    </b-col>
+                </b-row>
+            </div>
         </div>
         <div class="session gallery">
             <h1 class="title">
@@ -230,6 +372,7 @@ export default {
     max-height: 723px;
     margin: 0 auto;
     position: relative;
+    margin-bottom: 5rem;
 }
 .hero .titleWrap {
     position: absolute;
@@ -295,10 +438,13 @@ export default {
 }
 
 .session {
-    padding: 10rem 0;
+    padding: 7rem 0;
     max-width: 1060px;
     margin: 0 auto;
     text-align: center;
+}
+.session:first-child {
+    padding-top: 0;
 }
 .session:last-child {
     padding-bottom: 5rem;
@@ -309,6 +455,15 @@ export default {
 .session h2.title {
     font-size: 1.5rem;
     color: var(--yellow);
+    margin-bottom: 2rem;
+}
+.session h3.title {
+    font-size: 1.2rem;
+}
+.session h2.title {
+    font-size: 1.5rem;
+    color: var(--yellow);
+    margin-bottom: 2rem;
 }
 .session .subTitle {
     margin-top: 1rem;
@@ -332,7 +487,7 @@ hr.yellow {
     border-radius: 20px;
     margin: 1rem;
     padding: 0.25rem 6rem;
-    border-color: #fff;
+    border-color: transparent;
     background-color: #fff;
 }
 .tabs .roundedBtn.active,
@@ -348,6 +503,70 @@ hr.yellow {
 }
 .tabContent .row {
     border-bottom: 1px solid #fff;
+}
+
+.schedule .frstColumn {
+    padding: 20px;
+}
+.schedule .frstColumn > img {
+    max-width: 60px;
+}
+.schedule .secColumn {
+    background-color: #8a8a8a2b;
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    justify-content: center;
+}
+.schedule .thrColumn {
+    color: #8a8a8a;
+    padding: 1.5rem;
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+}
+.schedule .secColumn > span,
+.schedule .thrColumn > span {
+    align-self: center;
+    font-weight: 800;
+}
+.champion .tabs {
+    margin-bottom: 0;
+}
+.champion .tabContentWrap {
+    padding: 0 2.5rem;
+}
+.champion .tabContentWrap h3.title {
+    padding-left: 1rem;
+}
+.champion .tabContent {
+    text-align: left;
+}
+.champion .podiumWrap {
+    margin-bottom: 2rem;
+}
+.champion .podium {
+    border-radius: 64px;
+    height: 64px;
+    position: relative;
+    background-color: #ffffff7d;
+    padding: 1rem 1rem 1rem 3rem;
+}
+.champion .podium.gold {
+    background-color: #e8af057d;
+}
+.champion .profile {
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    background-color: var(--yellow);
+    border: 4px solid #fff;
+}
+.champion .userName {
+    font-weight: bold;
 }
 
 .contact .sns {
