@@ -3,6 +3,7 @@ package info.team23h.acc.entity.bbs;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import info.team23h.acc.entity.BaseTimeEntity;
 import lombok.*;
+import org.springframework.hateoas.Link;
 
 import javax.persistence.*;
 import java.util.List;
@@ -46,5 +47,9 @@ public class Bbs extends BaseTimeEntity {
 	@JoinColumn(name = "SEQ")
 	@JsonManagedReference
 	private List<BbsFile> bbsFileList;
+
+
+	@Transient
+	private Link _link;
 
 }

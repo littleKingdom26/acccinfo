@@ -1,14 +1,14 @@
 package info.team23h.acc.service.bbs;
 
+import info.team23h.acc.config.Team23hException;
 import info.team23h.acc.dao.BbsDAO;
 import info.team23h.acc.entity.bbs.Bbs;
 import info.team23h.acc.entity.bbs.TbBbsName;
 import info.team23h.acc.repository.bbs.BbsNameRepository;
 import info.team23h.acc.repository.bbs.BbsRepository;
+import info.team23h.acc.restController.front.NoticeRestController;
 import info.team23h.acc.util.PageHelper;
-import info.team23h.acc.vo.bbs.BbsNameVO;
-import info.team23h.acc.vo.bbs.BbsSearch;
-import info.team23h.acc.vo.bbs.BbsVO;
+import info.team23h.acc.vo.bbs.*;
 import info.team23h.acc.vo.comment.CommentVO;
 import info.team23h.acc.vo.front.Bbs.BbsSearchVO;
 import lombok.extern.slf4j.Slf4j;
@@ -17,12 +17,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -173,6 +175,22 @@ public class BbsServiceImpl implements BbsService {
 	@Override
 	public Page<Bbs> findByAllPages(BbsSearchVO bbsSearch) {
 		final TbBbsName tbBbsName = bbsNameRepository.findById(bbsSearch.getNameSeq()).orElse(new TbBbsName());
-		return bbsRepository.findAllByTbBbsName(tbBbsName, PageRequest.of(bbsSearch.getPage()-1, bbsSearch.getSize(), Sort.by("seq").descending()));
+		final Page<Bbs> seq = bbsRepository.findAllByTbBbsName(tbBbsName, PageRequest.of(bbsSearch.getPage() - 1, bbsSearch.getSize(), Sort.by("seq").descending()));
+
+		seq.forEach(bbs -> {
+			WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(NoticeRestController.class).getBbsDetail(bbs.getSeq()));
+			bbs.set_link(linkTo.withRel("detail"));
+		});
+
+		return seq;
+	}
+
+	@Override
+	public BbsResultDTO findBySeq(Long bbsSeq) throws Team23hException {
+
+		final Bbs bbs = bbsRepository.findById(bbsSeq).orElseThrow(() -> new Team23hException("게시물이 없습니다."));
+		final List<BbsCommentResultDTO> bbsCommentList = bbs.getBbsCommentList().stream().map(BbsCommentResultDTO::new).collect(Collectors.toList());
+
+		return BbsResultDTO.builder().bbs(bbs).commentList(bbsCommentList).build();
 	}
 }
