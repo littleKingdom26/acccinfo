@@ -376,7 +376,13 @@ export default {
         };
     },
     mounted() {
-        console.info(this.$router.currentRoute);
+        // console.info(this.$router.currentRoute);
+
+        this.$axios
+            .get("/api/main/beforeLeagueRanker", { withCredentials: false })
+            .then((data) => {
+                console.info("/api/main/beforeLeagueRanker", data.data);
+            });
     },
     methods: {
         onClickOpenUrl(link) {
