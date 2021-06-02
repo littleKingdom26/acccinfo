@@ -17,19 +17,32 @@
                 </b-button>
             </div>
         </div>
+
         <div class="hero">
-            <div class="titleWrap Staatliches">
-                <h1 class="title">
-                    <span><span class="yellow">24 HOURS</span> OPEN</span><br />
-                    <span>TIMETRIAL SERVER</span>
-                </h1>
-                <div class="trophy"></div>
-                <div class="seasonChamp">
-                    <div class="seasonChampBg" />
-                    SEASON CHAMPION
-                </div>
-            </div>
-            <div class="heroCarousel"></div>
+            <Slider
+                animation="fade"
+                v-model="sliderValue"
+                :duration="5000"
+                :speed="1000"
+                height="100vh"
+            >
+                <SliderItem
+                    v-for="(i, index) in heroSlideList"
+                    :key="index"
+                    @click="changeIndex(1)"
+                    :style="i.style"
+                    class="heroCarousel"
+                >
+                    <div class="titleWrap Staatliches">
+                        <h1 class="title" v-html="i.title"></h1>
+                        <div :class="i.iconClass"></div>
+                        <div class="seasonChamp">
+                            <div class="seasonChampBg" />
+                            {{ i.buttonName }}
+                        </div>
+                    </div>
+                </SliderItem>
+            </Slider>
         </div>
         <div class="session schedule">
             <h1 class="title">
@@ -236,7 +249,32 @@
                 Sim Racing User Gallery
             </h3>
             <hr class="yellow" />
-            <div class="tabs"></div>
+            <div class="tabs">
+                <div class="mg-20 inline">
+                    <div class="imgBig imgUp"></div>
+                    <div class="squareWrap">
+                        <div class="square"></div>
+                        <div class="square"></div>
+                        <div class="square"></div>
+                    </div>
+                </div>
+                <div class="mg-20 inline2">
+                    <div class="squareWrap">
+                        <div class="square"></div>
+                        <div class="square"></div>
+                    </div>
+                    <div
+                        class="imgBig imgDown"
+                        :class="{ scaleUp: plusScaleUp }"
+                        @mouseover="plusScaleUp = true"
+                        @mouseout="plusScaleUp = false"
+                    >
+                        <!-- @mouseover="plusIconSize = 80"
+                        @mouseout="plusIconSize = 60" -->
+                        <PlusIcon :size="plusIconSize" />
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="session contact">
             <h1 class="title">
@@ -270,19 +308,48 @@
 
 <script>
 // @ is an alias to /src
+import PlusIcon from "vue-material-design-icons/Plus.vue";
+import { Slider, SliderItem } from "vue-easy-slider";
 
 export default {
     name: "Home",
-    components: {},
+    components: {
+        PlusIcon,
+        Slider,
+        SliderItem,
+    },
     data() {
         return {
+            heroSlideList: [
+                {
+                    style: {
+                        backgroundImage:
+                            'url("/vue_assets/img/ps4yxbox_3109823b.jpeg")',
+                    },
+                    title: `<span><span class="yellow">24 HOURS</span> OPEN</span><br /><span>TIMETRIAL SERVER</span>`,
+                    iconClass: "trophy",
+                    buttonName: "SEASON CHAMPION",
+                },
+                {
+                    style: {
+                        backgroundImage:
+                            'url("/vue_assets/img/ps4yxbox_3109823b.jpeg")',
+                    },
+                    title: `<span><span class="yellow">FINAL LAP</span></span><br /><span>JOIN OUR LEAGUE</span>`,
+                    iconClass: "trophy car",
+                    buttonName: "REGISTER NOW",
+                },
+            ],
+            sliderValue: 2,
+            plusScaleUp: false,
+            plusIconSize: 60,
             checkLeagueSchedule: "wed",
             menus: [
                 { title: "HOME", to: "/" },
                 { disabled: true, title: "NOTICE", to: "/notice" },
                 { disabled: true, title: "LEAGUE", to: "/league" },
-                { disabled: true, title: "TIME TRIAL", to: "/timetrial" },
                 { disabled: true, title: "RESULT", to: "/result" },
+                { disabled: true, title: "TIME TRIAL", to: "/timetrial" },
                 { disabled: true, title: "EVENT", to: "/event" },
                 { disabled: true, title: "GALLERY", to: "/gallery" },
                 { disabled: true, title: "REGISTER", to: "/register" },
@@ -315,12 +382,15 @@ export default {
         onClickOpenUrl(link) {
             window.open(link);
         },
+        changeIndex(index) {
+            this.sliderValue = index;
+        },
     },
 };
 </script>
 
 <style scoped>
-.yellow {
+* >>> .yellow {
     color: var(--yellow);
 }
 .header {
@@ -398,16 +468,20 @@ export default {
     transform: translateX(5px);
     margin-bottom: 1rem;
 }
+.hero .titleWrap .trophy.car {
+    background-image: url("/vue_assets/img/car tab@2x.png");
+}
 .hero .titleWrap .seasonChamp {
     margin: 0 auto;
     border-radius: 20px;
     font-size: 1rem;
     border: 2px solid var(--yellow);
     padding: 0.25rem 1rem;
-    display: initial;
     position: relative;
     cursor: pointer;
-    clip-path: inset(0 0 0 0 round 100px);
+    max-width: 160px;
+    overflow: hidden;
+    /* clip-path: inset(0px 0px 0px 0px round 20px); */
 }
 .hero .titleWrap .seasonChamp .seasonChampBg {
     display: inline-block;
@@ -432,7 +506,6 @@ export default {
 .hero .heroCarousel {
     width: 100%;
     height: 100%;
-    background-image: url("/vue_assets/img/ps4yxbox_3109823b.jpeg");
     background-size: cover;
     background-position: center;
 }
@@ -551,6 +624,8 @@ hr.yellow {
     position: relative;
     background-color: #ffffff7d;
     padding: 1rem 1rem 1rem 3rem;
+    display: flex;
+    justify-content: center;
 }
 .champion .podium.gold {
     background-color: #e8af057d;
@@ -567,6 +642,63 @@ hr.yellow {
 }
 .champion .userName {
     font-weight: bold;
+    align-self: center;
+}
+
+.gallery .tabs {
+    display: flex;
+    justify-content: space-between;
+}
+.gallery .tabs .inline {
+    width: 620px;
+}
+
+.gallery .tabs .imgUp,
+.gallery .tabs .imgDown {
+    height: 384px;
+    background-color: #ccc;
+    margin-bottom: 40px;
+    background-image: url("/vue_assets/img/ps4yxbox_3109823b.jpeg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.gallery .tabs .imgDown {
+    margin-bottom: 0;
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+}
+.gallery .tabs .imgDown > span {
+    align-self: center;
+    transition: all 0.5s;
+}
+.gallery .tabs .imgDown.scaleUp > span {
+    transform: scale(120%);
+}
+.gallery .tabs .inline2 {
+    width: 400px;
+}
+.gallery .tabs .squareWrap {
+    display: flex;
+    justify-content: space-between;
+}
+.gallery .tabs .square {
+    width: 180px;
+    height: 180px;
+    background-color: #ccc;
+    background-image: url("/vue_assets/img/ps4yxbox_3109823b.jpeg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.gallery .tabs .imgBig,
+.gallery .tabs .square {
+    cursor: pointer;
+}
+.gallery .tabs .imgBig:hover,
+.gallery .tabs .square:hover {
+    filter: brightness(200%);
 }
 
 .contact .sns {
