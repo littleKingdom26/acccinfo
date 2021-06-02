@@ -2,7 +2,16 @@ module.exports = {
 	outputDir: "../src/main/resources/static",
 	indexPath: "../static/index.html",
 	devServer: {
-		proxy: "http://localhost:9090"
+		// proxy: "http://localhost:8080"
+        proxy: {
+            '^/api': { 
+                target: 'http://localhost:8080',
+                changeOrigin: true,
+                secure:false,
+                pathRewrite: {'^/api': '/api'},
+                logLevel: 'debug'
+            },
+        }
 	},
 	chainWebpack: config => {
 		const svgRule = config.module.rule("svg");
