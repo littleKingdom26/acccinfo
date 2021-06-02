@@ -1,6 +1,7 @@
 package info.team23h.acc.controller.admin;
 
 
+import info.team23h.acc.config.variable.EnumCode;
 import info.team23h.acc.service.event.EventService;
 import info.team23h.acc.service.handicap.HandicapService;
 import info.team23h.acc.service.score.ScoreService;
@@ -156,6 +157,7 @@ public class EventController {
 		model.addAttribute("scoreInfoList", scoreInfoList);
 		model.addAttribute("handicapInfoList", handicapInfoList);
 		model.addAttribute("eventInfoList", eventInfoList);
+		model.addAttribute("leagueDivisionList", EnumCode.LeagueDivision.values());
 		return "/admin/event/eventInfo";
 	}
 
