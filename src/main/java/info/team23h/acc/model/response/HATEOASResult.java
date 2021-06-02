@@ -1,18 +1,16 @@
 package info.team23h.acc.model.response;
 
+
 import lombok.*;
+import org.springframework.hateoas.Link;
 
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
-public class CommonResult {
+public class HATEOASResult<T> extends CommonResult {
 
-	private boolean success;
+	private T data;
 
-	private String code;
-
-	private String msg;
-
-
+	private Link _link;
 }

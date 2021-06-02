@@ -3,6 +3,7 @@ package info.team23h.acc.service.bbs;
 
 import info.team23h.acc.entity.bbs.Bbs;
 import info.team23h.acc.vo.bbs.BbsNameVO;
+import info.team23h.acc.vo.bbs.BbsResultDTO;
 import info.team23h.acc.vo.bbs.BbsSearch;
 import info.team23h.acc.vo.bbs.BbsVO;
 import info.team23h.acc.vo.comment.CommentVO;
@@ -89,5 +90,19 @@ public interface BbsService {
 	 */
 	Page<Bbs> findPages(PageRequest pageRequest, BbsSearch bbsSearch);
 
+	/**
+	 * 게시물 목록
+	 *
+	 * @param bbsSearch the bbs search
+	 * @return the page
+	 */
 	Page<Bbs> findByAllPages(BbsSearchVO bbsSearch);
+
+	/**
+	 * 게시물 상세
+	 *
+	 * @param bbsSeq the bbs seq
+	 * @return the bbs result dto
+	 */
+	BbsResultDTO findBySeq(Long bbsSeq);
 }

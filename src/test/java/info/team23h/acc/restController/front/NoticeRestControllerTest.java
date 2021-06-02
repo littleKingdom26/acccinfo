@@ -31,7 +31,15 @@ class NoticeRestControllerTest {
 			   .andExpect(status().isOk())
 			   .andExpect(content().contentType(MediaType.APPLICATION_JSON))
 			   .andDo(print());
-
 	}
 
+	@Test
+	public void 공지사항_상세_조회() throws Exception{
+		mockMvc.perform(get("/api/notice/detail/31").
+															contentType(MediaType.APPLICATION_JSON)).
+					   andExpect(status().isOk()).
+					   andExpect(content().contentType(MediaType.APPLICATION_JSON)).
+					   andDo(print());
+
+	}
 }

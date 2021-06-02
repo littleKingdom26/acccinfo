@@ -2,8 +2,10 @@ package info.team23h.acc.service.response;
 
 import info.team23h.acc.config.variable.CommonResponse;
 import info.team23h.acc.model.response.CommonResult;
+import info.team23h.acc.model.response.HATEOASResult;
 import info.team23h.acc.model.response.SingleResult;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,6 +19,15 @@ public class ResponseServiceImpl implements ResponseService {
 	public <T> SingleResult<T> getSingleResult(final T data) {
 		final SingleResult<T> result = new SingleResult<>();
 		result.setData(data);
+		setSuccessResult(result);
+		return result;
+	}
+
+	@Override
+	public <T> HATEOASResult<T> getHATEOASResult(T data, Link link) {
+		final HATEOASResult<T> result = new HATEOASResult<>();
+		result.setData(data);
+		result.set_link(link);
 		setSuccessResult(result);
 		return result;
 	}
@@ -56,11 +67,11 @@ public class ResponseServiceImpl implements ResponseService {
 		return getFailResult(FAIL.getCode(), msg);
 	}
 
+
+
 	private static void setSuccessResult(final CommonResult result) {
 		result.setSuccess(true);
 		result.setCode(SUCCESS.getCode());
 		result.setMsg(SUCCESS.getMsg());
 	}
-
-
 }
