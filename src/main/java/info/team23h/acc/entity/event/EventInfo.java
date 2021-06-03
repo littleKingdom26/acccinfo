@@ -30,8 +30,8 @@ public class EventInfo  extends BaseTimeEntity {
 	@Column(name = "ROUND")
 	private Long round;
 
-	@Column(name = "DEVISION")
-	private Long devision;
+	@Column(name = "DIVISION")
+	private Long division;
 
 	@OneToOne
 	@JoinColumn(name="SCORE_INFO_SEQ")
