@@ -32,6 +32,11 @@ public class EventInfoVO extends CommonVO {
 	private int handicapInfoSeq;
 
 	/**
+	 * 클래스 구분
+	 */
+	private String division;
+
+	/**
 	 * 스코어 타이틀
 	 */
 	private String scoreInfoTitle;

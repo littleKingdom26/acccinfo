@@ -32,6 +32,18 @@
                                             <input type="text" id="round" name="round" value="" class="textType" />
                                         </td>
                                     </tr>
+									<tr>
+										<th>클래스</th>
+										<td>
+											<select id="division" name="division">
+												<option value="">선택</option>
+												{{#leagueDivisionList}}
+													<option value="{{key}}">{{value}}</option>
+												{{/leagueDivisionList}}
+											</select>
+											</select>
+										</td>
+									</tr>
                                     <tr>
                                         <th>점수 방식 *</th>
                                         <td>

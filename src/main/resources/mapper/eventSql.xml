@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="eventSql">
 
     <select id="getEventInfoList" resultType="info.team23h.acc.vo.event.EventInfoVO">
@@ -23,18 +22,20 @@
 
     <insert id="insertEventInfo" parameterType="info.team23h.acc.vo.event.EventInfoVO">
         INSERT INTO TB_EVENT_INFO(
-                                 TITLE,
-                                 ROUND,
-                                 SCORE_INFO_SEQ,
-                                 HANDICAP_INFO_SEQ,
-                                 REG_DT
-                                 )
+                                   TITLE
+                                 , ROUND
+                                 , SCORE_INFO_SEQ
+                                 , HANDICAP_INFO_SEQ
+                                 , DIVISION
+                                 , REG_DT
+        )
         VALUES (
-               #{title},
-               #{round},
-               #{scoreInfoSeq},
-               #{handicapInfoSeq},
-               now()
+                   #{title}
+               ,   #{round}
+               ,   #{scoreInfoSeq}
+               ,   #{handicapInfoSeq}
+               ,   #{division}
+               ,  now()
                )
     </insert>
 

@@ -112,6 +112,11 @@ var race = {
                 return false;
             }
 
+            if($('#division').val() == '') {
+                alert('클래스를 선택하세요');
+                return false;
+            }
+
             if($('#scoreInfoSeq').val() == '') {
                 alert('점수방식을 선택하세요');
                 return false;
