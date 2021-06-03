@@ -6,7 +6,7 @@ import info.team23h.acc.entity.bbs.Bbs;
 import info.team23h.acc.entity.bbs.TbBbsName;
 import info.team23h.acc.repository.bbs.BbsNameRepository;
 import info.team23h.acc.repository.bbs.BbsRepository;
-import info.team23h.acc.restController.front.NoticeRestController;
+import info.team23h.acc.restController.front.notice.NoticeRestController;
 import info.team23h.acc.util.PageHelper;
 import info.team23h.acc.vo.bbs.*;
 import info.team23h.acc.vo.comment.CommentVO;

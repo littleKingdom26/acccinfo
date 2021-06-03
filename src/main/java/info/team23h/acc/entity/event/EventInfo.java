@@ -31,13 +31,13 @@ public class EventInfo  extends BaseTimeEntity {
 	private Long round;
 
 	@Column(name = "DIVISION")
-	private Long division;
+	private String division;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="SCORE_INFO_SEQ")
 	private ScoreInfo scoreInfo;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "HANDICAP_INFO_SEQ")
 	private HandicapInfo handicapInfo;
 

@@ -1,4 +1,4 @@
-package info.team23h.acc.restController.front;
+package info.team23h.acc.restController.front.main;
 
 import info.team23h.acc.model.response.SingleResult;
 import info.team23h.acc.service.event.EventService;

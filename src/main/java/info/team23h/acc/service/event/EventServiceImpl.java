@@ -27,6 +27,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -672,6 +673,13 @@ public class EventServiceImpl implements EventService {
 			}
 		}
 		return resultList;
+	}
+
+	@Override
+	public List<Long> findYearGroup() {
+		final List<EventInfo> eventInfoList = eventInfoRepository.findAll(Sort.by("regDt").ascending());
+		final List<Long> yearList = eventInfoList.stream().map(eventInfo -> Long.parseLong(eventInfo.getRegDt().format(DateTimeFormatter.ofPattern("YYYY")))).distinct().collect(Collectors.toList());
+		return yearList;
 	}
 
 

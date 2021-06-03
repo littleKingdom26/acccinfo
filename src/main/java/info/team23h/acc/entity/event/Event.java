@@ -34,7 +34,7 @@ public class Event extends BaseTimeEntity {
 	@Column(name="CAR_ID")
 	private String carId;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="CAR_MODEL")
 	private Car car;
 

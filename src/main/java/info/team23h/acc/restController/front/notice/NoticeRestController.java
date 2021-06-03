@@ -1,4 +1,4 @@
-package info.team23h.acc.restController.front;
+package info.team23h.acc.restController.front.notice;
 
 import info.team23h.acc.config.Team23hException;
 import info.team23h.acc.entity.bbs.Bbs;
@@ -9,6 +9,7 @@ import info.team23h.acc.service.response.ResponseService;
 import info.team23h.acc.vo.bbs.BbsResultDTO;
 import info.team23h.acc.vo.front.Bbs.BbsSearchVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -31,7 +32,7 @@ public class NoticeRestController {
 
 	final BbsService bbsService;
 
-
+	@ApiOperation(value = "공지사항 목록 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
 	@GetMapping(value = "/list",produces = MediaType.APPLICATION_JSON_VALUE)
 	public SingleResult<Page<Bbs>> getList(final BbsSearchVO bbsSearch){
 		log.debug("bbsSearch : {}", bbsSearch);
@@ -43,6 +44,7 @@ public class NoticeRestController {
 		return responseService.getSingleResult(byAllPages);
 	}
 
+	@ApiOperation(value = "공지사항 상세 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
 	@GetMapping(value = "/detail/{bbsSeq}" ,produces = MediaType.APPLICATION_JSON_VALUE)
 	public HATEOASResult<BbsResultDTO> getBbsDetail(@PathVariable(value = "bbsSeq") final Long bbsSeq) throws Team23hException {
 		log.debug("bbsSeq : {}", bbsSeq);

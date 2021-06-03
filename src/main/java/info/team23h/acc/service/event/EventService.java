@@ -143,4 +143,10 @@ public interface EventService {
 	List<BeforeLeagueRankerGroupResultVO> getBeforeLeagueRanker();
 
 
+	/**
+	 * 이벤트 년도 목록 조회
+	 *
+	 * @return the list
+	 */
+	List<Long> findYearGroup();
 }
