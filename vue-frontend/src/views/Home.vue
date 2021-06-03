@@ -356,21 +356,26 @@ export default {
                 { disabled: true, title: "FAQ", to: "/faq" },
             ],
             snsTypes: [
-                { type: "twitch", title: "TWITCH", url: "https://twitch.com" },
+                {
+                    type: "twitch",
+                    title: "TWITCH",
+                    url: "https://www.twitch.tv/finallap_kr",
+                },
                 {
                     type: "youtube",
                     title: "YOUTUBE",
-                    url: "https://youtube.com",
+                    url:
+                        "https://www.youtube.com/channel/UCz51xgfpnJRutRPWa3u4vgA",
                 },
                 {
                     type: "discord",
                     title: "DISCORD",
-                    url: "https://discord.com",
+                    url: "https://discord.gg/jdNXHfY",
                 },
                 {
                     type: "opentalk",
                     title: "OPEN TALK",
-                    url: "https://opentalk.com",
+                    url: "https://open.kakao.com/o/gRZFSL2b",
                 },
             ],
         };
