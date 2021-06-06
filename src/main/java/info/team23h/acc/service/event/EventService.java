@@ -5,6 +5,7 @@ import info.team23h.acc.vo.event.EventMetaVO;
 import info.team23h.acc.vo.event.EventResultVO;
 import info.team23h.acc.vo.event.EventSubVO;
 import info.team23h.acc.vo.front.main.BeforeLeagueRankerGroupResultVO;
+import info.team23h.acc.vo.front.result.ResultSeasonResultVO;
 import info.team23h.acc.vo.penalty.PenaltyVO;
 import info.team23h.acc.vo.team.TeamScoreSaveVO;
 import net.minidev.json.parser.ParseException;
@@ -149,4 +150,13 @@ public interface EventService {
 	 * @return the list
 	 */
 	List<Long> findYearGroup();
+
+	/**
+	 * 시즌 조회
+	 *
+	 * @param year     the year
+	 * @param division the division
+	 * @return the event season
+	 */
+	List<ResultSeasonResultVO> getEventSeason(Long year, String division);
 }

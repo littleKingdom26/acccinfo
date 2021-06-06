@@ -11,6 +11,7 @@ import info.team23h.acc.util.StringUtil;
 import info.team23h.acc.vo.event.*;
 import info.team23h.acc.vo.front.main.BeforeLeagueRankerGroupResultVO;
 import info.team23h.acc.vo.front.main.BeforeLeagueRankerResultVO;
+import info.team23h.acc.vo.front.result.ResultSeasonResultVO;
 import info.team23h.acc.vo.handicap.HandicapInfoVO;
 import info.team23h.acc.vo.handicap.HandicapVO;
 import info.team23h.acc.vo.penalty.PenaltyVO;
@@ -27,6 +28,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -680,6 +682,16 @@ public class EventServiceImpl implements EventService {
 		final List<EventInfo> eventInfoList = eventInfoRepository.findAll(Sort.by("regDt").ascending());
 		final List<Long> yearList = eventInfoList.stream().map(eventInfo -> Long.parseLong(eventInfo.getRegDt().format(DateTimeFormatter.ofPattern("YYYY")))).distinct().collect(Collectors.toList());
 		return yearList;
+	}
+
+	@Override
+	public List<ResultSeasonResultVO> getEventSeason(Long year, String division) {
+
+		final LocalDateTime startDt = LocalDateTime.of(year.intValue(),1,1,0,0,0);
+		final LocalDateTime endDt = LocalDateTime.of(year.intValue(),12,31,23,59,59);
+		final List<EventInfo> resultList = eventInfoRepository.findAllByAndDivisionAndRegDtBetween(division, startDt, endDt);
+		return resultList.stream().map(ResultSeasonResultVO::new).collect(Collectors.toList());
+
 	}
 
 

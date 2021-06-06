@@ -1,4 +1,4 @@
-package info.team23h.acc.restController.front;
+package info.team23h.acc.restController.front.result;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +24,16 @@ class ResultRestControllerTest {
 	@Test
 	public void 결과_년도_정보() throws Exception {
 		mockMvc.perform(get("/api/result/year").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andDo(print());
+	}
+
+	@Test
+	public void 시즌_조회() throws  Exception{
+		String year = "2020";
+		String division = "DIVISION_1";
+		mockMvc.perform(get("/api/result/season/"+ year+"/"+ division).contentType(MediaType.APPLICATION_JSON))
+			   .andExpect(status().isOk())
+			   .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			   .andDo(print());
 	}
 
 
