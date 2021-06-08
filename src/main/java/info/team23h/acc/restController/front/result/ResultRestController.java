@@ -1,8 +1,10 @@
 package info.team23h.acc.restController.front.result;
 
+import info.team23h.acc.model.response.CommonResult;
 import info.team23h.acc.model.response.SingleResult;
 import info.team23h.acc.service.event.EventService;
 import info.team23h.acc.service.response.ResponseService;
+import info.team23h.acc.vo.front.result.ResultReturnVO;
 import info.team23h.acc.vo.front.result.ResultSeasonResultVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,7 +39,7 @@ public class ResultRestController {
 	 *
 	 * @return the single result
 	 */
-	@ApiOperation(value = "result 년도 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
+	@ApiOperation(value = "RESULT 년도 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
 	@GetMapping(value="/year",produces = MediaType.APPLICATION_JSON_VALUE)
 	public SingleResult<List<Long>> getResultYear(){
 		return responseService.getSingleResult(eventService.findYearGroup());
@@ -49,4 +51,24 @@ public class ResultRestController {
 		final List<ResultSeasonResultVO> eventSeason = eventService.getEventSeason(year, division);
 		return responseService.getSingleResult(eventSeason);
 	}
+
+	@ApiOperation(value = "RESULT 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
+	@GetMapping(value = "/{eventInfoSeq}/{round}")
+	public SingleResult<List<ResultReturnVO>> getResultWithRound(@ApiParam(value = "eventInfoSeq") @PathVariable(name = "eventInfoSeq") final Long eventInfoSeq,
+														@ApiParam(value = "라운드") @PathVariable(name = "round") final Long round) {
+		return responseService.getSingleResult(eventService.findEventResultWithRound(eventInfoSeq, round));
+	}
+
+	@ApiOperation(value = "RESULT 상세 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
+	@GetMapping(value="/{eventInfoSeq}/{round}/{playerId}")
+	public CommonResult getResultDetail(@ApiParam(value = "eventInfoSeq") @PathVariable(name = "eventInfoSeq") final Long eventInfoSeq,
+										@ApiParam(value = "라운드") @PathVariable(name = "round") final Long round,
+										@ApiParam(value = "플레이어 ID") @PathVariable(name="playerId") final String playerId){
+		log.debug("eventInfoSeq : {}", eventInfoSeq);
+		log.debug("round : {}", round);
+		log.debug("playerId : {}", playerId);
+		return null;
+	}
+
+
 }

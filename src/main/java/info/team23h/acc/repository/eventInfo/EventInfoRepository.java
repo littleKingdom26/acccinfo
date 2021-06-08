@@ -9,5 +9,5 @@ import java.util.List;
 public interface EventInfoRepository extends JpaRepository<EventInfo,Long>, EventInfoRepositoryCustom {
 
 
-	List<EventInfo> findAllByAndDivisionAndRegDtBetween(String division , LocalDateTime startDt, LocalDateTime endDt);
+	List<EventInfo> findAllByAndDivisionAndRegDtBetweenOrderByRegDtDesc(String division , LocalDateTime startDt, LocalDateTime endDt);
 }

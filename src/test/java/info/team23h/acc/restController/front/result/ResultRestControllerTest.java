@@ -28,12 +28,19 @@ class ResultRestControllerTest {
 
 	@Test
 	public void 시즌_조회() throws  Exception{
-		String year = "2020";
+		String year = "2021";
 		String division = "DIVISION_1";
 		mockMvc.perform(get("/api/result/season/"+ year+"/"+ division).contentType(MediaType.APPLICATION_JSON))
 			   .andExpect(status().isOk())
 			   .andExpect(content().contentType(MediaType.APPLICATION_JSON))
 			   .andDo(print());
+	}
+
+	@Test
+	public void 결과_라운드_조회() throws Exception {
+		String eventInfoSeq = "36";
+		String round ="1";
+		mockMvc.perform(get("/api/result/"+eventInfoSeq+"/"+round)).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andDo(print());
 	}
 
 

@@ -5,6 +5,7 @@ import info.team23h.acc.vo.event.EventMetaVO;
 import info.team23h.acc.vo.event.EventResultVO;
 import info.team23h.acc.vo.event.EventSubVO;
 import info.team23h.acc.vo.front.main.BeforeLeagueRankerGroupResultVO;
+import info.team23h.acc.vo.front.result.ResultReturnVO;
 import info.team23h.acc.vo.front.result.ResultSeasonResultVO;
 import info.team23h.acc.vo.penalty.PenaltyVO;
 import info.team23h.acc.vo.team.TeamScoreSaveVO;
@@ -159,4 +160,12 @@ public interface EventService {
 	 * @return the event season
 	 */
 	List<ResultSeasonResultVO> getEventSeason(Long year, String division);
+
+	/**
+	 * 이벤트 라운드 결과
+	 *
+	 * @param eventInfoSeq the event info seq
+	 * @param round        the round
+	 */
+	List<ResultReturnVO> findEventResultWithRound(Long eventInfoSeq, Long round);
 }

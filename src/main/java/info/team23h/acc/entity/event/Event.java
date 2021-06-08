@@ -21,13 +21,17 @@ import javax.persistence.*;
 public class Event extends BaseTimeEntity {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "EVENT_SEQ")
+	private Long eventSeq;
+
 	@Column(name = "EVENT_INFO_SEQ")
 	private Long eventInfoSeq;
 
 	@Column(name = "ROUND")
 	private Long round;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PLAYER_ID")
 	private Player player;
 
@@ -39,39 +43,39 @@ public class Event extends BaseTimeEntity {
 	private Car car;
 
 	@Column(name="RACE_TIME")
-	private long raceTime;
+	private Long raceTime;
 
 	@Column(name = "TOTAL_TIME")
-	private long totalTime;
+	private Long totalTime;
 
 	@Column(name = "TOTAL_LAP")
-	private long totalLap;
+	private Long totalLap;
 
 	@Column(name = "BEST_LAP")
-	private long bestLap;
+	private Long bestLap;
 
 	@Column(name = "SECTOR1")
-	private long sector1;
+	private Long sector1;
 
 	@Column(name = "SECTOR2")
-	private long sector2;
+	private Long sector2;
 
 	@Column(name = "SECTOR3")
-	private long sector3;
+	private Long sector3;
 
 	@Column(name = "RANK")
-	private long rank;
+	private Long rank;
 
 	@Column(name = "SCORE")
-	private long score;
+	private Long score;
 
 	@Column(name = "HANDICAP")
-	private long handicap;
+	private Long handicap;
 
 	@Column(name = "PENALTY")
-	private long penalty;
+	private Long penalty;
 
 	@Column(name = "MISS_MANDATORY_PIT_STOP")
-	private long missMandatoryPitStop;
+	private Long missMandatoryPitStop;
 
 }

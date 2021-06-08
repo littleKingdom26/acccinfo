@@ -1,9 +1,11 @@
 package info.team23h.acc.service.event;
 
 import info.team23h.acc.dao.EventDAO;
+import info.team23h.acc.entity.event.Event;
 import info.team23h.acc.entity.event.EventInfo;
 import info.team23h.acc.repository.event.EventRepository;
 import info.team23h.acc.repository.eventInfo.EventInfoRepository;
+import info.team23h.acc.restController.front.result.ResultRestController;
 import info.team23h.acc.service.handicap.HandicapService;
 import info.team23h.acc.service.score.ScoreService;
 import info.team23h.acc.util.MathUtil;
@@ -11,6 +13,7 @@ import info.team23h.acc.util.StringUtil;
 import info.team23h.acc.vo.event.*;
 import info.team23h.acc.vo.front.main.BeforeLeagueRankerGroupResultVO;
 import info.team23h.acc.vo.front.main.BeforeLeagueRankerResultVO;
+import info.team23h.acc.vo.front.result.ResultReturnVO;
 import info.team23h.acc.vo.front.result.ResultSeasonResultVO;
 import info.team23h.acc.vo.handicap.HandicapInfoVO;
 import info.team23h.acc.vo.handicap.HandicapVO;
@@ -25,6 +28,7 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 import org.springframework.data.domain.Sort;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -689,10 +693,24 @@ public class EventServiceImpl implements EventService {
 
 		final LocalDateTime startDt = LocalDateTime.of(year.intValue(),1,1,0,0,0);
 		final LocalDateTime endDt = LocalDateTime.of(year.intValue(),12,31,23,59,59);
-		final List<EventInfo> resultList = eventInfoRepository.findAllByAndDivisionAndRegDtBetween(division, startDt, endDt);
+		final List<EventInfo> resultList = eventInfoRepository.findAllByAndDivisionAndRegDtBetweenOrderByRegDtDesc(division, startDt, endDt);
 		return resultList.stream().map(ResultSeasonResultVO::new).collect(Collectors.toList());
 
 	}
 
+	@Override
+	public List<ResultReturnVO> findEventResultWithRound(Long eventInfoSeq, Long round) {
+		List<Long> eventInfoSeqList = new ArrayList<>();
+		eventInfoSeqList.add(eventInfoSeq);
+
+		final List<Event> resultWithRoundList = eventRepository.findAllByEventInfoSeqAndRoundOrderByRankAsc(eventInfoSeq, round);
+		final List<ResultReturnVO> returnList = resultWithRoundList.stream().map(ResultReturnVO::new).map(resultReturnVO -> {
+			WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(
+					WebMvcLinkBuilder.methodOn(ResultRestController.class).getResultDetail(resultReturnVO.getEventInfoSeq(), resultReturnVO.getRound(), resultReturnVO.getPlayerId()));
+			resultReturnVO.set_link(linkTo.withRel("detail"));
+			return resultReturnVO;
+			}).collect(Collectors.toList());
+		return returnList;
+	}
 
 }
