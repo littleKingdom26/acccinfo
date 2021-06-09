@@ -1,22 +1,6 @@
 <template>
     <div class="home">
-        <div class="header">
-            <b-button variant="link" class="logo" to="/"></b-button>
-
-            <div class="menus Staatliches">
-                <b-button
-                    variant="link"
-                    v-for="(menu, menuIdx) in menus"
-                    :key="menuIdx"
-                    :to="menu.to"
-                    :class="{
-                        active: menu.to == $router.currentRoute.path,
-                    }"
-                >
-                    {{ menu.title }}
-                </b-button>
-            </div>
-        </div>
+        <Header />
 
         <div class="hero">
             <Slider
@@ -386,12 +370,14 @@
 
 <script>
 // @ is an alias to /src
+import Header from "@/components/Header";
 import PlusIcon from "vue-material-design-icons/Plus.vue";
 import { Slider, SliderItem } from "vue-easy-slider";
 
 export default {
     name: "Home",
     components: {
+        Header,
         PlusIcon,
         Slider,
         SliderItem,
@@ -422,17 +408,6 @@ export default {
             plusScaleUp: false,
             plusIconSize: 60,
             checkLeagueSchedule: "wed",
-            menus: [
-                { title: "HOME", to: "/" },
-                { disabled: true, title: "NOTICE", to: "/notice" },
-                { disabled: true, title: "LEAGUE", to: "/league" },
-                { disabled: true, title: "RESULT", to: "/result" },
-                { disabled: true, title: "TIME TRIAL", to: "/timetrial" },
-                { disabled: true, title: "EVENT", to: "/event" },
-                { disabled: true, title: "GALLERY", to: "/gallery" },
-                { disabled: true, title: "REGISTER", to: "/register" },
-                { disabled: true, title: "FAQ", to: "/faq" },
-            ],
             snsTypes: [
                 {
                     type: "twitch",
@@ -498,47 +473,7 @@ export default {
 * >>> .yellow {
     color: var(--yellow);
 }
-.header {
-    max-width: 1140px;
-    margin: 0 auto;
-    margin-top: 0.5rem;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-}
-.logo {
-    width: 220px;
-    height: 52px;
-    background-image: url("/vue_assets/logo/final_lap_logo.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    display: inline-block;
-    vertical-align: top;
-}
-.menus {
-    max-width: 50%;
-    min-width: 670px;
-    width: 100%;
-    float: right;
-    margin-top: 10px;
-    text-align: right;
-}
-.menus ul {
-    list-style-type: none;
-    margin: 0;
-}
-.menus > a {
-    text-decoration: none;
-    color: #fff;
-    padding: 0.25rem 1rem;
-}
-.menus > a:hover,
-.menus > a.active {
-    color: var(--yellow);
-}
+
 
 .hero {
     height: 100vh;
@@ -875,5 +810,16 @@ hr.yellow {
 .contact .sns:hover .bottomTitle {
     background-color: rgba(255, 255, 255, 0.5);
     color: #fff;
+}
+
+.logo {
+    width: 220px;
+    height: 52px;
+    background-image: url("/vue_assets/logo/final_lap_logo.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+    vertical-align: top;
 }
 </style>

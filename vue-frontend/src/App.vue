@@ -15,7 +15,7 @@ body {
     padding: 0;
 }
 #app {
-    font-family: "Jeju Gothic", Avenir, Helvetica, Arial, sans-serif;
+    font-family: "Jeoju Gthic", Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #fff;
@@ -28,6 +28,9 @@ body {
 }
 .Inter * {
     font-family: "Inter", sans-serif, Helvetica, Arial, sans-serif;
+}
+.JeojuGthic * {
+    font-family: "Jeoju Gthic", Avenir, Helvetica, Arial, sans-serif;
 }
 #nav {
     padding: 30px;
