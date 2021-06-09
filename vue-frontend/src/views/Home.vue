@@ -162,78 +162,156 @@
                 <b-row>
                     <b-col class="tabContentWrap">
                         <h2 class="title">PRO LEAGUE</h2>
-                        <div class="tabContent Inter">
+                        <div class="tabContent Inter" v-if="proChamps.length">
                             <div class="podiumWrap">
                                 <h3 class="title">1ST</h3>
                                 <div class="podium gold text-center">
-                                    <div class="profile"></div>
-                                    <span class="userName">SWEET SRD</span>
+                                    <div
+                                        class="profile"
+                                        :style="
+                                            `backgroundImage: url(${proChamps[0].steamAvatar})`
+                                        "
+                                    ></div>
+                                    <span class="userName"
+                                        >{{ proChamps[0].firstName }}
+                                        {{ proChamps[0].lastName }}</span
+                                    >
                                 </div>
                             </div>
                             <div class="podiumWrap">
                                 <h3 class="title">2ND</h3>
                                 <div class="podium text-center">
-                                    <div class="profile"></div>
-                                    <span class="userName">SWEET SRD</span>
+                                    <div
+                                        class="profile"
+                                        :style="
+                                            `backgroundImage: url(${proChamps[1].steamAvatar})`
+                                        "
+                                    ></div>
+                                    <span class="userName"
+                                        >{{ proChamps[1].firstName }}
+                                        {{ proChamps[1].lastName }}</span
+                                    >
                                 </div>
                             </div>
                             <div class="podiumWrap">
                                 <h3 class="title">3RD</h3>
                                 <div class="podium text-center">
-                                    <div class="profile"></div>
-                                    <span class="userName">SWEET SRD</span>
+                                    <div
+                                        class="profile"
+                                        :style="
+                                            `backgroundImage: url(${proChamps[2].steamAvatar})`
+                                        "
+                                    ></div>
+                                    <span class="userName"
+                                        >{{ proChamps[2].firstName }}
+                                        {{ proChamps[2].lastName }}</span
+                                    >
                                 </div>
                             </div>
                         </div>
                     </b-col>
                     <b-col class="tabContentWrap">
                         <h2 class="title">MASTER LEAGUE</h2>
-                        <div class="tabContent Inter">
+                        <div
+                            class="tabContent Inter"
+                            v-if="masterChamps.length"
+                        >
                             <div class="podiumWrap">
                                 <h3 class="title">1ST</h3>
                                 <div class="podium gold text-center">
-                                    <div class="profile"></div>
-                                    <span class="userName">SWEET SRD</span>
+                                    <div
+                                        class="profile"
+                                        :style="
+                                            `backgroundImage: url(${masterChamps[0].steamAvatar})`
+                                        "
+                                    ></div>
+                                    <span class="userName"
+                                        >{{ masterChamps[0].firstName }}
+                                        {{ masterChamps[0].lastName }}</span
+                                    >
                                 </div>
                             </div>
                             <div class="podiumWrap">
                                 <h3 class="title">2ND</h3>
                                 <div class="podium text-center">
-                                    <div class="profile"></div>
-                                    <span class="userName">SWEET SRD</span>
+                                    <div
+                                        class="profile"
+                                        :style="
+                                            `backgroundImage: url(${masterChamps[1].steamAvatar})`
+                                        "
+                                    ></div>
+                                    <span class="userName"
+                                        >{{ masterChamps[1].firstName }}
+                                        {{ masterChamps[1].lastName }}</span
+                                    >
                                 </div>
                             </div>
                             <div class="podiumWrap">
                                 <h3 class="title">3RD</h3>
                                 <div class="podium text-center">
-                                    <div class="profile"></div>
-                                    <span class="userName">SWEET SRD</span>
+                                    <div
+                                        class="profile"
+                                        :style="
+                                            `backgroundImage: url(${masterChamps[2].steamAvatar})`
+                                        "
+                                    ></div>
+                                    <span class="userName"
+                                        >{{ masterChamps[2].firstName }}
+                                        {{ masterChamps[2].lastName }}</span
+                                    >
                                 </div>
                             </div>
                         </div>
                     </b-col>
                     <b-col class="tabContentWrap">
                         <h2 class="title">ONE MAKE LEAGUE</h2>
-                        <div class="tabContent Inter">
+                        <div
+                            class="tabContent Inter"
+                            v-if="oneMakeChamps.length"
+                        >
                             <div class="podiumWrap">
                                 <h3 class="title">1ST</h3>
                                 <div class="podium gold text-center">
-                                    <div class="profile"></div>
-                                    <span class="userName">SWEET SRD</span>
+                                    <div
+                                        class="profile"
+                                        :style="
+                                            `backgroundImage: url(${oneMakeChamps[0].steamAvatar})`
+                                        "
+                                    ></div>
+                                    <span class="userName"
+                                        >{{ oneMakeChamps[0].firstName }}
+                                        {{ oneMakeChamps[0].lastName }}</span
+                                    >
                                 </div>
                             </div>
                             <div class="podiumWrap">
                                 <h3 class="title">2ND</h3>
                                 <div class="podium text-center">
-                                    <div class="profile"></div>
-                                    <span class="userName">SWEET SRD</span>
+                                    <div
+                                        class="profile"
+                                        :style="
+                                            `backgroundImage: url(${oneMakeChamps[1].steamAvatar})`
+                                        "
+                                    ></div>
+                                    <span class="userName"
+                                        >{{ oneMakeChamps[1].firstName }}
+                                        {{ oneMakeChamps[1].lastName }}</span
+                                    >
                                 </div>
                             </div>
                             <div class="podiumWrap">
                                 <h3 class="title">3RD</h3>
                                 <div class="podium text-center">
-                                    <div class="profile"></div>
-                                    <span class="userName">SWEET SRD</span>
+                                    <div
+                                        class="profile"
+                                        :style="
+                                            `backgroundImage: url(${oneMakeChamps[2].steamAvatar})`
+                                        "
+                                    ></div>
+                                    <span class="userName"
+                                        >{{ oneMakeChamps[2].firstName }}
+                                        {{ oneMakeChamps[2].lastName }}</span
+                                    >
                                 </div>
                             </div>
                         </div>
@@ -378,6 +456,9 @@ export default {
                     url: "https://open.kakao.com/o/gRZFSL2b",
                 },
             ],
+            proChamps: [],
+            masterChamps: [],
+            oneMakeChamps: [],
         };
     },
     mounted() {
@@ -386,7 +467,20 @@ export default {
         this.$axios
             .get("/api/main/beforeLeagueRanker", { withCredentials: false })
             .then((data) => {
-                console.info("/api/main/beforeLeagueRanker", data.data);
+                console.info(
+                    data.data.data,
+                    this.proChamps,
+                    this.masterChamps,
+                    this.oneMakeChamps
+                );
+                if (data.data.data) {
+                    this.proChamps =
+                        data.data.data[0].beforeLeagueRankerResultList;
+                    this.masterChamps =
+                        data.data.data[1].beforeLeagueRankerResultList;
+                    this.oneMakeChamps =
+                        data.data.data[2].beforeLeagueRankerResultList;
+                }
             });
     },
     methods: {
@@ -650,6 +744,9 @@ hr.yellow {
     height: 64px;
     background-color: var(--yellow);
     border: 4px solid #fff;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 .champion .userName {
     font-weight: bold;
