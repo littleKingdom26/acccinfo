@@ -8,6 +8,7 @@ import info.team23h.acc.service.bbs.BbsService;
 import info.team23h.acc.service.response.ResponseService;
 import info.team23h.acc.vo.bbs.BbsResultDTO;
 import info.team23h.acc.vo.front.Bbs.BbsSearchVO;
+import info.team23h.acc.vo.front.common.SearchCommonVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -34,13 +35,16 @@ public class NoticeRestController {
 
 	@ApiOperation(value = "공지사항 목록 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
 	@GetMapping(value = "/list",produces = MediaType.APPLICATION_JSON_VALUE)
-	public SingleResult<Page<Bbs>> getList(final BbsSearchVO bbsSearch){
-		log.debug("bbsSearch : {}", bbsSearch);
+	public SingleResult<Page<Bbs>> getList(final SearchCommonVO commonVO){
+		log.info("NoticeRestController.getList");
 
-		if(ObjectUtils.isEmpty(bbsSearch.getNameSeq())){
-			bbsSearch.setNameSeq(1L); // 공지시항
+		BbsSearchVO bbsSearchVO = new BbsSearchVO();
+		bbsSearchVO.setPage(commonVO.getPage());
+		bbsSearchVO.setSize(commonVO.getSize());
+		if(ObjectUtils.isEmpty(bbsSearchVO.getNameSeq())){
+			bbsSearchVO.setNameSeq(1L); // 공지시항
 		}
-		final Page<Bbs> byAllPages = bbsService.findByAllPages(bbsSearch);
+		final Page<Bbs> byAllPages = bbsService.findByAllPages(bbsSearchVO);
 		return responseService.getSingleResult(byAllPages);
 	}
 

@@ -7,6 +7,7 @@ import info.team23h.acc.vo.event.EventSubVO;
 import info.team23h.acc.vo.front.main.BeforeLeagueRankerGroupResultVO;
 import info.team23h.acc.vo.front.result.ResultReturnVO;
 import info.team23h.acc.vo.front.result.ResultSeasonResultVO;
+import info.team23h.acc.vo.front.result.ResultSubResultVO;
 import info.team23h.acc.vo.penalty.PenaltyVO;
 import info.team23h.acc.vo.team.TeamScoreSaveVO;
 import net.minidev.json.parser.ParseException;
@@ -168,4 +169,13 @@ public interface EventService {
 	 * @param round        the round
 	 */
 	List<ResultReturnVO> findEventResultWithRound(Long eventInfoSeq, Long round);
+
+	/**
+	 * 이벤트 플레이어 상세 정보
+	 *
+	 * @param eventInfoSeq the event info seq
+	 * @param round        the round
+	 * @param carId        the car id
+	 */
+	List<ResultSubResultVO> findByEventPlayerDetail(Long eventInfoSeq, Long round, String carId);
 }

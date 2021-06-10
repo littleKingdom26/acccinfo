@@ -25,7 +25,7 @@ public class ResultReturnVO {
 	@ApiModelProperty(value = "랭킹", name = "rank")
 	private Long rank;
 
-	@ApiModelProperty(value = "플레이어 아이디(상세 조회시 필요)", name = "playerId")
+	@ApiModelProperty(value = "플레이어 아이디", name = "playerId")
 	private String playerId;
 
 	@ApiModelProperty(value = "이벤트 정보 키값", name = "eventInfoSeq")
@@ -33,6 +33,9 @@ public class ResultReturnVO {
 
 	@ApiModelProperty(value = "라운드", name = "round")
 	private Long round;
+
+	@ApiModelProperty(value = "차량ID(상세 조회시 필요)", name = "carId")
+	private String carId;
 
 	@Transient
 	private Link _link;
@@ -45,5 +48,6 @@ public class ResultReturnVO {
 		this.playerId = event.getPlayer().getPlayerId();
 		this.eventInfoSeq = event.getEventInfoSeq();
 		this.round = event.getRound();
+		this.carId = event.getCarId();
 	}
 }
