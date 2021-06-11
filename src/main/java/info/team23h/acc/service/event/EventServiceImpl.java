@@ -1,5 +1,6 @@
 package info.team23h.acc.service.event;
 
+import info.team23h.acc.config.variable.EnumCode;
 import info.team23h.acc.dao.EventDAO;
 import info.team23h.acc.entity.event.Event;
 import info.team23h.acc.entity.event.EventInfo;
@@ -84,18 +85,13 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public HashMap<String, Object> delEventInfo(EventInfoVO param) throws Exception {
 		int cnt = eventDAO.delEventInfo(param);
-
 		cnt = eventDAO.delEvent(param);
 		cnt= eventDAO.delEventMeta(param);
 		cnt = eventDAO.delEventSub(param);
 		cnt = eventDAO.delPenalty(param);
 
 		HashMap<String, Object> result = new HashMap<>();
-		if(cnt == 0){
-			throw new Exception();
-		}else{
-			result.put("code", "0000");
-		}
+		result.put("code", "0000");
 		return result;
 	}
 
@@ -661,7 +657,11 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public List<BeforeLeagueRankerGroupResultVO> getBeforeLeagueRanker() {
 		final List<EventInfo> eventAllList = eventInfoRepository.findAll(Sort.by(Sort.Direction.DESC,"eventInfoSeq"));
-		final List<EventInfo> eventFinishList = eventAllList.stream().filter(eventInfo ->eventInfo.getRound()==eventInfo.getEventMetaList().size()).collect(Collectors.toList());
+		final EventInfo eventInfo_first = eventAllList.stream().findFirst().get();
+
+		final List<EventInfo> eventFinishList = eventAllList.stream()
+													.filter(eventInfo -> eventInfo.getYear() != eventInfo_first.getYear() && eventInfo.getSeason() != eventInfo_first.getSeason())
+													.collect(Collectors.toList());
 		List<BeforeLeagueRankerGroupResultVO> resultList = new ArrayList<>();
 		if(eventFinishList.size()>3){
 			for(int i = 0; i < 3; i++){
@@ -669,7 +669,6 @@ public class EventServiceImpl implements EventService {
 				final List<EventResultVO> byEventRanker = eventRepository.findByEventRanker(eventInfo.getEventInfoSeq());
 				final List<EventResultVO> eventResultVOS = byEventRanker.subList(0, 3);
 				int rank = 0;
-				eventInfo.getTitle();
 				List<BeforeLeagueRankerResultVO> subResultList = new ArrayList<>();
 				for(EventResultVO eventResultVO : eventResultVOS){
 					rank+=1;
@@ -680,7 +679,14 @@ public class EventServiceImpl implements EventService {
 															 .steamAvatar(eventResultVO.getSteamAvatar())
 															 .build());
 				}
-				resultList.add(BeforeLeagueRankerGroupResultVO.builder().leagueName(eventInfo.getTitle()).beforeLeagueRankerResultList(subResultList).build());
+				String divisionName = "";
+				for(EnumCode.LeagueDivision value : EnumCode.LeagueDivision.values()){
+					if(value.getKey().equals(eventInfo.getDivision())){
+						divisionName = value.getValue();
+					}
+				}
+
+				resultList.add(BeforeLeagueRankerGroupResultVO.builder().leagueName(eventInfo.getTitle()).beforeLeagueRankerResultList(subResultList).division(divisionName).build());
 			}
 		}
 		return resultList;

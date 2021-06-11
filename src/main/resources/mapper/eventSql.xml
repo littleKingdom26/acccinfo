@@ -27,6 +27,8 @@
                                  , SCORE_INFO_SEQ
                                  , HANDICAP_INFO_SEQ
                                  , DIVISION
+                                 , YEAR
+                                 , SEASON
                                  , REG_DT
         )
         VALUES (
@@ -35,6 +37,8 @@
                ,   #{scoreInfoSeq}
                ,   #{handicapInfoSeq}
                ,   #{division}
+               ,   #{year}
+               ,   #{season}
                ,  now()
                )
     </insert>

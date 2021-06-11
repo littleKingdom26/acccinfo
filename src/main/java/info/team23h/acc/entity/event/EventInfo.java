@@ -33,6 +33,12 @@ public class EventInfo  extends BaseTimeEntity {
 	@Column(name = "DIVISION")
 	private String division;
 
+	@Column(name = "YEAR")
+	private Long year;
+
+	@Column(name = "SEASON")
+	private Long season;
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="SCORE_INFO_SEQ")
 	private ScoreInfo scoreInfo;

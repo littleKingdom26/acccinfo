@@ -33,13 +33,37 @@
                                         </td>
                                     </tr>
 									<tr>
-										<th>클래스</th>
+										<th>클래스 *</th>
 										<td>
 											<select id="division" name="division">
 												<option value="">선택</option>
 												{{#leagueDivisionList}}
 													<option value="{{key}}">{{value}}</option>
 												{{/leagueDivisionList}}
+											</select>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<th>년도 *</th>
+										<td>
+											<select id="year" name="year">
+												<option value="">선택</option>
+												{{#yearList}}
+													<option value="{{value}}">{{value}}</option>
+												{{/yearList}}
+											</select>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<th>시즌 *</th>
+										<td>
+											<select id="season" name="season">
+												<option value="">선택</option>
+												{{#seasonList}}
+													<option value="{{value}}">{{value}}</option>
+												{{/seasonList}}
 											</select>
 											</select>
 										</td>
