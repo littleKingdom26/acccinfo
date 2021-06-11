@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring()
-		   .antMatchers("/js/**", "/css/**", "/img/**", "/image/**", "/admin/css/**", "/uplaod/**", "/ads.txt", "/swagger-ui/**", "/swagger-ui.html", "/webjars/**", "/swagger-resources/**", "/v2/**");
+		   .antMatchers("/js/**", "/css/**", "/img/**", "/image/**", "/admin/css/**", "/uplaod/**","/vue_assets/**", "/ads.txt", "/swagger-ui/**", "/swagger-ui.html", "/webjars/**", "/swagger-resources/**", "/v2/**");
 	}
 
 	@Override

@@ -1,10 +1,13 @@
 package info.team23h.acc.service.event;
 
+import info.team23h.acc.config.variable.EnumCode;
 import info.team23h.acc.dao.EventDAO;
 import info.team23h.acc.entity.event.Event;
 import info.team23h.acc.entity.event.EventInfo;
+import info.team23h.acc.entity.event.EventSub;
 import info.team23h.acc.repository.event.EventRepository;
 import info.team23h.acc.repository.eventInfo.EventInfoRepository;
+import info.team23h.acc.repository.eventSub.EventSubRepository;
 import info.team23h.acc.restController.front.result.ResultRestController;
 import info.team23h.acc.service.handicap.HandicapService;
 import info.team23h.acc.service.score.ScoreService;
@@ -15,6 +18,7 @@ import info.team23h.acc.vo.front.main.BeforeLeagueRankerGroupResultVO;
 import info.team23h.acc.vo.front.main.BeforeLeagueRankerResultVO;
 import info.team23h.acc.vo.front.result.ResultReturnVO;
 import info.team23h.acc.vo.front.result.ResultSeasonResultVO;
+import info.team23h.acc.vo.front.result.ResultSubResultVO;
 import info.team23h.acc.vo.handicap.HandicapInfoVO;
 import info.team23h.acc.vo.handicap.HandicapVO;
 import info.team23h.acc.vo.penalty.PenaltyVO;
@@ -59,6 +63,8 @@ public class EventServiceImpl implements EventService {
 
 	final EventInfoRepository eventInfoRepository;
 
+	final EventSubRepository eventSubRepository;
+
 	@Override
 	public List<EventInfoVO> getEventInfoList() {
 		return eventDAO.getEventInfoList();
@@ -79,18 +85,13 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public HashMap<String, Object> delEventInfo(EventInfoVO param) throws Exception {
 		int cnt = eventDAO.delEventInfo(param);
-
 		cnt = eventDAO.delEvent(param);
 		cnt= eventDAO.delEventMeta(param);
 		cnt = eventDAO.delEventSub(param);
 		cnt = eventDAO.delPenalty(param);
 
 		HashMap<String, Object> result = new HashMap<>();
-		if(cnt == 0){
-			throw new Exception();
-		}else{
-			result.put("code", "0000");
-		}
+		result.put("code", "0000");
 		return result;
 	}
 
@@ -656,7 +657,11 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public List<BeforeLeagueRankerGroupResultVO> getBeforeLeagueRanker() {
 		final List<EventInfo> eventAllList = eventInfoRepository.findAll(Sort.by(Sort.Direction.DESC,"eventInfoSeq"));
-		final List<EventInfo> eventFinishList = eventAllList.stream().filter(eventInfo ->eventInfo.getRound()==eventInfo.getEventMetaList().size()).collect(Collectors.toList());
+		final EventInfo eventInfo_first = eventAllList.stream().findFirst().get();
+
+		final List<EventInfo> eventFinishList = eventAllList.stream()
+													.filter(eventInfo -> eventInfo.getYear() != eventInfo_first.getYear() && eventInfo.getSeason() != eventInfo_first.getSeason())
+													.collect(Collectors.toList());
 		List<BeforeLeagueRankerGroupResultVO> resultList = new ArrayList<>();
 		if(eventFinishList.size()>3){
 			for(int i = 0; i < 3; i++){
@@ -664,7 +669,6 @@ public class EventServiceImpl implements EventService {
 				final List<EventResultVO> byEventRanker = eventRepository.findByEventRanker(eventInfo.getEventInfoSeq());
 				final List<EventResultVO> eventResultVOS = byEventRanker.subList(0, 3);
 				int rank = 0;
-				eventInfo.getTitle();
 				List<BeforeLeagueRankerResultVO> subResultList = new ArrayList<>();
 				for(EventResultVO eventResultVO : eventResultVOS){
 					rank+=1;
@@ -675,7 +679,14 @@ public class EventServiceImpl implements EventService {
 															 .steamAvatar(eventResultVO.getSteamAvatar())
 															 .build());
 				}
-				resultList.add(BeforeLeagueRankerGroupResultVO.builder().leagueName(eventInfo.getTitle()).beforeLeagueRankerResultList(subResultList).build());
+				String divisionName = "";
+				for(EnumCode.LeagueDivision value : EnumCode.LeagueDivision.values()){
+					if(value.getKey().equals(eventInfo.getDivision())){
+						divisionName = value.getValue();
+					}
+				}
+
+				resultList.add(BeforeLeagueRankerGroupResultVO.builder().leagueName(eventInfo.getTitle()).beforeLeagueRankerResultList(subResultList).division(divisionName).build());
 			}
 		}
 		return resultList;
@@ -706,11 +717,18 @@ public class EventServiceImpl implements EventService {
 		final List<Event> resultWithRoundList = eventRepository.findAllByEventInfoSeqAndRoundOrderByRankAsc(eventInfoSeq, round);
 		final List<ResultReturnVO> returnList = resultWithRoundList.stream().map(ResultReturnVO::new).map(resultReturnVO -> {
 			WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(
-					WebMvcLinkBuilder.methodOn(ResultRestController.class).getResultDetail(resultReturnVO.getEventInfoSeq(), resultReturnVO.getRound(), resultReturnVO.getPlayerId()));
+					WebMvcLinkBuilder.methodOn(ResultRestController.class).getResultDetail(resultReturnVO.getEventInfoSeq(), resultReturnVO.getRound(), resultReturnVO.getCarId()));
 			resultReturnVO.set_link(linkTo.withRel("detail"));
 			return resultReturnVO;
 			}).collect(Collectors.toList());
 		return returnList;
+	}
+
+	@Override
+	public List<ResultSubResultVO> findByEventPlayerDetail(Long eventInfoSeq, Long round, String carId) {
+		final List<EventSub> allByEventInfoSeqAndCarIdAndRound = eventSubRepository.findAllByEventInfoSeqAndCarIdAndRoundOrderByLapAsc(eventInfoSeq, carId, round);
+		return allByEventInfoSeqAndCarIdAndRound.stream().map(ResultSubResultVO::new).collect(Collectors.toList());
+
 	}
 
 }

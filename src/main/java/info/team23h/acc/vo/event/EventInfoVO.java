@@ -37,6 +37,16 @@ public class EventInfoVO extends CommonVO {
 	private String division;
 
 	/**
+	 * 년도
+	 */
+	private Long year;
+
+	/**
+	 * 시즌
+	 */
+	private Long season;
+
+	/**
 	 * 스코어 타이틀
 	 */
 	private String scoreInfoTitle;

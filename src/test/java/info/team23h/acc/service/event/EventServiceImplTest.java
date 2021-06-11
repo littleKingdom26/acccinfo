@@ -20,4 +20,9 @@ class EventServiceImplTest {
 		eventService.findEventResultWithRound(36L, 1L);
 	}
 
+	@Test
+	public void 이벤트_상세_조회(){
+		eventService.findByEventPlayerDetail(34L, 6L, "1015");
+	}
+
 }

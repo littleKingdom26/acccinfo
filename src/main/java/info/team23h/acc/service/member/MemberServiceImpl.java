@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class MemberServiceImpl implements MemberService, UserDetailsService {
 	@Autowired
-	MemberDAO memberDAO;
+	private MemberDAO memberDAO;
 
 	@Override
 	public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {

@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -154,10 +155,26 @@ public class EventController {
 		List<ScoreInfoVO> scoreInfoList = scoreService.getScoreInfoList();
 		List<HandicapInfoVO> handicapInfoList = handicapService.getHandicapInfoList();
 		List<EventInfoVO> eventInfoList = eventService.getEventInfoList();
+		// 년도
+		List<Integer> yearList = new ArrayList<>();
+		LocalDate ld = LocalDate.now();
+		final int year = ld.getYear();
+		for(int i = 2020; i <= year; i++){
+			yearList.add(i);
+		}
+
+		// 시즌
+		List<Integer> seasonList = new ArrayList<>();
+		for(int i = 1; i < 11; i++){
+			seasonList.add(i);
+		}
+
 		model.addAttribute("scoreInfoList", scoreInfoList);
 		model.addAttribute("handicapInfoList", handicapInfoList);
 		model.addAttribute("eventInfoList", eventInfoList);
 		model.addAttribute("leagueDivisionList", EnumCode.LeagueDivision.values());
+		model.addAttribute("yearList",yearList);
+		model.addAttribute("seasonList", seasonList);
 		return "/admin/event/eventInfo";
 	}
 
