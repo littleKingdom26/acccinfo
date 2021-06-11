@@ -39,8 +39,7 @@
                 <div class="count">로딩중...</div>
             </div>
         </div>
-
-        <div class="paginationWrap Inter">
+        <div v-if="rows / perPage > 1" class="paginationWrap Inter">
             <Pagination
                 :currentPage="currentPage"
                 :rows="rows"
@@ -68,10 +67,9 @@ export default {
     },
     data() {
         return {
-            nameSeqForNotice: 1,
             currentPage: 1,
             rows: 0,
-            perPage: 20,
+            perPage: 15,
             noticeContent: [],
         };
     },
@@ -85,9 +83,10 @@ export default {
                 .get(
                     "/api/notice/list",
                     {
-                        nameSeq: this.nameSeqForNotice,
-                        page: this.currentPage,
-                        size: this.perPage,
+                        params: {
+                            page: this.currentPage,
+                            size: this.perPage,
+                        },
                     },
                     { withCredentials: false }
                 )
@@ -102,6 +101,7 @@ export default {
         },
         onClickPage(page) {
             this.currentPage = page;
+            this._getContent();
         },
     },
 };
