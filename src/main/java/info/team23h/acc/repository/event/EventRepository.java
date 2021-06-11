@@ -9,4 +9,7 @@ public interface EventRepository extends JpaRepository<Event,Long> ,EventReposit
 
 
 	List<Event> findAllByEventInfoSeqAndRoundOrderByRankAsc(Long eventInfoSeq,Long round);
+
+
+	List<Event> findAllByEventInfoSeqOrderByRoundAsc(Long eventInfoSeq);
 }

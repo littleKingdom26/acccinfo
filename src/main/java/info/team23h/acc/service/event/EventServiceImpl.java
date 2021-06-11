@@ -16,6 +16,7 @@ import info.team23h.acc.util.StringUtil;
 import info.team23h.acc.vo.event.*;
 import info.team23h.acc.vo.front.main.BeforeLeagueRankerGroupResultVO;
 import info.team23h.acc.vo.front.main.BeforeLeagueRankerResultVO;
+import info.team23h.acc.vo.front.result.ResultAllResultVO;
 import info.team23h.acc.vo.front.result.ResultReturnVO;
 import info.team23h.acc.vo.front.result.ResultSeasonResultVO;
 import info.team23h.acc.vo.front.result.ResultSubResultVO;
@@ -38,10 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -728,6 +726,26 @@ public class EventServiceImpl implements EventService {
 	public List<ResultSubResultVO> findByEventPlayerDetail(Long eventInfoSeq, Long round, String carId) {
 		final List<EventSub> allByEventInfoSeqAndCarIdAndRound = eventSubRepository.findAllByEventInfoSeqAndCarIdAndRoundOrderByLapAsc(eventInfoSeq, carId, round);
 		return allByEventInfoSeqAndCarIdAndRound.stream().map(ResultSubResultVO::new).collect(Collectors.toList());
+
+	}
+
+	@Override
+	public List<ResultAllResultVO> findEventResult(Long eventInfoSeq) {
+		final List<Event> eventAllList = eventRepository.findAllByEventInfoSeqOrderByRoundAsc(eventInfoSeq);
+		final List<String> playerId = eventAllList.stream().map(event -> event.getPlayer().getPlayerId()).distinct().collect(Collectors.toList());
+		eventAllList.stream().filter(event -> event.getPlayer().getPlayerId() == playerId.get(0)).mapToLong(event -> event.getScore()).sum();
+
+		List<ResultAllResultVO> resultAllResultList = new ArrayList<>();
+		playerId.forEach(s -> {
+			final Event eventOne = eventAllList.stream().filter(event -> event.getPlayer().getPlayerId() == s).findFirst().get();
+			resultAllResultList.add(ResultAllResultVO.builder().playerId(s).lastName(eventOne.getPlayer().getLastName()).fistName(eventOne.getPlayer().getFirstName()).point(
+					eventAllList.stream().filter(event -> event.getPlayer().getPlayerId().equals(s)).mapToLong(event -> event.getScore()).sum()).build());
+		});
+
+		final List<ResultAllResultVO> resultList = resultAllResultList.stream().sorted(Comparator.comparingLong(ResultAllResultVO::getPoint).reversed()).collect(Collectors.toList());
+
+		return resultList;
+
 
 	}
 

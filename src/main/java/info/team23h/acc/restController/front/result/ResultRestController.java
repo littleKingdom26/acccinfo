@@ -3,6 +3,7 @@ package info.team23h.acc.restController.front.result;
 import info.team23h.acc.model.response.SingleResult;
 import info.team23h.acc.service.event.EventService;
 import info.team23h.acc.service.response.ResponseService;
+import info.team23h.acc.vo.front.result.ResultAllResultVO;
 import info.team23h.acc.vo.front.result.ResultReturnVO;
 import info.team23h.acc.vo.front.result.ResultSeasonResultVO;
 import info.team23h.acc.vo.front.result.ResultSubResultVO;
@@ -64,10 +65,13 @@ public class ResultRestController {
 	public SingleResult<List<ResultSubResultVO>> getResultDetail(@ApiParam(value = "eventInfoSeq") @PathVariable(name = "eventInfoSeq") final Long eventInfoSeq,
 																 @ApiParam(value = "라운드") @PathVariable(name = "round") final Long round,
 																 @ApiParam(value = "Car ID") @PathVariable(name="carId") final String carId){
-		log.debug("eventInfoSeq : {}", eventInfoSeq);
-		log.debug("round : {}", round);
-		log.debug("playerId : {}", carId);
 		return responseService.getSingleResult(eventService.findByEventPlayerDetail(eventInfoSeq, round, carId));
+	}
+
+	@ApiOperation(value = "RESULT ALL 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
+	@GetMapping(value = "/{eventInfoSeq}")
+	public SingleResult<List<ResultAllResultVO>> getResult(@ApiParam(value = "eventInfoSeq") @PathVariable(name = "eventInfoSeq") final Long eventInfoSeq) {
+		return responseService.getSingleResult(eventService.findEventResult(eventInfoSeq));
 	}
 
 

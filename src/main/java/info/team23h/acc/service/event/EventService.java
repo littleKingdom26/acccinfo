@@ -5,6 +5,7 @@ import info.team23h.acc.vo.event.EventMetaVO;
 import info.team23h.acc.vo.event.EventResultVO;
 import info.team23h.acc.vo.event.EventSubVO;
 import info.team23h.acc.vo.front.main.BeforeLeagueRankerGroupResultVO;
+import info.team23h.acc.vo.front.result.ResultAllResultVO;
 import info.team23h.acc.vo.front.result.ResultReturnVO;
 import info.team23h.acc.vo.front.result.ResultSeasonResultVO;
 import info.team23h.acc.vo.front.result.ResultSubResultVO;
@@ -178,4 +179,12 @@ public interface EventService {
 	 * @param carId        the car id
 	 */
 	List<ResultSubResultVO> findByEventPlayerDetail(Long eventInfoSeq, Long round, String carId);
+
+	/**
+	 * 라운드 all 조회
+	 *
+	 * @param eventInfoSeq the event info seq
+	 */
+	List<ResultAllResultVO> findEventResult(Long eventInfoSeq);
+
 }

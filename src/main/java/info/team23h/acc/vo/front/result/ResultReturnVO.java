@@ -37,6 +37,9 @@ public class ResultReturnVO {
 	@ApiModelProperty(value = "차량ID(상세 조회시 필요)", name = "carId")
 	private String carId;
 
+	@ApiModelProperty(value = "ballast", name = "ballast")
+	private Long ballast;
+
 	@Transient
 	private Link _link;
 
@@ -49,5 +52,6 @@ public class ResultReturnVO {
 		this.eventInfoSeq = event.getEventInfoSeq();
 		this.round = event.getRound();
 		this.carId = event.getCarId();
+		this.ballast = event.getHandicap();
 	}
 }
