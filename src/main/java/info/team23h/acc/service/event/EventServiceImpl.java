@@ -731,15 +731,17 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public List<ResultAllResultVO> findEventResult(Long eventInfoSeq) {
-		final List<Event> eventAllList = eventRepository.findAllByEventInfoSeqOrderByRoundAsc(eventInfoSeq);
-		final List<String> playerId = eventAllList.stream().map(event -> event.getPlayer().getPlayerId()).distinct().collect(Collectors.toList());
-		eventAllList.stream().filter(event -> event.getPlayer().getPlayerId() == playerId.get(0)).mapToLong(event -> event.getScore()).sum();
-
+		final List<Event> eventAllList = eventRepository.findAllByEventInfoSeqOrderByRoundAsc(eventInfoSeq);// 라운드 기록 조회
+		final List<String> playerId = eventAllList.stream().map(event -> event.getPlayer().getPlayerId()).distinct().collect(Collectors.toList());// player Id 조회 / 중복제거
 		List<ResultAllResultVO> resultAllResultList = new ArrayList<>();
 		playerId.forEach(s -> {
-			final Event eventOne = eventAllList.stream().filter(event -> event.getPlayer().getPlayerId() == s).findFirst().get();
-			resultAllResultList.add(ResultAllResultVO.builder().playerId(s).lastName(eventOne.getPlayer().getLastName()).fistName(eventOne.getPlayer().getFirstName()).point(
-					eventAllList.stream().filter(event -> event.getPlayer().getPlayerId().equals(s)).mapToLong(event -> event.getScore()).sum()).build());
+			final Event eventFirst = eventAllList.stream().filter(event -> event.getPlayer().getPlayerId() == s).findFirst().get(); // 플레이어 id 첫번쨰 값 구함
+			resultAllResultList.add(ResultAllResultVO.builder()
+													 .playerId(s)
+													 .lastName(eventFirst.getPlayer().getLastName())
+													 .fistName(eventFirst.getPlayer().getFirstName())
+													 .point(eventAllList.stream().filter(event -> event.getPlayer().getPlayerId().equals(s)).mapToLong(event -> event.getScore()).sum())
+													 .build());
 		});
 
 		final List<ResultAllResultVO> resultList = resultAllResultList.stream().sorted(Comparator.comparingLong(ResultAllResultVO::getPoint).reversed()).collect(Collectors.toList());
