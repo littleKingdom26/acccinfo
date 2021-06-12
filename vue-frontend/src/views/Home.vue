@@ -9,6 +9,7 @@
                 :duration="5000"
                 :speed="1000"
                 height="100vh"
+                :stopOnHover="true"
             >
                 <SliderItem
                     v-for="(i, index) in heroSlideList"
@@ -404,7 +405,7 @@ export default {
                     buttonName: "REGISTER NOW",
                 },
             ],
-            sliderValue: 2,
+            sliderValue: 0,
             plusScaleUp: false,
             plusIconSize: 60,
             checkLeagueSchedule: "wed",
@@ -437,28 +438,38 @@ export default {
         };
     },
     mounted() {
-        // console.info(this.$router.currentRoute);
-
         this.$axios
             .get("/api/main/beforeLeagueRanker", { withCredentials: false })
             .then((data) => {
-                console.info(
-                    data.data.data,
-                    this.proChamps,
-                    this.masterChamps,
-                    this.oneMakeChamps
-                );
                 if (data.data.data) {
-                    this.proChamps =
-                        data.data.data[0].beforeLeagueRankerResultList;
-                    this.masterChamps =
-                        data.data.data[1].beforeLeagueRankerResultList;
-                    this.oneMakeChamps =
-                        data.data.data[2].beforeLeagueRankerResultList;
+                    data.data.data.forEach((data) => {
+                        if (data.leagueName.indexOf("Pro") != -1) {
+                            this.proChamps = [
+                                ...data.beforeLeagueRankerResultList.sort(
+                                    this._sortByRank
+                                ),
+                            ];
+                        } else if (data.leagueName.indexOf("Master") != -1) {
+                            this.masterChamps = [
+                                ...data.beforeLeagueRankerResultList.sort(
+                                    this._sortByRank
+                                ),
+                            ];
+                        } else if (data.leagueName.indexOf("OneMake") != -1) {
+                            this.oneMakeChamps = [
+                                ...data.beforeLeagueRankerResultList.sort(
+                                    this._sortByRank
+                                ),
+                            ];
+                        }
+                    });
                 }
             });
     },
     methods: {
+        _sortByRank(a, b) {
+            return a.rank > b.rank ? 1 : -1;
+        },
         onClickOpenUrl(link) {
             window.open(link);
         },
@@ -473,7 +484,6 @@ export default {
 * >>> .yellow {
     color: var(--yellow);
 }
-
 
 .hero {
     height: 100vh;
