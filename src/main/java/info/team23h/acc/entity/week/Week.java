@@ -1,5 +1,4 @@
-package info.team23h.acc.entity.event;
-
+package info.team23h.acc.entity.week;
 
 import info.team23h.acc.entity.BaseTimeEntity;
 import info.team23h.acc.entity.track.Track;
@@ -8,7 +7,6 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Getter
 @Setter
@@ -17,21 +15,26 @@ import java.io.Serializable;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "TB_EVENT_META")
-public class EventMeta extends BaseTimeEntity implements Serializable {
+@Table(name = "TB_WEEK")
+public class Week extends BaseTimeEntity {
+
+
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "SEQ")
+	private Long seq;
 
 	@Id
-	@Column(name="EVENT_INFO_SEQ")
-	private Long eventInfoSeq;
-
-	@Column(name = "ROUND")
-	private Long round;
+	@Column(name="SESSION_ID")
+	private Long sessionId;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="TRACK_SEQ")
 	private Track track;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="EVENT_INFO_SEQ",insertable = false,updatable = false)
-	private EventInfo eventInfo;
+	@Column(name = "START_DT")
+	private String startDt;
+
+	@Column(name = "END_DT")
+	private String endDt;
+
 }

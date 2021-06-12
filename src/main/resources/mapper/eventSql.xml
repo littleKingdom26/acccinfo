@@ -161,10 +161,12 @@
             TB_EVENT_META( EVENT_INFO_SEQ
                          , ROUND
                          , TRACK_NAME
+                         , TRACK_SEQ
                          , REG_DT )
         VALUES ( #{eventInfoSeq}
                , #{round}
                , #{trackName}
+               , #{trackSeq}
                , now() )
     </insert>
 
