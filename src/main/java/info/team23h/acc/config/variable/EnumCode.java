@@ -20,5 +20,17 @@ public class EnumCode {
 		public String getKey() {return name();}
 	}
 
+	@Getter
+	@RequiredArgsConstructor
+	public enum CarClass implements EnumModel {
+		GT3("GT3"),
+		GT4("GT4");
+
+		private final String value;
+
+		@Override
+		public String getKey() {return name();}
+	}
+
 
 }

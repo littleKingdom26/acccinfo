@@ -309,7 +309,6 @@ public class EventServiceImpl implements EventService {
 		if(eventDAO.selectEventMeta(eventMetaVO) == 0){
 			final Track track = trackRepository.findByTrackName(eventMetaVO.getTrackName()).get();
 			eventMetaVO.setTrackSeq(track.getSeq());
-			// TODO [YTH] 트랙 시퀀스로 등록
 			cnt = eventDAO.insertEventMeta(eventMetaVO);
 		}
 
@@ -553,7 +552,6 @@ public class EventServiceImpl implements EventService {
 
 		int cnt=0;
 		if(eventDAO.selectEventMeta(eventMetaVO) == 0){
-			// TODO [YTH] 트랙 시퀀스로 등록
 			final Track track = trackRepository.findByTrackName(eventMetaVO.getTrackName()).get();
 			eventMetaVO.setTrackSeq(track.getSeq());
 			cnt = eventDAO.insertEventMeta(eventMetaVO);

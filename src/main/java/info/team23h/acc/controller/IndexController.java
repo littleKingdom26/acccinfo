@@ -1,9 +1,6 @@
 package info.team23h.acc.controller;
 
-import info.team23h.acc.service.banner.BannerService;
 import info.team23h.acc.service.record.RecordService;
-import info.team23h.acc.service.track.TrackService;
-import info.team23h.acc.service.week.WeekService;
 import info.team23h.acc.vo.common.SearchVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,24 +21,7 @@ public class IndexController {
 	 * The Record service.
 	 */
 	@Autowired
-	RecordService recordService;
-
-	/**
-	 * The Week service.
-	 */
-	@Autowired
-	WeekService weekService;
-
-	/**
-	 * The Track service.
-	 */
-	@Autowired
-	TrackService trackService;
-
-	@Autowired
-	BannerService bannerService;
-
-
+	private RecordService recordService;
 
 	/**
 	 * Index string.

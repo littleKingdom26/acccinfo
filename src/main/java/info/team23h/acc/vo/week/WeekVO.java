@@ -4,7 +4,8 @@ import info.team23h.acc.vo.common.CommonVO;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 public class WeekVO extends CommonVO {
 
 	/**

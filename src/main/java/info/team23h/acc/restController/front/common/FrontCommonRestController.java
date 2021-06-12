@@ -30,7 +30,7 @@ public class FrontCommonRestController {
 	@Autowired
 	final ResponseService responseService;
 
-	@ApiOperation(value = "클래스 목록 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
+	@ApiOperation(value = "리그 클래스 목록 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
 	@GetMapping(value="/class",produces = MediaType.APPLICATION_JSON_VALUE)
 	public SingleResult<List<EnumVO>> getDivision(){
 
@@ -39,6 +39,24 @@ public class FrontCommonRestController {
 		Class<?>[] classes = EnumCode.class.getClasses();
 		for(Class<?> aClass : classes){
 			if(aClass.getSimpleName().contains("LeagueDivision")){
+				for(Object enumType : aClass.getEnumConstants()){
+					EnumModel em = (EnumModel) enumType;
+					enumList.add(new EnumVO(em));
+				}
+			}
+		}
+		enumValues.put("code", enumList);
+		return responseService.getSingleResult(enumList);
+	}
+
+	@ApiOperation(value = "차량 클래스 목록록조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
+	@GetMapping(value="/carClass",produces = MediaType.APPLICATION_JSON_VALUE)
+	public SingleResult<List<EnumVO>> getCarClass(){
+		Map<String, List<EnumVO>> enumValues = new LinkedHashMap<>();
+		List<EnumVO> enumList = new ArrayList<>();
+		Class<?>[] classes = EnumCode.class.getClasses();
+		for(Class<?> aClass : classes){
+			if(aClass.getSimpleName().contains("CarClass")){
 				for(Object enumType : aClass.getEnumConstants()){
 					EnumModel em = (EnumModel) enumType;
 					enumList.add(new EnumVO(em));
