@@ -1,7 +1,9 @@
 package info.team23h.acc.service.event;
 
 import info.team23h.acc.dao.EventDAO;
+import info.team23h.acc.entity.track.Track;
 import info.team23h.acc.repository.event.EventRepository;
+import info.team23h.acc.repository.track.TrackRepository;
 import info.team23h.acc.service.handicap.HandicapService;
 import info.team23h.acc.service.score.ScoreService;
 import info.team23h.acc.util.MathUtil;
@@ -43,6 +45,8 @@ public class EventServiceImpl implements EventService {
 	final HandicapService handicapService;
 
 	final EventRepository eventRepository;
+
+	final TrackRepository trackRepository;
 
 
 
@@ -292,6 +296,8 @@ public class EventServiceImpl implements EventService {
 
 		int cnt = 0;
 		if(eventDAO.selectEventMeta(eventMetaVO) == 0){
+			final Track track = trackRepository.findByTrackName(eventMetaVO.getTrackName()).get();
+			eventMetaVO.setTrackSeq(track.getSeq());
 			cnt = eventDAO.insertEventMeta(eventMetaVO);
 		}
 
@@ -535,6 +541,8 @@ public class EventServiceImpl implements EventService {
 
 		int cnt=0;
 		if(eventDAO.selectEventMeta(eventMetaVO) == 0){
+			final Track track = trackRepository.findByTrackName(eventMetaVO.getTrackName()).get();
+			eventMetaVO.setTrackSeq(track.getSeq());
 			cnt = eventDAO.insertEventMeta(eventMetaVO);
 		}
 

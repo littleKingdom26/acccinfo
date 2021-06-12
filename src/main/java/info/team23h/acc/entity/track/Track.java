@@ -6,10 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -21,10 +18,11 @@ import javax.persistence.Table;
 @Table(name = "TB_TRACK")
 public class Track extends BaseTimeEntity {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="SEQ")
 	private Long seq;
 
-	@Id
 	@Column(name = "TRACK_NAME")
 	private String trackName;
 

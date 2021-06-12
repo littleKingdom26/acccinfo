@@ -27,5 +27,10 @@ public class EventMetaVO extends CommonVO {
 	 */
 	private String trackViewName;
 
+	/**
+	 * 트랙 SEQ
+	 */
+	private Long trackSeq;
+
 
 }
