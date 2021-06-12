@@ -32,8 +32,8 @@ export default {
             menus: [
                 { title: "HOME", to: "/" },
                 { title: "NOTICE", to: "/notice" },
-                { disabled: true, title: "LEAGUE", to: "/league" },
-                { disabled: true, title: "RESULT", to: "/result" },
+                { title: "LEAGUE", to: "/league" },
+                { title: "RESULT", to: "/result" },
                 { disabled: true, title: "TIME TRIAL", to: "/timetrial" },
                 { disabled: true, title: "EVENT", to: "/event" },
                 { disabled: true, title: "GALLERY", to: "/gallery" },
