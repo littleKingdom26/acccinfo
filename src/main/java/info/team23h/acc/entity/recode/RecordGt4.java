@@ -1,6 +1,5 @@
 package info.team23h.acc.entity.recode;
 
-
 import info.team23h.acc.entity.car.Car;
 import info.team23h.acc.entity.player.Player;
 import info.team23h.acc.entity.track.Track;
@@ -20,8 +19,8 @@ import javax.persistence.*;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "TB_RECODE")
-public class Recode {
+@Table(name = "TB_RECORD_GT4")
+public class RecordGt4 {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,5 +58,5 @@ public class Recode {
 	@JoinColumn(name = "TRACK_SEQ")
 	private Track track;
 
-
 }
+

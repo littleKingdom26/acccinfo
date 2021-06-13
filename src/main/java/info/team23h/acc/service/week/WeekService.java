@@ -35,5 +35,4 @@ public interface WeekService {
 	 * 주차 모든 정보 구하기
 	 */
 	List<WeekResultVO> findWeekList();
-
 }
