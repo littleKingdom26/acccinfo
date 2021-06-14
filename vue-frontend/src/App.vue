@@ -13,6 +13,7 @@ body {
     background-color: #000;
     margin: 0;
     padding: 0;
+    min-width: 1320px;
 }
 #app {
     font-family: "Jeoju Gthic", Avenir, Helvetica, Arial, sans-serif;

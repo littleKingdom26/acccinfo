@@ -143,7 +143,14 @@
             </h3>
             <hr class="yellow" />
 
-            <div class="tabs">
+            <div
+                class="tabs"
+                v-if="
+                    proChamps.length &&
+                        masterChamps.length &&
+                        oneMakeChamps.length
+                "
+            >
                 <b-row>
                     <b-col class="tabContentWrap">
                         <h2 class="title">PRO LEAGUE</h2>
@@ -302,6 +309,11 @@
                         </div>
                     </b-col>
                 </b-row>
+            </div>
+            <div v-else class="session loading Staatliches text-center mb-5">
+                <div class="row header">
+                    <div class="count">로딩중...</div>
+                </div>
             </div>
         </div>
         <div class="session gallery">
@@ -696,6 +708,17 @@ hr.yellow {
 .champion .userName {
     font-weight: bold;
     align-self: center;
+}
+.champion .count {
+    flex: 1 1 0;
+    background-color: var(--yellow);
+    font-weight: bold;
+    padding: 1em;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    margin: 0 auto;
+    font-weight: bold;
+    font-size: 1.2em;
 }
 
 .gallery .tabs {

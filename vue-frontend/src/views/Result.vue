@@ -10,7 +10,98 @@
                 FINAL LAP League Result
             </h3>
             <hr class="yellow" />
-            <div class="tabs"></div>
+            <div class="tabs selections">
+                <b-dropdown
+                    text="YEAR"
+                    no-caret
+                    variant=""
+                    :class="{ active: year_selection != 'YEAR' }"
+                >
+                    <template #button-content>
+                        <span>{{ year_selection }}</span
+                        ><mdiChevronDownCircle color="#8a8a8a" />
+                    </template>
+                    <b-dropdown-item
+                        v-for="(year, yearIdx) in years"
+                        :key="yearIdx"
+                        href="#"
+                        @click.stop.prevent="onClickYear(year)"
+                        >{{ year }}</b-dropdown-item
+                    >
+                </b-dropdown>
+                <b-dropdown
+                    text="CLASS"
+                    no-caret
+                    variant=""
+                    :class="{ active: class_selection != 'CLASS' }"
+                >
+                    <template #button-content>
+                        <span>{{ class_selection }}</span
+                        ><mdiChevronDownCircle color="#8a8a8a" />
+                    </template>
+                    <b-dropdown-item
+                        v-for="(className, classNameIdx) in classes"
+                        :key="classNameIdx"
+                        href="#"
+                        @click.stop.prevent="class_selection = className"
+                        >{{ className }}</b-dropdown-item
+                    >
+                </b-dropdown>
+                <b-dropdown
+                    text="SEASON"
+                    no-caret
+                    variant=""
+                    class="season"
+                    :class="{ active: season_selection != 'SEASON' }"
+                >
+                    <template #button-content>
+                        <span>{{ season_selection }}</span
+                        ><mdiChevronDownCircle color="#8a8a8a" />
+                    </template>
+                    <b-dropdown-item
+                        v-for="(season, seasonIdx) in seasons"
+                        :key="seasonIdx"
+                        href="#"
+                        @click.stop.prevent="season_selection = season"
+                        >{{ season }}</b-dropdown-item
+                    >
+                </b-dropdown>
+                <b-dropdown
+                    text="ROUND"
+                    no-caret
+                    variant=""
+                    :class="{ active: round_selection != 'ROUND' }"
+                >
+                    <template #button-content>
+                        <span>{{ round_selection }}</span
+                        ><mdiChevronDownCircle color="#8a8a8a" />
+                    </template>
+                    <b-dropdown-item
+                        v-for="(round, roundIdx) in rounds"
+                        :key="roundIdx"
+                        href="#"
+                        @click.stop.prevent="round_selection = round"
+                        >{{ round }}</b-dropdown-item
+                    >
+                </b-dropdown>
+                <b-dropdown
+                    text="ROUND"
+                    no-caret
+                    variant=""
+                    class=""
+                    style="visibility:hidden;"
+                >
+                    <template #button-content>
+                        <span>Search</span
+                        ><mdiChevronDownCircle color="#8a8a8a" />
+                    </template>
+                    <!-- <b-dropdown-item href="#">Action</b-dropdown-item>
+                    <b-dropdown-item href="#">Another action</b-dropdown-item>
+                    <b-dropdown-item href="#"
+                        >Something else here</b-dropdown-item
+                    > -->
+                </b-dropdown>
+            </div>
 
             <div class="tabs lastBtnWrap Staatliches">
                 <b-row>
@@ -34,15 +125,25 @@
 // @ is an alias to /src
 import Header from "@/components/Header";
 import mdiChevronRightCircle from "vue-material-design-icons/ChevronRightCircle.vue";
+import mdiChevronDownCircle from "vue-material-design-icons/ChevronDownCircle.vue";
 
 export default {
     name: "Home",
     components: {
         Header,
         mdiChevronRightCircle,
+        mdiChevronDownCircle,
     },
     data() {
         return {
+            year_selection: "YEAR",
+            class_selection: "CLASS",
+            season_selection: "SEASON",
+            round_selection: "ROUND",
+            years: ["로딩중..."],
+            classes: ["PRO", "MASTER", "ONE MAKE"],
+            seasons: ["ALL", "SEASON1", "SEASON2", "SEASON3"],
+            rounds: ["ALL", "ROUND1", "ROUND2", "ROUND3"],
             leagueSlideList: [
                 {
                     style: {
@@ -81,29 +182,24 @@ export default {
         };
     },
     created() {
-        // this._getContent();
+        this._getContent();
     },
     methods: {
-        // _getContent() {
-        //     this.$axios
-        //         .get(
-        //             "/api/notice/list",
-        //             {
-        //                 params: {
-        //                     page: this.currentPage,
-        //                     size: this.perPage,
-        //                 },
-        //             },
-        //             { withCredentials: false }
-        //         )
-        //         .then((data) => {
-        //             this.rows = data.data.data.totalElements;
-        //             this.noticeContent = data.data.data.content;
-        //             console.info("this.noticeContent", this.noticeContent);
-        //         });
-        // },
+        _getContent() {
+            this.$axios
+                .get("/api/result/year", { withCredentials: false })
+                .then((data) => {
+                    this.years = data.data.data;
+                });
+        },
         changeIndex(index) {
             this.sliderValue = index;
+        },
+        onClickYear(year) {
+            if (typeof year == "string" && year.indexOf("로딩") != -1) {
+                return;
+            }
+            this.year_selection = year;
         },
     },
 };
@@ -213,6 +309,57 @@ hr.yellow {
     font-weight: 800;
 }
 
+.selections {
+    display: flex;
+    justify-content: space-between;
+}
+.selections >>> .b-dropdown {
+    flex: 2 1 0;
+    margin: 0 0.5em;
+}
+.selections >>> .b-dropdown.season {
+    flex: 4 1 0;
+}
+.selections >>> .b-dropdown .dropdown-toggle {
+    padding: 0.5em 1em;
+    border-radius: 1.5em;
+    background-color: #fff;
+    color: #8a8a8a;
+}
+
+.selections >>> .b-dropdown .dropdown-toggle {
+    vertical-align: middle;
+}
+.selections >>> .b-dropdown .dropdown-toggle > .material-design-icon {
+    float: right;
+    margin: 0 !important;
+}
+
+.selections >>> .b-dropdown.active .dropdown-toggle {
+    background-color: var(--yellow);
+    color: #fff;
+}
+
+.selections >>> .b-dropdown .dropdown-menu {
+    background: transparent;
+    width: 100%;
+    padding: 0;
+}
+.selections >>> .b-dropdown .dropdown-menu > li {
+    background-color: #8a8a8a;
+    padding: 0.5em 1em;
+    text-align: center;
+    border-radius: 1.5em;
+    margin: 0.5em 0;
+}
+.selections >>> .b-dropdown .dropdown-menu > li > .dropdown-item {
+    color: #fff;
+}
+.selections >>> .b-dropdown .dropdown-menu > li > .dropdown-item:active,
+.selections >>> .b-dropdown .dropdown-menu > li > .dropdown-item:hover,
+.selections >>> .b-dropdown .dropdown-menu > li > .dropdown-item:focus {
+    background-color: transparent;
+}
 .lastBtnWrap {
     max-width: 700px;
     margin: 0 auto;

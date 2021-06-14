@@ -87,8 +87,7 @@ export default {
     margin-top: 0.5rem;
 }
 .menus {
-    max-width: 50%;
-    min-width: 670px;
+    max-width: 670px;
     width: 100%;
     float: right;
     margin-top: 10px;
