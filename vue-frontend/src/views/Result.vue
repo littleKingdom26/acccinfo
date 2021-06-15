@@ -43,8 +43,8 @@
                         v-for="(className, classNameIdx) in classes"
                         :key="classNameIdx"
                         href="#"
-                        @click.stop.prevent="class_selection = className"
-                        >{{ className }}</b-dropdown-item
+                        @click.stop.prevent="onClickClassDropdown(className)"
+                        >{{ className.name }}</b-dropdown-item
                     >
                 </b-dropdown>
                 <b-dropdown
@@ -52,6 +52,7 @@
                     no-caret
                     variant=""
                     class="season"
+                    :disabled="seasons.length == 1"
                     :class="{ active: season_selection != 'SEASON' }"
                 >
                     <template #button-content>
@@ -62,14 +63,15 @@
                         v-for="(season, seasonIdx) in seasons"
                         :key="seasonIdx"
                         href="#"
-                        @click.stop.prevent="season_selection = season"
-                        >{{ season }}</b-dropdown-item
+                        @click.stop.prevent="onClickSeasonDropdown(season)"
+                        >{{ season.seasonName }}</b-dropdown-item
                     >
                 </b-dropdown>
                 <b-dropdown
                     text="ROUND"
                     no-caret
                     variant=""
+                    :disabled="rounds.length == 1"
                     :class="{ active: round_selection != 'ROUND' }"
                 >
                     <template #button-content>
@@ -80,8 +82,8 @@
                         v-for="(round, roundIdx) in rounds"
                         :key="roundIdx"
                         href="#"
-                        @click.stop.prevent="round_selection = round"
-                        >{{ round }}</b-dropdown-item
+                        @click.stop.prevent="onClickRoundDropdown(round)"
+                        >{{ round.name }}</b-dropdown-item
                     >
                 </b-dropdown>
                 <b-dropdown
@@ -102,6 +104,8 @@
                     > -->
                 </b-dropdown>
             </div>
+
+            <div class="tabs list"></div>
 
             <div class="tabs lastBtnWrap Staatliches">
                 <b-row>
@@ -138,68 +142,101 @@ export default {
         return {
             year_selection: "YEAR",
             class_selection: "CLASS",
+            class_selection_division: "",
             season_selection: "SEASON",
+            season_selection_data: {},
             round_selection: "ROUND",
+            round_selection_data: {},
             years: ["로딩중..."],
-            classes: ["PRO", "MASTER", "ONE MAKE"],
-            seasons: ["ALL", "SEASON1", "SEASON2", "SEASON3"],
-            rounds: ["ALL", "ROUND1", "ROUND2", "ROUND3"],
-            leagueSlideList: [
-                {
-                    style: {
-                        backgroundImage:
-                            'url("/vue_assets/img/ps4yxbox_3109823b.jpeg")',
-                        bakcgroundPosition: "center",
-                        backgroundSize: "contain",
-                        backgroundRepeat: "no-repeat",
-                        maxWidth: "500px",
-                        left: "0",
-                        right: "0",
-                        margin: "0 auto",
-                    },
-                    title: `<span><span class="yellow">24 HOURS</span> OPEN</span><br /><span>TIMETRIAL SERVER</span>`,
-                    iconClass: "trophy",
-                    buttonName: "SEASON CHAMPION",
-                },
-                {
-                    style: {
-                        backgroundImage:
-                            'url("/vue_assets/img/ps4yxbox_3109823b.jpeg")',
-                        bakcgroundPosition: "center",
-                        backgroundSize: "contain",
-                        backgroundRepeat: "no-repeat",
-                        maxWidth: "500px",
-                        left: "0",
-                        right: "0",
-                        margin: "0 auto",
-                    },
-                    title: `<span><span class="yellow">FINAL LAP</span></span><br /><span>JOIN OUR LEAGUE</span>`,
-                    iconClass: "trophy car",
-                    buttonName: "REGISTER NOW",
-                },
+            classes: [
+                { name: "PRO", division: "DIVISION_1" },
+                { name: "MASTER", division: "DIVISION_2" },
+                { name: "ONE MAKE", division: "DIVISION_3" },
             ],
+            seasons: [{ seasonName: "ALL" }],
+            rounds: [{ name: "ALL" }],
+            results: [],
             sliderValue: 0,
         };
     },
     created() {
-        this._getContent();
+        this._getYears();
     },
     methods: {
-        _getContent() {
+        _getYears() {
             this.$axios
                 .get("/api/result/year", { withCredentials: false })
                 .then((data) => {
                     this.years = data.data.data;
                 });
         },
-        changeIndex(index) {
-            this.sliderValue = index;
+        _getSessions() {
+            if (
+                this.year_selection == "YEAR" ||
+                !this.class_selection_division
+            ) {
+                return;
+            }
+            this.$axios
+                .get(
+                    `/api/result/season/${this.year_selection}/${this.class_selection_division}`,
+                    { withCredentials: false }
+                )
+                .then((data) => {
+                    this.seasons = [
+                        { seasonName: "ALL", eventInfoSeq: "ALL" },
+                        ...data.data.data,
+                    ];
+                    this.season_selection = "SEASON";
+                    this.season_selection_data = {};
+                });
+        },
+        _getRoundResult() {
+            if (!this.season_selection_data.eventInfoSeq) {
+                return;
+            }
+            this.$axios
+                .get(
+                    `/api/result/${this.season_selection_data.eventInfoSeq}/${this.round_selection_data.round}`,
+                    { withCredentials: false }
+                )
+                .then((data) => {
+                    this.results = data.data.data;
+                });
+        },
+        _updateRounds(roundNumber) {
+            this.rounds = [];
+            for (let i = 1; i <= roundNumber; i++) {
+                this.rounds.push({
+                    name: `ROUND${i}`,
+                    round: i,
+                });
+            }
         },
         onClickYear(year) {
             if (typeof year == "string" && year.indexOf("로딩") != -1) {
                 return;
             }
             this.year_selection = year;
+            if (this.class_selection_division) {
+                this._getSessions();
+            }
+        },
+        onClickClassDropdown(className) {
+            this.class_selection = className.name;
+            this.class_selection_division = className.division;
+            this._getSessions();
+        },
+        onClickSeasonDropdown(season) {
+            this.season_selection = season.seasonName;
+            this.season_selection_data = season;
+            this._updateRounds(season.round);
+        },
+
+        onClickRoundDropdown(roundData) {
+            this.round_selection = roundData.name;
+            this.round_selection_data = roundData;
+            this._getRoundResult();
         },
     },
 };
@@ -215,6 +252,7 @@ export default {
     padding-top: 7rem;
     /* max-width: 1060px; */
     max-width: 1140px;
+    min-height: 100vh;
     margin: 0 auto;
     text-align: center;
 }
@@ -360,6 +398,11 @@ hr.yellow {
 .selections >>> .b-dropdown .dropdown-menu > li > .dropdown-item:focus {
     background-color: transparent;
 }
+
+.list {
+    min-height: 100vh;
+}
+
 .lastBtnWrap {
     max-width: 700px;
     margin: 0 auto;
