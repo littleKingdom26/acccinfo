@@ -1,11 +1,11 @@
 package info.team23h.acc.restController.front.timeTrial;
 
-import info.team23h.acc.model.response.CommonResult;
 import info.team23h.acc.model.response.SingleResult;
 import info.team23h.acc.service.response.ResponseService;
 import info.team23h.acc.service.timeTrial.TimeTrialService;
 import info.team23h.acc.service.track.TrackService;
 import info.team23h.acc.service.week.WeekService;
+import info.team23h.acc.vo.front.timeTrial.TimeTrialPlayerDetailVO;
 import info.team23h.acc.vo.front.timeTrial.TimeTrialResultVO;
 import info.team23h.acc.vo.front.timeTrial.TrackResultVO;
 import info.team23h.acc.vo.front.timeTrial.WeekResultVO;
@@ -60,12 +60,11 @@ public class TimeTrialRestController {
 	}
 
 
-	@ApiOperation(value = "드라이버 상세 기록 조회[미구현]", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
+	@ApiOperation(value = "드라이버 상세 기록 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
 	@GetMapping(value = "/week/gt3/{playerId}/detail", produces = MediaType.APPLICATION_JSON_VALUE)
-	public CommonResult findPlayerIdDetail(@ApiParam(value = "세션 아이디") @PathVariable(value = "playerId") final String playerId) {
+	public SingleResult<List<TimeTrialPlayerDetailVO>> findGt3PlayerIdDetail(@ApiParam(value = "세션 아이디") @PathVariable(value = "playerId") final String playerId) {
 		log.debug("sessionId : {}", playerId);
-
-		return null;
+		return responseService.getSingleResult(timeTrialService.findGt3PlayerIdDetail(playerId));
 	}
 
 
