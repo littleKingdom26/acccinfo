@@ -260,20 +260,26 @@
             TP.STEAM_AVATAR,
             TC.CAR_NAME,
             TC.CAR_MODEL,
-            C.BEST_LAP,
-            C.SECTOR1,
-            C.SECTOR2,
-            C.SECTOR3,
+            B.BEST_LAP,
+            B.SECTOR1,
+            B.SECTOR2,
+            B.SECTOR3,
             C.TRACK_SEQ,
             B.LAP_COUNT,
             TT.TRACK_NAME,
             TT.TRACK_VIEW_NAME,
             B.PLAYER_ID
-            FROM (SELECT MIN(A.BEST_LAP) AS BEST_LAP, A.PLAYER_ID, SUM(A.LAP_COUNT) AS LAP_COUNT
+            FROM (SELECT MIN(A.BEST_LAP) AS BEST_LAP
+                       , A.PLAYER_ID
+                       , SUM(A.LAP_COUNT) AS LAP_COUNT
+                       , MIN(A.SECTOR1) AS SECTOR1
+                       , MIN(A.SECTOR2) AS SECTOR2
+                       , MIN(A.SECTOR3) AS SECTOR3
+                       , TRACK_SEQ
             FROM TB_RECORD A
             WHERE A.PLAYER_ID = #{playerId}
             GROUP BY A.TRACK_SEQ) B
-            INNER JOIN TB_RECORD C ON B.PLAYER_ID = C.PLAYER_ID AND B.BEST_LAP = C.BEST_LAP
+            INNER JOIN TB_RECORD C ON B.PLAYER_ID = C.PLAYER_ID AND B.BEST_LAP = C.BEST_LAP AND B.TRACK_SEQ = C.TRACK_SEQ
             INNER JOIN TB_TRACK TT on C.TRACK_SEQ = TT.SEQ
             INNER JOIN TB_PLAYER TP on C.PLAYER_ID = TP.PLAYER_ID
             INNER JOIN TB_CAR TC ON C.CAR_MODEL = TC.CAR_MODEL

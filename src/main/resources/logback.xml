@@ -1,29 +1,25 @@
-<configuration>
+<configuration scan="true" scanPeriod="30 seconds">
+
+    <property name="LOG_PATH" value="C:\\logs\\log\\"/>
+    <property name="LOG_FILE" value="catalina.log"/>
+    <property name="LOG_ERROR_FILE" value="error.log"/>
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>[%d{yyyy-MM-dd HH:mm:ss}][%thread][%c] [%L] [%p] %m %n</pattern>
-        </encoder>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%logger{36}] [%L] [%-5level] - %msg%n</Pattern>
+        </layout>
     </appender>
+    <!-- Loggers -->
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="info.team23h" level="DEBUG"/>
+    <logger name="jdbc.sqlonly" level="INFO"/>
+    <logger name="jdbc.resultset" level="WARN"/>
+    <logger name="jdbc.resultsettable" level="INFO"/>
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
+    <logger name="log4jdbc.log4j2" level="WARN" />
 
-    <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/home/ubuntu/logs/logback/catalina.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <!-- rollover daily -->
-            <fileNamePattern>/home/ubuntu/logs/logback-%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
-            <maxFileSize>100MB</maxFileSize>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>[%d{yyyy-MM-dd HH:mm:ss}][%thread][%c{0}] [%L] [%p] %m %n</pattern>
-        </encoder>
-    </appender>
-
-    <!--<logger name="jdbc.sqlonly" level="INFO"/>
-    <logger name="jdbc.resultsettable" level="INFO"/>-->
-    <logger name="info.team23h" level="INFO" />
-    <root level="ERROR">
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
-        <appender-ref ref="ROLLING"/>
     </root>
 
 </configuration>

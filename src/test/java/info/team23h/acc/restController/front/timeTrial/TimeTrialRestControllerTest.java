@@ -49,4 +49,12 @@ class TimeTrialRestControllerTest {
 			   .andDo(print());
 	}
 
+	@Test
+	public void 플레이어_상세_조회() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/timeTrial/week/gt3/S76561198810302340/detail").accept(MediaType.APPLICATION_JSON))
+			   .andExpect(status().isOk())
+			   .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			   .andDo(print());
+	}
+
 }
