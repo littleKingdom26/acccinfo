@@ -13,6 +13,7 @@
             <div class="tabs selections">
                 <b-dropdown
                     text="YEAR"
+                    no-flip
                     no-caret
                     variant=""
                     :class="{ active: year_selection != 'YEAR' }"
@@ -31,6 +32,7 @@
                 </b-dropdown>
                 <b-dropdown
                     text="CLASS"
+                    no-flip
                     no-caret
                     variant=""
                     :class="{ active: class_selection != 'CLASS' }"
@@ -49,6 +51,7 @@
                 </b-dropdown>
                 <b-dropdown
                     text="SEASON"
+                    no-flip
                     no-caret
                     variant=""
                     class="season"
@@ -69,9 +72,14 @@
                 </b-dropdown>
                 <b-dropdown
                     text="ROUND"
+                    no-flip
                     no-caret
                     variant=""
-                    :disabled="rounds.length == 1"
+                    :disabled="
+                        season_selection == 'SEASON' ||
+                            (season_selection == 'ALL' &&
+                                round_selection == 'ALL')
+                    "
                     :class="{ active: round_selection != 'ROUND' }"
                 >
                     <template #button-content>
@@ -80,14 +88,23 @@
                     </template>
                     <b-dropdown-item
                         v-for="(round, roundIdx) in rounds"
-                        :key="roundIdx"
+                        :key="`${season_selection}_${roundIdx}`"
                         href="#"
                         @click.stop.prevent="onClickRoundDropdown(round)"
                         >{{ round.name }}</b-dropdown-item
                     >
                 </b-dropdown>
-                <b-dropdown
+
+                <div class="nameFilterWrap">
+                    <b-form-input
+                        v-model="nameFilter"
+                        placeholder="SEARCH"
+                        :style="nameFilterStyle"
+                    ></b-form-input>
+                </div>
+                <!-- <b-dropdown
                     text="ROUND"
+                    no-flip
                     no-caret
                     variant=""
                     class=""
@@ -97,15 +114,50 @@
                         <span>Search</span
                         ><mdiChevronDownCircle color="#8a8a8a" />
                     </template>
-                    <!-- <b-dropdown-item href="#">Action</b-dropdown-item>
-                    <b-dropdown-item href="#">Another action</b-dropdown-item>
-                    <b-dropdown-item href="#"
-                        >Something else here</b-dropdown-item
-                    > -->
-                </b-dropdown>
+                </b-dropdown> -->
             </div>
 
-            <div class="tabs list"></div>
+            <div class="tabs list">
+                <div
+                    v-if="results.length"
+                    class="session notice Staatliches text-center mb-5"
+                >
+                    <div class="row header">
+                        <div class="count">NO</div>
+                        <div class="nickname">NICKNAME</div>
+                        <div class="point">POINT</div>
+                        <div class="ballast">BALLAST</div>
+                    </div>
+
+                    <div
+                        class="row Inter"
+                        v-for="(row, rowIdx) in filteredResults"
+                        :key="rowIdx"
+                        :data-seq="row.seq"
+                    >
+                        <div class="count" :class="{ top: row.rank <= 3 }">
+                            <span>{{ row.rank }}</span>
+                        </div>
+                        <div class="nickname">
+                            {{ row.fistName }} {{ row.lastName }}
+                        </div>
+                        <div class="point">{{ row.point }}</div>
+                        <div class="ballast">{{ row.ballast }}</div>
+                    </div>
+                    <div class="row Inter" v-if="!filteredResults.length">
+                        <div class="nickname">
+                            결과 없습니다.
+                        </div>
+                    </div>
+                </div>
+                <div v-else class="session notice Staatliches text-center mb-5">
+                    <div class="row header empty">
+                        <div class="count Staatliches">
+                            <h1>CHOOSE YOUR LEAGUE INFORMATION</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="tabs lastBtnWrap Staatliches">
                 <b-row>
@@ -140,6 +192,7 @@ export default {
     },
     data() {
         return {
+            nameFilter: "",
             year_selection: "YEAR",
             class_selection: "CLASS",
             class_selection_division: "",
@@ -161,6 +214,27 @@ export default {
     },
     created() {
         this._getYears();
+    },
+    computed: {
+        nameFilterStyle() {
+            return {
+                visibility: this.results.length == 0 ? "hidden" : "",
+            };
+        },
+        filteredResults() {
+            let result = this.results;
+            if (this.nameFilter) {
+                result = this.results.filter((item) => {
+                    let fullname = `${item.fistName} ${item.lastName}`;
+                    return (
+                        fullname
+                            .toLowerCase()
+                            .indexOf(this.nameFilter.toLowerCase()) != -1
+                    );
+                });
+            }
+            return result;
+        },
     },
     methods: {
         _getYears() {
@@ -195,29 +269,71 @@ export default {
             if (!this.season_selection_data.eventInfoSeq) {
                 return;
             }
-            this.$axios
-                .get(
-                    `/api/result/${this.season_selection_data.eventInfoSeq}/${this.round_selection_data.round}`,
-                    { withCredentials: false }
-                )
-                .then((data) => {
-                    this.results = data.data.data;
-                });
+            let getUrl = `/api/result/${this.season_selection_data.eventInfoSeq}`;
+            if (this.round_selection_data.round) {
+                getUrl += `/${this.round_selection_data.round}`;
+            }
+            this.$axios.get(getUrl, { withCredentials: false }).then((data) => {
+                this.results = data.data.data;
+
+                for (let i = 0; i < this.results.length; i++)
+                    if (this.results[i].rank == undefined) {
+                        this.results[i].rank = i + 1;
+                    }
+            });
+        },
+        _getSeasonAllResult() {
+            // if (!this.season_selection_data.eventInfoSeq) {
+            //     return;
+            // }
+            // this.$axios
+            //     .get(
+            //         `/api/result/${this.season_selection_data.eventInfoSeq}/${this.round_selection_data.round}`,
+            //         { withCredentials: false }
+            //     )
+            //     .then((data) => {
+            //         this.results = data.data.data;
+            //     });
         },
         _updateRounds(roundNumber) {
             this.rounds = [];
-            for (let i = 1; i <= roundNumber; i++) {
+            if (this.season_selection == "ALL") {
                 this.rounds.push({
-                    name: `ROUND${i}`,
-                    round: i,
+                    name: "ALL",
                 });
+                this.round_selection = "ALL";
+            } else {
+                this.rounds.push({
+                    name: `ALL`,
+                });
+                for (let i = 1; i <= roundNumber; i++) {
+                    this.rounds.push({
+                        name: `ROUND${i}`,
+                        round: i,
+                    });
+                }
             }
+        },
+        _resetSeasonRound() {
+            this._resetRound();
+            this._resetSeason();
+        },
+        _resetRound() {
+            this.results = [];
+            this.round_selection = "ROUND";
+            this.round_selection_data = {};
+        },
+        _resetSeason() {
+            this.results = [];
+            this.season_selection = "SEASON";
+            this.season_selection_data = {};
         },
         onClickYear(year) {
             if (typeof year == "string" && year.indexOf("로딩") != -1) {
                 return;
             }
             this.year_selection = year;
+            this._resetSeasonRound();
             if (this.class_selection_division) {
                 this._getSessions();
             }
@@ -225,14 +341,19 @@ export default {
         onClickClassDropdown(className) {
             this.class_selection = className.name;
             this.class_selection_division = className.division;
+            this._resetSeasonRound();
             this._getSessions();
         },
         onClickSeasonDropdown(season) {
             this.season_selection = season.seasonName;
             this.season_selection_data = season;
+            this._resetRound();
             this._updateRounds(season.round);
-        },
 
+            if (season.seasonName == "ALL") {
+                this._getSeasonAllResult();
+            }
+        },
         onClickRoundDropdown(roundData) {
             this.round_selection = roundData.name;
             this.round_selection_data = roundData;
@@ -287,6 +408,78 @@ export default {
     font-weight: 100;
     font-size: 1rem;
 }
+.session .row {
+    display: flex;
+    min-height: 46px;
+    margin: 0.5rem 0;
+    cursor: pointer;
+    font-weight: bold;
+}
+.session .row.header {
+    min-height: 50px;
+    border-top: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    margin: 1rem 0;
+}
+.session .row.header.empty {
+    background-color: #171717;
+    min-height: 400px;
+}
+.session .row > div {
+    align-self: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    align-self: stretch;
+}
+.session .row.header > div {
+    font-size: 1.2rem;
+}
+.session .row.header .count {
+    background-color: #4d4d4d;
+}
+.session .row .count {
+    flex: 1 1 0;
+    background-color: var(--yellow);
+    font-weight: bold;
+}
+.session .row .count.top {
+    position: relative;
+    color: #000;
+}
+.session .row .count.top > span {
+    z-index: 1;
+}
+.session .row .count.top::before {
+    content: "";
+    background-image: url("/vue_assets/img/star.png");
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.session .row.empty .count {
+    background-color: transparent;
+    color: var(--yellow);
+}
+.session .row .title {
+    flex: 10 1 0;
+    color: #000;
+    background-color: #fff;
+}
+.session .row.header .title {
+    color: #8a8a8a;
+}
+.session .row .nickname,
+.session .row .ballast,
+.session .row .point {
+    flex: 10 1 0;
+    background-color: #4d4d4d;
+    text-transform: uppercase;
+}
+
 hr.yellow {
     max-width: 50px;
     border-width: 3px;
@@ -356,7 +549,7 @@ hr.yellow {
     margin: 0 0.5em;
 }
 .selections >>> .b-dropdown.season {
-    flex: 4 1 0;
+    flex: 5 1 0;
 }
 .selections >>> .b-dropdown .dropdown-toggle {
     padding: 0.5em 1em;
@@ -397,6 +590,11 @@ hr.yellow {
 .selections >>> .b-dropdown .dropdown-menu > li > .dropdown-item:hover,
 .selections >>> .b-dropdown .dropdown-menu > li > .dropdown-item:focus {
     background-color: transparent;
+}
+
+.nameFilterWrap input {
+    border-radius: 1.5em;
+    text-align: center;
 }
 
 .list {
