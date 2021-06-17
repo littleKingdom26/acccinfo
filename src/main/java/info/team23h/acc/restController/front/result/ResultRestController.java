@@ -50,6 +50,13 @@ public class ResultRestController {
 		return responseService.getSingleResult(eventSeason);
 	}
 
+	@ApiOperation(value = "SEASON 총점 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
+	@GetMapping(value = "/season/{year}/{division}/all", produces = MediaType.APPLICATION_JSON_VALUE)
+	public SingleResult<List<ResultAllResultVO>> getSeasonAll(@ApiParam(value = "년도") @PathVariable(name = "year") Long year, @ApiParam(value = "클래스 구분", example = "DIVISION_1") @PathVariable(name = "division") String division) {
+		final List<ResultAllResultVO> result = eventService.getEventSeasonAll(year, division);
+		return responseService.getSingleResult(result);
+	}
+
 	@ApiOperation(value = "RESULT 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
 	@GetMapping(value = "/{eventInfoSeq}/{round}")
 	public SingleResult<List<ResultReturnVO>> getResultWithRound(@ApiParam(value = "eventInfoSeq") @PathVariable(name = "eventInfoSeq") final Long eventInfoSeq,

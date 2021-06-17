@@ -1,5 +1,6 @@
 package info.team23h.acc.vo.front.result;
 
+import info.team23h.acc.entity.event.Event;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,4 +37,11 @@ public class ResultAllResultVO {
 		this.point = point;
 		this.playerId = playerId;
 	}
+
+	public ResultAllResultVO(Event event){
+		this.lastName = event.getPlayer().getLastName();
+		this.firstName = event.getPlayer().getFirstName();
+		this.playerId = event.getPlayer().getPlayerId();
+	}
+
 }

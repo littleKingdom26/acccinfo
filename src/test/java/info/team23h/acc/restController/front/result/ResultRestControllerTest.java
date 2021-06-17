@@ -71,6 +71,16 @@ class ResultRestControllerTest {
 			   .andDo(print());
 	}
 
+	@Test
+	public void 결과_시즌_전체_조회() throws Exception {
+		String division = "DIVISION_1";
+		String year = "2021";
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/result/season/" + year+"/"+division+"/all"))
+			   .andExpect(status().isOk())
+			   .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			   .andDo(print());
+	}
+
 
 
 }

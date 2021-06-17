@@ -187,4 +187,5 @@ public interface EventService {
 	 */
 	List<ResultAllResultVO> findEventResult(Long eventInfoSeq);
 
+	List<ResultAllResultVO> getEventSeasonAll(Long year, String division);
 }
