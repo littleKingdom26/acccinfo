@@ -1,4 +1,11 @@
 module.exports = {
+    lintOnSave: false,
+    devServer: {
+    overlay: {
+      warnings: true,
+      errors: true
+    }
+  },
 	outputDir: "../src/main/resources/static",
 	indexPath: "../static/index.html",
 	devServer: {

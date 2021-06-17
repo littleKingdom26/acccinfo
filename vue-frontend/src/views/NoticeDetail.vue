@@ -16,7 +16,7 @@
             <span class="regDate">{{ data.regDt }}</span>
             <hr />
         </div>
-        <div v-if="content" class="session notice Staatliches text-center mb-5">
+        <div v-if="content" class="session notice content Staatliches mb-5">
             <p v-html="content"></p>
         </div>
         <div v-else class="session notice Staatliches text-center mb-5">
@@ -100,6 +100,9 @@ export default {
 }
 .session.notice {
     padding: 0;
+}
+.session.notice.content {
+    text-align: left;
 }
 .session:first-child {
     padding-top: 0;

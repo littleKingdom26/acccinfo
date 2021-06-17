@@ -1,51 +1,54 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Home from "../views/Home.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/notice',
-    name: 'Notice',
-    component: () => import('../views/Notice.vue'),
-  },
-  {
-    path: '/notice/:id',
-    name: 'NoticeDetail',
-    component: () => import('../views/NoticeDetail.vue'),
-  },
-  {
-    path: '/league',
-    name: 'League',
-    component: () => import('../views/League.vue'),
-  },
-  {
-    path: '/result',
-    name: 'Result',
-    component: () => import('../views/Result.vue'),
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  },
-  { path: '*', component: () => import('../views/PageNotFound.vue') },
-
-]
+    {
+        path: "/",
+        name: "Home",
+        component: Home,
+    },
+    {
+        path: "/notice",
+        name: "Notice",
+        component: () => import("../views/Notice.vue"),
+    },
+    {
+        path: "/notice/:id",
+        name: "NoticeDetail",
+        component: () => import("../views/NoticeDetail.vue"),
+    },
+    {
+        path: "/league",
+        name: "League",
+        component: () => import("../views/League.vue"),
+    },
+    {
+        path: "/result",
+        name: "Result",
+        component: () => import("../views/Result.vue"),
+    },
+    {
+        path: "/about",
+        name: "About",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+            import(/* webpackChunkName: "about" */ "../views/About.vue"),
+    },
+    { path: "*", component: () => import("../views/PageNotFound.vue") },
+];
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
-})
+    mode: "history",
+    base: process.env.BASE_URL,
+    routes,
+    scrollBehavior(to, from, savedPosition) {
+        return { x: 0, y: 0 };
+    },
+});
 
-export default router
+export default router;

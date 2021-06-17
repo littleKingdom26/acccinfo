@@ -23,7 +23,7 @@
             ></iframe>
         </div>
 
-        <div class="session mb-5">
+        <div class="session mb-5" id="league_information">
             <h1 class="title">
                 LEAGUE INFORMATION
             </h1>
@@ -68,13 +68,13 @@
             <div class="tabs lastBtnWrap Staatliches">
                 <b-row>
                     <b-col>
-                        <b-button class="lastBtn"
+                        <b-button class="lastBtn" to="/notice/131"
                             ><span>JOIN OUR LEAGUE</span>
                             <mdiChevronRightCircle color="#ffffff"
                         /></b-button>
                     </b-col>
                     <b-col>
-                        <b-button class="lastBtn"
+                        <b-button class="lastBtn" to="/notice/93"
                             ><span>PENALTY RULES</span>
                             <mdiChevronRightCircle color="#ffffff"
                         /></b-button>
@@ -82,13 +82,13 @@
                 </b-row>
                 <b-row class="mt-4">
                     <b-col>
-                        <b-button class="lastBtn"
+                        <b-button class="lastBtn" to="/notice/64"
                             ><span>RACE MANNER</span>
                             <mdiChevronRightCircle color="#ffffff"
                         /></b-button>
                     </b-col>
                     <b-col>
-                        <b-button class="lastBtn"
+                        <b-button class="lastBtn" to="/notice/82"
                             ><span>BEGINNER GUIDE</span>
                             <mdiChevronRightCircle color="#ffffff"
                         /></b-button>
@@ -300,6 +300,7 @@ hr.yellow {
     font-size: 1.5em;
     background-color: var(--yellow);
     border-radius: 10px;
+    line-height: 2;
 }
 .lastBtnWrap .lastBtn > * {
     vertical-align: middle;

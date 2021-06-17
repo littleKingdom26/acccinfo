@@ -139,7 +139,7 @@
                             <span>{{ row.rank }}</span>
                         </div>
                         <div class="nickname">
-                            {{ row.fistName }} {{ row.lastName }}
+                            {{ row.firstName }} {{ row.lastName }}
                         </div>
                         <div class="point">{{ row.point }}</div>
                         <div class="ballast">{{ row.ballast }}</div>
@@ -162,7 +162,7 @@
             <div class="tabs lastBtnWrap Staatliches">
                 <b-row>
                     <b-col>
-                        <b-button class="lastBtn"
+                        <b-button class="lastBtn" to="/league"
                             ><span>LEAGUE INFORMATION</span>
                             <mdiChevronRightCircle color="#ffffff"
                         /></b-button>
@@ -225,7 +225,7 @@ export default {
             let result = this.results;
             if (this.nameFilter) {
                 result = this.results.filter((item) => {
-                    let fullname = `${item.fistName} ${item.lastName}`;
+                    let fullname = `${item.firstName} ${item.lastName}`;
                     return (
                         fullname
                             .toLowerCase()
@@ -611,6 +611,7 @@ hr.yellow {
     font-size: 1.5em;
     background-color: var(--yellow);
     border-radius: 10px;
+    line-height: 2;
 }
 .lastBtnWrap .lastBtn > * {
     vertical-align: middle;
