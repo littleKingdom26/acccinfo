@@ -16,8 +16,8 @@ public class ResultReturnVO {
 	@ApiModelProperty(value = "lastName", name = "lastName")
 	private String lastName;
 
-	@ApiModelProperty(value = "fistName", name = "fistName")
-	private String fistName;
+	@ApiModelProperty(value = "fistName", name = "firstName")
+	private String firstName;
 
 	@ApiModelProperty(value = "포인트", name = "point")
 	private Long point;
@@ -45,7 +45,7 @@ public class ResultReturnVO {
 
 	public ResultReturnVO(Event event) {
 		this.lastName = event.getPlayer().getLastName();
-		this.fistName = event.getPlayer().getFirstName();
+		this.firstName = event.getPlayer().getFirstName();
 		this.point = event.getScore();
 		this.rank = event.getRank();
 		this.playerId = event.getPlayer().getPlayerId();
