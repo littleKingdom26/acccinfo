@@ -30,4 +30,11 @@ class EventServiceImplTest {
 		eventService.findEventResult(36L);
 	}
 
+	@Test
+	public void 이벤트_년도_시즌_전체조회(){
+		eventService.getEventSeasonAll(2021L,"DIVISION_1");
+	}
+
+
+
 }

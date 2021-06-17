@@ -10,4 +10,6 @@ public interface EventInfoRepository extends JpaRepository<EventInfo,Long>, Even
 
 
 	List<EventInfo> findAllByAndDivisionAndRegDtBetweenOrderByRegDtDesc(String division , LocalDateTime startDt, LocalDateTime endDt);
+
+	List<EventInfo> findAllByDivisionAndYear(String division,Long year);
 }

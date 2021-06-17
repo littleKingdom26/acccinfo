@@ -5,6 +5,7 @@ import info.team23h.acc.dao.EventDAO;
 import info.team23h.acc.entity.event.Event;
 import info.team23h.acc.entity.event.EventInfo;
 import info.team23h.acc.entity.event.EventSub;
+import info.team23h.acc.entity.player.Player;
 import info.team23h.acc.entity.track.Track;
 import info.team23h.acc.repository.event.EventRepository;
 import info.team23h.acc.repository.eventInfo.EventInfoRepository;
@@ -756,6 +757,32 @@ public class EventServiceImpl implements EventService {
 		return resultList;
 
 
+	}
+
+	@Override
+	public List<ResultAllResultVO> getEventSeasonAll(Long year, String division) {
+		final List<EventInfo> allByDivisionAndYear = eventInfoRepository.findAllByDivisionAndYear(division, year);
+		final List<Long> eventSeqList = allByDivisionAndYear.stream().map(EventInfo::getEventInfoSeq).collect(Collectors.toList());
+		final List<Event> allByEventInfoSeq = eventRepository.findAllByEventInfoSeqIn(eventSeqList);
+		// 플레이어만 검색
+		final List<String> playerIdList = allByEventInfoSeq.parallelStream().map(Event::getPlayer).map(Player::getPlayerId).distinct().collect(Collectors.toList());
+
+		List<ResultAllResultVO> resultList = new ArrayList<>();
+		playerIdList.forEach(s -> {
+			final Map<String, List<Event>> collect = allByEventInfoSeq.stream()
+																	  .filter(event -> event.getPlayer().getPlayerId().equals(s))
+																	  .collect(Collectors.groupingBy(event -> event.getPlayer().getPlayerId()));
+
+			if(collect.get(s).size() > 0){
+				final ResultAllResultVO resultAllResultVO = new ResultAllResultVO(collect.get(s).get(0));
+				final Long scoreSum = allByEventInfoSeq.stream().filter(event -> event.getPlayer().getPlayerId().equals(s)).map(Event::getScore).reduce(0L, Long::sum);
+				resultAllResultVO.setPoint(scoreSum);
+				resultList.add(resultAllResultVO);
+			}
+		});
+
+		resultList.sort(Comparator.comparingLong(ResultAllResultVO::getPoint).reversed());
+		return resultList;
 	}
 
 }
