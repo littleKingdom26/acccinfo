@@ -4,70 +4,51 @@
 
         <div class="session mb-5">
             <h1 class="title">
-                RESULT
+                TIME TRIAL
             </h1>
             <h3 class="subTitle">
-                FINAL LAP League Result
+                FINAL LAP Time Trial Server Lap Time Record
             </h3>
             <hr class="yellow" />
             <div class="tabs selections">
                 <b-dropdown
-                    text="YEAR"
+                    text="CAR"
                     no-flip
                     no-caret
                     variant=""
-                    :class="{ active: year_selection != 'YEAR' }"
+                    :class="{ active: carClass_selection != 'CAR' }"
                 >
                     <template #button-content>
-                        <span>{{ year_selection }}</span
+                        <span>{{ carClass_selection }}</span
                         ><mdiChevronDownCircle color="#8a8a8a" />
                     </template>
                     <b-dropdown-item
-                        v-for="(year, yearIdx) in years"
-                        :key="yearIdx"
+                        v-for="(carClass, carClassIdx) in carClasses"
+                        :key="carClassIdx"
                         href="#"
-                        @click.stop.prevent="onClickYear(year)"
-                        >{{ year }}</b-dropdown-item
+                        @click.stop.prevent="onClickCarClassDropdown(carClass)"
+                        >{{ carClass.value }}</b-dropdown-item
                     >
                 </b-dropdown>
                 <b-dropdown
-                    text="CLASS"
+                    text="EVENT"
                     no-flip
                     no-caret
                     variant=""
-                    :class="{ active: class_selection != 'CLASS' }"
+                    class="doubleSize"
+                    :disabled="events.length == 1"
+                    :class="{ active: event_selection != 'EVENT' }"
                 >
                     <template #button-content>
-                        <span>{{ class_selection }}</span
+                        <span>{{ event_selection }}</span
                         ><mdiChevronDownCircle color="#8a8a8a" />
                     </template>
                     <b-dropdown-item
-                        v-for="(className, classNameIdx) in classes"
-                        :key="classNameIdx"
+                        v-for="(event, eventIdx) in events"
+                        :key="eventIdx"
                         href="#"
-                        @click.stop.prevent="onClickClassDropdown(className)"
-                        >{{ className.value }}</b-dropdown-item
-                    >
-                </b-dropdown>
-                <b-dropdown
-                    text="SEASON"
-                    no-flip
-                    no-caret
-                    variant=""
-                    class="season"
-                    :disabled="seasons.length == 1"
-                    :class="{ active: season_selection != 'SEASON' }"
-                >
-                    <template #button-content>
-                        <span>{{ season_selection }}</span
-                        ><mdiChevronDownCircle color="#8a8a8a" />
-                    </template>
-                    <b-dropdown-item
-                        v-for="(season, seasonIdx) in seasons"
-                        :key="seasonIdx"
-                        href="#"
-                        @click.stop.prevent="onClickSeasonDropdown(season)"
-                        >{{ season.seasonName }}</b-dropdown-item
+                        @click.stop.prevent="onClickEventDropdown(event)"
+                        >{{ event.eventName }}</b-dropdown-item
                     >
                 </b-dropdown>
                 <b-dropdown
@@ -76,10 +57,11 @@
                     no-caret
                     variant=""
                     :disabled="
-                        season_selection == 'SEASON' ||
-                            (season_selection == 'ALL' &&
+                        event_selection == 'SEASON' ||
+                            (event_selection == 'ALL' &&
                                 round_selection == 'ALL')
                     "
+                    class="doubleSize"
                     :class="{ active: round_selection != 'ROUND' }"
                 >
                     <template #button-content>
@@ -88,13 +70,13 @@
                     </template>
                     <b-dropdown-item
                         v-for="(round, roundIdx) in rounds"
-                        :key="`${season_selection}_${roundIdx}`"
+                        :key="`${event_selection}_${roundIdx}`"
                         href="#"
                         @click.stop.prevent="onClickRoundDropdown(round)"
                         >{{ round.name }}</b-dropdown-item
                     >
                 </b-dropdown>
-
+                <b-dropdown style="visibility:hidden;"> </b-dropdown>
                 <div class="nameFilterWrap">
                     <b-form-input
                         v-model="nameFilter"
@@ -102,19 +84,6 @@
                         :style="nameFilterStyle"
                     ></b-form-input>
                 </div>
-                <!-- <b-dropdown
-                    text="ROUND"
-                    no-flip
-                    no-caret
-                    variant=""
-                    class=""
-                    style="visibility:hidden;"
-                >
-                    <template #button-content>
-                        <span>Search</span
-                        ><mdiChevronDownCircle color="#8a8a8a" />
-                    </template>
-                </b-dropdown> -->
             </div>
 
             <div class="tabs list">
@@ -155,7 +124,7 @@
                 <div v-else class="session notice Staatliches text-center mb-5">
                     <div class="row header empty">
                         <div class="count Staatliches">
-                            <h1>CHOOSE YOUR LEAGUE INFORMATION</h1>
+                            <h1>CHOOSE YOUR EVENT</h1>
                         </div>
                     </div>
                 </div>
@@ -164,8 +133,8 @@
             <div class="tabs lastBtnWrap Staatliches">
                 <b-row>
                     <b-col>
-                        <b-button class="lastBtn" to="/league"
-                            ><span>LEAGUE INFORMATION</span>
+                        <b-button class="lastBtn" to="/notice/64"
+                            ><span>TIME TRIAL SERVER GUIDE</span>
                             <mdiChevronRightCircle color="#ffffff"
                         /></b-button>
                     </b-col>
@@ -195,16 +164,14 @@ export default {
     data() {
         return {
             nameFilter: "",
-            year_selection: "YEAR",
-            class_selection: "CLASS",
-            class_selection_division: "",
-            season_selection: "SEASON",
-            season_selection_data: {},
+            carClass_selection: "CAR",
+            event_selection: "EVENT",
+            event_selection_data: {},
             round_selection: "ROUND",
             round_selection_data: {},
             years: ["로딩중..."],
-            classes: [],
-            seasons: [{ seasonName: "ALL" }],
+            carClasses: [],
+            events: [{ seasonName: "ALL" }],
             rounds: [{ name: "ALL" }],
             results: [],
             sliderValue: 0,
@@ -213,7 +180,7 @@ export default {
     },
     created() {
         this._getYears();
-        this._getClasses();
+        this._getCarClasses();
     },
     computed: {
         nameFilterStyle() {
@@ -244,11 +211,11 @@ export default {
                     this.years = data.data.data;
                 });
         },
-        _getClasses() {
+        _getCarClasses() {
             this.$axios
-                .get("/api/common/class", { withCredentials: false })
+                .get("/api/common/carClass", { withCredentials: false })
                 .then((data) => {
-                    this.classes = data.data.data;
+                    this.carClasses = data.data.data;
                 });
         },
         _getSessions() {
@@ -264,19 +231,19 @@ export default {
                     { withCredentials: false }
                 )
                 .then((data) => {
-                    this.seasons = [
+                    this.events = [
                         { seasonName: "ALL", eventInfoSeq: "ALL" },
                         ...data.data.data,
                     ];
-                    this.season_selection = "SEASON";
-                    this.season_selection_data = {};
+                    this.event_selection = "SEASON";
+                    this.event_selection_data = {};
                 });
         },
         _getRoundResult() {
-            if (!this.season_selection_data.eventInfoSeq) {
+            if (!this.event_selection_data.eventInfoSeq) {
                 return;
             }
-            let getUrl = `/api/result/${this.season_selection_data.eventInfoSeq}`;
+            let getUrl = `/api/result/${this.event_selection_data.eventInfoSeq}`;
             if (this.round_selection_data.round) {
                 getUrl += `/${this.round_selection_data.round}`;
             }
@@ -320,7 +287,7 @@ export default {
         },
         _updateRounds(roundNumber) {
             this.rounds = [];
-            if (this.season_selection == "ALL") {
+            if (this.event_selection == "ALL") {
                 this.rounds.push({
                     name: "ALL",
                 });
@@ -348,8 +315,8 @@ export default {
         },
         _resetSeason() {
             this.results = [];
-            this.season_selection = "SEASON";
-            this.season_selection_data = {};
+            this.event_selection = "SEASON";
+            this.event_selection_data = {};
         },
         onClickYear(year) {
             if (typeof year == "string" && year.indexOf("로딩") != -1) {
@@ -361,20 +328,18 @@ export default {
                 this._getSessions();
             }
         },
-        onClickClassDropdown(className) {
-            this.class_selection = className.value;
-            this.class_selection_division = className.key;
-            this._resetSeasonRound();
-            this._getSessions();
+        onClickCarClassDropdown(carClass) {
+            this.carClass_selection = carClass.value;
         },
-        onClickSeasonDropdown(season) {
-            this.season_selection = season.seasonName;
-            this.season_selection_data = season;
-            this._resetRound();
-            this._updateRounds(season.round);
+        onClickEventDropdown(event) {
+            this.event_selection = event.eventName;
+            this.event_selection_data = event;
 
-            if (season.seasonName == "ALL") {
-                this._getSeasonAllResult();
+            this._resetRound();
+            this._updateRounds(event.round);
+
+            if (event.eventName == "ALL") {
+                this._getEventAllResult();
             }
         },
         onClickRoundDropdown(roundData) {
@@ -568,11 +533,11 @@ hr.yellow {
     justify-content: space-between;
 }
 .selections >>> .b-dropdown {
-    flex: 2 1 0;
+    flex: 1 1 0;
     margin: 0 0.5em;
 }
-.selections >>> .b-dropdown.season {
-    flex: 5 1 0;
+.selections >>> .b-dropdown.doubleSize {
+    flex: 2 1 0;
 }
 .selections >>> .b-dropdown .dropdown-toggle {
     padding: 0.5em 1em;

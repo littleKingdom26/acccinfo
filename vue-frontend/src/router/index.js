@@ -31,6 +31,12 @@ const routes = [
         component: () => import("../views/Result.vue"),
     },
     {
+        path: "/timetrial",
+        alias: "/tt",
+        name: "TimeTrial",
+        component: () => import("../views/TimeTrial.vue"),
+    },
+    {
         path: "/about",
         name: "About",
         // route level code-splitting

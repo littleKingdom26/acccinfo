@@ -13,8 +13,12 @@
                         active:
                             menu.to == $router.currentRoute.path ||
                             (menu.to.length > 1 &&
-                                $router.currentRoute.path.indexOf(menu.to) !=
-                                    -1),
+                                ($router.currentRoute.path.indexOf(menu.to) !=
+                                    -1 ||
+                                    (menu.alias &&
+                                        $router.currentRoute.path.indexOf(
+                                            menu.alias != -1
+                                        )))),
                     }"
                     :disabled="menu.disabled"
                 >
@@ -34,7 +38,7 @@ export default {
                 { title: "NOTICE", to: "/notice" },
                 { title: "LEAGUE", to: "/league" },
                 { title: "RESULT", to: "/result" },
-                { disabled: true, title: "TIME TRIAL", to: "/timetrial" },
+                { title: "TIME TRIAL", to: "/timetrial", alias: "/tt" },
                 { disabled: true, title: "EVENT", to: "/event" },
                 { disabled: true, title: "GALLERY", to: "/gallery" },
                 { disabled: true, title: "REGISTER", to: "/register" },
