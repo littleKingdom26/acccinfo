@@ -35,7 +35,7 @@
                     no-flip
                     no-caret
                     variant=""
-                    class="doubleSize"
+                    class="doubleSize listType"
                     :disabled="events.length == 1"
                     :class="{ active: event_selection != 'EVENT' }"
                 >
@@ -44,36 +44,39 @@
                         ><mdiChevronDownCircle color="#8a8a8a" />
                     </template>
                     <b-dropdown-item
-                        v-for="(event, eventIdx) in events"
-                        :key="eventIdx"
+                        v-for="event in events"
+                        :key="event.sessionId"
                         href="#"
                         @click.stop.prevent="onClickEventDropdown(event)"
-                        >{{ event.eventName }}</b-dropdown-item
                     >
+                        {{
+                            event.startDt == "ALL"
+                                ? "ALL"
+                                : `${event.startDt} - ${
+                                      event.endDt ? event.endDt : "In Progress"
+                                  }`
+                        }}
+                    </b-dropdown-item>
                 </b-dropdown>
                 <b-dropdown
-                    text="ROUND"
+                    text="CIRCUIT"
                     no-flip
                     no-caret
                     variant=""
-                    :disabled="
-                        event_selection == 'SEASON' ||
-                            (event_selection == 'ALL' &&
-                                round_selection == 'ALL')
-                    "
-                    class="doubleSize"
-                    :class="{ active: round_selection != 'ROUND' }"
+                    :disabled="track_disabled"
+                    class="doubleSize listType"
+                    :class="{ active: track_selection != 'CIRCUIT' }"
                 >
                     <template #button-content>
-                        <span>{{ round_selection }}</span
+                        <span>{{ track_selection }}</span
                         ><mdiChevronDownCircle color="#8a8a8a" />
                     </template>
                     <b-dropdown-item
-                        v-for="(round, roundIdx) in rounds"
-                        :key="`${event_selection}_${roundIdx}`"
+                        v-for="track in tracks"
+                        :key="`${track_selection}_${track.seq}`"
                         href="#"
-                        @click.stop.prevent="onClickRoundDropdown(round)"
-                        >{{ round.name }}</b-dropdown-item
+                        @click.stop.prevent="onClickTrackDropdown(track)"
+                        >{{ track.trackName }}</b-dropdown-item
                     >
                 </b-dropdown>
                 <b-dropdown style="visibility:hidden;"> </b-dropdown>
@@ -167,20 +170,20 @@ export default {
             carClass_selection: "CAR",
             event_selection: "EVENT",
             event_selection_data: {},
-            round_selection: "ROUND",
-            round_selection_data: {},
-            years: ["로딩중..."],
+            track_selection: "CIRCUIT",
+            track_disabled: false,
             carClasses: [],
-            events: [{ seasonName: "ALL" }],
-            rounds: [{ name: "ALL" }],
+            events: [],
+            tracks: [],
             results: [],
             sliderValue: 0,
             isHideBallast: false,
         };
     },
     created() {
-        this._getYears();
         this._getCarClasses();
+        this._getEvents();
+        this._getTracks();
     },
     computed: {
         nameFilterStyle() {
@@ -204,13 +207,6 @@ export default {
         },
     },
     methods: {
-        _getYears() {
-            this.$axios
-                .get("/api/result/year", { withCredentials: false })
-                .then((data) => {
-                    this.years = data.data.data;
-                });
-        },
         _getCarClasses() {
             this.$axios
                 .get("/api/common/carClass", { withCredentials: false })
@@ -218,39 +214,22 @@ export default {
                     this.carClasses = data.data.data;
                 });
         },
-        _getSessions() {
-            if (
-                this.year_selection == "YEAR" ||
-                !this.class_selection_division
-            ) {
-                return;
-            }
+        _getEvents() {
             this.$axios
-                .get(
-                    `/api/result/season/${this.year_selection}/${this.class_selection_division}`,
-                    { withCredentials: false }
-                )
+                .get("/api/timeTrial/week", { withCredentials: false })
                 .then((data) => {
                     this.events = [
-                        { seasonName: "ALL", eventInfoSeq: "ALL" },
+                        { startDt: "ALL", sessionId: 0 },
                         ...data.data.data,
                     ];
-                    this.event_selection = "SEASON";
-                    this.event_selection_data = {};
                 });
         },
-        _getRoundResult() {
-            if (!this.event_selection_data.eventInfoSeq) {
-                return;
-            }
-            let getUrl = `/api/result/${this.event_selection_data.eventInfoSeq}`;
-            if (this.round_selection_data.round) {
-                getUrl += `/${this.round_selection_data.round}`;
-            }
-            this.$axios.get(getUrl, { withCredentials: false }).then((data) => {
-                this.results = data.data.data;
-                this._setOrderOnResults();
-            });
+        _getTracks() {
+            this.$axios
+                .get("/api/timeTrial/track", { withCredentials: false })
+                .then((data) => {
+                    this.tracks = data.data.data;
+                });
         },
         _setOrderOnResults() {
             for (let i = 0; i < this.results.length; i++) {
@@ -285,67 +264,42 @@ export default {
                     this._setOrderOnResults();
                 });
         },
-        _updateRounds(roundNumber) {
-            this.rounds = [];
-            if (this.event_selection == "ALL") {
-                this.rounds.push({
-                    name: "ALL",
-                });
-                this.round_selection = "ALL";
-            } else {
-                this.rounds.push({
-                    name: `ALL`,
-                });
-                for (let i = 1; i <= roundNumber; i++) {
-                    this.rounds.push({
-                        name: `ROUND${i}`,
-                        round: i,
-                    });
-                }
-            }
-        },
-        _resetSeasonRound() {
-            this._resetRound();
-            this._resetSeason();
-        },
-        _resetRound() {
-            this.results = [];
-            this.round_selection = "ROUND";
-            this.round_selection_data = {};
-        },
-        _resetSeason() {
-            this.results = [];
-            this.event_selection = "SEASON";
-            this.event_selection_data = {};
-        },
-        onClickYear(year) {
-            if (typeof year == "string" && year.indexOf("로딩") != -1) {
-                return;
-            }
-            this.year_selection = year;
-            this._resetSeasonRound();
-            if (this.class_selection_division) {
-                this._getSessions();
-            }
-        },
         onClickCarClassDropdown(carClass) {
             this.carClass_selection = carClass.value;
         },
         onClickEventDropdown(event) {
-            this.event_selection = event.eventName;
+            this.event_selection =
+                event.startDt == "ALL"
+                    ? "ALL"
+                    : `${event.startDt} - ${
+                          event.endDt ? event.endDt : "In Progress"
+                      }`;
             this.event_selection_data = event;
 
-            this._resetRound();
-            this._updateRounds(event.round);
-
-            if (event.eventName == "ALL") {
-                this._getEventAllResult();
+            if (event.startDt == "ALL") {
+                this.track_selection = "CIRCUIT";
+                this.track_selection_data = {};
+                this.track_disabled = false;
+                this.results = [];
+            } else {
+                this._setTrackBySeq(event.trackSeq);
             }
         },
-        onClickRoundDropdown(roundData) {
-            this.round_selection = roundData.name;
-            this.round_selection_data = roundData;
-            this._getRoundResult();
+        _setTrackBySeq(trackSeq) {
+            let trackData = this.tracks.filter((item) => {
+                return item.seq == trackSeq;
+            });
+            if (trackData.length) {
+                this.track_selection = trackData[0].trackName;
+                this.track_selection_data = trackData[0];
+            }
+        },
+        onClickTrackDropdown(trackData) {
+            this.track_selection = trackData.trackName;
+            this.track_selection_data = trackData;
+
+            this.event_selection = "ALL";
+            this.event_selection_data = {};
         },
     },
 };
@@ -571,6 +525,7 @@ hr.yellow {
     border-radius: 1.5em;
     margin: 0.5em 0;
 }
+.selections >>> .b-dropdown .dropdown-menu,
 .selections >>> .b-dropdown .dropdown-menu > li > .dropdown-item {
     color: #fff;
 }
@@ -578,6 +533,18 @@ hr.yellow {
 .selections >>> .b-dropdown .dropdown-menu > li > .dropdown-item:hover,
 .selections >>> .b-dropdown .dropdown-menu > li > .dropdown-item:focus {
     background-color: transparent;
+}
+
+.selections >>> .b-dropdown.listType .dropdown-menu {
+    background-color: #8a8a8a;
+    border-radius: 20px;
+    max-height: 60vh;
+    overflow: auto;
+    margin-top: 0.5em;
+}
+.selections >>> .b-dropdown.listType .dropdown-menu > li {
+    background-color: transparent;
+    padding: 0;
 }
 
 .nameFilterWrap input {
