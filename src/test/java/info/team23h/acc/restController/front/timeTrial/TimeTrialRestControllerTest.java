@@ -57,4 +57,28 @@ class TimeTrialRestControllerTest {
 			   .andDo(print());
 	}
 
+	@Test
+	public void 플레이어_티티스코어() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/timeTrial/week/gt3/S76561198810302340/ttScore").accept(MediaType.APPLICATION_JSON))
+			   .andExpect(status().isOk())
+			   .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			   .andDo(print());
+	}
+
+	@Test
+	public void 주차_Gt4기록_조회() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/timeTrial/week/gt4/80").accept(MediaType.APPLICATION_JSON))
+			   .andExpect(status().isOk())
+			   .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			   .andDo(print());
+	}
+
+	@Test
+	public void 플레이어_GT4상세_조회() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/timeTrial/week/gt4/S76561198084228484/detail").accept(MediaType.APPLICATION_JSON))
+			   .andExpect(status().isOk())
+			   .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			   .andDo(print());
+	}
+
 }

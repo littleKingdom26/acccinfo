@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("/admin/steam/api")
-public class SteamApiRestController {
+public class AdminSteamApiRestController {
 
 	@Value("${steam.api.url}")
 	String steamUrl;
@@ -49,7 +49,7 @@ public class SteamApiRestController {
 				driverSteamId = "";
 			}
 			String tempSteamId = playerVO.getPlayerId();
-			driverSteamId += tempSteamId.substring(1, tempSteamId.length()) + ",";
+			driverSteamId += tempSteamId.substring(1) + ",";
 			i++;
 		}
 		driverSteamId = driverSteamId.substring(0, driverSteamId.length() - 1);

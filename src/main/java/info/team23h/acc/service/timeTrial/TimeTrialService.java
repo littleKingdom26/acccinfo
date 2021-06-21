@@ -19,4 +19,21 @@ public interface TimeTrialService {
 	 * @param playerId the player id
 	 */
 	List<TimeTrialPlayerDetailVO> findGt3PlayerIdDetail(String playerId);
+
+
+	/**
+	 * Find gt4 week time trial list.
+	 *
+	 * @param sessionId the session id
+	 * @return the list
+	 */
+	List<TimeTrialResultVO> findGt4WeekTimeTrial(Long sessionId);
+
+	/**
+	 * Find gt4 player detail object.
+	 *
+	 * @param playerId the player id
+	 * @return the object
+	 */
+	List<TimeTrialPlayerDetailVO> findGt4PlayerIdDetail(String playerId);
 }

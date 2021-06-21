@@ -6,6 +6,7 @@ import info.team23h.acc.entity.bbs.Bbs;
 import info.team23h.acc.entity.bbs.TbBbsName;
 import info.team23h.acc.repository.bbs.BbsNameRepository;
 import info.team23h.acc.repository.bbs.BbsRepository;
+import info.team23h.acc.restController.front.event.EventRestController;
 import info.team23h.acc.restController.front.notice.NoticeRestController;
 import info.team23h.acc.util.PageHelper;
 import info.team23h.acc.vo.bbs.*;
@@ -177,10 +178,18 @@ public class BbsServiceImpl implements BbsService {
 		final TbBbsName tbBbsName = bbsNameRepository.findById(bbsSearch.getNameSeq()).orElse(new TbBbsName());
 		final Page<Bbs> seq = bbsRepository.findAllByTbBbsName(tbBbsName, PageRequest.of(bbsSearch.getPage() - 1, bbsSearch.getSize(), Sort.by("seq").descending()));
 
-		seq.forEach(bbs -> {
-			WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(NoticeRestController.class).getBbsDetail(bbs.getSeq()));
-			bbs.set_link(linkTo.withRel("detail"));
-		});
+		if(bbsSearch.getNameSeq().equals(1L)){
+			seq.forEach(bbs -> {
+				WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(NoticeRestController.class).getBbsDetail(bbs.getSeq()));
+				bbs.set_link(linkTo.withRel("detail"));
+			});
+		}else if(bbsSearch.getNameSeq().equals(2L)){
+			seq.forEach(bbs -> {
+				WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EventRestController.class).getBbsDetail(bbs.getSeq()));
+				bbs.set_link(linkTo.withRel("detail"));
+			});
+		}
+
 
 		return seq;
 	}

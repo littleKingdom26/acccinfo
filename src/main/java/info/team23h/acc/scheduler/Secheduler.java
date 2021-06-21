@@ -1,6 +1,6 @@
 package info.team23h.acc.scheduler;
 
-import info.team23h.acc.restController.admin.SteamApiRestController;
+import info.team23h.acc.restController.admin.AdminSteamApiRestController;
 import info.team23h.acc.service.player.PlayerService;
 import info.team23h.acc.vo.player.PlayerVO;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ public class Secheduler {
 	PlayerService playerService;
 
 	@Autowired
-	SteamApiRestController steamApiRestController;
+	AdminSteamApiRestController steamApiRestController;
 
 	/**
 	 * 정기배송 결제요청
@@ -43,7 +43,7 @@ public class Secheduler {
 				driverSteamId = "";
 			}
 			String tempSteamId = playerVO.getPlayerId();
-			driverSteamId += tempSteamId.substring(1, tempSteamId.length()) + ",";
+			driverSteamId += tempSteamId.substring(1) + ",";
 			i++;
 		}
 		driverSteamId = driverSteamId.substring(0, driverSteamId.length() - 1);
