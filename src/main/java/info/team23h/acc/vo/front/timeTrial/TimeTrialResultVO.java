@@ -1,6 +1,7 @@
 package info.team23h.acc.vo.front.timeTrial;
 
 import info.team23h.acc.entity.recode.Record;
+import info.team23h.acc.entity.recode.RecordGt4;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,6 +41,17 @@ public class TimeTrialResultVO {
 	private Link _link;
 
 	public TimeTrialResultVO(Record record) {
+		this.bestLap = record.getBestLap();
+		this.sector1 = record.getSector1();
+		this.sector2 = record.getSector2();
+		this.sector3 = record.getSector3();
+		this.carName = record.getCar().getCarName();
+		this.lastName = record.getPlayer().getLastName();
+		this.firstName = record.getPlayer().getFirstName();
+		this.playerId = record.getPlayer().getPlayerId();
+	}
+
+	public TimeTrialResultVO(RecordGt4 record) {
 		this.bestLap = record.getBestLap();
 		this.sector1 = record.getSector1();
 		this.sector2 = record.getSector2();

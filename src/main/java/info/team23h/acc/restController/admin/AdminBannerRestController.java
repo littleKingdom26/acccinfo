@@ -14,7 +14,7 @@ import java.util.HashMap;
 @Slf4j
 @RestController
 @RequestMapping("/admin/banner")
-public class BannerRestController {
+public class AdminBannerRestController {
 
 	@Autowired
 	BannerService bannerService;

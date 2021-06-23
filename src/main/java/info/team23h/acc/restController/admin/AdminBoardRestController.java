@@ -15,7 +15,7 @@ import java.util.HashMap;
 @Slf4j
 @RestController
 @RequestMapping("/admin")
-public class BoardRestController {
+public class AdminBoardRestController {
 
 	@Autowired
 	BbsService bbsService;

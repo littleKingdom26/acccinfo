@@ -16,7 +16,7 @@ import java.util.HashMap;
 @RestController
 @Slf4j
 @RequestMapping("/admin/event")
-public class EventRestController {
+public class AdminEventRestController {
 
 	@Autowired
 	ScoreService scoreService;

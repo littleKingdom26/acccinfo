@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/admin/team")
-public class TeamRestController {
+public class AdminTeamRestController {
 
 	final ResponseService responseService;
 
