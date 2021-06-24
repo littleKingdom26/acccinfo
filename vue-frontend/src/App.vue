@@ -8,6 +8,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;400;700;900&family=Staatliches&display=swap");
 @import url("https://fonts.googleapis.com/earlyaccess/jejugothic.css");
 
+* {
+    --yellow: #e8af05;
+}
 html,
 body {
     background-color: #000;
@@ -20,8 +23,6 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #fff;
-
-    --yellow: #e8af05;
 }
 
 .Staatliches * {

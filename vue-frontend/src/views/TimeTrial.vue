@@ -35,7 +35,7 @@
                     no-flip
                     no-caret
                     variant=""
-                    class="doubleSize"
+                    class="doubleSize listType"
                     :disabled="events.length == 1"
                     :class="{ active: event_selection != 'EVENT' }"
                 >
@@ -44,36 +44,39 @@
                         ><mdiChevronDownCircle color="#8a8a8a" />
                     </template>
                     <b-dropdown-item
-                        v-for="(event, eventIdx) in events"
-                        :key="eventIdx"
+                        v-for="event in events"
+                        :key="event.sessionId"
                         href="#"
                         @click.stop.prevent="onClickEventDropdown(event)"
-                        >{{ event.eventName }}</b-dropdown-item
                     >
+                        {{
+                            event.startDt == "ALL"
+                                ? "ALL"
+                                : `${event.startDt} - ${
+                                      event.endDt ? event.endDt : "In Progress"
+                                  }`
+                        }}
+                    </b-dropdown-item>
                 </b-dropdown>
                 <b-dropdown
-                    text="ROUND"
+                    text="CIRCUIT"
                     no-flip
                     no-caret
                     variant=""
-                    :disabled="
-                        event_selection == 'SEASON' ||
-                            (event_selection == 'ALL' &&
-                                round_selection == 'ALL')
-                    "
-                    class="doubleSize"
-                    :class="{ active: round_selection != 'ROUND' }"
+                    :disabled="track_disabled"
+                    class="doubleSize listType"
+                    :class="{ active: track_selection != 'CIRCUIT' }"
                 >
                     <template #button-content>
-                        <span>{{ round_selection }}</span
+                        <span>{{ track_selection }}</span
                         ><mdiChevronDownCircle color="#8a8a8a" />
                     </template>
                     <b-dropdown-item
-                        v-for="(round, roundIdx) in rounds"
-                        :key="`${event_selection}_${roundIdx}`"
+                        v-for="track in tracks"
+                        :key="`${track_selection}_${track.seq}`"
                         href="#"
-                        @click.stop.prevent="onClickRoundDropdown(round)"
-                        >{{ round.name }}</b-dropdown-item
+                        @click.stop.prevent="onClickTrackDropdown(track)"
+                        >{{ track.trackName }}</b-dropdown-item
                     >
                 </b-dropdown>
                 <b-dropdown style="visibility:hidden;"> </b-dropdown>
@@ -94,25 +97,45 @@
                     <div class="row header">
                         <div class="count">NO</div>
                         <div class="nickname">NICKNAME</div>
-                        <div class="point">POINT</div>
-                        <div class="ballast" v-if="!isHideBallast">BALLAST</div>
+                        <div class="carName">CAR</div>
+                        <div class="bestlap">BEST LAP</div>
+                        <div
+                            class="gap"
+                            @click="_setGapCriteria(results[0].bestLap)"
+                        >
+                            GAP
+                        </div>
+                        <div class="bestSec">BEST S1</div>
+                        <div class="bestSec">BEST S2</div>
+                        <div class="bestSec">BEST S3</div>
+                        <div class="potential">POTENTIAL</div>
                     </div>
 
                     <div
                         class="row Inter"
                         v-for="(row, rowIdx) in filteredResults"
-                        :key="rowIdx"
+                        :key="`${carClass_selection}_${rowIdx}`"
                         :data-seq="row.seq"
                     >
                         <div class="count" :class="{ top: row.rank <= 3 }">
                             <span>{{ row.rank }}</span>
                         </div>
-                        <div class="nickname">
+                        <div class="nickname" @click="onClickPlayerDetail(row)">
                             {{ row.firstName }} {{ row.lastName }}
                         </div>
-                        <div class="point">{{ row.point }}</div>
-                        <div class="ballast" v-if="!isHideBallast">
-                            {{ row.ballast }}
+                        <div class="carName">{{ row.carName }}</div>
+                        <div class="bestlap">{{ row.bestLap | secToMin }}</div>
+                        <div class="gap" @click="_setGapCriteria(row.bestLap)">
+                            {{ _getGap(row.bestLap) | secToMinForGap }}
+                        </div>
+                        <div class="bestSec">{{ row.sector1 | secToMin }}</div>
+                        <div class="bestSec">{{ row.sector2 | secToMin }}</div>
+                        <div class="bestSec">{{ row.sector3 | secToMin }}</div>
+                        <div class="potential">
+                            {{
+                                (row.sector1 + row.sector2 + row.sector3)
+                                    | secToMin
+                            }}
                         </div>
                     </div>
                     <div class="row Inter" v-if="!filteredResults.length">
@@ -124,7 +147,7 @@
                 <div v-else class="session notice Staatliches text-center mb-5">
                     <div class="row header empty">
                         <div class="count Staatliches">
-                            <h1>CHOOSE YOUR EVENT</h1>
+                            <h1>{{ initMessage }}</h1>
                         </div>
                     </div>
                 </div>
@@ -145,42 +168,56 @@
         <div class="text-center mb-5">
             <b-button variant="link" class="logo" to="/"></b-button>
         </div>
+
+        <PlayerDetail
+            :showDetail="showDetail"
+            :playerDetail="playerDetail"
+            :_setShowDetail="_setShowDetail"
+        />
     </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import Header from "@/components/Header";
+import PlayerDetail from "@/components/PlayerDetail";
 import mdiChevronRightCircle from "vue-material-design-icons/ChevronRightCircle.vue";
 import mdiChevronDownCircle from "vue-material-design-icons/ChevronDownCircle.vue";
+import moment from "moment";
 
 export default {
     name: "Home",
     components: {
         Header,
+        PlayerDetail,
         mdiChevronRightCircle,
         mdiChevronDownCircle,
     },
     data() {
         return {
+            _initMessage: "CHOOSE YOUR EVENT",
+            initMessage: "CHOOSE YOUR EVENT",
+            showDetail: false,
+            gapCriteria: 0,
             nameFilter: "",
-            carClass_selection: "CAR",
+            carClass_selection: "GT3",
             event_selection: "EVENT",
             event_selection_data: {},
-            round_selection: "ROUND",
-            round_selection_data: {},
-            years: ["로딩중..."],
+            track_selection: "CIRCUIT",
+            track_disabled: false,
             carClasses: [],
-            events: [{ seasonName: "ALL" }],
-            rounds: [{ name: "ALL" }],
+            events: [],
+            tracks: [],
             results: [],
             sliderValue: 0,
             isHideBallast: false,
+            playerDetail: [],
         };
     },
     created() {
-        this._getYears();
         this._getCarClasses();
+        this._getEvents();
+        this._getTracks();
     },
     computed: {
         nameFilterStyle() {
@@ -203,14 +240,37 @@ export default {
             return result;
         },
     },
-    methods: {
-        _getYears() {
-            this.$axios
-                .get("/api/result/year", { withCredentials: false })
-                .then((data) => {
-                    this.years = data.data.data;
-                });
+    filters: {
+        secToMin(sec) {
+            let secString = String(sec);
+            let secs = secString.slice(0, -3);
+            let decimals = secString.slice(-3);
+            let convertedSec = moment.utc(secs * 1000).format("mm:ss");
+            return `${convertedSec}.${decimals}`;
         },
+        secToMinForGap(sec) {
+            let secString = String(sec);
+            let isMinus = false;
+            if (secString.indexOf("-") != -1) {
+                isMinus = true;
+                secString = secString.slice(1, secString.length);
+            }
+            let secs = secString.slice(0, -3);
+            let decimals = secString.slice(-3);
+            if (parseInt(decimals) < 100) {
+                decimals = `0${parseInt(decimals)}`;
+            }
+            let convertedSec = moment.utc(secs * 1000).format("s");
+            let frontMark = "+";
+            if (isMinus) {
+                frontMark = "-";
+            }
+            return decimals == "00"
+                ? ""
+                : `${frontMark}${convertedSec}.${decimals}`;
+        },
+    },
+    methods: {
         _getCarClasses() {
             this.$axios
                 .get("/api/common/carClass", { withCredentials: false })
@@ -218,39 +278,22 @@ export default {
                     this.carClasses = data.data.data;
                 });
         },
-        _getSessions() {
-            if (
-                this.year_selection == "YEAR" ||
-                !this.class_selection_division
-            ) {
-                return;
-            }
+        _getEvents() {
             this.$axios
-                .get(
-                    `/api/result/season/${this.year_selection}/${this.class_selection_division}`,
-                    { withCredentials: false }
-                )
+                .get("/api/timeTrial/week", { withCredentials: false })
                 .then((data) => {
                     this.events = [
-                        { seasonName: "ALL", eventInfoSeq: "ALL" },
+                        { startDt: "ALL", sessionId: 0 },
                         ...data.data.data,
                     ];
-                    this.event_selection = "SEASON";
-                    this.event_selection_data = {};
                 });
         },
-        _getRoundResult() {
-            if (!this.event_selection_data.eventInfoSeq) {
-                return;
-            }
-            let getUrl = `/api/result/${this.event_selection_data.eventInfoSeq}`;
-            if (this.round_selection_data.round) {
-                getUrl += `/${this.round_selection_data.round}`;
-            }
-            this.$axios.get(getUrl, { withCredentials: false }).then((data) => {
-                this.results = data.data.data;
-                this._setOrderOnResults();
-            });
+        _getTracks() {
+            this.$axios
+                .get("/api/timeTrial/track", { withCredentials: false })
+                .then((data) => {
+                    this.tracks = data.data.data;
+                });
         },
         _setOrderOnResults() {
             for (let i = 0; i < this.results.length; i++) {
@@ -267,6 +310,52 @@ export default {
                     this.results[i].rank = i + 1;
                 }
             }
+        },
+        _getGtTTResult() {
+            this.initMessage = "Loading...";
+            this.results = [];
+            this.$axios
+                .get(
+                    `/api/timeTrial/week/${this.carClass_selection.toLowerCase()}/${
+                        this.event_selection_data.sessionId
+                    }`,
+                    { withCredentials: false }
+                )
+                .then((data) => {
+                    this.results = data.data.data;
+                    console.info("this.results", this.results);
+                    this.gapCriteria = data.data.data[0].bestLap;
+                    this._setOrderOnResults();
+                });
+        },
+        _getPlayerDetail(playerId) {
+            this.$axios
+                .get(
+                    `/api/timeTrial/week/${this.carClass_selection.toLowerCase()}/${playerId}/detail`,
+                    { withCredentials: false }
+                )
+                .then((data) => {
+                    this.playerDetail = data.data.data;
+                    if (this.carClass_selection == "GT3") {
+                        this._getPlayerTtScore();
+                    } else {
+                        this.playerDetail = [];
+                    }
+                });
+        },
+        _getPlayerTtScore(playerId) {
+            this.$axios
+                .get(
+                    `/api/timeTrial/week/${this.carClass_selection.toLowerCase()}/${playerId}/ttScore`,
+                    { withCredentials: false }
+                )
+                .then((data) => {
+                    this.playerDetail.ttscore = data.data.data;
+                    console.info(
+                        "this.playerDetail.ttscore",
+                        this.playerDetail.ttscore
+                    );
+                });
         },
         _getSeasonAllResult() {
             if (
@@ -285,67 +374,58 @@ export default {
                     this._setOrderOnResults();
                 });
         },
-        _updateRounds(roundNumber) {
-            this.rounds = [];
-            if (this.event_selection == "ALL") {
-                this.rounds.push({
-                    name: "ALL",
-                });
-                this.round_selection = "ALL";
-            } else {
-                this.rounds.push({
-                    name: `ALL`,
-                });
-                for (let i = 1; i <= roundNumber; i++) {
-                    this.rounds.push({
-                        name: `ROUND${i}`,
-                        round: i,
-                    });
-                }
+        _setTrackBySeq(trackSeq) {
+            let trackData = this.tracks.filter((item) => {
+                return item.seq == trackSeq;
+            });
+            if (trackData.length) {
+                this.track_selection = trackData[0].trackName;
+                this.track_selection_data = trackData[0];
             }
         },
-        _resetSeasonRound() {
-            this._resetRound();
-            this._resetSeason();
+        _getGap(bestLap) {
+            return bestLap - this.gapCriteria;
         },
-        _resetRound() {
-            this.results = [];
-            this.round_selection = "ROUND";
-            this.round_selection_data = {};
+        _setGapCriteria(bestLap) {
+            this.gapCriteria = bestLap;
         },
-        _resetSeason() {
-            this.results = [];
-            this.event_selection = "SEASON";
-            this.event_selection_data = {};
-        },
-        onClickYear(year) {
-            if (typeof year == "string" && year.indexOf("로딩") != -1) {
-                return;
-            }
-            this.year_selection = year;
-            this._resetSeasonRound();
-            if (this.class_selection_division) {
-                this._getSessions();
-            }
+        _setShowDetail(val) {
+            this.showDetail = val;
         },
         onClickCarClassDropdown(carClass) {
             this.carClass_selection = carClass.value;
+            this._getGtTTResult();
         },
         onClickEventDropdown(event) {
-            this.event_selection = event.eventName;
+            this.event_selection =
+                event.startDt == "ALL"
+                    ? "ALL"
+                    : `${event.startDt} - ${
+                          event.endDt ? event.endDt : "In Progress"
+                      }`;
             this.event_selection_data = event;
 
-            this._resetRound();
-            this._updateRounds(event.round);
-
-            if (event.eventName == "ALL") {
-                this._getEventAllResult();
+            if (event.startDt == "ALL") {
+                this.track_selection = "CIRCUIT";
+                this.track_selection_data = {};
+                this.track_disabled = false;
+                this.results = [];
+            } else {
+                this._setTrackBySeq(event.trackSeq);
             }
+
+            this._getGtTTResult();
         },
-        onClickRoundDropdown(roundData) {
-            this.round_selection = roundData.name;
-            this.round_selection_data = roundData;
-            this._getRoundResult();
+        onClickTrackDropdown(trackData) {
+            this.track_selection = trackData.trackName;
+            this.track_selection_data = trackData;
+
+            this.event_selection = "ALL";
+            this.event_selection_data = {};
+        },
+        async onClickPlayerDetail(row) {
+            await this._getPlayerDetail(row.playerId);
+            this.showDetail = true;
         },
     },
 };
@@ -400,14 +480,15 @@ export default {
     display: flex;
     min-height: 46px;
     margin: 0.5rem 0;
-    cursor: pointer;
     font-weight: bold;
+    font-size: 0.8em;
 }
 .session .row.header {
     min-height: 50px;
     border-top: 2px solid #fff;
     border-bottom: 2px solid #fff;
     margin: 1rem 0;
+    font-size: 1em;
 }
 .session .row.header.empty {
     background-color: #171717;
@@ -453,7 +534,7 @@ export default {
     color: var(--yellow);
 }
 .session .row .title {
-    flex: 10 1 0;
+    flex: 1 1 0;
     color: #000;
     background-color: #fff;
 }
@@ -461,11 +542,26 @@ export default {
     color: #8a8a8a;
 }
 .session .row .nickname,
-.session .row .ballast,
-.session .row .point {
-    flex: 10 1 0;
+.session .row .carName,
+.session .row .bestlap,
+.session .row .gap,
+.session .row .bestSec,
+.session .row .bestSec,
+.session .row .bestSec,
+.session .row .potential {
+    flex: 1 1 0;
     background-color: #4d4d4d;
     text-transform: uppercase;
+}
+.session .row .nickname {
+    flex: 2 1 0;
+    cursor: pointer;
+}
+.session .row .carName {
+    flex: 4 1 0;
+}
+.session .row.Inter .bestlap {
+    color: var(--yellow);
 }
 
 hr.yellow {
@@ -571,6 +667,7 @@ hr.yellow {
     border-radius: 1.5em;
     margin: 0.5em 0;
 }
+.selections >>> .b-dropdown .dropdown-menu,
 .selections >>> .b-dropdown .dropdown-menu > li > .dropdown-item {
     color: #fff;
 }
@@ -578,6 +675,18 @@ hr.yellow {
 .selections >>> .b-dropdown .dropdown-menu > li > .dropdown-item:hover,
 .selections >>> .b-dropdown .dropdown-menu > li > .dropdown-item:focus {
     background-color: transparent;
+}
+
+.selections >>> .b-dropdown.listType .dropdown-menu {
+    background-color: #8a8a8a;
+    border-radius: 20px;
+    max-height: 60vh;
+    overflow: auto;
+    margin-top: 0.5em;
+}
+.selections >>> .b-dropdown.listType .dropdown-menu > li {
+    background-color: transparent;
+    padding: 0;
 }
 
 .nameFilterWrap input {
@@ -596,7 +705,7 @@ hr.yellow {
 .lastBtnWrap .lastBtn {
     width: 333px;
     height: 62px;
-    font-size: 1.5em;
+    font-size: 2em;
     background-color: var(--yellow);
     border-radius: 10px;
     line-height: 2;

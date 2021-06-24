@@ -13,12 +13,11 @@
                         active:
                             menu.to == $router.currentRoute.path ||
                             (menu.to.length > 1 &&
-                                ($router.currentRoute.path.indexOf(menu.to) !=
-                                    -1 ||
-                                    (menu.alias &&
-                                        $router.currentRoute.path.indexOf(
-                                            menu.alias != -1
-                                        )))),
+                                $router.currentRoute.path.indexOf(menu.to) !=
+                                    -1) ||
+                            (menu.alias &&
+                                $router.currentRoute.path.indexOf(menu.alias) !=
+                                    -1),
                     }"
                     :disabled="menu.disabled"
                 >
