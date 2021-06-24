@@ -88,8 +88,8 @@ public class TimeTrialRestController {
 	@ApiOperation(value = "GT4 주차 타임트라이얼 기록 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
 	@GetMapping(value = "/week/gt4/{sessionId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public SingleResult<List<TimeTrialResultVO>> findWeekTimeTrialGt4(@ApiParam(value = "세션 아이디") @PathVariable(value = "sessionId") final Long sessionId) {
-		final List<TimeTrialResultVO> gt3WeekTimeTrial = timeTrialService.findGt3WeekTimeTrial(sessionId);
-		return responseService.getSingleResult(gt3WeekTimeTrial);
+		final List<TimeTrialResultVO> gt4WeekTimeTrial = timeTrialService.findGt4WeekTimeTrial(sessionId);
+		return responseService.getSingleResult(gt4WeekTimeTrial);
 	}
 
 
