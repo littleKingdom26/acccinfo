@@ -97,8 +97,18 @@
                     <div class="row header">
                         <div class="count">NO</div>
                         <div class="nickname">NICKNAME</div>
-                        <div class="point">POINT</div>
-                        <div class="ballast" v-if="!isHideBallast">BALLAST</div>
+                        <div class="carName">CAR</div>
+                        <div class="bestlap">BEST LAP</div>
+                        <div
+                            class="gap"
+                            @click="_setGapCriteria(results[0].bestLap)"
+                        >
+                            GAP
+                        </div>
+                        <div class="bestSec">BEST S1</div>
+                        <div class="bestSec">BEST S2</div>
+                        <div class="bestSec">BEST S3</div>
+                        <div class="potential">POTENTIAL</div>
                     </div>
 
                     <div
@@ -110,12 +120,22 @@
                         <div class="count" :class="{ top: row.rank <= 3 }">
                             <span>{{ row.rank }}</span>
                         </div>
-                        <div class="nickname">
+                        <div class="nickname" @click="onClickPlayerDetail(row)">
                             {{ row.firstName }} {{ row.lastName }}
                         </div>
-                        <div class="point">{{ row.point }}</div>
-                        <div class="ballast" v-if="!isHideBallast">
-                            {{ row.ballast }}
+                        <div class="carName">{{ row.carName }}</div>
+                        <div class="bestlap">{{ row.bestLap | secToMin }}</div>
+                        <div class="gap" @click="_setGapCriteria(row.bestLap)">
+                            {{ _getGap(row.bestLap) | secToMinForGap }}
+                        </div>
+                        <div class="bestSec">{{ row.sector1 | secToMin }}</div>
+                        <div class="bestSec">{{ row.sector2 | secToMin }}</div>
+                        <div class="bestSec">{{ row.sector3 | secToMin }}</div>
+                        <div class="potential">
+                            {{
+                                (row.sector1 + row.sector2 + row.sector3)
+                                    | secToMin
+                            }}
                         </div>
                     </div>
                     <div class="row Inter" v-if="!filteredResults.length">
@@ -127,7 +147,7 @@
                 <div v-else class="session notice Staatliches text-center mb-5">
                     <div class="row header empty">
                         <div class="count Staatliches">
-                            <h1>CHOOSE YOUR EVENT</h1>
+                            <h1>{{ initMessage }}</h1>
                         </div>
                     </div>
                 </div>
@@ -148,26 +168,35 @@
         <div class="text-center mb-5">
             <b-button variant="link" class="logo" to="/"></b-button>
         </div>
+
+        <PlayerDetail :showDetail="showDetail" :data="playerDetail" />
     </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import Header from "@/components/Header";
+import PlayerDetail from "@/components/PlayerDetail";
 import mdiChevronRightCircle from "vue-material-design-icons/ChevronRightCircle.vue";
 import mdiChevronDownCircle from "vue-material-design-icons/ChevronDownCircle.vue";
+import moment from "moment";
 
 export default {
     name: "Home",
     components: {
         Header,
+        PlayerDetail,
         mdiChevronRightCircle,
         mdiChevronDownCircle,
     },
     data() {
         return {
+            _initMessage: "CHOOSE YOUR EVENT",
+            initMessage: "CHOOSE YOUR EVENT",
+            showDetail: true,
+            gapCriteria: 0,
             nameFilter: "",
-            carClass_selection: "CAR",
+            carClass_selection: "GT3",
             event_selection: "EVENT",
             event_selection_data: {},
             track_selection: "CIRCUIT",
@@ -178,6 +207,7 @@ export default {
             results: [],
             sliderValue: 0,
             isHideBallast: false,
+            playerDetail: {},
         };
     },
     created() {
@@ -204,6 +234,36 @@ export default {
                 });
             }
             return result;
+        },
+    },
+    filters: {
+        secToMin(sec) {
+            let secString = String(sec);
+            let secs = secString.slice(0, -3);
+            let decimals = secString.slice(-3);
+            let convertedSec = moment.utc(secs * 1000).format("mm:ss");
+            return `${convertedSec}.${decimals}`;
+        },
+        secToMinForGap(sec) {
+            let secString = String(sec);
+            let isMinus = false;
+            if (secString.indexOf("-") != -1) {
+                isMinus = true;
+                secString = secString.slice(1, secString.length);
+            }
+            let secs = secString.slice(0, -3);
+            let decimals = secString.slice(-3);
+            if (parseInt(decimals) < 100) {
+                decimals = `0${parseInt(decimals)}`;
+            }
+            let convertedSec = moment.utc(secs * 1000).format("s");
+            let frontMark = "+";
+            if (isMinus) {
+                frontMark = "-";
+            }
+            return decimals == "00"
+                ? ""
+                : `${frontMark}${convertedSec}.${decimals}`;
         },
     },
     methods: {
@@ -247,6 +307,48 @@ export default {
                 }
             }
         },
+        _getGtTTResult() {
+            this.initMessage = "Loading...";
+            this.results = [];
+            this.$axios
+                .get(
+                    `/api/timeTrial/week/${this.carClass_selection.toLowerCase()}/${
+                        this.event_selection_data.sessionId
+                    }`,
+                    { withCredentials: false }
+                )
+                .then((data) => {
+                    this.results = data.data.data;
+                    console.info("this.results", this.results);
+                    this.gapCriteria = data.data.data[0].bestLap;
+                    this._setOrderOnResults();
+                });
+        },
+        _getPlayerDetail(playerId) {
+            this.$axios
+                .get(
+                    `/api/timeTrial/week/${this.carClass_selection.toLowerCase()}/${playerId}/detail`,
+                    { withCredentials: false }
+                )
+                .then((data) => {
+                    this.playerDetail = data.data.data;
+                    this._getPlayerTtScore();
+                });
+        },
+        _getPlayerTtScore(playerId) {
+            this.$axios
+                .get(
+                    `/api/timeTrial/week/${this.carClass_selection.toLowerCase()}/${playerId}/ttScore`,
+                    { withCredentials: false }
+                )
+                .then((data) => {
+                    this.playerDetail.ttscore = data.data.data;
+                    console.info(
+                        "this.playerDetail.ttscore",
+                        this.playerDetail.ttscore
+                    );
+                });
+        },
         _getSeasonAllResult() {
             if (
                 this.year_selection == "YEAR" ||
@@ -263,6 +365,21 @@ export default {
                     this.results = data.data.data;
                     this._setOrderOnResults();
                 });
+        },
+        _setTrackBySeq(trackSeq) {
+            let trackData = this.tracks.filter((item) => {
+                return item.seq == trackSeq;
+            });
+            if (trackData.length) {
+                this.track_selection = trackData[0].trackName;
+                this.track_selection_data = trackData[0];
+            }
+        },
+        _getGap(bestLap) {
+            return bestLap - this.gapCriteria;
+        },
+        _setGapCriteria(bestLap) {
+            this.gapCriteria = bestLap;
         },
         onClickCarClassDropdown(carClass) {
             this.carClass_selection = carClass.value;
@@ -284,15 +401,8 @@ export default {
             } else {
                 this._setTrackBySeq(event.trackSeq);
             }
-        },
-        _setTrackBySeq(trackSeq) {
-            let trackData = this.tracks.filter((item) => {
-                return item.seq == trackSeq;
-            });
-            if (trackData.length) {
-                this.track_selection = trackData[0].trackName;
-                this.track_selection_data = trackData[0];
-            }
+
+            this._getGtTTResult();
         },
         onClickTrackDropdown(trackData) {
             this.track_selection = trackData.trackName;
@@ -300,6 +410,10 @@ export default {
 
             this.event_selection = "ALL";
             this.event_selection_data = {};
+        },
+        async onClickPlayerDetail(row) {
+            await this._getPlayerDetail(row.playerId);
+            this.showDetail = true;
         },
     },
 };
@@ -354,14 +468,15 @@ export default {
     display: flex;
     min-height: 46px;
     margin: 0.5rem 0;
-    cursor: pointer;
     font-weight: bold;
+    font-size: 0.8em;
 }
 .session .row.header {
     min-height: 50px;
     border-top: 2px solid #fff;
     border-bottom: 2px solid #fff;
     margin: 1rem 0;
+    font-size: 1em;
 }
 .session .row.header.empty {
     background-color: #171717;
@@ -407,7 +522,7 @@ export default {
     color: var(--yellow);
 }
 .session .row .title {
-    flex: 10 1 0;
+    flex: 1 1 0;
     color: #000;
     background-color: #fff;
 }
@@ -415,11 +530,26 @@ export default {
     color: #8a8a8a;
 }
 .session .row .nickname,
-.session .row .ballast,
-.session .row .point {
-    flex: 10 1 0;
+.session .row .carName,
+.session .row .bestlap,
+.session .row .gap,
+.session .row .bestSec,
+.session .row .bestSec,
+.session .row .bestSec,
+.session .row .potential {
+    flex: 1 1 0;
     background-color: #4d4d4d;
     text-transform: uppercase;
+}
+.session .row .nickname {
+    flex: 2 1 0;
+    cursor: pointer;
+}
+.session .row .carName {
+    flex: 4 1 0;
+}
+.session .row.Inter .bestlap {
+    color: var(--yellow);
 }
 
 hr.yellow {
@@ -563,7 +693,7 @@ hr.yellow {
 .lastBtnWrap .lastBtn {
     width: 333px;
     height: 62px;
-    font-size: 1.5em;
+    font-size: 2em;
     background-color: var(--yellow);
     border-radius: 10px;
     line-height: 2;
