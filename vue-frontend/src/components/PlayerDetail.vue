@@ -3,7 +3,7 @@
         id="modal-scrollable"
         size="lg"
         scrollable
-        v-model="showDetail"
+        v-model="isShowDetail"
         header-bg-variant="dark"
         body-bg-variant="dark"
         footer-bg-variant="dark"
@@ -12,8 +12,15 @@
         ok-variant="secondary"
         no-close-on-backdrop
     >
-        <div class="subTitle">
-            <h3>Kabkee</h3>
+        <div class="subTitle" v-if="lPlayerDetail && lPlayerDetail.length">
+            <h3>
+                {{ lPlayerDetail[0].firstsName }}
+                {{ lPlayerDetail[0].lastName }}
+            </h3>
+            <img
+                src="/vue_assets/img/steam ICON@3x.png"
+                @click="onClickSteamLogo(lPlayerDetail[0].playerId)"
+            />
             <span class="ttscore yellow">TT SCORE: {{ 0 }}</span>
         </div>
         <div class="tabs list">
@@ -22,81 +29,100 @@
                     <div class="track">TRACK</div>
                     <div class="carName">CAR</div>
                     <div class="bestlap">BEST LAP</div>
-                    <div
-                        class="rank"
-                        @click="_setGapCriteria(results[0].bestLap)"
-                    >
-                        GAP
+                    <div class="rank">
+                        RANK
                     </div>
                     <div class="lap">LAP</div>
                 </div>
 
-                <div class="row Inter">
-                    <div class="track">TRACK</div>
-                    <div class="carName">CAR</div>
-                    <div class="bestlap">BEST LAP</div>
-                    <div
-                        class="rank"
-                        @click="_setGapCriteria(results[0].bestLap)"
-                    >
-                        GAP
-                    </div>
-                    <div class="lap">LAP</div>
-                </div>
-                <div class="row Inter">
-                    <div class="track">TRACK</div>
-                    <div class="carName">CAR</div>
-                    <div class="bestlap">BEST LAP</div>
-                    <div
-                        class="rank"
-                        @click="_setGapCriteria(results[0].bestLap)"
-                    >
-                        GAP
-                    </div>
-                    <div class="lap">LAP</div>
+                <div
+                    class="row Inter"
+                    v-for="(lap, lapIdx) in lPlayerDetail"
+                    :key="`${lap.playerId}_${lap.trackName}_${lapIdx}`"
+                >
+                    <div class="track">{{ lap.trackName }}</div>
+                    <div class="carName">{{ lap.carName }}</div>
+                    <div class="bestlap">{{ lap.bestLap | secToMin }}</div>
+                    <div class="rank">{{ lap.rank }} / {{ lap.allPlayer }}</div>
+                    <!-- 
+                        v-b-tooltip.hover.top="
+                            `${parseFloat(
+                                (lap.rank / lap.allPlayer) * 100
+                            ).toFixed(1)}%`
+                        "
+                     -->
+                    <div class="lap">{{ lap.totalLap }}</div>
                 </div>
 
-                <!-- <div
-                        class="row Inter"
-                        v-for="(row, rowIdx) in filteredResults"
-                        :key="rowIdx"
-                        :data-seq="row.seq"
-                    >
-                        <div class="count" :class="{ top: row.rank <= 3 }">
-                            <span>{{ row.rank }}</span>
-                        </div>
-                        <div class="nickname" @click="onClickPlayerDetail(row)">
-                            {{ row.firstName }} {{ row.lastName }}
-                        </div>
-                        <div class="carName">{{ row.carName }}</div>
-                        <div class="bestlap">{{ row.bestLap | secToMin }}</div>
-                        <div class="gap" @click="_setGapCriteria(row.bestLap)">
-                            {{ _getGap(row.bestLap) | secToMinForGap }}
-                        </div>
-                        <div class="bestSec">{{ row.sector1 | secToMin }}</div>
-                        <div class="bestSec">{{ row.sector2 | secToMin }}</div>
-                        <div class="bestSec">{{ row.sector3 | secToMin }}</div>
-                        <div class="potential">
-                            {{
-                                (row.sector1 + row.sector2 + row.sector3)
-                                    | secToMin
-                            }}
-                        </div>
+                <div
+                    class="row Inter"
+                    v-if="!lPlayerDetail || !lPlayerDetail.length"
+                >
+                    <div class="track">
+                        기록이 없습니다.
                     </div>
-                    <div class="row Inter" v-if="!filteredResults.length">
-                        <div class="nickname">
-                            결과 없습니다.
-                        </div>
-                    </div> -->
+                </div>
             </div>
         </div>
     </b-modal>
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
-    props: ["showDetail", "playerDetail"],
-    data() {},
+    props: {
+        showDetail: {
+            type: Boolean,
+            required: true,
+        },
+        playerDetail: {
+            type: Array,
+            required: true,
+        },
+        _setShowDetail: {
+            type: Function,
+            required: true,
+        },
+    },
+    data() {
+        return {
+            isShowDetail: false,
+            lPlayerDetail: [],
+        };
+    },
+    filters: {
+        secToMin(sec) {
+            let secString = String(sec);
+            let secs = secString.slice(0, -3);
+            let decimals = secString.slice(-3);
+            let convertedSec = moment.utc(secs * 1000).format("mm:ss");
+            return `${convertedSec}.${decimals}`;
+        },
+    },
+    watch: {
+        showDetail() {
+            console.info("this.$props.showDetail", this.$props.showDetail);
+            this.isShowDetail = this.$props.showDetail;
+        },
+        playerDetail() {
+            console.info("this.$props.playerDetail", this.$props.playerDetail);
+            this.lPlayerDetail = this.$props.playerDetail;
+        },
+        isShowDetail(val) {
+            this.lPlayerDetail = [];
+            this._setShowDetail(val);
+        },
+    },
+    methods: {
+        onClickSteamLogo(playerId) {
+            if (playerId[0] == "S") {
+                playerId = playerId.slice(1, playerId.length);
+                console.info(playerId);
+            }
+            window.open(`https://steamcommunity.com/profiles/${playerId}`);
+        },
+    },
 };
 </script>
 
@@ -183,6 +209,9 @@ export default {
     background-color: #000;
     color: #fff;
 }
+* >>> .modal-content .bg-dark {
+    background-color: #000 !important;
+}
 * >>> .modal-content .modal-header {
     border: 0;
     padding: 1em 1em 0 1em;
@@ -190,6 +219,11 @@ export default {
 * >>> .modal-content .subTitle > * {
     display: inline;
     vertical-align: middle;
+}
+.modal-content .subTitle img {
+    max-width: 1.5em;
+    margin-left: 0.5em;
+    cursor: pointer;
 }
 .modal-content .subTitle > .ttscore {
     float: right;
@@ -209,13 +243,15 @@ export default {
     min-height: 0;
     padding: 0;
 }
+* >>> .modal-content .row {
+    background-color: #4d4d4d;
+}
 * >>> .modal-content .row .track,
 * >>> .modal-content .row .carName,
 * >>> .modal-content .row .bestlap,
 * >>> .modal-content .row .rank,
 * >>> .modal-content .row .lap {
     flex: 1 1 0;
-    background-color: #4d4d4d;
     text-transform: uppercase;
 }
 * >>> .modal-content .row .track {
@@ -223,6 +259,9 @@ export default {
 }
 * >>> .modal-content .row .carName {
     flex: 3 1 0;
+}
+* >>> .modal-content .row.Inter:nth-child(odd) {
+    background-color: #262626;
 }
 * >>> .modal-content .row.Inter .bestlap {
     color: var(--yellow);

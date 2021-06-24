@@ -114,7 +114,7 @@
                     <div
                         class="row Inter"
                         v-for="(row, rowIdx) in filteredResults"
-                        :key="rowIdx"
+                        :key="`${carClass_selection}_${rowIdx}`"
                         :data-seq="row.seq"
                     >
                         <div class="count" :class="{ top: row.rank <= 3 }">
@@ -169,7 +169,11 @@
             <b-button variant="link" class="logo" to="/"></b-button>
         </div>
 
-        <PlayerDetail :showDetail="showDetail" :data="playerDetail" />
+        <PlayerDetail
+            :showDetail="showDetail"
+            :playerDetail="playerDetail"
+            :_setShowDetail="_setShowDetail"
+        />
     </div>
 </template>
 
@@ -193,7 +197,7 @@ export default {
         return {
             _initMessage: "CHOOSE YOUR EVENT",
             initMessage: "CHOOSE YOUR EVENT",
-            showDetail: true,
+            showDetail: false,
             gapCriteria: 0,
             nameFilter: "",
             carClass_selection: "GT3",
@@ -207,7 +211,7 @@ export default {
             results: [],
             sliderValue: 0,
             isHideBallast: false,
-            playerDetail: {},
+            playerDetail: [],
         };
     },
     created() {
@@ -332,7 +336,11 @@ export default {
                 )
                 .then((data) => {
                     this.playerDetail = data.data.data;
-                    this._getPlayerTtScore();
+                    if (this.carClass_selection == "GT3") {
+                        this._getPlayerTtScore();
+                    } else {
+                        this.playerDetail = [];
+                    }
                 });
         },
         _getPlayerTtScore(playerId) {
@@ -381,8 +389,12 @@ export default {
         _setGapCriteria(bestLap) {
             this.gapCriteria = bestLap;
         },
+        _setShowDetail(val) {
+            this.showDetail = val;
+        },
         onClickCarClassDropdown(carClass) {
             this.carClass_selection = carClass.value;
+            this._getGtTTResult();
         },
         onClickEventDropdown(event) {
             this.event_selection =
