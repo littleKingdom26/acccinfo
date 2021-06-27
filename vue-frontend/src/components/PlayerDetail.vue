@@ -214,7 +214,10 @@ export default {
 }
 * >>> .modal-content .modal-header {
     border: 0;
-    padding: 1em 1em 0 1em;
+    padding: 1em 1em 1em 1em;
+}
+* >>> .modal-content .modal-body {
+    padding-top: 0;
 }
 * >>> .modal-content .subTitle > * {
     display: inline;

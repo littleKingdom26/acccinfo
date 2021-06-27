@@ -316,7 +316,7 @@
                 </div>
             </div>
         </div>
-        <div class="session gallery">
+        <!-- <div class="session gallery">
             <h1 class="title">
                 GALLERY
             </h1>
@@ -344,13 +344,11 @@
                         @mouseover="plusScaleUp = true"
                         @mouseout="plusScaleUp = false"
                     >
-                        <!-- @mouseover="plusIconSize = 80"
-                        @mouseout="plusIconSize = 60" -->
                         <PlusIcon :size="plusIconSize" />
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="session contact">
             <h1 class="title">
                 CONTACT

@@ -203,7 +203,7 @@ export default {
             round_selection: "ROUND",
             round_selection_data: {},
             years: ["로딩중..."],
-            classes: [],
+            classes: ["로딩중..."],
             seasons: [{ seasonName: "ALL" }],
             rounds: [{ name: "ALL" }],
             results: [],

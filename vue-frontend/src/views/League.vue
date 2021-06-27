@@ -52,7 +52,7 @@
                 animation="fade"
                 :autoplay="false"
                 v-model="sliderValue"
-                height="80vh"
+                height="auto"
                 :stopOnHover="true"
             >
                 <SliderItem
@@ -62,6 +62,7 @@
                     :style="i.style"
                     class="leagueCarousel"
                 >
+                    <img :src="i.imgSrc" />
                 </SliderItem>
             </Slider>
 
@@ -123,32 +124,30 @@ export default {
             leagueSlideList: [
                 {
                     style: {
-                        backgroundImage:
-                            'url("/vue_assets/img/ps4yxbox_3109823b.jpeg")',
-                        bakcgroundPosition: "center",
+                        // backgroundImage: 'url("/vue_assets/img/post_1.jpeg")',
+                        backgroundPosition: "center",
                         backgroundSize: "contain",
                         backgroundRepeat: "no-repeat",
-                        maxWidth: "500px",
                         left: "0",
                         right: "0",
                         margin: "0 auto",
                     },
+                    imgSrc: "/vue_assets/img/post_1.jpeg",
                     title: `<span><span class="yellow">24 HOURS</span> OPEN</span><br /><span>TIMETRIAL SERVER</span>`,
                     iconClass: "trophy",
                     buttonName: "SEASON CHAMPION",
                 },
                 {
                     style: {
-                        backgroundImage:
-                            'url("/vue_assets/img/ps4yxbox_3109823b.jpeg")',
-                        bakcgroundPosition: "center",
+                        // backgroundImage: 'url("/vue_assets/img/post_2.jpeg")',
+                        backgroundPosition: "center",
                         backgroundSize: "contain",
                         backgroundRepeat: "no-repeat",
-                        maxWidth: "500px",
                         left: "0",
                         right: "0",
                         margin: "0 auto",
                     },
+                    imgSrc: "/vue_assets/img/post_2.jpeg",
                     title: `<span><span class="yellow">FINAL LAP</span></span><br /><span>JOIN OUR LEAGUE</span>`,
                     iconClass: "trophy car",
                     buttonName: "REGISTER NOW",
@@ -293,6 +292,7 @@ hr.yellow {
 .lastBtnWrap {
     max-width: 700px;
     margin: 0 auto;
+    margin-top: 3em;
 }
 .lastBtnWrap .lastBtn {
     width: 333px;
@@ -305,6 +305,10 @@ hr.yellow {
 .lastBtnWrap .lastBtn > * {
     vertical-align: middle;
     margin: 0 0.25em;
+}
+
+* >>> .slider-item {
+    position: inherit !important;
 }
 
 .logo {
