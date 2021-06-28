@@ -26,8 +26,18 @@ public class BbsFile extends BaseTimeEntity {
 	@Column(name = "FILE_PATH")
 	private String filePath;
 
+	@Column(name = "ORI_FILE_NAME")
+	private String oriFileName;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="SEQ")
 	@JsonBackReference
 	private Bbs bbs;
+
+	@Builder
+	public BbsFile(String fileName, String filePath, String oriFileName) {
+		this.fileName = fileName;
+		this.filePath = filePath;
+		this.oriFileName = oriFileName;
+	}
 }

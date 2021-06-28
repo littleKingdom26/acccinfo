@@ -1,0 +1,66 @@
+# curl -X POST "http://localhost:9090/api/gallery/save" -H "accept: application/json" -H "Content-Type: multipart/form-data" -F "uploadFile=@test1.png;type=image/png" -F "uploadFile=@test2.png;type=image/png" -F "password=1234" -F "mainFIleName=test1.png" -F "regId=littlekingdom"
+POST http://localhost:9090/api/gallery/save
+accept: application/json
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="uploadFile"; filename="test1.png"
+
+< test1.png
+--WebAppBoundary
+Content-Disposition: form-data; name="uploadFile"; filename="test2.png"
+
+< test2.png
+--WebAppBoundary
+Content-Disposition: form-data; name="password"
+
+1234
+--WebAppBoundary
+Content-Disposition: form-data; name="mainFIleName"
+
+test1.png
+--WebAppBoundary
+Content-Disposition: form-data; name="regId"
+
+littlekingdom
+--WebAppBoundary--
+
+###
+
+POST http://localhost:9090/api/gallery/save
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="uploadFile"; filename="20200710012450011.jpg"
+
+< e:/upload/board/20200710012450011.jpg
+--WebAppBoundary--
+
+--WebAppBoundary
+Content-Disposition: form-data; name="uploadFile"; filename="20200710012503906.jpg"
+
+< e:/upload/board/20200710012503906.jpg
+--WebAppBoundary--
+
+--WebAppBoundary
+Content-Disposition: form-data; name="mainFIleName";
+
+20200710012450011.jpg
+--WebAppBoundary--
+
+--WebAppBoundary
+Content-Disposition: form-data; name="regId";
+
+littleKingdom
+--WebAppBoundary--
+
+--WebAppBoundary
+Content-Disposition: form-data; name="password";
+
+1234
+--WebAppBoundary--
+
+
+
+
+###

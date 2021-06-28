@@ -38,18 +38,30 @@ public class Bbs extends BaseTimeEntity {
 	@Column(name = "PASSWORD")
 	private String password;
 
+	@Column(name="MAIN_FILE_NAME")
+	private String mainFileName;
+
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name="BBS_SEQ")
 	@JsonManagedReference
 	private List<BbsComment> bbsCommentList;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinColumn(name = "SEQ")
 	@JsonManagedReference
 	private List<BbsFile> bbsFileList;
 
-
 	@Transient
 	private Link _link;
 
+	@Builder
+	public Bbs(TbBbsName tbBbsName, String title, String content, String regId, String password, String mainFileName, List<BbsFile> bbsFileList) {
+		this.tbBbsName = tbBbsName;
+		this.title = title;
+		this.content = content;
+		this.regId = regId;
+		this.password = password;
+		this.mainFileName = mainFileName;
+		this.bbsFileList = bbsFileList;
+	}
 }

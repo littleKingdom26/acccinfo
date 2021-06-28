@@ -3,6 +3,7 @@ package info.team23h.acc.util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletContext;
@@ -33,8 +34,10 @@ public class FileUtil {
 	}
 
 	public static String save(MultipartFile file, String subFolder) throws IOException {
-		String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-		String fileName = file.getOriginalFilename();
+		final String filename = StringUtils.getFilename(file.getOriginalFilename());
+		final String extension = "."+StringUtils.getFilenameExtension(file.getOriginalFilename());
+//		String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+//		String fileName = file.getOriginalFilename();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuuMMddHHmmssSSS");
 		String newFileName = LocalDateTime.now().format(dtf) + extension;
 
