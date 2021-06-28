@@ -62,11 +62,13 @@ export default {
     },
     methods: {
         _getContent() {
+            console.info("this.id", this.bbsSeq);
             this.$axios
-                .get(`/api/notice/detail/${this.bbsSeq}`, {
+                .get(`/api/event/detail/${this.bbsSeq}`, {
                     withCredentials: false,
                 })
                 .then((data) => {
+                    console.info("this.noticeContent", data.data.data);
                     this.data = data.data.data;
                     this.title = data.data.data.title;
                     this.writer = data.data.data.regId;

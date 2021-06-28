@@ -2,31 +2,50 @@
     <div class="home">
         <Header />
 
-        <div class="session">
+        <div class="session mb-5">
             <h1 class="title">
-                {{ title }}
+                EVENT
             </h1>
             <h3 class="subTitle">
-                {{ writer }}
+                ACC KOREA League Event
             </h3>
             <hr class="yellow" />
         </div>
 
-        <div class="pageDivider">
-            <span class="regDate">{{ data.regDt }}</span>
-            <hr />
-        </div>
-        <div v-if="content" class="session notice content Staatliches mb-5">
-            <p v-html="content"></p>
+        <div
+            v-if="noticeContent.length"
+            class="session notice Staatliches text-center mb-5"
+        >
+            <div class="row header">
+                <div class="count">NO</div>
+                <div class="title">TITLE</div>
+                <div class="writer">WRITER</div>
+            </div>
+
+            <div
+                class="row Inter"
+                v-for="(row, rowIdx) in noticeContent"
+                :key="rowIdx"
+                :data-seq="row.seq"
+                @click="$router.push(`/notice/${row.seq}`)"
+            >
+                <div class="count">{{ _styleRowCount(rowIdx + 1) }}</div>
+                <div class="title JeojuGthic">{{ row.title }}</div>
+                <div class="writer JeojuGthic">{{ row.regId }}</div>
+            </div>
         </div>
         <div v-else class="session notice Staatliches text-center mb-5">
             <div class="row header">
                 <div class="count">로딩중...</div>
             </div>
         </div>
-
-        <div class="pageDivider">
-            <hr class="last" />
+        <div v-if="rows / perPage > 1" class="paginationWrap Inter">
+            <Pagination
+                :currentPage="currentPage"
+                :rows="rows"
+                :perPage="perPage"
+                :onClickPage="onClickPage"
+            />
         </div>
 
         <div class="text-center mb-5">
@@ -38,39 +57,47 @@
 <script>
 // @ is an alias to /src
 import Header from "@/components/Header";
+import Pagination from "@/components/Pagination";
 
 export default {
     name: "Home",
     components: {
         Header,
+        Pagination,
     },
     data() {
         return {
-            title: "",
-            writer: "",
-            content: "",
-            data: {},
-            bbsSeq: null,
+            currentPage: 1,
+            rows: 0,
+            perPage: 15,
+            noticeContent: [],
         };
     },
     created() {
-        this.bbsSeq = this.$route.params.id;
+        // console.info(this.$router.currentRoute);
+        console.info("this.$route.params.page", this.$route.query.page);
+        if (this.$route.query.page) {
+            this.currentPage = this.$route.query.page;
+        }
         this._getContent();
-    },
-    mounted() {
-        window.scrollTo(0, 0);
     },
     methods: {
         _getContent() {
             this.$axios
-                .get(`/api/notice/detail/${this.bbsSeq}`, {
-                    withCredentials: false,
-                })
+                .get(
+                    "/api/event/list",
+                    {
+                        params: {
+                            page: this.currentPage,
+                            size: this.perPage,
+                        },
+                    },
+                    { withCredentials: false }
+                )
                 .then((data) => {
-                    this.data = data.data.data;
-                    this.title = data.data.data.title;
-                    this.writer = data.data.data.regId;
-                    this.content = data.data.data.content;
+                    this.rows = data.data.data.totalElements;
+                    this.noticeContent = data.data.data.content;
+                    console.info("this.noticeContent", this.noticeContent);
                 });
         },
         _styleRowCount(count) {
@@ -78,6 +105,12 @@ export default {
         },
         onClickPage(page) {
             this.currentPage = page;
+            history.pushState(
+                null,
+                null,
+                `${this.$router.currentRoute.path}?page=${page}`
+            );
+            this._getContent();
         },
     },
 };
@@ -98,9 +131,6 @@ export default {
 }
 .session.notice {
     padding: 0;
-}
-.session.notice.content {
-    text-align: left;
 }
 .session:first-child {
     padding-top: 0;
@@ -179,24 +209,6 @@ hr.yellow {
     background-color: #4d4d4d;
     text-transform: uppercase;
 }
-.pageDivider {
-    max-width: 1140px;
-    margin: 0 auto;
-    text-align: right;
-    font-size: 0.9rem;
-    color: #8a8a8a;
-}
-.pageDivider > hr {
-    height: 2px;
-    margin-top: 0.5rem;
-    background-color: #fff;
-    opacity: 0.9;
-    margin-bottom: 5rem;
-}
-.pageDivider > hr.last {
-    margin: 5rem 0;
-}
-
 .paginationWrap {
     justify-content: center;
     display: flex;

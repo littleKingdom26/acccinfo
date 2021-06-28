@@ -21,7 +21,9 @@
                 src="/vue_assets/img/steam ICON@3x.png"
                 @click="onClickSteamLogo(lPlayerDetail[0].playerId)"
             />
-            <span class="ttscore yellow">TT SCORE: {{ 0 }}</span>
+            <span class="ttscore yellow" v-if="carClass == 'GT3'"
+                >TT SCORE: {{ playerTTscore }}</span
+            >
         </div>
         <div class="tabs list">
             <div class="session detail Staatliches text-center mb-5">
@@ -78,6 +80,14 @@ export default {
         },
         playerDetail: {
             type: Array,
+            required: true,
+        },
+        playerTTscore: {
+            type: Number,
+            required: true,
+        },
+        carClass: {
+            type: String,
             required: true,
         },
         _setShowDetail: {

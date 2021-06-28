@@ -399,7 +399,7 @@ export default {
                 {
                     style: {
                         backgroundImage:
-                            'url("/vue_assets/img/ps4yxbox_3109823b.jpeg")',
+                            'linear-gradient(rgba(0, 0, 0, 0.527),rgba(0, 0, 0, 0.5)) , url("/vue_assets/img/main_hero/1.jpg")',
                     },
                     title: `<span><span class="yellow">24 HOURS</span> OPEN</span><br /><span>TIMETRIAL SERVER</span>`,
                     iconClass: "trophy",
@@ -408,7 +408,7 @@ export default {
                 {
                     style: {
                         backgroundImage:
-                            'url("/vue_assets/img/ps4yxbox_3109823b.jpeg")',
+                            'linear-gradient(rgba(0, 0, 0, 0.527),rgba(0, 0, 0, 0.5)) , url("/vue_assets/img/main_hero/2.jpg")',
                     },
                     title: `<span><span class="yellow">FINAL LAP</span></span><br /><span>JOIN OUR LEAGUE</span>`,
                     iconClass: "trophy car",

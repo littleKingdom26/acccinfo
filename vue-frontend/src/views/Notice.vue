@@ -74,7 +74,6 @@ export default {
         };
     },
     created() {
-        // console.info(this.$router.currentRoute);
         this._getContent();
     },
     methods: {
@@ -93,7 +92,6 @@ export default {
                 .then((data) => {
                     this.rows = data.data.data.totalElements;
                     this.noticeContent = data.data.data.content;
-                    console.info("this.noticeContent", this.noticeContent);
                 });
         },
         _styleRowCount(count) {

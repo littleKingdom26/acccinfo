@@ -91,7 +91,7 @@
 
             <div class="tabs list">
                 <div
-                    v-if="results.length"
+                    v-if="results.length || doneFetchResults"
                     class="session notice Staatliches text-center mb-5"
                 >
                     <div class="row header">
@@ -172,6 +172,8 @@
         <PlayerDetail
             :showDetail="showDetail"
             :playerDetail="playerDetail"
+            :playerTTscore="playerTTscore"
+            :carClass="carClass_selection"
             :_setShowDetail="_setShowDetail"
         />
     </div>
@@ -212,6 +214,8 @@ export default {
             sliderValue: 0,
             isHideBallast: false,
             playerDetail: [],
+            playerTTscore: 0,
+            doneFetchResults: false,
         };
     },
     created() {
@@ -314,6 +318,7 @@ export default {
         _getGtTTResult() {
             this.initMessage = "Loading...";
             this.results = [];
+            this.doneFetchResults = false;
             this.$axios
                 .get(
                     `/api/timeTrial/week/${this.carClass_selection.toLowerCase()}/${
@@ -323,9 +328,12 @@ export default {
                 )
                 .then((data) => {
                     this.results = data.data.data;
-                    console.info("this.results", this.results);
-                    this.gapCriteria = data.data.data[0].bestLap;
+                    // console.info("this.results", this.results);
+                    if (this.results.length) {
+                        this.gapCriteria = this.results[0].bestLap;
+                    }
                     this._setOrderOnResults();
+                    this.doneFetchResults = true;
                 });
         },
         _getPlayerDetail(playerId) {
@@ -337,9 +345,7 @@ export default {
                 .then((data) => {
                     this.playerDetail = data.data.data;
                     if (this.carClass_selection == "GT3") {
-                        this._getPlayerTtScore();
-                    } else {
-                        this.playerDetail = [];
+                        this._getPlayerTtScore(playerId);
                     }
                 });
         },
@@ -350,11 +356,7 @@ export default {
                     { withCredentials: false }
                 )
                 .then((data) => {
-                    this.playerDetail.ttscore = data.data.data;
-                    console.info(
-                        "this.playerDetail.ttscore",
-                        this.playerDetail.ttscore
-                    );
+                    this.playerTTscore = Math.floor(data.data.data.TTscore);
                 });
         },
         _getSeasonAllResult() {
@@ -364,6 +366,7 @@ export default {
             ) {
                 return;
             }
+            this.doneFetchResults = false;
             this.$axios
                 .get(
                     `/api/result/season/${this.year_selection}/${this.class_selection_division}/all`,
@@ -372,6 +375,7 @@ export default {
                 .then((data) => {
                     this.results = data.data.data;
                     this._setOrderOnResults();
+                    this.doneFetchResults = true;
                 });
         },
         _setTrackBySeq(trackSeq) {

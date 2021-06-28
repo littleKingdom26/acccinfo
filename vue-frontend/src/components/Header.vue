@@ -38,7 +38,7 @@ export default {
                 { title: "LEAGUE", to: "/league" },
                 { title: "RESULT", to: "/result" },
                 { title: "TIME TRIAL", to: "/timetrial", alias: "/tt" },
-                { disabled: true, title: "EVENT", to: "/event" },
+                { title: "EVENT", to: "/event" },
                 { disabled: true, title: "GALLERY", to: "/gallery" },
                 { disabled: true, title: "REGISTER", to: "/register" },
                 { disabled: true, title: "FAQ", to: "/faq" },
