@@ -29,6 +29,7 @@
             <hr class="last" />
         </div>
 
+        <GoBack />
         <div class="text-center mb-5">
             <b-button variant="link" class="logo" to="/"></b-button>
         </div>
@@ -38,11 +39,13 @@
 <script>
 // @ is an alias to /src
 import Header from "@/components/Header";
+import GoBack from "@/components/GoBack";
 
 export default {
     name: "Home",
     components: {
         Header,
+        GoBack,
     },
     data() {
         return {

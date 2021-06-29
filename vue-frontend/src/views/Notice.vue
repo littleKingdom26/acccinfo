@@ -29,7 +29,7 @@
                 :data-seq="row.seq"
                 @click="$router.push(`/notice/${row.seq}`)"
             >
-                <div class="count">{{ _styleRowCount(rowIdx + 1) }}</div>
+                <div class="count">{{ _getRowNumber(rowIdx) }}</div>
                 <div class="title JeojuGthic">{{ row.title }}</div>
                 <div class="writer JeojuGthic">{{ row.regId }}</div>
             </div>
@@ -77,6 +77,16 @@ export default {
         this._getContent();
     },
     methods: {
+        _getRowNumber(idx) {
+            let lineNumber =
+                this.rows - (this.currentPage - 1) * this.perPage - idx;
+            if (lineNumber > 0) {
+                lineNumber = lineNumber < 10 ? `0${lineNumber}` : lineNumber;
+            } else {
+                lineNumber = "";
+            }
+            return lineNumber;
+        },
         _getContent() {
             this.$axios
                 .get(

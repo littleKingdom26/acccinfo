@@ -435,7 +435,6 @@ export default {
     display: flex;
     min-height: 46px;
     margin: 0.5rem 0;
-    cursor: pointer;
     font-weight: bold;
 }
 .session .row.header {

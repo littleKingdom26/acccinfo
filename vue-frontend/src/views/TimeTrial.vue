@@ -121,7 +121,7 @@
                             <span>{{ row.rank }}</span>
                         </div>
                         <div class="nickname" @click="onClickPlayerDetail(row)">
-                            {{ row.firstName }} {{ row.lastName }}
+                            {{ _getFullName(row) }}
                         </div>
                         <div class="carName">{{ row.carName }}</div>
                         <div class="bestlap">{{ row.bestLap | secToMin }}</div>
@@ -233,7 +233,7 @@ export default {
             let result = this.results;
             if (this.nameFilter) {
                 result = this.results.filter((item) => {
-                    let fullname = `${item.firstName} ${item.lastName}`;
+                    let fullname = this._getFullName(item);
                     return (
                         fullname
                             .toLowerCase()
@@ -253,6 +253,15 @@ export default {
             return `${convertedSec}.${decimals}`;
         },
         secToMinForGap(sec) {
+            let _makeThreeChar = (string) => {
+                if (string) {
+                    for (let i = string.length; i < 3; i++) {
+                        string = string + "0";
+                    }
+                    return string;
+                }
+                return "000";
+            };
             let secString = String(sec);
             let isMinus = false;
             if (secString.indexOf("-") != -1) {
@@ -260,21 +269,25 @@ export default {
                 secString = secString.slice(1, secString.length);
             }
             let secs = secString.slice(0, -3);
-            let decimals = secString.slice(-3);
-            if (parseInt(decimals) < 100) {
-                decimals = `0${parseInt(decimals)}`;
-            }
+            let decimals = String(parseInt(secString.slice(-3)) / 1000).split(
+                "."
+            )[1];
+            decimals = _makeThreeChar(decimals);
             let convertedSec = moment.utc(secs * 1000).format("s");
             let frontMark = "+";
             if (isMinus) {
                 frontMark = "-";
             }
-            return decimals == "00"
-                ? ""
-                : `${frontMark}${convertedSec}.${decimals}`;
+            let result = `${frontMark}${convertedSec}.${decimals}`;
+            return result == "+0.000" ? "" : result;
         },
     },
     methods: {
+        _getFullName(player) {
+            return player.firstName && player.firstName == "."
+                ? player.lastName
+                : `${player.firstName} ${player.lastName}`;
+        },
         _getCarClasses() {
             this.$axios
                 .get("/api/common/carClass", { withCredentials: false })

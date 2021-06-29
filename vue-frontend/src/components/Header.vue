@@ -41,7 +41,8 @@ export default {
                 { title: "EVENT", to: "/event" },
                 { disabled: true, title: "GALLERY", to: "/gallery" },
                 { disabled: true, title: "REGISTER", to: "/register" },
-                { disabled: true, title: "FAQ", to: "/faq" },
+                { disabled: true, title: "PENALTY", to: "/penalty" },
+                { title: "FAQ", to: "/faq" },
             ],
         };
     },
@@ -90,7 +91,7 @@ export default {
     margin-top: 0.5rem;
 }
 .menus {
-    max-width: 670px;
+    max-width: 750px;
     width: 100%;
     float: right;
     margin-top: 10px;

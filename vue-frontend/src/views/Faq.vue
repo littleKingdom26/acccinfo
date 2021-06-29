@@ -4,50 +4,36 @@
 
         <div class="session mb-5">
             <h1 class="title">
-                EVENT
+                FAQ
             </h1>
             <h3 class="subTitle">
-                ACC KOREA League Event
+                Frequently Asked Question
             </h3>
             <hr class="yellow" />
         </div>
 
-        <div
-            v-if="noticeContent.length"
-            class="session notice Staatliches text-center mb-5"
-        >
-            <div class="row header">
-                <div class="count">NO</div>
-                <div class="title">TITLE</div>
-                <div class="writer">WRITER</div>
-            </div>
-
-            <div
-                class="row Inter"
-                v-for="(row, rowIdx) in noticeContent"
-                :key="rowIdx"
-                :data-seq="row.seq"
-                @click="$router.push(`/event/${row.seq}`)"
-            >
-                <div class="count">
-                    {{ _getRowNumber(rowIdx) }}
-                </div>
-                <div class="title JeojuGthic">{{ row.title }}</div>
-                <div class="writer JeojuGthic">{{ row.regId }}</div>
-            </div>
-        </div>
-        <div v-else class="session notice Staatliches text-center mb-5">
-            <div class="row header">
-                <div class="count">로딩중...</div>
-            </div>
-        </div>
-        <div v-if="rows / perPage > 1" class="paginationWrap Inter">
-            <Pagination
-                :currentPage="currentPage"
-                :rows="rows"
-                :perPage="perPage"
-                :onClickPage="onClickPage"
-            />
+        <div class="session notice Staatliches text-center mb-5"></div>
+        <div class="tabs lastBtnWrap Staatliches mb-5">
+            <b-row>
+                <b-col>
+                    <b-button class="lastBtn" to="/notice/131"
+                        ><span>문의하기</span>
+                        <mdiChevronRightCircle color="#ffffff"
+                    /></b-button>
+                </b-col>
+                <b-col>
+                    <b-button class="lastBtn" to="/notice/93"
+                        ><span>마음의 소리</span>
+                        <mdiChevronRightCircle color="#ffffff"
+                    /></b-button>
+                </b-col>
+                <b-col>
+                    <b-button class="lastBtn" to="/notice/64"
+                        ><span>후원하기</span>
+                        <mdiChevronRightCircle color="#ffffff"
+                    /></b-button>
+                </b-col>
+            </b-row>
         </div>
 
         <div class="text-center mb-5">
@@ -59,36 +45,40 @@
 <script>
 // @ is an alias to /src
 import Header from "@/components/Header";
-import Pagination from "@/components/Pagination";
+import mdiChevronRightCircle from "vue-material-design-icons/ChevronRightCircle.vue";
 
 export default {
     name: "Home",
     components: {
         Header,
-        Pagination,
+        mdiChevronRightCircle,
     },
     data() {
         return {
             currentPage: 1,
             rows: 0,
             perPage: 15,
-            totalPages: 0,
             noticeContent: [],
         };
     },
     created() {
-        // console.info(this.$router.currentRoute);
-        console.info("this.$route.params.page", this.$route.query.page);
-        if (this.$route.query.page) {
-            this.currentPage = parseInt(this.$route.query.page);
-        }
         this._getContent();
     },
     methods: {
+        _getRowNumber(idx) {
+            let lineNumber =
+                this.rows - (this.currentPage - 1) * this.perPage - idx;
+            if (lineNumber > 0) {
+                lineNumber = lineNumber < 10 ? `0${lineNumber}` : lineNumber;
+            } else {
+                lineNumber = "";
+            }
+            return lineNumber;
+        },
         _getContent() {
             this.$axios
                 .get(
-                    "/api/event/list",
+                    "/api/notice/list",
                     {
                         params: {
                             page: this.currentPage,
@@ -100,26 +90,13 @@ export default {
                 .then((data) => {
                     this.rows = data.data.data.totalElements;
                     this.noticeContent = data.data.data.content;
-                    this.totalPages = data.data.data.totalPages;
                 });
         },
-        _getRowNumber(idx) {
-            let lineNumber =
-                this.rows - (this.currentPage - 1) * this.perPage - idx;
-            if (lineNumber > 0) {
-                lineNumber = lineNumber < 10 ? `0${lineNumber}` : lineNumber;
-            } else {
-                lineNumber = "";
-            }
-            return lineNumber;
+        _styleRowCount(count) {
+            return count < 10 ? `0${count}` : count;
         },
         onClickPage(page) {
             this.currentPage = page;
-            history.pushState(
-                null,
-                null,
-                `${this.$router.currentRoute.path}?page=${page}`
-            );
             this._getContent();
         },
     },
@@ -219,10 +196,23 @@ hr.yellow {
     background-color: #4d4d4d;
     text-transform: uppercase;
 }
-.paginationWrap {
-    justify-content: center;
-    display: flex;
-    margin-bottom: 7rem;
+
+.lastBtnWrap {
+    max-width: 1060px;
+    margin: 0 auto;
+    margin-top: 3em;
+}
+.lastBtnWrap .lastBtn {
+    width: 333px;
+    height: 62px;
+    font-size: 1.5em;
+    background-color: var(--yellow);
+    border-radius: 10px;
+    line-height: 2;
+}
+.lastBtnWrap .lastBtn > * {
+    vertical-align: middle;
+    margin: 0 0.25em;
 }
 
 .logo {
