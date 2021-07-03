@@ -33,6 +33,14 @@ public class FileUtil {
 		ROOT_PATH = rootpath;
 	}
 
+	/**
+	 * 파일 저장
+	 *
+	 * @param file      the file
+	 * @param subFolder the sub folder
+	 * @return the string
+	 * @throws IOException the io exception
+	 */
 	public static String save(MultipartFile file, String subFolder) throws IOException {
 		final String filename = StringUtils.getFilename(file.getOriginalFilename());
 		final String extension = "."+StringUtils.getFilenameExtension(file.getOriginalFilename());
@@ -53,5 +61,20 @@ public class FileUtil {
 		newFile.createNewFile();
 		file.transferTo(newFile);
 		return newFileName;
+	}
+
+
+	/**
+	 * 파일 삭제
+	 *
+	 * @param subFolder the sub folder
+	 * @param fileName  the file name
+	 */
+	public static void delete(String subFolder,String fileName){
+		final String path = ROOT_PATH+ File.separator + subFolder+File.separator+fileName;
+		File file = new File(path);
+		if(file.isFile()){
+			file.delete();
+		}
 	}
 }

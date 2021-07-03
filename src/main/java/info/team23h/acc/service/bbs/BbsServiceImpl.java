@@ -3,17 +3,22 @@ package info.team23h.acc.service.bbs;
 import info.team23h.acc.config.Team23hException;
 import info.team23h.acc.dao.BbsDAO;
 import info.team23h.acc.entity.bbs.Bbs;
+import info.team23h.acc.entity.bbs.BbsFile;
 import info.team23h.acc.entity.bbs.TbBbsName;
 import info.team23h.acc.repository.bbs.BbsNameRepository;
 import info.team23h.acc.repository.bbs.BbsRepository;
+import info.team23h.acc.repository.file.FileRepository;
 import info.team23h.acc.restController.front.event.EventRestController;
+import info.team23h.acc.restController.front.gallery.GalleryRestController;
 import info.team23h.acc.restController.front.notice.NoticeRestController;
+import info.team23h.acc.util.FileUtil;
 import info.team23h.acc.util.PageHelper;
 import info.team23h.acc.vo.bbs.*;
 import info.team23h.acc.vo.comment.CommentVO;
 import info.team23h.acc.vo.front.Bbs.BbsSearchVO;
+import info.team23h.acc.vo.front.gallery.GalleryResultVO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,22 +34,26 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class BbsServiceImpl implements BbsService {
 
-	@Autowired
-	BbsDAO bbsDAO;
+
+	final private BbsDAO bbsDAO;
 
 	@Value("${team23h.bbs.pageCount}")
 	private int pageCount;
 
-	@Autowired
-	BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	@Autowired
-	BbsNameRepository bbsNameRepository;
+	final private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	@Autowired
-	BbsRepository bbsRepository;
+
+	final private BbsNameRepository bbsNameRepository;
+
+
+	final private BbsRepository bbsRepository;
+
+	final private FileRepository fileRepository;
 
 	@Override
 	public List<BbsNameVO> loadBbsName() {
@@ -115,6 +124,7 @@ public class BbsServiceImpl implements BbsService {
 		return result;
 	}
 
+	@Transactional
 	@Override
 	public HashMap<String, Object> update(BbsVO bbsVO) {
 		int cnt = bbsDAO.update(bbsVO);
@@ -129,6 +139,7 @@ public class BbsServiceImpl implements BbsService {
 		return result;
 	}
 
+	@Transactional
 	@Override
 	public HashMap<String, Object> commentDel(CommentVO commentVO) {
 		int cnt = bbsDAO.commentDel(commentVO);
@@ -142,6 +153,7 @@ public class BbsServiceImpl implements BbsService {
 	}
 
 	@Override
+	@Transactional
 	public HashMap<String, Object> bbsDel(BbsVO bbsVO) {
 		int cnt = bbsDAO.bbsDel(bbsVO);
 		HashMap<String, Object> result = new HashMap<String, Object>();
@@ -185,21 +197,41 @@ public class BbsServiceImpl implements BbsService {
 			});
 		}else if(bbsSearch.getNameSeq().equals(2L)){
 			seq.forEach(bbs -> {
-				WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EventRestController.class).getBbsDetail(bbs.getSeq()));
+				WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EventRestController.class).findBbsDetail(bbs.getSeq()));
+				bbs.set_link(linkTo.withRel("detail"));
+			});
+		}else if(bbsSearch.getNameSeq().equals(4L)){
+			seq.forEach(bbs -> {
+				WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(GalleryRestController.class).findGalleryDetail(bbs.getSeq()));
 				bbs.set_link(linkTo.withRel("detail"));
 			});
 		}
-
-
 		return seq;
 	}
 
 	@Override
-	public BbsResultDTO findBySeq(Long bbsSeq) throws Team23hException {
+	public BbsResultVO findBySeq(Long bbsSeq) throws Team23hException {
 
 		final Bbs bbs = bbsRepository.findById(bbsSeq).orElseThrow(() -> new Team23hException("게시물이 없습니다."));
-		final List<BbsCommentResultDTO> bbsCommentList = bbs.getBbsCommentList().stream().map(BbsCommentResultDTO::new).collect(Collectors.toList());
+		final List<BbsCommentResultVO> bbsCommentList = bbs.getBbsCommentList().stream().map(BbsCommentResultVO::new).collect(Collectors.toList());
 
-		return BbsResultDTO.builder().bbs(bbs).commentList(bbsCommentList).build();
+		return BbsResultVO.builder().bbs(bbs).commentList(bbsCommentList).build();
+	}
+
+	@Override
+	public GalleryResultVO findByGallerySeq(Long bbsSeq) {
+		final Bbs bbs = bbsRepository.findById(bbsSeq).orElseThrow(() -> new Team23hException("게시물이 없습니다."));
+		return new GalleryResultVO(bbs);
+	}
+
+	@Transactional
+	@Override
+	public void deleteFile(Long fileSeq) {
+		//파일 조회
+		final BbsFile bbsFile = fileRepository.findById(fileSeq).orElseThrow(() -> new Team23hException("파일이 없습니다."));
+		// 파일 물리 삭제
+		FileUtil.delete(bbsFile.getFilePath(),bbsFile.getFileName());
+		// 파일 디비 삭제
+		fileRepository.delete(bbsFile);
 	}
 }

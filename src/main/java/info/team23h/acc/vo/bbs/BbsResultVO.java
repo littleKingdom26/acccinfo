@@ -12,10 +12,10 @@ import java.util.List;
 
 @Getter
 @Setter
-public class BbsResultDTO {
+public class BbsResultVO {
 
 	@Builder
-	public BbsResultDTO(List<BbsCommentResultDTO> commentList, Bbs bbs) {
+	public BbsResultVO(List<BbsCommentResultVO> commentList, Bbs bbs) {
 		this.commentList = commentList;
 		this.title = bbs.getTitle();
 		this.content = bbs.getContent();
@@ -24,7 +24,7 @@ public class BbsResultDTO {
 	}
 
 	@ApiModelProperty(value = "게시물 댓글", name = "commentList")
-	private List<BbsCommentResultDTO> commentList;
+	private List<BbsCommentResultVO> commentList;
 
 	@ApiModelProperty(value = "제목", name = "title")
 	private String title;

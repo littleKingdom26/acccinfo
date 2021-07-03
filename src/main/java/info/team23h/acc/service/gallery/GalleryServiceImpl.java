@@ -7,8 +7,8 @@ import info.team23h.acc.entity.bbs.TbBbsName;
 import info.team23h.acc.repository.bbs.BbsNameRepository;
 import info.team23h.acc.repository.bbs.BbsRepository;
 import info.team23h.acc.util.FileUtil;
-import info.team23h.acc.vo.gallery.GalleryResultVO;
-import info.team23h.acc.vo.gallery.GallerySaveVO;
+import info.team23h.acc.vo.front.gallery.GalleryResultVO;
+import info.team23h.acc.vo.front.gallery.GallerySaveVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -51,7 +51,7 @@ public class GalleryServiceImpl implements GalleryService {
 						   .password(bCryptPasswordEncoder.encode(gallerySaveVO.getPassword()))
 						   .mainFileName(gallerySaveVO.getMainFIleName())
 						   .tbBbsName(bbsName)
-						   .title("")
+						   .title(gallerySaveVO.getTitle())
 						   .bbsFileList(fileList)
 						   .regId(gallerySaveVO.getRegId())
 						   .build();

@@ -6,7 +6,7 @@ import info.team23h.acc.model.response.HATEOASResult;
 import info.team23h.acc.model.response.SingleResult;
 import info.team23h.acc.service.bbs.BbsService;
 import info.team23h.acc.service.response.ResponseService;
-import info.team23h.acc.vo.bbs.BbsResultDTO;
+import info.team23h.acc.vo.bbs.BbsResultVO;
 import info.team23h.acc.vo.front.Bbs.BbsSearchVO;
 import info.team23h.acc.vo.front.common.SearchCommonVO;
 import io.swagger.annotations.Api;
@@ -49,10 +49,10 @@ public class NoticeRestController {
 	}
 
 	@ApiOperation(value = "공지사항 상세 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
-	@GetMapping(value = "/detail/{bbsSeq}" ,produces = MediaType.APPLICATION_JSON_VALUE)
-	public HATEOASResult<BbsResultDTO> getBbsDetail(@PathVariable(value = "bbsSeq") final Long bbsSeq) throws Team23hException {
+	@GetMapping(value = "/detail/{seq}" ,produces = MediaType.APPLICATION_JSON_VALUE)
+	public HATEOASResult<BbsResultVO> getBbsDetail(@PathVariable(value = "seq") final Long bbsSeq) throws Team23hException {
 		log.debug("bbsSeq : {}", bbsSeq);
-		BbsResultDTO resultDTO = bbsService.findBySeq(bbsSeq);
+		BbsResultVO resultDTO = bbsService.findBySeq(bbsSeq);
 		WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(NoticeRestController.class).getList(new BbsSearchVO()));
 		return responseService.getHATEOASResult(resultDTO,linkTo.withRel("parent"));
 	}
