@@ -9,6 +9,7 @@ import info.team23h.acc.repository.bbs.BbsRepository;
 import info.team23h.acc.util.FileUtil;
 import info.team23h.acc.vo.front.gallery.GalleryResultVO;
 import info.team23h.acc.vo.front.gallery.GallerySaveVO;
+import info.team23h.acc.vo.front.gallery.GalleryUpdateVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -56,5 +57,28 @@ public class GalleryServiceImpl implements GalleryService {
 						   .regId(gallerySaveVO.getRegId())
 						   .build();
 		return new GalleryResultVO(bbsRepository.save(bbs));
+	}
+
+	@Override
+	@Transactional
+	public GalleryResultVO modify(GalleryUpdateVO galleryUpdateVO) throws IOException ,Team23hException {
+		final Bbs bbs = bbsRepository.findById(galleryUpdateVO.getSeq()).orElseThrow(() -> new Team23hException("게시물 없음"));
+		if(bCryptPasswordEncoder.matches(galleryUpdateVO.getPassword(), bbs.getPassword())){
+			List<BbsFile> fileList = new ArrayList<>();
+			for(MultipartFile multipartFile : galleryUpdateVO.getUploadFile()){
+				final String subPath = "gallery";
+				final String fileName = FileUtil.save(multipartFile, subPath);
+				fileList.add(BbsFile.builder().fileName(fileName).oriFileName(multipartFile.getOriginalFilename()).filePath(subPath).build());
+			}
+			bbs.update(galleryUpdateVO, fileList);
+		}else{
+			throw new Team23hException("비밀번호 다릅니다.");
+		}
+		return new GalleryResultVO(bbs);
+	}
+
+	@Override
+	public Bbs findById(Long seq) {
+		return bbsRepository.findById(seq).orElseThrow(() -> new Team23hException("게시물 없음"));
 	}
 }

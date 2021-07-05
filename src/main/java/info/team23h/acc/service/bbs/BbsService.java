@@ -121,4 +121,5 @@ public interface BbsService {
 	 * @param fileSeq the file seq
 	 */
 	void deleteFile(Long fileSeq);
+
 }

@@ -20,6 +20,9 @@ public class GalleryResultVO {
 
 	@ApiModelProperty(value = "게시물 이름 시퀀스", name = "nameSeq")
 	private Long nameSeq;
+
+	@ApiModelProperty(value = "게시물 타이틀", name = "title")
+	private String title;
 	@ApiModelProperty(value = "등록자", name = "regId")
 	private String regId;
 
@@ -40,6 +43,7 @@ public class GalleryResultVO {
 		this.nameSeq = bbs.getTbBbsName().getSeq();
 		this.regId = bbs.getRegId();
 		this.mainFileName = bbs.getMainFileName();
+		this.title = bbs.getTitle();
 		fileResultList = bbs.getBbsFileList().stream().map(FileResultVO::new).collect(Collectors.toList());
 		this._link = bbs.get_link();
 	}

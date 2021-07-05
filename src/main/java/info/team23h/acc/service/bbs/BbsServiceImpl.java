@@ -234,4 +234,5 @@ public class BbsServiceImpl implements BbsService {
 		// 파일 디비 삭제
 		fileRepository.delete(bbsFile);
 	}
+
 }

@@ -1,6 +1,8 @@
 package info.team23h.acc.restController.front.gallery;
 
 
+import info.team23h.acc.config.Team23hException;
+import info.team23h.acc.config.Team23hRestException;
 import info.team23h.acc.entity.bbs.Bbs;
 import info.team23h.acc.model.response.CommonResult;
 import info.team23h.acc.model.response.HATEOASResult;
@@ -12,6 +14,7 @@ import info.team23h.acc.vo.front.Bbs.BbsSearchVO;
 import info.team23h.acc.vo.front.common.SearchCommonVO;
 import info.team23h.acc.vo.front.gallery.GalleryResultVO;
 import info.team23h.acc.vo.front.gallery.GallerySaveVO;
+import info.team23h.acc.vo.front.gallery.GalleryUpdateVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +39,9 @@ public class GalleryRestController {
 
 	final private GalleryService galleryService;
 
-	final BbsService bbsService;
+	final private BbsService bbsService;
+
+	final private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
 	/**
@@ -46,7 +52,7 @@ public class GalleryRestController {
 	 * @throws IOException the io exception
 	 */
 	@ApiOperation(value = "겔러리 저장", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
-	@PostMapping(value="/save",consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
 	public SingleResult<GalleryResultVO> gallerySave(@ModelAttribute GallerySaveVO gallerySaveVO) throws IOException {
 		log.debug("fileList : {}", gallerySaveVO.toString());
 		return responseService.getSingleResult(galleryService.save(gallerySaveVO));
@@ -84,13 +90,39 @@ public class GalleryRestController {
 		return responseService.getSuccessResult();
 	}
 
-
-
 	/* 겔러리 수정 */
+	@ApiOperation(value = "게시물 수정", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
+	@PostMapping(value="/{seq}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public SingleResult<GalleryResultVO> modify(@ModelAttribute GalleryUpdateVO galleryUpdateVO) throws IOException {
+		try{
+			GalleryResultVO galleryResultVO = galleryService.modify(galleryUpdateVO);
+			return responseService.getSingleResult(galleryResultVO);
+		} catch(Team23hException e){
+			throw new Team23hRestException(e.getMessage());
+		}
+	}
+
+	/* 비밀번호 확인 */
+	@ApiOperation(value = "비밀번호 확인", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
+	@GetMapping(value = "/password/{seq}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public CommonResult passwordCheck(@RequestParam(value = "password", required = true) final String password,
+									  @PathVariable(value="seq") final Long seq){
+
+		try{
+			final Bbs byId = galleryService.findById(seq);
+			if(bCryptPasswordEncoder.matches(password, byId.getPassword())){
+				return responseService.getSuccessResult();
+			}else{
+				throw new Team23hRestException("비밀번호가 다릅니다.");
+			}
+		}catch(Team23hException e){
+			throw new Team23hRestException(e.getMessage());
+		}
+
+	}
 
 	/* 겔러리 삭제 */
 
-	/* 비밀번호 확인 */
 
 
 
