@@ -25,15 +25,25 @@ body {
     color: #fff;
 }
 
+.Staatliches,
 .Staatliches * {
     font-family: Staatliches, cursive, Helvetica, Arial, sans-serif;
 }
+.Inter,
 .Inter * {
     font-family: "Inter", sans-serif, Helvetica, Arial, sans-serif;
 }
+.JeojuGthic,
 .JeojuGthic * {
     font-family: "Jeoju Gthic", Avenir, Helvetica, Arial, sans-serif;
 }
+.text-left {
+    text-align: left !important;
+}
+.text-right {
+    text-align: right !important;
+}
+
 #nav {
     padding: 30px;
 }

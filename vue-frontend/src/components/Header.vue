@@ -41,7 +41,7 @@ export default {
                 { title: "EVENT", to: "/event" },
                 { disabled: true, title: "GALLERY", to: "/gallery" },
                 { disabled: true, title: "REGISTER", to: "/register" },
-                { disabled: true, title: "PENALTY", to: "/penalty" },
+                { title: "PENALTY", to: "/penalty" },
                 { title: "FAQ", to: "/faq" },
             ],
         };

@@ -52,6 +52,11 @@ const routes = [
         component: () => import("../views/Faq.vue"),
     },
     {
+        path: "/penalty",
+        name: "Penalty",
+        component: () => import("../views/Penalty.vue"),
+    },
+    {
         path: "/about",
         name: "About",
         // route level code-splitting
@@ -64,7 +69,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-    mode: "history",
+    mode: "hash",
     base: process.env.BASE_URL,
     routes,
     scrollBehavior(to, from, savedPosition) {
