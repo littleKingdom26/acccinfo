@@ -6,6 +6,7 @@ import info.team23h.acc.entity.bbs.BbsFile;
 import info.team23h.acc.entity.bbs.TbBbsName;
 import info.team23h.acc.repository.bbs.BbsNameRepository;
 import info.team23h.acc.repository.bbs.BbsRepository;
+import info.team23h.acc.repository.file.FileRepository;
 import info.team23h.acc.util.FileUtil;
 import info.team23h.acc.vo.front.gallery.GalleryResultVO;
 import info.team23h.acc.vo.front.gallery.GallerySaveVO;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -33,6 +35,8 @@ public class GalleryServiceImpl implements GalleryService {
 	final private BbsNameRepository bbsNameRepository;
 
 	final private BbsRepository bbsRepository;
+
+	final private FileRepository fileRepository;
 
 	@Override
 	@Transactional
@@ -65,10 +69,12 @@ public class GalleryServiceImpl implements GalleryService {
 		final Bbs bbs = bbsRepository.findById(galleryUpdateVO.getSeq()).orElseThrow(() -> new Team23hException("게시물 없음"));
 		if(bCryptPasswordEncoder.matches(galleryUpdateVO.getPassword(), bbs.getPassword())){
 			List<BbsFile> fileList = new ArrayList<>();
-			for(MultipartFile multipartFile : galleryUpdateVO.getUploadFile()){
-				final String subPath = "gallery";
-				final String fileName = FileUtil.save(multipartFile, subPath);
-				fileList.add(BbsFile.builder().fileName(fileName).oriFileName(multipartFile.getOriginalFilename()).filePath(subPath).build());
+			if(!ObjectUtils.isEmpty(galleryUpdateVO.getUploadFile())){
+				for(MultipartFile multipartFile : galleryUpdateVO.getUploadFile()){
+					final String subPath = "gallery";
+					final String fileName = FileUtil.save(multipartFile, subPath);
+					fileList.add(BbsFile.builder().fileName(fileName).oriFileName(multipartFile.getOriginalFilename()).filePath(subPath).build());
+				}
 			}
 			bbs.update(galleryUpdateVO, fileList);
 		}else{
@@ -80,5 +86,25 @@ public class GalleryServiceImpl implements GalleryService {
 	@Override
 	public Bbs findById(Long seq) {
 		return bbsRepository.findById(seq).orElseThrow(() -> new Team23hException("게시물 없음"));
+	}
+
+	@Override
+	@Transactional
+	public void delete(Long seq) {
+		final Bbs bbs = bbsRepository.findById(seq).orElseThrow(() -> new Team23hException("게시물 없음"));
+		bbs.getBbsFileList().forEach(bbsFile -> {
+			FileUtil.delete(bbsFile.getFilePath(), bbsFile.getFileName());
+		});
+		bbsRepository.deleteById(seq);
+	}
+
+	@Override
+	public void deleteFile(Long fileSeq) {
+		//파일 조회
+		final BbsFile bbsFile = fileRepository.findById(fileSeq).orElseThrow(() -> new Team23hException("파일이 없습니다."));
+		// 파일 물리 삭제
+		FileUtil.delete(bbsFile.getFilePath(), bbsFile.getFileName());
+		// 파일 디비 삭제
+		fileRepository.delete(bbsFile);
 	}
 }

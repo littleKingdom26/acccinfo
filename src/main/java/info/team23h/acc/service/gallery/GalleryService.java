@@ -26,5 +26,20 @@ public interface GalleryService {
 	 */
 	GalleryResultVO modify(GalleryUpdateVO galleryUpdateVO) throws IOException;
 
+	/**
+	 * 게시물 검색
+	 *
+	 * @param seq the seq
+	 * @return the bbs
+	 */
 	Bbs findById(Long seq);
+
+	/**
+	 * 게시물 삭제
+	 *
+	 * @param seq the seq
+	 */
+	void delete(Long seq);
+
+	void deleteFile(Long fileSeq);
 }
