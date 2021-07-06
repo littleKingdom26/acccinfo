@@ -6,6 +6,7 @@ import info.team23h.acc.entity.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.File;
 
 @Getter
 @Setter
@@ -39,5 +40,9 @@ public class BbsFile extends BaseTimeEntity {
 		this.fileName = fileName;
 		this.filePath = filePath;
 		this.oriFileName = oriFileName;
+	}
+
+	public String getFullPath() {
+		return File.separator + "imageView" + File.separator + filePath + File.separator + fileName;
 	}
 }

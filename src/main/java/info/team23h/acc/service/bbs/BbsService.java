@@ -3,11 +3,12 @@ package info.team23h.acc.service.bbs;
 
 import info.team23h.acc.entity.bbs.Bbs;
 import info.team23h.acc.vo.bbs.BbsNameVO;
-import info.team23h.acc.vo.bbs.BbsResultDTO;
+import info.team23h.acc.vo.bbs.BbsResultVO;
 import info.team23h.acc.vo.bbs.BbsSearch;
 import info.team23h.acc.vo.bbs.BbsVO;
 import info.team23h.acc.vo.comment.CommentVO;
 import info.team23h.acc.vo.front.Bbs.BbsSearchVO;
+import info.team23h.acc.vo.front.gallery.GalleryResultVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -104,5 +105,21 @@ public interface BbsService {
 	 * @param bbsSeq the bbs seq
 	 * @return the bbs result dto
 	 */
-	BbsResultDTO findBySeq(Long bbsSeq);
+	BbsResultVO findBySeq(Long bbsSeq);
+
+	/**
+	 * 겔러리 상세
+	 *
+	 * @param bbsSeq the bbs seq
+	 * @return the bbs result dto
+	 */
+	GalleryResultVO findByGallerySeq(Long bbsSeq);
+
+	/**
+	 * 파일 삭제
+	 *
+	 * @param fileSeq the file seq
+	 */
+	void deleteFile(Long fileSeq);
+
 }

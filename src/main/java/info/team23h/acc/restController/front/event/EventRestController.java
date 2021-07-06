@@ -6,7 +6,7 @@ import info.team23h.acc.model.response.HATEOASResult;
 import info.team23h.acc.model.response.SingleResult;
 import info.team23h.acc.service.bbs.BbsService;
 import info.team23h.acc.service.response.ResponseService;
-import info.team23h.acc.vo.bbs.BbsResultDTO;
+import info.team23h.acc.vo.bbs.BbsResultVO;
 import info.team23h.acc.vo.front.Bbs.BbsSearchVO;
 import info.team23h.acc.vo.front.common.SearchCommonVO;
 import io.swagger.annotations.Api;
@@ -36,7 +36,7 @@ public class EventRestController {
 
 	@ApiOperation(value = "이벤트 목록 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
 	@GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
-	public SingleResult<Page<Bbs>> getList(final SearchCommonVO commonVO) {
+	public SingleResult<Page<Bbs>> findBbsList(final SearchCommonVO commonVO) {
 		log.info("NoticeRestController.getList");
 
 		BbsSearchVO bbsSearchVO = new BbsSearchVO();
@@ -50,11 +50,11 @@ public class EventRestController {
 	}
 
 	@ApiOperation(value = "이벤트 상세 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
-	@GetMapping(value = "/detail/{bbsSeq}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public HATEOASResult<BbsResultDTO> getBbsDetail(@PathVariable(value = "bbsSeq") final Long bbsSeq) throws Team23hException {
+	@GetMapping(value = "/detail/{seq}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public HATEOASResult<BbsResultVO> findBbsDetail(@PathVariable(value = "seq") final Long bbsSeq) throws Team23hException {
 		log.debug("bbsSeq : {}", bbsSeq);
-		BbsResultDTO resultDTO = bbsService.findBySeq(bbsSeq);
-		WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EventRestController.class).getList(new BbsSearchVO()));
+		BbsResultVO resultDTO = bbsService.findBySeq(bbsSeq);
+		WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EventRestController.class).findBbsList(new BbsSearchVO()));
 		return responseService.getHATEOASResult(resultDTO, linkTo.withRel("parent"));
 	}
 

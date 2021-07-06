@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class BbsCommentResultDTO {
+public class BbsCommentResultVO {
 
 	@ApiModelProperty(value = "댓글", name = "comment")
 	private String comment;
@@ -22,7 +22,7 @@ public class BbsCommentResultDTO {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss", timezone = "Asia/Seoul")
 	private LocalDateTime regDt;
 
-	public BbsCommentResultDTO(BbsComment bbsComment) {
+	public BbsCommentResultVO(BbsComment bbsComment) {
 		this.comment = bbsComment.getComment();
 		this.regId = bbsComment.getRegId();
 		this.regDt = bbsComment.getRegDt();
