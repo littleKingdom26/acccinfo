@@ -1,11 +1,11 @@
 module.exports = {
     lintOnSave: false,
     devServer: {
-    overlay: {
-      warnings: true,
-      errors: true
-    }
-  },
+        overlay: {
+        warnings: true,
+        errors: true
+        }
+    },
 	outputDir: "../src/main/resources/static",
 	indexPath: "../static/index.html",
 	devServer: {
@@ -19,7 +19,8 @@ module.exports = {
                 logLevel: 'debug'
             },
         }
-	},
+    },
+    publicPath:'',
 	chainWebpack: config => {
 		const svgRule = config.module.rule("svg");
 		svgRule.uses.clear();

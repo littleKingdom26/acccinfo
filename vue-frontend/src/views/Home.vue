@@ -561,6 +561,7 @@ export default {
     width: 102%;
     opacity: 1;
     left: -2px;
+    top: 2px;
 }
 
 .hero .heroCarousel {
@@ -584,7 +585,7 @@ export default {
 }
 .session h1.title {
     font-size: 2rem;
-    font-family: Staatliches, cursive, Helvetica, Arial, sans-serif;
+    font-family: Staatliches, Helvetica, Arial, sans-serif;
 }
 .session h2.title {
     font-size: 1.5rem;
