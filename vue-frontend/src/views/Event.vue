@@ -77,8 +77,6 @@ export default {
         };
     },
     created() {
-        // console.info(this.$router.currentRoute);
-        console.info("this.$route.params.page", this.$route.query.page);
         if (this.$route.query.page) {
             this.currentPage = parseInt(this.$route.query.page);
         }
@@ -98,6 +96,7 @@ export default {
                     { withCredentials: false }
                 )
                 .then((data) => {
+                    // console.info("data.data.data", data.data.data);
                     this.rows = data.data.data.totalElements;
                     this.noticeContent = data.data.data.content;
                     this.totalPages = data.data.data.totalPages;

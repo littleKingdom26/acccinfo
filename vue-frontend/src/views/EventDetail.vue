@@ -29,6 +29,14 @@
             <hr class="last" />
         </div>
 
+        <div class="session" style="padding-top: 0">
+            <CommentList
+                v-if="data && data.commentList"
+                :comments="data.commentList"
+            />
+        </div>
+
+        <div class="my-6"></div>
         <GoBack />
 
         <div class="text-center mb-5">
@@ -41,12 +49,14 @@
 // @ is an alias to /src
 import Header from "@/components/Header";
 import GoBack from "@/components/GoBack";
+import CommentList from "@/components/CommentList";
 
 export default {
     name: "Home",
     components: {
         Header,
         GoBack,
+        CommentList,
     },
     data() {
         return {
@@ -66,13 +76,12 @@ export default {
     },
     methods: {
         _getContent() {
-            console.info("this.id", this.bbsSeq);
             this.$axios
                 .get(`/api/event/detail/${this.bbsSeq}`, {
                     withCredentials: false,
                 })
                 .then((data) => {
-                    console.info("this.noticeContent", data.data.data);
+                    // console.info("this.noticeContent", data.data.data);
                     this.data = data.data.data;
                     this.title = data.data.data.title;
                     this.writer = data.data.data.regId;

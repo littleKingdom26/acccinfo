@@ -29,6 +29,13 @@
             <hr class="last" />
         </div>
 
+        <div class="session" style="padding-top: 0">
+            <CommentList
+                v-if="data && data.commentList"
+                :comments="data.commentList"
+            />
+        </div>
+
         <GoBack />
         <div class="text-center mb-5">
             <b-button variant="link" class="logo" to="/"></b-button>
@@ -40,12 +47,14 @@
 // @ is an alias to /src
 import Header from "@/components/Header";
 import GoBack from "@/components/GoBack";
+import CommentList from "@/components/CommentList";
 
 export default {
     name: "Home",
     components: {
         Header,
         GoBack,
+        CommentList,
     },
     data() {
         return {
@@ -70,6 +79,7 @@ export default {
                     withCredentials: false,
                 })
                 .then((data) => {
+                    // console.info("data.data.data", data.data.data);
                     this.data = data.data.data;
                     this.title = data.data.data.title;
                     this.writer = data.data.data.regId;

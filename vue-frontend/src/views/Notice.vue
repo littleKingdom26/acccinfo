@@ -100,6 +100,7 @@ export default {
                     { withCredentials: false }
                 )
                 .then((data) => {
+                    // console.info("data.data.data", data.data.data);
                     this.rows = data.data.data.totalElements;
                     this.noticeContent = data.data.data.content;
                 });
