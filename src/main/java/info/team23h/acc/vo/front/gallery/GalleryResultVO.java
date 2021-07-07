@@ -32,6 +32,10 @@ public class GalleryResultVO {
 	@ApiModelProperty(value = "메인파일이름", name = "mainFileName")
 	private String mainFileName;
 
+	@ApiModelProperty(value = "메인파일이름", name = "mainFileName")
+	private String mainFilePath;
+
+
 	@ApiModelProperty(value = "파일 리스트", name = "fileResultList")
 	private List<FileResultVO> fileResultList;
 
@@ -45,6 +49,7 @@ public class GalleryResultVO {
 		this.mainFileName = bbs.getMainFileName();
 		this.title = bbs.getTitle();
 		fileResultList = bbs.getBbsFileList().stream().map(FileResultVO::new).collect(Collectors.toList());
+		this.mainFilePath = fileResultList.stream().filter(fileResultVO -> fileResultVO.getOriFileName().equals(mainFileName)).map(FileResultVO::getFullPath).collect(Collectors.joining());
 		this._link = bbs.get_link();
 	}
 }

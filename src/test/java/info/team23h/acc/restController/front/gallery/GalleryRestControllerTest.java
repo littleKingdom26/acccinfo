@@ -62,8 +62,15 @@ class GalleryRestControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.delete("/api/gallery/file/4"))
 				.andExpect(status().isOk())
 				.andDo(print());
+	}
 
-
+	@Test
+	public void 게시물_삭제() throws Exception{
+		mockMvc.perform(MockMvcRequestBuilders.delete("/api/gallery/142"))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(content().string(containsString("SUC")))
+				.andDo(print());
 	}
 
 }

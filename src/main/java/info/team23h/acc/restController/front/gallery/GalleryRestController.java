@@ -86,7 +86,7 @@ public class GalleryRestController {
 	@ApiOperation(value = "이미지 삭제", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
 	@DeleteMapping("/file/{fileSeq}")
 	public CommonResult deleteFile(@PathVariable(value="fileSeq") final Long fileSeq){
-		bbsService.deleteFile(fileSeq);
+		galleryService.deleteFile(fileSeq);
 		return responseService.getSuccessResult();
 	}
 
@@ -113,7 +113,7 @@ public class GalleryRestController {
 			if(bCryptPasswordEncoder.matches(password, byId.getPassword())){
 				return responseService.getSuccessResult();
 			}else{
-				throw new Team23hRestException("비밀번호가 다릅니다.");
+				throw new Team23hRestException("비밀번호가 다릅니다..");
 			}
 		}catch(Team23hException e){
 			throw new Team23hRestException(e.getMessage());
@@ -122,9 +122,14 @@ public class GalleryRestController {
 	}
 
 	/* 겔러리 삭제 */
-
-
-
-
-
+	@ApiOperation(value = "게시물 삭제", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
+	@DeleteMapping(value="/{seq}",produces = MediaType.APPLICATION_JSON_VALUE)
+	public CommonResult delete(@PathVariable(name="seq") final Long seq){
+		try{
+			galleryService.delete(seq);
+			return responseService.getSuccessResult();
+		}catch(Exception e){
+			throw new Team23hRestException("게시물 삭제 실패하였습니다.");
+		}
+	}
 }
