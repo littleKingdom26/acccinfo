@@ -150,7 +150,7 @@ export default {
 }
 .session h1.title {
     font-size: 2rem;
-    font-family: Staatliches, Helvetica, Arial, sans-serif;
+    font-family: Staatliches, "Jeoju Gthic", Arial, sans-serif;
 }
 .session h2.title {
     font-size: 1.5rem;

@@ -316,7 +316,7 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="session gallery">
+        <div class="session gallery">
             <h1 class="title">
                 GALLERY
             </h1>
@@ -348,7 +348,7 @@
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
         <div class="session contact">
             <h1 class="title">
                 CONTACT
@@ -561,7 +561,7 @@ export default {
     width: 102%;
     opacity: 1;
     left: -2px;
-    top: 2px;
+    top: 0px;
 }
 
 .hero .heroCarousel {
@@ -585,7 +585,7 @@ export default {
 }
 .session h1.title {
     font-size: 2rem;
-    font-family: Staatliches, Helvetica, Arial, sans-serif;
+    font-family: Staatliches, "Jeoju Gthic", Arial, sans-serif;
 }
 .session h2.title {
     font-size: 1.5rem;
@@ -734,7 +734,7 @@ hr.yellow {
     height: 384px;
     background-color: #ccc;
     margin-bottom: 40px;
-    background-image: url("/vue_assets/img/ps4yxbox_3109823b.jpeg");
+    background-image: url("/vue_assets/img/main_hero/ps4yxbox_3109823b.jpeg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -763,7 +763,7 @@ hr.yellow {
     width: 180px;
     height: 180px;
     background-color: #ccc;
-    background-image: url("/vue_assets/img/ps4yxbox_3109823b.jpeg");
+    background-image: url("/vue_assets/img/main_hero/ps4yxbox_3109823b.jpeg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

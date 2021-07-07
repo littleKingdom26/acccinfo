@@ -27,7 +27,7 @@ body {
 
 .Staatliches,
 .Staatliches * {
-    font-family: Staatliches, Helvetica, Arial, sans-serif;
+    font-family: Staatliches, "Jeoju Gthic", Arial, sans-serif;
 }
 .Inter,
 .Inter * {

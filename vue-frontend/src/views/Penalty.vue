@@ -42,14 +42,33 @@
                 ></b-form-input>
             </div>
             <div role="group" class="input_group">
-                <label for="input_candidate">항의 범주</label>
-                <b-form-input
-                    id="input_candidate"
+                <label for="input_accident">항의 범주</label>
+                <!-- <b-form-input
+                    id="input_accident"
                     class="custom_input"
                     v-model="candidate"
                     placeholder="NICKNAME"
                     trim
-                ></b-form-input>
+                ></b-form-input> -->
+                <b-dropdown
+                    id="input_accident"
+                    text="01. 비매너 주행"
+                    no-flip
+                    no-caret
+                    class="selectDropdown"
+                >
+                    <template #button-content>
+                        <span>{{ fault_selection.title }}</span
+                        ><mdiChevronDownCircle color="#8a8a8a" />
+                    </template>
+                    <b-dropdown-item
+                        v-for="(fault, faultIdx) in faults"
+                        :key="faultIdx"
+                        href="#"
+                        @click.stop.prevent="onClickFaultDropdown(fault)"
+                        >{{ fault.title }}</b-dropdown-item
+                    >
+                </b-dropdown>
             </div>
             <div role="group" class="input_group">
                 <label for="input_race_event">레이스 이벤트</label>
@@ -107,19 +126,64 @@
 <script>
 // @ is an alias to /src
 import Header from "@/components/Header";
-import mdiChevronRightCircle from "vue-material-design-icons/ChevronRightCircle.vue";
+import mdiChevronDownCircle from "vue-material-design-icons/ChevronDownCircle.vue";
 
 export default {
     name: "Home",
     components: {
         Header,
-        mdiChevronRightCircle,
+        mdiChevronDownCircle,
     },
     data() {
-        return {};
+        return {
+            applicant: "",
+            candidate: "",
+            race_event: "",
+            session: "",
+            replay_time: "",
+            description: "",
+            fault_selection: {
+                title: "01. 비매너 주행",
+                value: null,
+            },
+            faults: [
+                {
+                    title: "01. 비매너 주행",
+                    value: 1,
+                },
+                {
+                    title: "02. 코너컷팅으로 인한 순위 이득",
+                    value: 2,
+                },
+                {
+                    title: "03. 코스이탈 후 불안전한 진입",
+                    value: 3,
+                },
+                {
+                    title: "04. 피트라인 침범",
+                    value: 4,
+                },
+                {
+                    title: "05. 블루플래그 미수행",
+                    value: 5,
+                },
+                {
+                    title: "06. 백마커 미준수",
+                    value: 6,
+                },
+                {
+                    title: "07. 기타",
+                    value: 7,
+                },
+            ],
+        };
     },
     created() {},
-    methods: {},
+    methods: {
+        onClickFaultDropdown(fault) {
+            this.fault_selection = fault;
+        },
+    },
 };
 </script>
 
@@ -149,7 +213,7 @@ export default {
 }
 .session h1.title {
     font-size: 2rem;
-    font-family: Staatliches, cursive, Helvetica, Arial, sans-serif;
+    font-family: Staatliches, "Jeoju Gthic", Arial, sans-serif;
 }
 .session h2.title {
     font-size: 1.5rem;
@@ -186,8 +250,35 @@ hr.yellow {
     font-weight: bold;
     margin-bottom: 0.5em;
 }
+.input_group .selectDropdown {
+    display: block;
+    width: 100%;
+}
+.input_group .selectDropdown >>> button {
+    width: 100%;
+    background-color: #262626;
+    color: #8a8a8a;
+    text-align: left;
+}
+.input_group .selectDropdown >>> button .chevron-down-circle-icon {
+    float: right;
+}
+.input_group .selectDropdown >>> .dropdown-menu {
+    margin-top: 0.5em;
+    background-color: #262626;
+    text-align: center;
+    width: 100%;
+}
+.input_group .selectDropdown >>> .dropdown-menu .dropdown-item {
+    color: #fff;
+}
+.input_group .selectDropdown >>> .dropdown-menu .dropdown-item:hover,
+.input_group .selectDropdown >>> .dropdown-menu .dropdown-item:focus {
+    background-color: #555;
+}
 .custom_input {
     background-color: #262626;
+    color: #fff;
     border: 0;
 }
 .lastBtn {
