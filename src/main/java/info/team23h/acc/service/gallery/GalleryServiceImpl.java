@@ -21,7 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -106,5 +108,15 @@ public class GalleryServiceImpl implements GalleryService {
 		FileUtil.delete(bbsFile.getFilePath(), bbsFile.getFileName());
 		// 파일 디비 삭제
 		fileRepository.delete(bbsFile);
+	}
+
+	@Override
+	public List<GalleryResultVO> findByMainGallery() {
+		final TbBbsName bbsName = bbsNameRepository.findById(4L).orElseThrow(() -> new Team23hException("게시판 없음"));
+		final List<GalleryResultVO> resultList = bbsName.getBbsList().stream().sorted(Comparator.comparing(Bbs::getRegDt).reversed()).map(GalleryResultVO::new).limit(7).collect(Collectors.toList());
+		//		final List<Bbs> bbsList = bbsRepository.findAllByTbBbsName(param);
+//		final List<GalleryResultVO> resultList = bbsList.stream().sorted(Comparator.comparing(Bbs::getRegDt)).map(GalleryResultVO::new).limit(7).collect(Collectors.toList());
+//		return resultList;
+		return resultList;
 	}
 }

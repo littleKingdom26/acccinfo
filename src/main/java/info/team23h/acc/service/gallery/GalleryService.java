@@ -6,6 +6,7 @@ import info.team23h.acc.vo.front.gallery.GallerySaveVO;
 import info.team23h.acc.vo.front.gallery.GalleryUpdateVO;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface GalleryService {
 
@@ -42,4 +43,6 @@ public interface GalleryService {
 	void delete(Long seq);
 
 	void deleteFile(Long fileSeq);
+
+	List<GalleryResultVO> findByMainGallery();
 }

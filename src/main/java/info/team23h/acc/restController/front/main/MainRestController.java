@@ -2,7 +2,9 @@ package info.team23h.acc.restController.front.main;
 
 import info.team23h.acc.model.response.SingleResult;
 import info.team23h.acc.service.event.EventService;
+import info.team23h.acc.service.gallery.GalleryService;
 import info.team23h.acc.service.response.ResponseService;
+import info.team23h.acc.vo.front.gallery.GalleryResultVO;
 import info.team23h.acc.vo.front.main.BeforeLeagueRankerGroupResultVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,13 +24,22 @@ import java.util.List;
 @RequestMapping("/api/main")
 public class MainRestController {
 
-	final ResponseService responseService;
+	final private ResponseService responseService;
 
-	final EventService eventService;
+	final private EventService eventService;
+
+	final private GalleryService galleryService;
 
 	@ApiOperation(value = "전 시즌 랭커 목록 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
 	@GetMapping(value = "/beforeLeagueRanker" , produces = MediaType.APPLICATION_JSON_VALUE)
 	public SingleResult<List<BeforeLeagueRankerGroupResultVO>> beforeLeagueRanker(){
 		return responseService.getSingleResult(eventService.getBeforeLeagueRanker());
+	}
+
+
+	@ApiOperation(value="메인 겔러리 목록 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
+	@GetMapping(value="/gallery",produces = MediaType.APPLICATION_JSON_VALUE)
+	public SingleResult<List<GalleryResultVO>> findByMainGallery(){
+		return responseService.getSingleResult(galleryService.findByMainGallery());
 	}
 }
