@@ -326,23 +326,31 @@
             <hr class="yellow" />
             <div class="tabs">
                 <div class="mg-20 inline">
-                    <div class="imgBig imgUp"></div>
+                    <div class="imgBig imgUp"
+                    :style='`background-image: url(${gallery[0].mainFilePath})`'></div>
                     <div class="squareWrap">
-                        <div class="square"></div>
-                        <div class="square"></div>
-                        <div class="square"></div>
+                        <div class="square"
+                        :style='`background-image: url(${gallery[1].mainFilePath})`'></div>
+                        <div class="square"
+                        :style='`background-image: url(${gallery[2].mainFilePath})`'></div>
+                        <div class="square"
+                        :style='`background-image: url(${gallery[3].mainFilePath})`'></div>
                     </div>
                 </div>
                 <div class="mg-20 inline2">
                     <div class="squareWrap">
-                        <div class="square"></div>
-                        <div class="square"></div>
+                        <div class="square"
+                        :style='`background-image: url(${gallery[4].mainFilePath})`'></div>
+                        <div class="square"
+                        :style='`background-image: url(${gallery[5].mainFilePath})`'></div>
                     </div>
                     <div
                         class="imgBig imgDown"
+                        :style='`background-image: url(${gallery[6].mainFilePath})`'
                         :class="{ scaleUp: plusScaleUp }"
                         @mouseover="plusScaleUp = true"
                         @mouseout="plusScaleUp = false"
+                        @click='$router.push("/gallery")'
                     >
                         <PlusIcon :size="plusIconSize" />
                     </div>
@@ -445,10 +453,19 @@ export default {
             proChamps: [],
             masterChamps: [],
             oneMakeChamps: [],
+            gallery: [],
         };
     },
     mounted() {
-        this.$axios
+        this._getLeagueRanker();
+        this._getGallery();
+    },
+    methods: {
+        _sortByRank(a, b) {
+            return a.rank > b.rank ? 1 : -1;
+        },
+        _getLeagueRanker(){
+            this.$axios
             .get("/api/main/beforeLeagueRanker", { withCredentials: false })
             .then((data) => {
                 if (data.data.data) {
@@ -475,10 +492,18 @@ export default {
                     });
                 }
             });
-    },
-    methods: {
-        _sortByRank(a, b) {
-            return a.rank > b.rank ? 1 : -1;
+        },
+        _getGallery(){
+            this.$axios
+            .get("/api/main/gallery", { withCredentials: false })
+            .then((data) => {
+                if (data.data.data) {
+                    this.gallery = data.data.data;
+                    data.data.data.forEach((data) => {
+                        console.info(data.mainFilePath)
+                    })
+                }
+            });
         },
         onClickOpenUrl(link) {
             window.open(link);
@@ -774,7 +799,7 @@ hr.yellow {
 }
 .gallery .tabs .imgBig:hover,
 .gallery .tabs .square:hover {
-    filter: brightness(200%);
+    filter: brightness(130%);
 }
 
 .contact .sns {
