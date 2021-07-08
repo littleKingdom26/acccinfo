@@ -84,6 +84,15 @@ public class TimeTrialRestController {
 		return responseService.getSingleResult(result);
 	}
 
+
+	// 트랙별 데이터
+	@ApiOperation(value = "트랙별 타임트라이얼 기록 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
+	@GetMapping(value = "/track/gt3/{trackSeq}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public SingleResult<List<TimeTrialResultVO>> findGt3TrackTimeTrial(@PathVariable(value = "trackSeq") Long trackSeq){
+		log.debug("trackSeq : {}", trackSeq);
+		return responseService.getSingleResult(timeTrialService.findGt3Track(trackSeq));
+	}
+
 	// 주차별 데이터
 	@ApiOperation(value = "GT4 주차 타임트라이얼 기록 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
 	@GetMapping(value = "/week/gt4/{sessionId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -98,6 +107,13 @@ public class TimeTrialRestController {
 	public SingleResult<List<TimeTrialPlayerDetailVO>> findGt4PlayerIdDetail(@ApiParam(value = "플레이어 아이디") @PathVariable(value = "playerId") final String playerId) {
 		log.debug("sessionId : {}", playerId);
 		return responseService.getSingleResult(timeTrialService.findGt4PlayerIdDetail(playerId));
+	}
+
+	@ApiOperation(value = "Gt4트랙별 타임트라이얼 기록 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
+	@GetMapping(value = "/track/gt4/{trackSeq}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public SingleResult<List<TimeTrialResultVO>> findGt4TrackTimeTrial(@PathVariable(value = "trackSeq") Long trackSeq) {
+		log.debug("trackSeq : {}", trackSeq);
+		return responseService.getSingleResult(timeTrialService.findGt4Track(trackSeq));
 	}
 
 }

@@ -21,6 +21,7 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -104,5 +105,41 @@ public class timeTrialServiceImpl implements TimeTrialService{
 			recordVO.setRank(i);
 		});
 		return recordList.parallelStream().map(TimeTrialPlayerDetailVO::new).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<TimeTrialResultVO> findGt3Track(Long trackSeq) {
+		final List<Record> trackRecodeList = recodeRepository.findAllByTrack_Seq(trackSeq);
+		// 플레이어 노출
+		final List<Player> playerList = trackRecodeList.stream().map(Record::getPlayer).distinct().collect(Collectors.toList());
+
+		List<TimeTrialResultVO> resultList = new ArrayList<>();
+		playerList.forEach(player -> {
+			trackRecodeList.stream()
+						   .filter(record -> record.getPlayer().getPlayerId().equals(player.getPlayerId()))
+						   .sorted(Comparator.comparingLong(Record::getBestLap))
+						   .findFirst()
+						   .ifPresent(record -> resultList.add(new TimeTrialResultVO(record)));
+		});
+		resultList.sort(Comparator.comparingLong(TimeTrialResultVO::getBestLap));
+		return resultList;
+	}
+
+	@Override
+	public List<TimeTrialResultVO> findGt4Track(Long trackSeq) {
+		final List<RecordGt4> trackRecodeList = recodeGt4Repository.findAllByTrack_Seq(trackSeq);
+		// 플레이어 노출
+		final List<Player> playerList = trackRecodeList.stream().map(RecordGt4::getPlayer).distinct().collect(Collectors.toList());
+
+		List<TimeTrialResultVO> resultList = new ArrayList<>();
+		playerList.forEach(player -> {
+			trackRecodeList.stream()
+						   .filter(record -> record.getPlayer().getPlayerId().equals(player.getPlayerId()))
+						   .sorted(Comparator.comparingLong(RecordGt4::getBestLap))
+						   .findFirst()
+						   .ifPresent(record -> resultList.add(new TimeTrialResultVO(record)));
+		});
+		resultList.sort(Comparator.comparingLong(TimeTrialResultVO::getBestLap));
+		return resultList;
 	}
 }

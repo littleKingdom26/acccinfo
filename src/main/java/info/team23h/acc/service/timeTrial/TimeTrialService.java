@@ -36,4 +36,19 @@ public interface TimeTrialService {
 	 * @return the object
 	 */
 	List<TimeTrialPlayerDetailVO> findGt4PlayerIdDetail(String playerId);
+
+	/**
+	 * GT3 트랙별 기록
+	 *
+	 * @param trackSeq the track seq
+	 */
+	List<TimeTrialResultVO> findGt3Track(Long trackSeq);
+
+	/**
+	 * GT4 트랙별 기록
+	 *
+	 * @param trackSeq the track seq
+	 * @return the list
+	 */
+	List<TimeTrialResultVO> findGt4Track(Long trackSeq);
 }

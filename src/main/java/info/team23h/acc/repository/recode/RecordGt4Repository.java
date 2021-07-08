@@ -12,4 +12,5 @@ public interface RecordGt4Repository extends JpaRepository<RecordGt4,Long> {
 
 	List<RecordGt4> findAllByTrack_SeqIn(Iterable<Long> trackList);
 
+	List<RecordGt4> findAllByTrack_Seq(Long trackSeq);
 }
