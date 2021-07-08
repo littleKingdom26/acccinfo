@@ -12,4 +12,6 @@ public interface RecordRepository extends JpaRepository<Record,Long>, RecordRepo
 
 	List<Record> findAllByTrack_SeqIn(Iterable<Long> trackList);
 
+
+	List<Record> findAllByTrack_Seq(Long trackSeq);
 }

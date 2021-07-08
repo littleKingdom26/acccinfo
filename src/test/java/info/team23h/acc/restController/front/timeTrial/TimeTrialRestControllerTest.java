@@ -11,8 +11,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -81,4 +80,27 @@ class TimeTrialRestControllerTest {
 			   .andDo(print());
 	}
 
+	@Test
+	public void gt3_트랙_조회() throws Exception {
+		Long trackSeq = 54L;
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/timeTrial/track/gt3/"+trackSeq))
+			   .andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$..code").value("SUC"))
+				.andDo(print())
+				.andReturn();
+
+
+	}
+
+	@Test
+	public void gt4_트랙_조회() throws Exception {
+		Long trackSeq = 54L;
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/timeTrial/track/gt4/" + trackSeq))
+			   .andExpect(status().isOk())
+			   .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			   .andExpect(jsonPath("$..code").value("SUC"))
+			   .andDo(print())
+			   .andReturn();
+	}
 }
