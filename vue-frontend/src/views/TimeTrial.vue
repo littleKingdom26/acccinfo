@@ -300,7 +300,7 @@ export default {
                 .get("/api/timeTrial/week", { withCredentials: false })
                 .then((data) => {
                     this.events = [
-                        { startDt: "ALL", sessionId: 0 },
+                        { startDt: "ALL", sessionId: null },
                         ...data.data.data,
                     ];
                 });
@@ -332,13 +332,13 @@ export default {
             this.initMessage = "Loading...";
             this.results = [];
             this.doneFetchResults = false;
+            let getUrl = `/api/timeTrial/week/${this.carClass_selection.toLowerCase()}/${this.event_selection_data.sessionId}`;
+
+            if(!this.event_selection_data.sessionId){
+                getUrl = `/api/timeTrial/track/${this.carClass_selection.toLowerCase()}/${this.track_selection_data.seq}`
+            }
             this.$axios
-                .get(
-                    `/api/timeTrial/week/${this.carClass_selection.toLowerCase()}/${
-                        this.event_selection_data.sessionId
-                    }`,
-                    { withCredentials: false }
-                )
+                .get(getUrl,{ withCredentials: false })
                 .then((data) => {
                     this.results = data.data.data;
                     // console.info("this.results", this.results);
@@ -439,6 +439,8 @@ export default {
 
             this.event_selection = "ALL";
             this.event_selection_data = {};
+
+            this._getGtTTResult();
         },
         async onClickPlayerDetail(row) {
             await this._getPlayerDetail(row.playerId);
