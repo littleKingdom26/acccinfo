@@ -62,6 +62,11 @@ const routes = [
         component: () => import("../views/Gallery.vue"),
     },
     {
+        path: "/gallery/:id",
+        name: "GalleryDetail",
+        component: () => import("../views/GalleryDetail.vue"),
+    },
+    {
         path: "/about",
         name: "About",
         // route level code-splitting
@@ -78,7 +83,11 @@ const router = new VueRouter({
     base: process.env.BASE_URL,
     routes,
     scrollBehavior(to, from, savedPosition) {
-        return { x: 0, y: 0 };
+        if (savedPosition) {
+            return savedPosition
+        } else {
+            return { x: 0, y: 0 }
+        }
     },
 });
 
