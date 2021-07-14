@@ -9,4 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface BbsRepository extends JpaRepository<Bbs,Long> {
 
 	Page<Bbs> findAllByTbBbsName(TbBbsName bbsName, Pageable pageable);
+
+
+	Page<Bbs> findAllByTbBbsNameAndTitleContains(TbBbsName bbsName,String title, Pageable pageable);
+
 }

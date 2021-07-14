@@ -11,9 +11,9 @@ import info.team23h.acc.service.bbs.BbsService;
 import info.team23h.acc.service.gallery.GalleryService;
 import info.team23h.acc.service.response.ResponseService;
 import info.team23h.acc.vo.front.Bbs.BbsSearchVO;
-import info.team23h.acc.vo.front.common.SearchCommonVO;
 import info.team23h.acc.vo.front.gallery.GalleryResultVO;
 import info.team23h.acc.vo.front.gallery.GallerySaveVO;
+import info.team23h.acc.vo.front.gallery.GallerySearchVO;
 import info.team23h.acc.vo.front.gallery.GalleryUpdateVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -60,7 +60,7 @@ public class GalleryRestController {
 
 	@ApiOperation(value = "겔러리 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
 	@GetMapping(value="/list",produces = MediaType.APPLICATION_JSON_VALUE)
-	public SingleResult<Page<GalleryResultVO>> findGalleryList(final SearchCommonVO commonVO){
+	public SingleResult<Page<GalleryResultVO>> findGalleryList(final GallerySearchVO commonVO){
 		log.info("GalleryRestController.findGalleryList");
 		BbsSearchVO bbsSearchVO = new BbsSearchVO();
 		bbsSearchVO.setPage(commonVO.getPage());
@@ -68,7 +68,7 @@ public class GalleryRestController {
 		if(ObjectUtils.isEmpty(bbsSearchVO.getNameSeq())){
 			bbsSearchVO.setNameSeq(4L); // 공지시항
 		}
-		final Page<Bbs> byAllPages = bbsService.findByAllPages(bbsSearchVO);
+		final Page<Bbs> byAllPages = bbsService.findByAllPages(bbsSearchVO ,commonVO.getKeyword());
 		final Page<GalleryResultVO> map = byAllPages.map(GalleryResultVO::new);
 		return responseService.getSingleResult(map);
 	}
@@ -78,7 +78,7 @@ public class GalleryRestController {
 	@GetMapping("/detail/{seq}")
 	public HATEOASResult<GalleryResultVO> findGalleryDetail(@PathVariable(value = "seq") final Long bbsSeq){
 		GalleryResultVO resultDTO = bbsService.findByGallerySeq(bbsSeq);
-		WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(GalleryRestController.class).findGalleryList(new SearchCommonVO()));
+		WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(GalleryRestController.class).findGalleryList(new GallerySearchVO()));
 		return responseService.getHATEOASResult(resultDTO, linkTo.withRel("parent"));
 	}
 

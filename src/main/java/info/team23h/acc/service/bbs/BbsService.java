@@ -99,6 +99,15 @@ public interface BbsService {
 	 */
 	Page<Bbs> findByAllPages(BbsSearchVO bbsSearch);
 
+
+	/**
+	 * 게시물 목록 (검색어  추가)
+	 *
+	 * @param bbsSearch the bbs search
+	 * @param keyword   the keyword
+	 * @return the page
+	 */
+	Page<Bbs> findByAllPages(BbsSearchVO bbsSearch,String keyword);
 	/**
 	 * 게시물 상세
 	 *

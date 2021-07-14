@@ -27,6 +27,7 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -190,6 +191,32 @@ public class BbsServiceImpl implements BbsService {
 		final TbBbsName tbBbsName = bbsNameRepository.findById(bbsSearch.getNameSeq()).orElse(new TbBbsName());
 		final Page<Bbs> seq = bbsRepository.findAllByTbBbsName(tbBbsName, PageRequest.of(bbsSearch.getPage() - 1, bbsSearch.getSize(), Sort.by("seq").descending()));
 
+		if(bbsSearch.getNameSeq().equals(1L)){
+			seq.forEach(bbs -> {
+				WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(NoticeRestController.class).getBbsDetail(bbs.getSeq()));
+				bbs.set_link(linkTo.withRel("detail"));
+			});
+		}else if(bbsSearch.getNameSeq().equals(2L)){
+			seq.forEach(bbs -> {
+				WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EventRestController.class).findBbsDetail(bbs.getSeq()));
+				bbs.set_link(linkTo.withRel("detail"));
+			});
+		}else if(bbsSearch.getNameSeq().equals(4L)){
+			seq.forEach(bbs -> {
+				WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(GalleryRestController.class).findGalleryDetail(bbs.getSeq()));
+				bbs.set_link(linkTo.withRel("detail"));
+			});
+		}
+		return seq;
+	}
+
+	@Override
+	public Page<Bbs> findByAllPages(BbsSearchVO bbsSearch, String keyword) {
+		final TbBbsName tbBbsName = bbsNameRepository.findById(bbsSearch.getNameSeq()).orElse(new TbBbsName());
+		if(ObjectUtils.isEmpty(keyword)){
+			keyword = "";
+		}
+		final Page<Bbs> seq = bbsRepository.findAllByTbBbsNameAndTitleContains(tbBbsName,keyword, PageRequest.of(bbsSearch.getPage() - 1, bbsSearch.getSize(), Sort.by("seq").descending()));
 		if(bbsSearch.getNameSeq().equals(1L)){
 			seq.forEach(bbs -> {
 				WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(NoticeRestController.class).getBbsDetail(bbs.getSeq()));
