@@ -3,32 +3,33 @@ package info.team23h.acc.restController.front.common;
 import info.team23h.acc.config.variable.EnumCode;
 import info.team23h.acc.config.variable.EnumModel;
 import info.team23h.acc.model.response.SingleResult;
+import info.team23h.acc.service.bbs.BbsService;
 import info.team23h.acc.service.response.ResponseService;
+import info.team23h.acc.vo.comment.CommentResultVO;
+import info.team23h.acc.vo.comment.CommentVO;
 import info.team23h.acc.vo.front.common.EnumVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
 @Slf4j
+@RestController
 @RequiredArgsConstructor
-@Api(tags = "common API", description = "공통 api 리스트")
 @RequestMapping("/api/common")
+@Api(tags = "common API", description = "공통 api 리스트")
 public class FrontCommonRestController {
 
-	@Autowired
-	final ResponseService responseService;
+	private final ResponseService responseService;
+
+	private final BbsService bbsService;
 
 	@ApiOperation(value = "리그 클래스 목록 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
 	@GetMapping(value="/class",produces = MediaType.APPLICATION_JSON_VALUE)
@@ -49,7 +50,7 @@ public class FrontCommonRestController {
 		return responseService.getSingleResult(enumList);
 	}
 
-	@ApiOperation(value = "차량 클래스 목록록조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
+	@ApiOperation(value = "차량 클래스 목록조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
 	@GetMapping(value="/carClass",produces = MediaType.APPLICATION_JSON_VALUE)
 	public SingleResult<List<EnumVO>> getCarClass(){
 		Map<String, List<EnumVO>> enumValues = new LinkedHashMap<>();
@@ -65,5 +66,11 @@ public class FrontCommonRestController {
 		}
 		enumValues.put("code", enumList);
 		return responseService.getSingleResult(enumList);
+	}
+
+	@ApiOperation(value = "공통 댓글 저장", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
+	@PostMapping(value="/bbs/comment",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+	public SingleResult<CommentResultVO> commentSave(@RequestBody CommentVO commentVO){
+		return responseService.getSingleResult(bbsService.saveComment(commentVO));
 	}
 }
