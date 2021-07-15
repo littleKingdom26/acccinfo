@@ -30,4 +30,10 @@ public class BbsComment extends BaseTimeEntity {
 	@JsonBackReference
 	private Bbs bbs;
 
+	@Builder
+	public BbsComment(String comment, String regId, Bbs bbs) {
+		this.comment = comment;
+		this.regId = regId;
+		this.bbs = bbs;
+	}
 }

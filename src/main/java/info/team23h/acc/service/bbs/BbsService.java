@@ -6,6 +6,7 @@ import info.team23h.acc.vo.bbs.BbsNameVO;
 import info.team23h.acc.vo.bbs.BbsResultVO;
 import info.team23h.acc.vo.bbs.BbsSearch;
 import info.team23h.acc.vo.bbs.BbsVO;
+import info.team23h.acc.vo.comment.CommentResultVO;
 import info.team23h.acc.vo.comment.CommentVO;
 import info.team23h.acc.vo.front.Bbs.BbsSearchVO;
 import info.team23h.acc.vo.front.gallery.GalleryResultVO;
@@ -99,6 +100,15 @@ public interface BbsService {
 	 */
 	Page<Bbs> findByAllPages(BbsSearchVO bbsSearch);
 
+
+	/**
+	 * 게시물 목록 (검색어  추가)
+	 *
+	 * @param bbsSearch the bbs search
+	 * @param keyword   the keyword
+	 * @return the page
+	 */
+	Page<Bbs> findByAllPages(BbsSearchVO bbsSearch,String keyword);
 	/**
 	 * 게시물 상세
 	 *
@@ -122,4 +132,10 @@ public interface BbsService {
 	 */
 	void deleteFile(Long fileSeq);
 
+	/**
+	 * 댓글 저장
+	 *
+	 * @param commentVO the comment vo
+	 */
+	CommentResultVO saveComment(CommentVO commentVO);
 }

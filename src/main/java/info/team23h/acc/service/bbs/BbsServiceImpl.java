@@ -3,8 +3,10 @@ package info.team23h.acc.service.bbs;
 import info.team23h.acc.config.Team23hException;
 import info.team23h.acc.dao.BbsDAO;
 import info.team23h.acc.entity.bbs.Bbs;
+import info.team23h.acc.entity.bbs.BbsComment;
 import info.team23h.acc.entity.bbs.BbsFile;
 import info.team23h.acc.entity.bbs.TbBbsName;
+import info.team23h.acc.repository.bbs.BbsCommentRepository;
 import info.team23h.acc.repository.bbs.BbsNameRepository;
 import info.team23h.acc.repository.bbs.BbsRepository;
 import info.team23h.acc.repository.file.FileRepository;
@@ -14,6 +16,7 @@ import info.team23h.acc.restController.front.notice.NoticeRestController;
 import info.team23h.acc.util.FileUtil;
 import info.team23h.acc.util.PageHelper;
 import info.team23h.acc.vo.bbs.*;
+import info.team23h.acc.vo.comment.CommentResultVO;
 import info.team23h.acc.vo.comment.CommentVO;
 import info.team23h.acc.vo.front.Bbs.BbsSearchVO;
 import info.team23h.acc.vo.front.gallery.GalleryResultVO;
@@ -27,6 +30,7 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +58,10 @@ public class BbsServiceImpl implements BbsService {
 	final private BbsRepository bbsRepository;
 
 	final private FileRepository fileRepository;
+
+	final private BbsCommentRepository bbsCommentRepository;
+
+
 
 	@Override
 	public List<BbsNameVO> loadBbsName() {
@@ -210,6 +218,32 @@ public class BbsServiceImpl implements BbsService {
 	}
 
 	@Override
+	public Page<Bbs> findByAllPages(BbsSearchVO bbsSearch, String keyword) {
+		final TbBbsName tbBbsName = bbsNameRepository.findById(bbsSearch.getNameSeq()).orElse(new TbBbsName());
+		if(ObjectUtils.isEmpty(keyword)){
+			keyword = "";
+		}
+		final Page<Bbs> seq = bbsRepository.findAllByTbBbsNameAndTitleContains(tbBbsName,keyword, PageRequest.of(bbsSearch.getPage() - 1, bbsSearch.getSize(), Sort.by("seq").descending()));
+		if(bbsSearch.getNameSeq().equals(1L)){
+			seq.forEach(bbs -> {
+				WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(NoticeRestController.class).getBbsDetail(bbs.getSeq()));
+				bbs.set_link(linkTo.withRel("detail"));
+			});
+		}else if(bbsSearch.getNameSeq().equals(2L)){
+			seq.forEach(bbs -> {
+				WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EventRestController.class).findBbsDetail(bbs.getSeq()));
+				bbs.set_link(linkTo.withRel("detail"));
+			});
+		}else if(bbsSearch.getNameSeq().equals(4L)){
+			seq.forEach(bbs -> {
+				WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(GalleryRestController.class).findGalleryDetail(bbs.getSeq()));
+				bbs.set_link(linkTo.withRel("detail"));
+			});
+		}
+		return seq;
+	}
+
+	@Override
 	public BbsResultVO findBySeq(Long bbsSeq) throws Team23hException {
 
 		final Bbs bbs = bbsRepository.findById(bbsSeq).orElseThrow(() -> new Team23hException("게시물이 없습니다."));
@@ -224,8 +258,8 @@ public class BbsServiceImpl implements BbsService {
 		return new GalleryResultVO(bbs);
 	}
 
-	@Transactional
 	@Override
+	@Transactional
 	public void deleteFile(Long fileSeq) {
 		//파일 조회
 		final BbsFile bbsFile = fileRepository.findById(fileSeq).orElseThrow(() -> new Team23hException("파일이 없습니다."));
@@ -233,6 +267,18 @@ public class BbsServiceImpl implements BbsService {
 		FileUtil.delete(bbsFile.getFilePath(),bbsFile.getFileName());
 		// 파일 디비 삭제
 		fileRepository.delete(bbsFile);
+	}
+
+	@Override
+	@Transactional
+	public CommentResultVO saveComment(CommentVO commentVO) throws Team23hException{
+		final Bbs bbs = bbsRepository.findById(commentVO.getBbsSeq()).orElseThrow(() -> new Team23hException("게시물이 없습니다."));
+		final BbsComment build = BbsComment.builder().bbs(bbs).comment(commentVO.getComment()).regId(commentVO.getRegId()).build();
+
+		final BbsComment save = bbsCommentRepository.save(build);
+		return new CommentResultVO(save);
+
+
 	}
 
 }
