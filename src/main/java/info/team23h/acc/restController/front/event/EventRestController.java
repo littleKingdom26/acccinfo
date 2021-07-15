@@ -6,6 +6,7 @@ import info.team23h.acc.model.response.HATEOASResult;
 import info.team23h.acc.model.response.SingleResult;
 import info.team23h.acc.service.bbs.BbsService;
 import info.team23h.acc.service.response.ResponseService;
+import info.team23h.acc.vo.bbs.BbsResultPageVO;
 import info.team23h.acc.vo.bbs.BbsResultVO;
 import info.team23h.acc.vo.front.Bbs.BbsSearchVO;
 import info.team23h.acc.vo.front.common.SearchCommonVO;
@@ -36,7 +37,7 @@ public class EventRestController {
 
 	@ApiOperation(value = "이벤트 목록 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
 	@GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
-	public SingleResult<Page<Bbs>> findBbsList(final SearchCommonVO commonVO) {
+	public SingleResult<Page<BbsResultPageVO>> findBbsList(final SearchCommonVO commonVO) {
 		log.info("NoticeRestController.getList");
 
 		BbsSearchVO bbsSearchVO = new BbsSearchVO();
@@ -46,7 +47,7 @@ public class EventRestController {
 			bbsSearchVO.setNameSeq(2L); // 공지시항
 		}
 		final Page<Bbs> byAllPages = bbsService.findByAllPages(bbsSearchVO);
-		return responseService.getSingleResult(byAllPages);
+		return responseService.getSingleResult(byAllPages.map(BbsResultPageVO::new));
 	}
 
 	@ApiOperation(value = "이벤트 상세 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")

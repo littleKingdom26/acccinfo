@@ -35,9 +35,11 @@ public class GalleryResultVO {
 	@ApiModelProperty(value = "메인파일이름", name = "mainFileName")
 	private String mainFilePath;
 
-
 	@ApiModelProperty(value = "파일 리스트", name = "fileResultList")
 	private List<FileResultVO> fileResultList;
+
+	@ApiModelProperty(value = "댓글 카운터 ", name = "commentCount")
+	private int commentCount;
 
 	@Transient
 	private Link _link;
@@ -51,5 +53,6 @@ public class GalleryResultVO {
 		fileResultList = bbs.getBbsFileList().stream().map(FileResultVO::new).collect(Collectors.toList());
 		this.mainFilePath = fileResultList.stream().filter(fileResultVO -> fileResultVO.getOriFileName().equals(mainFileName)).map(FileResultVO::getFullPath).collect(Collectors.joining());
 		this._link = bbs.get_link();
+		this.commentCount = bbs.getBbsCommentList().size();
 	}
 }
