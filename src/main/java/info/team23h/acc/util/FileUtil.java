@@ -44,8 +44,6 @@ public class FileUtil {
 	public static String save(MultipartFile file, String subFolder) throws IOException {
 		final String filename = StringUtils.getFilename(file.getOriginalFilename());
 		final String extension = "."+StringUtils.getFilenameExtension(file.getOriginalFilename());
-//		String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-//		String fileName = file.getOriginalFilename();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuuMMddHHmmssSSS");
 		String newFileName = LocalDateTime.now().format(dtf) + extension;
 
@@ -56,7 +54,6 @@ public class FileUtil {
 			Files.createDirectories(path);
 		}
 		String newFilePath = newPath + File.separator + newFileName;
-		System.out.println("newPath > " + newPath);
 		File newFile = new File(newFilePath);
 		newFile.createNewFile();
 		file.transferTo(newFile);

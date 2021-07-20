@@ -32,7 +32,7 @@ public class GalleryResultVO {
 	@ApiModelProperty(value = "메인파일이름", name = "mainFileName")
 	private String mainFileName;
 
-	@ApiModelProperty(value = "메인파일이름", name = "mainFileName")
+	@ApiModelProperty(value = "메인파일경로", name = "mainFilePath")
 	private String mainFilePath;
 
 	@ApiModelProperty(value = "파일 리스트", name = "fileResultList")

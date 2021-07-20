@@ -32,5 +32,25 @@ public class EnumCode {
 		public String getKey() {return name();}
 	}
 
+	/**
+	 * 포스터 타입.
+	 */
+	@Getter
+	@RequiredArgsConstructor
+	public enum posterType {
+		main("일요리그"),
+		sub("수요리그");
+		private final String value;
+	}
+
+
+	@Getter
+	public enum filePath{
+		board,
+		banner,
+		gallery,
+		poster
+	}
+
 
 }

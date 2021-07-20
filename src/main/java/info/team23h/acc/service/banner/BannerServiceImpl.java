@@ -1,5 +1,6 @@
 package info.team23h.acc.service.banner;
 
+import info.team23h.acc.config.variable.EnumCode;
 import info.team23h.acc.dao.BannerDAO;
 import info.team23h.acc.util.FileUtil;
 import info.team23h.acc.vo.banner.BannerSearch;
@@ -29,7 +30,7 @@ public class BannerServiceImpl implements BannerService{
 	public int saveBanner(BannerVO bannerVO) throws IOException {
 
 		if(bannerVO.getBannerImg()!=null && !bannerVO.getBannerImg().isEmpty()){
-			String newPath = FileUtil.save(bannerVO.getBannerImg(), PATH);
+			String newPath = FileUtil.save(bannerVO.getBannerImg(), EnumCode.filePath.banner.name());
 			bannerVO.setFilePath(File.separator+"imageView"+ File.separator+ PATH + File.separator + newPath);
 			bannerVO.setUseYn("Y");
 			int cnt = bannerDAO.saveBanner(bannerVO);

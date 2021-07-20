@@ -12,27 +12,57 @@
 			<div class="content">
 				<div class="box">
 					<div class="inBox">
-						<table class="listTable mt10">
-							<colgroup>
-								<col width="5%" />
-								<col width="*" />
-								<col width="150px" />
-							</colgroup>
-							<thead>
-							<tr>
-								<th>No</th>
-								<th>드라이버 명</th>
-								<th>TT Score</th>
-								<th>등록일</th>
-							</tr>
-							</thead>
-							<tbody>
+						<form id="searchFrm" action="/admin/poster/list" method="get">
+							<input type="hidden" name="page" id="page" value="1" />
+							<table class="formTable">
+								<colgroup>
+									<col width="100px" />
+									<col />
+								</colgroup>
+								<tbody>
+								<tr>
+									<th>타입</th>
+									<td>
+										<select name="searchType" id="searchType">
+											<option value="">선택</option>
+											{{#typeList}}
+												<option value="{{name}}">{{value}}</option>
+											{{/typeList}}
+										</select>
 
-							</tbody>
-						</table>
-
+									</td>
+								</tr>
+								</tbody>
+							</table>
+							<div class="btnArea mt20">
+								<a href="javascript:void(0)" id="btnSearch" class="btn btnBi btnBlue">검색</a>
+							</div>
+						</form>
 					</div>
 				</div>
+				<div class="box">
+					<div class="inBox">
+						<div class="btnArea txtR">
+							<a href="javascript:void(0);" id="btnRegister" class="btn btnBlue btnPopIns">등록</a>
+						</div>
+						<div style="width:100%; display: flex;flex-direction: row;flex-wrap: wrap;">
+							{{#result}}
+								<div style="width:23% ; margin:5px;">
+									<div style="width: 100%;">
+										<img src="{{{fullPath}}}" width="100%" />
+									</div>
+									<div style="width:100%;display: flex;flex-direction: row; justify-content: space-between; margin-top:5px;">
+										<div style="font-weight: bold">{{title}}({{typeName}})</div>
+										<div>
+											<a href="javascript:void(0);" class="btn btnBlue btnPopIns btnDel" data-posterkey="{{posterKey}}">삭제</a>
+										</div>
+									</div>
+								</div>
+							{{/result}}
+						</div>
+					</div>
+				</div>
+				{{{pageHelper.paging}}}
 			</div>
 		</div>
 		{{>admin/layout/bodyFooter}}
@@ -40,3 +70,36 @@
 </div>
 </body>
 {{>admin/layout/footer}}
+
+<script>
+	$(function () {
+		$('#btnSearch').click(function () {
+			$('#page').val(1);
+			$('#searchFrm').submit();
+		});
+
+		$('#btnRegister').click(function(e){
+			e.preventDefault();
+			$('#searchFrm').attr('action','/admin/poster/write');
+			$('#searchFrm').submit();
+		});
+
+		$('.btnDel').click(function(e){
+			let posterKey = $(this).data('posterkey');
+			if(confirm("포스터를 삭제 하시겠습니까?")) {
+				common.ajax("DELETE", "/admin/poster/"+posterKey, '', 'json', 'application/json; charset=utf-8', function (data) {
+					alert('포스터를 삭제 하였습니다.');
+					location.reload();
+				});
+			}
+
+		});
+	});
+
+	function paging(page) {
+		$('#page').val(page);
+		$('#searchFrm').submit();
+	}
+
+
+</script>

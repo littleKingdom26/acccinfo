@@ -114,24 +114,12 @@ var race = {
 
             if($('#scoreInfoSeq').val() == '') {
                 alert('점수방식을 선택하세요');
+                return false;
+            }
+            if($('#scoreInfoSeq').val() == '') {
+                alert('점수방식을 선택하세요');
                 return false
             }
-
-            if($('#division').val() == '') {
-                alert('클래스를 입력하세요');
-                return false;
-            }
-
-            if($('#year').val() == '') {
-                alert('년도을 입력하세요');
-                return false;
-            }
-
-            if($('#season').val() == '') {
-                alert('시즌를 입력하세요');
-                return false;
-            }
-
             $('#frm').submit();
         });
 
@@ -141,8 +129,7 @@ var race = {
                 common.ajax("DELETE", "/admin/event/eventInfo/del/" + $(this).data('eventinfoseq'), "", "json", 'application/json; charset=utf-8', function (data) {
                     if(data.code == '0000') {
                         alert('이벤트를 삭제 하였습니다.');
-
-                        location.href = "/admin/event/eventInfo";
+                        location.reload();
                     } else {
                         alert('이벤트 삭제 실패 하였습니다. 다시 시도 해 주시기 바립니다.');
                     }

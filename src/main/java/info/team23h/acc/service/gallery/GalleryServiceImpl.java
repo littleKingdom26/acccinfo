@@ -1,6 +1,7 @@
 package info.team23h.acc.service.gallery;
 
 import info.team23h.acc.config.Team23hException;
+import info.team23h.acc.config.variable.EnumCode;
 import info.team23h.acc.entity.bbs.Bbs;
 import info.team23h.acc.entity.bbs.BbsFile;
 import info.team23h.acc.entity.bbs.TbBbsName;
@@ -48,9 +49,8 @@ public class GalleryServiceImpl implements GalleryService {
 
 		List<BbsFile> fileList = new ArrayList<>();
 		for(MultipartFile multipartFile : gallerySaveVO.getUploadFile()){
-			final String subPath = "gallery";
-			final String fileName = FileUtil.save(multipartFile, subPath);
-			fileList.add(BbsFile.builder().fileName(fileName).oriFileName(multipartFile.getOriginalFilename()).filePath(subPath).build());
+			final String fileName = FileUtil.save(multipartFile, EnumCode.filePath.gallery.name());
+			fileList.add(BbsFile.builder().fileName(fileName).oriFileName(multipartFile.getOriginalFilename()).filePath(EnumCode.filePath.gallery.name()).build());
 		}
 
 		final Bbs bbs = Bbs.builder()
@@ -73,9 +73,8 @@ public class GalleryServiceImpl implements GalleryService {
 			List<BbsFile> fileList = new ArrayList<>();
 			if(!ObjectUtils.isEmpty(galleryUpdateVO.getUploadFile())){
 				for(MultipartFile multipartFile : galleryUpdateVO.getUploadFile()){
-					final String subPath = "gallery";
-					final String fileName = FileUtil.save(multipartFile, subPath);
-					fileList.add(BbsFile.builder().fileName(fileName).oriFileName(multipartFile.getOriginalFilename()).filePath(subPath).build());
+					final String fileName = FileUtil.save(multipartFile, EnumCode.filePath.gallery.name());
+					fileList.add(BbsFile.builder().fileName(fileName).oriFileName(multipartFile.getOriginalFilename()).filePath(EnumCode.filePath.gallery.name()).build());
 				}
 			}
 			bbs.update(galleryUpdateVO, fileList);
@@ -114,9 +113,6 @@ public class GalleryServiceImpl implements GalleryService {
 	public List<GalleryResultVO> findByMainGallery() {
 		final TbBbsName bbsName = bbsNameRepository.findById(4L).orElseThrow(() -> new Team23hException("게시판 없음"));
 		final List<GalleryResultVO> resultList = bbsName.getBbsList().stream().sorted(Comparator.comparing(Bbs::getRegDt).reversed()).map(GalleryResultVO::new).limit(7).collect(Collectors.toList());
-		//		final List<Bbs> bbsList = bbsRepository.findAllByTbBbsName(param);
-//		final List<GalleryResultVO> resultList = bbsList.stream().sorted(Comparator.comparing(Bbs::getRegDt)).map(GalleryResultVO::new).limit(7).collect(Collectors.toList());
-//		return resultList;
 		return resultList;
 	}
 }

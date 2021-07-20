@@ -1,5 +1,6 @@
 package info.team23h.acc.restController.common;
 
+import info.team23h.acc.config.variable.EnumCode;
 import info.team23h.acc.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +35,7 @@ public class CommonRestController {
 		String fileName = "";
 		if(fileNames.hasNext()){
 			file = request.getFile(fileNames.next());
-			fileName = FileUtil.save(file, "board");
+			fileName = FileUtil.save(file, EnumCode.filePath.board.name());
 		}
 		log.debug("newPath > " + fileName);
 		HashMap<String, Object> map = new HashMap<>();
