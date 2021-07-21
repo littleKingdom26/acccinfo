@@ -14,8 +14,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -40,10 +39,21 @@ class MainRestControllerTest {
 
 	@DisplayName("메인 겔러리 조회")
 	@Test
-	void 메인_겔러리_조회() throws Exception {
+	public void 메인_겔러리_조회() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/api/main/gallery"))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andDo(print())
+				.andReturn();
+	}
+
+	@Test
+	public void 메인_포스터_조회() throws Exception{
+		String type = "sub";
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/main/poster/"+ type))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.data").isArray())
+				.andExpect(jsonPath("$..data[0].type").value(type))
 				.andDo(print())
 				.andReturn();
 	}

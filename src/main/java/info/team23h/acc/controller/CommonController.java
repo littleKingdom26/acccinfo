@@ -28,7 +28,7 @@ public class CommonController {
 		String newPath = "";
 		if(fileNames.hasNext()){
 			file = request.getFile(fileNames.next());
-			newPath = FileUtil.save(file, EnumCode.filePath.board.name());
+			newPath = FileUtil.save(file, EnumCode.FilePath.board.name());
 		}
 		log.debug("newPath > " + newPath);
 

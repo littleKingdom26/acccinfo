@@ -34,7 +34,7 @@ public class PosterPageResultVO {
 	}
 
 	public String getTypeName(){
-		return EnumCode.posterType.valueOf(type).getValue();
+		return EnumCode.PosterType.valueOf(type).getValue();
 	}
 
 	public PosterPageResultVO(Poster poster) {

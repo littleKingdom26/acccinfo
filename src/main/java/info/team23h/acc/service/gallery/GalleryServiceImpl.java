@@ -49,8 +49,8 @@ public class GalleryServiceImpl implements GalleryService {
 
 		List<BbsFile> fileList = new ArrayList<>();
 		for(MultipartFile multipartFile : gallerySaveVO.getUploadFile()){
-			final String fileName = FileUtil.save(multipartFile, EnumCode.filePath.gallery.name());
-			fileList.add(BbsFile.builder().fileName(fileName).oriFileName(multipartFile.getOriginalFilename()).filePath(EnumCode.filePath.gallery.name()).build());
+			final String fileName = FileUtil.save(multipartFile, EnumCode.FilePath.gallery.name());
+			fileList.add(BbsFile.builder().fileName(fileName).oriFileName(multipartFile.getOriginalFilename()).filePath(EnumCode.FilePath.gallery.name()).build());
 		}
 
 		final Bbs bbs = Bbs.builder()
@@ -73,8 +73,8 @@ public class GalleryServiceImpl implements GalleryService {
 			List<BbsFile> fileList = new ArrayList<>();
 			if(!ObjectUtils.isEmpty(galleryUpdateVO.getUploadFile())){
 				for(MultipartFile multipartFile : galleryUpdateVO.getUploadFile()){
-					final String fileName = FileUtil.save(multipartFile, EnumCode.filePath.gallery.name());
-					fileList.add(BbsFile.builder().fileName(fileName).oriFileName(multipartFile.getOriginalFilename()).filePath(EnumCode.filePath.gallery.name()).build());
+					final String fileName = FileUtil.save(multipartFile, EnumCode.FilePath.gallery.name());
+					fileList.add(BbsFile.builder().fileName(fileName).oriFileName(multipartFile.getOriginalFilename()).filePath(EnumCode.FilePath.gallery.name()).build());
 				}
 			}
 			bbs.update(galleryUpdateVO, fileList);

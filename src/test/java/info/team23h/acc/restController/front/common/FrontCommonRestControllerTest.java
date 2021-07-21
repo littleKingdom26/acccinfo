@@ -29,12 +29,18 @@ class FrontCommonRestControllerTest {
 
 	@Test
 	public void 결과_클래스_정보() throws Exception {
-		mockMvc.perform(get("/api/common/class").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andDo(print());
+		mockMvc.perform(get("/api/common/class").contentType(MediaType.APPLICATION_JSON))
+		       .andExpect(status().isOk())
+		       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+		       .andDo(print());
 	}
 
 	@Test
 	public void 자동차_클래스_조회() throws Exception {
-		mockMvc.perform(get("/api/common/carClass").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andDo(print());
+		mockMvc.perform(get("/api/common/carClass").contentType(MediaType.APPLICATION_JSON))
+		       .andExpect(status().isOk())
+		       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+		       .andDo(print());
 	}
 
 	@Test
@@ -52,6 +58,16 @@ class FrontCommonRestControllerTest {
 				.andExpect(jsonPath("$..comment").value(comment))
 				.andDo(print())
 				.andReturn();
+	}
+
+	@Test
+	public void 포스터_타입_조회() throws Exception {
+		mockMvc.perform(get("/api/common/posterType"))
+		       .andExpect(status().isOk())
+		       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+		       .andExpect(jsonPath("$.data").isArray())
+		       .andDo(print());
+
 	}
 
 }

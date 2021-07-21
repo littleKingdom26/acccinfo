@@ -37,15 +37,20 @@ public class EnumCode {
 	 */
 	@Getter
 	@RequiredArgsConstructor
-	public enum posterType {
+	public enum PosterType implements EnumModel {
 		main("일요리그"),
 		sub("수요리그");
 		private final String value;
+
+		@Override
+		public String getKey() {
+			return name();
+		}
 	}
 
 
 	@Getter
-	public enum filePath{
+	public enum FilePath {
 		board,
 		banner,
 		gallery,

@@ -44,7 +44,7 @@ public class PosterController {
 		pageHelper.setTotalPage(page.getTotalPages());
 
 		model.addAttribute("result", page);
-		model.addAttribute("typeList", EnumCode.posterType.values());
+		model.addAttribute("typeList", EnumCode.PosterType.values());
 		model.addAttribute("searchVO",posterSearchVO);
 		model.addAttribute("pageHelper", pageHelper);
 
@@ -61,7 +61,7 @@ public class PosterController {
 	@GetMapping("/write")
 	public String write(Model model,PosterSearchVO posterSearchVO){
 
-		model.addAttribute("typeList", EnumCode.posterType.values());
+		model.addAttribute("typeList", EnumCode.PosterType.values());
 		model.addAttribute("searchVO", posterSearchVO);
 		model.addAttribute("markup", StringUtil.markupForm(posterSearchVO.getClass(), posterSearchVO));
 		return "/admin/poster/view";

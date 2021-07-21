@@ -35,7 +35,7 @@ public class CommonRestController {
 		String fileName = "";
 		if(fileNames.hasNext()){
 			file = request.getFile(fileNames.next());
-			fileName = FileUtil.save(file, EnumCode.filePath.board.name());
+			fileName = FileUtil.save(file, EnumCode.FilePath.board.name());
 		}
 		log.debug("newPath > " + fileName);
 		HashMap<String, Object> map = new HashMap<>();

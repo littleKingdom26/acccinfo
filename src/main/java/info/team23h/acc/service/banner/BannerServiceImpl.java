@@ -30,7 +30,7 @@ public class BannerServiceImpl implements BannerService{
 	public int saveBanner(BannerVO bannerVO) throws IOException {
 
 		if(bannerVO.getBannerImg()!=null && !bannerVO.getBannerImg().isEmpty()){
-			String newPath = FileUtil.save(bannerVO.getBannerImg(), EnumCode.filePath.banner.name());
+			String newPath = FileUtil.save(bannerVO.getBannerImg(), EnumCode.FilePath.banner.name());
 			bannerVO.setFilePath(File.separator+"imageView"+ File.separator+ PATH + File.separator + newPath);
 			bannerVO.setUseYn("Y");
 			int cnt = bannerDAO.saveBanner(bannerVO);
