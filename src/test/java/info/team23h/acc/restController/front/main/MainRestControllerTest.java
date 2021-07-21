@@ -57,4 +57,15 @@ class MainRestControllerTest {
 				.andDo(print())
 				.andReturn();
 	}
+
+	@Test
+	public void 메인_포스터_전체_조회() throws Exception {
+
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/main/poster"))
+		       .andExpect(status().isOk())
+		       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+		       .andExpect(jsonPath("$.data").isArray())
+		       .andDo(print())
+		       .andReturn();
+	}
 }

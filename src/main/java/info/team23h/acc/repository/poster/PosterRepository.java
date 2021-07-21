@@ -9,4 +9,7 @@ public interface PosterRepository extends JpaRepository<Poster, Long>, PosterRep
 
 
 	List<Poster> findAllByTypeOrderByRegDtDesc(String type);
+
+
+	List<Poster> findAllByOrderByTypeAscRegDtDesc();
 }

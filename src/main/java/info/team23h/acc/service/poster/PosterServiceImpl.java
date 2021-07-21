@@ -59,4 +59,13 @@ public class PosterServiceImpl implements PosterService {
 		return resultVOList;
 
 	}
+
+	@Override
+	public List<PosterMainResultVO> findByMainPoster() {
+		final List<Poster> allByOrderByRegDtDesc = posterRepository.findAllByOrderByTypeAscRegDtDesc();
+		final List<PosterMainResultVO> resultVOList = allByOrderByRegDtDesc.stream()
+		                                                       .map(PosterMainResultVO::new)
+		                                                       .collect(Collectors.toList());
+		return resultVOList;
+	}
 }

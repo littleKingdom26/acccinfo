@@ -39,4 +39,12 @@ public interface PosterService {
 	 * @param posterType the poster type
 	 */
 	List<PosterMainResultVO> findByMainPoster(String posterType);
+
+	/**
+	 * 메인 포스터 전체 조회
+	 *
+	 * @return the list
+	 */
+	List<PosterMainResultVO> findByMainPoster();
+
 }

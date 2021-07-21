@@ -50,9 +50,15 @@ public class MainRestController {
 	}
 
 
-	@ApiOperation(value="포스터 조회",notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
+	@ApiOperation(value="포스터 항목 조회",notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
 	@GetMapping(value="/poster/{type}",produces = MediaType.APPLICATION_JSON_VALUE)
-	public SingleResult<List<PosterMainResultVO>> findByMainPoster(@PathVariable(value = "type") @ApiParam(name = "type",value = "common - 포스터 타입 코드 조회 항목 입력") final String type){
+	public SingleResult<List<PosterMainResultVO>> findByMainPosterFilterType(@PathVariable(value = "type") @ApiParam(name = "type",value = "common - 포스터 타입 코드 조회 항목 입력") final String type){
 		return responseService.getSingleResult(posterService.findByMainPoster(type));
+	}
+
+	@ApiOperation(value = "포스터 전체 조회", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
+	@GetMapping(value = "/poster", produces = MediaType.APPLICATION_JSON_VALUE)
+	public SingleResult<List<PosterMainResultVO>> findByMainPoster() {
+		return responseService.getSingleResult(posterService.findByMainPoster());
 	}
 }
