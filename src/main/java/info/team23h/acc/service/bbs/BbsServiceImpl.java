@@ -239,6 +239,8 @@ public class BbsServiceImpl implements BbsService {
 				WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(GalleryRestController.class).findGalleryDetail(bbs.getSeq()));
 				bbs.set_link(linkTo.withRel("detail"));
 			});
+		}else if(bbsSearch.getNameSeq().equals(5L)){
+
 		}
 		return seq;
 	}

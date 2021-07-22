@@ -32,7 +32,6 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class GalleryServiceImpl implements GalleryService {
 
-
 	final private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	final private BbsNameRepository bbsNameRepository;
