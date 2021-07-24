@@ -3,6 +3,7 @@ package info.team23h.acc.entity.bbs;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import info.team23h.acc.entity.BaseTimeEntity;
 import info.team23h.acc.vo.front.gallery.GalleryUpdateVO;
+import info.team23h.acc.vo.front.video.VideoUpdateVO;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -92,5 +93,10 @@ public class Bbs extends BaseTimeEntity {
 				bbsFileList.add(bbsFile);
 			});
 		}
+	}
+
+	public void updateVideo(VideoUpdateVO videoUpdateVO) {
+		this.content = videoUpdateVO.getVideoUrl();
+		this.title = videoUpdateVO.getTitle();
 	}
 }

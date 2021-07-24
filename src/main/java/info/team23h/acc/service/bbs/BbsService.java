@@ -9,7 +9,6 @@ import info.team23h.acc.vo.bbs.BbsVO;
 import info.team23h.acc.vo.comment.CommentResultVO;
 import info.team23h.acc.vo.comment.CommentVO;
 import info.team23h.acc.vo.front.Bbs.BbsSearchVO;
-import info.team23h.acc.vo.front.gallery.GalleryResultVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -118,14 +117,6 @@ public interface BbsService {
 	BbsResultVO findBySeq(Long bbsSeq);
 
 	/**
-	 * 겔러리 상세
-	 *
-	 * @param bbsSeq the bbs seq
-	 * @return the bbs result dto
-	 */
-	GalleryResultVO findByGallerySeq(Long bbsSeq);
-
-	/**
 	 * 파일 삭제
 	 *
 	 * @param fileSeq the file seq
@@ -138,4 +129,5 @@ public interface BbsService {
 	 * @param commentVO the comment vo
 	 */
 	CommentResultVO saveComment(CommentVO commentVO);
+
 }

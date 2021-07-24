@@ -114,4 +114,12 @@ public class GalleryServiceImpl implements GalleryService {
 		final List<GalleryResultVO> resultList = bbsName.getBbsList().stream().sorted(Comparator.comparing(Bbs::getRegDt).reversed()).map(GalleryResultVO::new).limit(7).collect(Collectors.toList());
 		return resultList;
 	}
+
+	@Override
+	public GalleryResultVO findByGallerySeq(Long bbsSeq) {
+		final Bbs bbs = bbsRepository.findById(bbsSeq)
+		                             .orElseThrow(() -> new Team23hException("게시물이 없습니다."));
+		return new GalleryResultVO(bbs);
+	}
+
 }

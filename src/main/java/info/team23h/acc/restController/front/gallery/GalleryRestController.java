@@ -77,9 +77,13 @@ public class GalleryRestController {
 	@ApiOperation(value="겔러리 상세", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n" )
 	@GetMapping("/detail/{seq}")
 	public HATEOASResult<GalleryResultVO> findGalleryDetail(@PathVariable(value = "seq") final Long bbsSeq){
-		GalleryResultVO resultDTO = bbsService.findByGallerySeq(bbsSeq);
-		WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(GalleryRestController.class).findGalleryList(new GallerySearchVO()));
-		return responseService.getHATEOASResult(resultDTO, linkTo.withRel("parent"));
+		try{
+			GalleryResultVO resultDTO = galleryService.findByGallerySeq(bbsSeq);
+			WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(GalleryRestController.class).findGalleryList(new GallerySearchVO()));
+			return responseService.getHATEOASResult(resultDTO, linkTo.withRel("parent"));
+		} catch(Team23hException e) {
+			throw new Team23hRestException(e.getMessage());
+		}
 	}
 
 	/* 이미지 삭제 */
@@ -128,8 +132,8 @@ public class GalleryRestController {
 		try{
 			galleryService.delete(seq);
 			return responseService.getSuccessResult();
-		}catch(Exception e){
-			throw new Team23hRestException("게시물 삭제 실패하였습니다.");
+		}catch(Team23hException e){
+			throw new Team23hRestException(e.getMessage());
 		}
 	}
 }

@@ -13,13 +13,13 @@ import info.team23h.acc.repository.file.FileRepository;
 import info.team23h.acc.restController.front.event.EventRestController;
 import info.team23h.acc.restController.front.gallery.GalleryRestController;
 import info.team23h.acc.restController.front.notice.NoticeRestController;
+import info.team23h.acc.restController.front.video.VideoRestController;
 import info.team23h.acc.util.FileUtil;
 import info.team23h.acc.util.PageHelper;
 import info.team23h.acc.vo.bbs.*;
 import info.team23h.acc.vo.comment.CommentResultVO;
 import info.team23h.acc.vo.comment.CommentVO;
 import info.team23h.acc.vo.front.Bbs.BbsSearchVO;
-import info.team23h.acc.vo.front.gallery.GalleryResultVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -240,7 +240,11 @@ public class BbsServiceImpl implements BbsService {
 				bbs.set_link(linkTo.withRel("detail"));
 			});
 		}else if(bbsSearch.getNameSeq().equals(5L)){
-
+			seq.forEach(bbs -> {
+				WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(VideoRestController.class)
+				                                                                     .findGalleryDetail(bbs.getSeq()));
+				bbs.set_link(linkTo.withRel("detail"));
+			});
 		}
 		return seq;
 	}
@@ -252,12 +256,6 @@ public class BbsServiceImpl implements BbsService {
 		final List<BbsCommentResultVO> bbsCommentList = bbs.getBbsCommentList().stream().map(BbsCommentResultVO::new).collect(Collectors.toList());
 
 		return BbsResultVO.builder().bbs(bbs).commentList(bbsCommentList).build();
-	}
-
-	@Override
-	public GalleryResultVO findByGallerySeq(Long bbsSeq) {
-		final Bbs bbs = bbsRepository.findById(bbsSeq).orElseThrow(() -> new Team23hException("게시물이 없습니다."));
-		return new GalleryResultVO(bbs);
 	}
 
 	@Override

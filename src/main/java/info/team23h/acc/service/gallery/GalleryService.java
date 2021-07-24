@@ -45,4 +45,12 @@ public interface GalleryService {
 	void deleteFile(Long fileSeq);
 
 	List<GalleryResultVO> findByMainGallery();
+
+	/**
+	 * 겔러리 상세
+	 *
+	 * @param bbsSeq the bbs seq
+	 * @return the bbs result dto
+	 */
+	GalleryResultVO findByGallerySeq(Long bbsSeq);
 }
