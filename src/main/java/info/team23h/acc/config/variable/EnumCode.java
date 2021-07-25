@@ -49,12 +49,36 @@ public class EnumCode {
 	}
 
 
+	/**
+	 * 파일 경로
+	 */
 	@Getter
 	public enum FilePath {
 		board,
 		banner,
 		gallery,
 		poster
+	}
+
+	/**
+	 * 항의 범주
+	 */
+	@Getter
+	@RequiredArgsConstructor
+	public enum ComplaintsCode implements EnumModel {
+		unManner("01. 비매너 주행"),
+		cutting("02. 코너컷팅으로 인한 순위 이득"),
+		out("03. 코스이탈 후 불안전한 진입"),
+		pit("04. 피트라인 침범"),
+		blueFlag("05. 블루플래그 미수행"),
+		etc("06. 기타");
+
+		private final String value;
+
+		@Override
+		public String getKey() {
+			return name();
+		}
 	}
 
 

@@ -70,4 +70,14 @@ class FrontCommonRestControllerTest {
 
 	}
 
+	@Test
+	public void 항의_범주_조회() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/common/complaintsCode"))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.data[0].key").value("unManner"))
+				.andDo(print())
+				.andReturn();
+	}
+
 }

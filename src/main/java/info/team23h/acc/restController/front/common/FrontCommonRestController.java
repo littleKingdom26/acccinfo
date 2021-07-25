@@ -94,5 +94,23 @@ public class FrontCommonRestController {
 		return responseService.getSingleResult(enumList);
 	}
 
+	@ApiOperation(value="항의 범주 코드", notes = "## Request ##\n" + "[하위 Parameters 참고]\n\n\n\n" + "## Response ## \n" + "[하위 Model 참고]\n\n\n\n")
+	@GetMapping(value="/complaintsCode" , produces = MediaType.APPLICATION_JSON_VALUE)
+	public SingleResult<List<EnumVO>> findComplaintsCode(){
+		Map<String, List<EnumVO>> enumValues = new LinkedHashMap<>();
+		List<EnumVO> enumList = new ArrayList<>();
+		Class<?>[] classes = EnumCode.class.getClasses();
+		for(Class<?> aClass : classes) {
+			if(aClass.getSimpleName()
+			         .contains("ComplaintsCode")) {
+				for(Object enumType : aClass.getEnumConstants()) {
+					EnumModel em = (EnumModel) enumType;
+					enumList.add(new EnumVO(em));
+				}
+			}
+		}
+		enumValues.put("code", enumList);
+		return responseService.getSingleResult(enumList);
+	}
 
 }
