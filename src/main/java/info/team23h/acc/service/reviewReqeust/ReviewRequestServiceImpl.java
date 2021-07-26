@@ -5,10 +5,16 @@ import info.team23h.acc.entity.reviewReqeust.ReviewRequest;
 import info.team23h.acc.repository.reviewReqeust.ReviewRequestRepository;
 import info.team23h.acc.vo.front.reviewReqeustSaveVO.ReviewRequestResultVO;
 import info.team23h.acc.vo.front.reviewReqeustSaveVO.ReviewRequestSaveVO;
+import info.team23h.acc.vo.reiewReqeust.ReviewRequestPageResultVO;
+import info.team23h.acc.vo.reiewReqeust.ReviewRequestSearchVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 @Slf4j
 @Service
@@ -34,5 +40,19 @@ public class ReviewRequestServiceImpl implements ReviewRequestService {
 		                                         .build();
 		final ReviewRequest save = reviewRequestRepository.save(param);
 		return new ReviewRequestResultVO(save);
+	}
+
+	@Override
+	public Page<ReviewRequestPageResultVO> findPage(ReviewRequestSearchVO reviewRequestSearchVO) {
+
+		Page<ReviewRequest> result = null;
+		final PageRequest pageRequest = PageRequest.of(reviewRequestSearchVO.getPage() - 1, reviewRequestSearchVO.getSize(), Sort.by("reviewRequestKey")
+		                                                                                                                              .descending());
+		if(ObjectUtils.isEmpty(reviewRequestSearchVO.getKeyword())) {
+			result = reviewRequestRepository.findAll(pageRequest);
+		}else{
+			result = reviewRequestRepository.findAllByRegIdContains(reviewRequestSearchVO.getKeyword(),pageRequest);
+		}
+		return result.map(ReviewRequestPageResultVO::new);
 	}
 }

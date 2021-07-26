@@ -1,0 +1,100 @@
+{{>admin/layout/header}}
+<body>
+    <div id="wrap">
+        <div class="inWrap">
+            {{>admin/layout/lnb}}
+            <div id="container">
+                {{>admin/layout/topBar}}
+                <div class="location">
+                    <em class="home">HOME</em><i></i>
+                    <em>심의요청</em><i></i>
+                    <em class="active">심의요청 목록</em>
+                </div>
+                <div class="content">
+                    <div class="box">
+                        <div class="inBox">
+                            <form id="searchFrm" action="/admin/reviewRequest/list" method="get">
+                                <input type="hidden" id="currentPage" name="currentPage" value="{{searchVO.page}}" />
+                                <table class="formTable">
+                                    <colgroup>
+                                    </colgroup>
+                                    <tbody>
+                                        <tr>
+                                            <th>심의요청자</th>
+                                            <td colspan="2"><input type="text" id="keyword" name="keyword" value="{{searchVO.keyword}}" class="textType" /></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="btnArea mt20">
+                                    <a href="#" id="btnSearch" class="btn btnBi btnBlue">검색</a>
+                                    <a href="#" id="btnClear" class="btn btnBi btnDefalt">초기화</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="inBox">
+                            <table class="listTable mt10">
+                                <colgroup>
+                                    <col width="" />
+                                    <col width="" />
+                                    <col width="" />
+                                    <col width="" />
+                                    <col width="" />
+                                    <col width="" />
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th>심의요청자</th>
+                                    <th>심의대상자</th>
+                                    <th>항의범주</th>
+                                    <th>레이스 이벤트</th>
+                                    <th>세션 구분</th>
+                                    <th>작성일</th>
+                                </tr>
+                                </thead>
+                                <tbody >
+                                {{#result}}
+                                    <tr>
+                                        <td>{{regId}}</td>
+                                        <td>{{reviewTarget}}</td>
+                                        <td>{{complaintsName}}</td>
+                                        <td>{{event}}</td>
+                                        <td>{{sessionDivision}}</td>
+                                        <td>{{regDtStr}}</td>
+                                    </tr>
+                                {{/result}}
+                                {{^result}}
+                                    <tr>
+                                        <td colspan="6">
+                                            <p class="noDate">데이터가 없습니다.</p>
+                                        </td>
+                                    </tr>
+                                {{/result}}
+                                </tbody>
+                            </table>
+
+                            {{{pageHelper.paging}}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{>admin/layout/bodyFooter}}
+        </div>
+    </div>
+
+</body>
+{{>admin/layout/footer}}
+<script>
+    $(function () {
+		$('#btnSearch').click(function () {
+			$('#page').val(1);
+			$('#searchFrm').submit();
+		});
+    });
+
+    function paging(page) {
+        $('#currentPage').val(page);
+        $('#searchFrm').submit();
+    }
+</script>
