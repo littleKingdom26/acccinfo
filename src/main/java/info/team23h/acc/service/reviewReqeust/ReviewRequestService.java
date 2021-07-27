@@ -2,6 +2,9 @@ package info.team23h.acc.service.reviewReqeust;
 
 import info.team23h.acc.vo.front.reviewReqeustSaveVO.ReviewRequestResultVO;
 import info.team23h.acc.vo.front.reviewReqeustSaveVO.ReviewRequestSaveVO;
+import info.team23h.acc.vo.reiewReqeust.ReviewRequestPageResultVO;
+import info.team23h.acc.vo.reiewReqeust.ReviewRequestSearchVO;
+import org.springframework.data.domain.Page;
 
 public interface ReviewRequestService {
 
@@ -12,4 +15,6 @@ public interface ReviewRequestService {
 	 * @return the review request result vo
 	 */
 	ReviewRequestResultVO save(ReviewRequestSaveVO reviewRequestSaveVO);
+
+	Page<ReviewRequestPageResultVO> findPage(ReviewRequestSearchVO reviewRequestSearchVO);
 }
