@@ -324,33 +324,59 @@
                 Sim Racing User Gallery
             </h3>
             <hr class="yellow" />
-            <div class="tabs">
+            <div class="tabs" v-if="gallery.length">
                 <div class="mg-20 inline">
-                    <div class="imgBig imgUp"
-                    :style='`background-image: url(${gallery[0].mainFilePath})`'></div>
+                    <div
+                        class="imgBig imgUp"
+                        :style="
+                            `background-image: url(${gallery[0].mainFilePath})`
+                        "
+                    ></div>
                     <div class="squareWrap">
-                        <div class="square"
-                        :style='`background-image: url(${gallery[1].mainFilePath})`'></div>
-                        <div class="square"
-                        :style='`background-image: url(${gallery[2].mainFilePath})`'></div>
-                        <div class="square"
-                        :style='`background-image: url(${gallery[3].mainFilePath})`'></div>
+                        <div
+                            class="square"
+                            :style="
+                                `background-image: url(${gallery[1].mainFilePath})`
+                            "
+                        ></div>
+                        <div
+                            class="square"
+                            :style="
+                                `background-image: url(${gallery[2].mainFilePath})`
+                            "
+                        ></div>
+                        <div
+                            class="square"
+                            :style="
+                                `background-image: url(${gallery[3].mainFilePath})`
+                            "
+                        ></div>
                     </div>
                 </div>
                 <div class="mg-20 inline2">
                     <div class="squareWrap">
-                        <div class="square"
-                        :style='`background-image: url(${gallery[4].mainFilePath})`'></div>
-                        <div class="square"
-                        :style='`background-image: url(${gallery[5].mainFilePath})`'></div>
+                        <div
+                            class="square"
+                            :style="
+                                `background-image: url(${gallery[4].mainFilePath})`
+                            "
+                        ></div>
+                        <div
+                            class="square"
+                            :style="
+                                `background-image: url(${gallery[5].mainFilePath})`
+                            "
+                        ></div>
                     </div>
                     <div
                         class="imgBig imgDown"
-                        :style='`background-image: url(${gallery[6].mainFilePath})`'
+                        :style="
+                            `background-image: url(${gallery[6].mainFilePath})`
+                        "
                         :class="{ scaleUp: plusScaleUp }"
                         @mouseover="plusScaleUp = true"
                         @mouseout="plusScaleUp = false"
-                        @click='$router.push("/gallery")'
+                        @click="$router.push('/gallery')"
                     >
                         <PlusIcon :size="plusIconSize" />
                     </div>
@@ -464,46 +490,50 @@ export default {
         _sortByRank(a, b) {
             return a.rank > b.rank ? 1 : -1;
         },
-        _getLeagueRanker(){
+        _getLeagueRanker() {
             this.$axios
-            .get("/api/main/beforeLeagueRanker", { withCredentials: false })
-            .then((data) => {
-                if (data.data.data) {
-                    data.data.data.forEach((data) => {
-                        if (data.leagueName.indexOf("Pro") != -1) {
-                            this.proChamps = [
-                                ...data.beforeLeagueRankerResultList.sort(
-                                    this._sortByRank
-                                ),
-                            ];
-                        } else if (data.leagueName.indexOf("Master") != -1) {
-                            this.masterChamps = [
-                                ...data.beforeLeagueRankerResultList.sort(
-                                    this._sortByRank
-                                ),
-                            ];
-                        } else if (data.leagueName.indexOf("OneMake") != -1) {
-                            this.oneMakeChamps = [
-                                ...data.beforeLeagueRankerResultList.sort(
-                                    this._sortByRank
-                                ),
-                            ];
-                        }
-                    });
-                }
-            });
+                .get("/api/main/beforeLeagueRanker", { withCredentials: false })
+                .then((data) => {
+                    if (data.data.data) {
+                        data.data.data.forEach((data) => {
+                            if (data.leagueName.indexOf("Pro") != -1) {
+                                this.proChamps = [
+                                    ...data.beforeLeagueRankerResultList.sort(
+                                        this._sortByRank
+                                    ),
+                                ];
+                            } else if (
+                                data.leagueName.indexOf("Master") != -1
+                            ) {
+                                this.masterChamps = [
+                                    ...data.beforeLeagueRankerResultList.sort(
+                                        this._sortByRank
+                                    ),
+                                ];
+                            } else if (
+                                data.leagueName.indexOf("OneMake") != -1
+                            ) {
+                                this.oneMakeChamps = [
+                                    ...data.beforeLeagueRankerResultList.sort(
+                                        this._sortByRank
+                                    ),
+                                ];
+                            }
+                        });
+                    }
+                });
         },
-        _getGallery(){
+        _getGallery() {
             this.$axios
-            .get("/api/main/gallery", { withCredentials: false })
-            .then((data) => {
-                if (data.data.data) {
-                    this.gallery = data.data.data;
-                    data.data.data.forEach((data) => {
-                        console.info(data.mainFilePath)
-                    })
-                }
-            });
+                .get("/api/main/gallery", { withCredentials: false })
+                .then((data) => {
+                    if (data.data.data) {
+                        this.gallery = data.data.data;
+                        data.data.data.forEach((data) => {
+                            // console.info(data.mainFilePath);
+                        });
+                    }
+                });
         },
         onClickOpenUrl(link) {
             window.open(link);

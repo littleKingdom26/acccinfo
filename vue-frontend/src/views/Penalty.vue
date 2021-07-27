@@ -51,22 +51,23 @@
                     trim
                 ></b-form-input> -->
                 <b-dropdown
+                    v-if="faults.length"
                     id="input_accident"
-                    text="01. 비매너 주행"
+                    text=""
                     no-flip
                     no-caret
                     class="selectDropdown"
                 >
                     <template #button-content>
-                        <span>{{ fault_selection.title }}</span
+                        <span>{{ fault_selection.value }}</span
                         ><mdiChevronDownCircle color="#8a8a8a" />
                     </template>
                     <b-dropdown-item
-                        v-for="(fault, faultIdx) in faults"
-                        :key="faultIdx"
+                        v-for="fault in faults"
+                        :key="fault.key"
                         href="#"
                         @click.stop.prevent="onClickFaultDropdown(fault)"
-                        >{{ fault.title }}</b-dropdown-item
+                        >{{ fault.value }}</b-dropdown-item
                     >
                 </b-dropdown>
             </div>
@@ -113,7 +114,9 @@
                 ></b-form-textarea>
             </div>
             <div class="text-right">
-                <b-button class="lastBtn"><span>REGISTER</span></b-button>
+                <b-button class="lastBtn" @click="_postContent()"
+                    ><span>REGISTER</span></b-button
+                >
             </div>
         </div>
 
@@ -143,43 +146,100 @@ export default {
             replay_time: "",
             description: "",
             fault_selection: {
-                title: "01. 비매너 주행",
-                value: null,
+                value: "01. 비매너 주행",
+                key: "unManner",
             },
-            faults: [
-                {
-                    title: "01. 비매너 주행",
-                    value: 1,
-                },
-                {
-                    title: "02. 코너컷팅으로 인한 순위 이득",
-                    value: 2,
-                },
-                {
-                    title: "03. 코스이탈 후 불안전한 진입",
-                    value: 3,
-                },
-                {
-                    title: "04. 피트라인 침범",
-                    value: 4,
-                },
-                {
-                    title: "05. 블루플래그 미수행",
-                    value: 5,
-                },
-                {
-                    title: "06. 백마커 미준수",
-                    value: 6,
-                },
-                {
-                    title: "07. 기타",
-                    value: 7,
-                },
-            ],
+            faults: [],
         };
     },
     created() {},
+    mounted() {
+        this._getComplaintsCode();
+    },
     methods: {
+        _getComplaintsCode() {
+            let postData = {};
+            this.$axios
+                .get(`/api/common/complaintsCode`, {
+                    withCredentials: false,
+                })
+                .then((data) => {
+                    this.faults = data.data.data;
+                    console.info("this.faults", this.faults);
+                });
+        },
+        _postContent() {
+            if (
+                !this.fault_selection.key |
+                !this.description |
+                !this.race_event |
+                !this.applicant |
+                !this.candidate |
+                !this.replay_time |
+                !this.session
+            ) {
+                this.$bvModal.msgBoxOk("입력란이 비어있습니다. 확인해주세요.", {
+                    title: "확인",
+                    size: "sm",
+                    buttonSize: "sm",
+                    okVariant: "danger",
+                    headerClass: "p-2 border-bottom-0",
+                    footerClass: "p-2 border-top-0",
+                    centered: true,
+                });
+                return;
+            }
+            let postData = {
+                complaints: this.fault_selection.key,
+                description: this.description,
+                event: this.race_event,
+                regId: this.applicant,
+                reviewTarget: this.candidate,
+                replayTime: this.replay_time,
+                sessionDivision: this.session,
+            };
+            this.$axios
+                .post(`/api/reviewRequest`, postData, {
+                    withCredentials: false,
+                })
+                .then((data) => {
+                    if (data.data.success) {
+                        this.fault_selection = {
+                            value: "01. 비매너 주행",
+                            key: "unManner",
+                        };
+                        this.description = "";
+                        this.race_event = "";
+                        this.applicant = "";
+                        this.candidate = "";
+                        this.replay_time = "";
+                        this.session = "";
+
+                        this.$bvModal.msgBoxOk("정상 등록 되었습니다.", {
+                            title: "확인",
+                            size: "sm",
+                            buttonSize: "sm",
+                            okVariant: "success",
+                            headerClass: "p-2 border-bottom-0",
+                            footerClass: "p-2 border-top-0",
+                            centered: true,
+                        });
+                    } else {
+                        this.$bvModal.msgBoxOk(
+                            "시스템 오류입니다. 다시 시도해 주세요.",
+                            {
+                                title: "확인",
+                                size: "sm",
+                                buttonSize: "sm",
+                                okVariant: "danger",
+                                headerClass: "p-2 border-bottom-0",
+                                footerClass: "p-2 border-top-0",
+                                centered: true,
+                            }
+                        );
+                    }
+                });
+        },
         onClickFaultDropdown(fault) {
             this.fault_selection = fault;
         },

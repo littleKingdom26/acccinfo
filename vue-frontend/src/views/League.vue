@@ -32,23 +32,19 @@
             </h3>
             <hr class="yellow" />
 
-            <div class="tabs">
+            <div class="tabs" v-if="posterType.length">
                 <b-button
+                    v-for="(type, typeIdx) in posterType"
+                    :key="typeIdx"
                     class="roundedBtn"
-                    :class="{ active: sliderValue == 0 }"
+                    :class="{ active: type.key == slideType }"
                     variant="outline-secondary"
-                    @click="sliderValue = 0"
-                    >수요리그</b-button
-                >
-                <b-button
-                    class="roundedBtn"
-                    :class="{ active: sliderValue == 1 }"
-                    variant="outline-secondary"
-                    @click="sliderValue = 1"
-                    >일요리그</b-button
+                    @click="slideType = type.key"
+                    >{{ type.value }}</b-button
                 >
             </div>
             <Slider
+                v-if="leagueSlideList.length"
                 animation="fade"
                 :autoplay="false"
                 v-model="sliderValue"
@@ -58,11 +54,10 @@
                 <SliderItem
                     v-for="(i, index) in leagueSlideList"
                     :key="index"
-                    @click="changeIndex(1)"
-                    :style="i.style"
+                    :style="slideStyle"
                     class="leagueCarousel"
                 >
-                    <img :src="i.imgSrc" />
+                    <img :src="i.imgPath" />
                 </SliderItem>
             </Slider>
 
@@ -121,65 +116,51 @@ export default {
     },
     data() {
         return {
-            leagueSlideList: [
-                {
-                    style: {
-                        // backgroundImage: 'url("/vue_assets/img/post_1.jpeg")',
-                        backgroundPosition: "center",
-                        backgroundSize: "contain",
-                        backgroundRepeat: "no-repeat",
-                        left: "0",
-                        right: "0",
-                        margin: "0 auto",
-                    },
-                    imgSrc: "/vue_assets/img/post_1.jpeg",
-                    title: `<span><span class="yellow">24 HOURS</span> OPEN</span><br /><span>TIMETRIAL SERVER</span>`,
-                    iconClass: "trophy",
-                    buttonName: "SEASON CHAMPION",
-                },
-                {
-                    style: {
-                        // backgroundImage: 'url("/vue_assets/img/post_2.jpeg")',
-                        backgroundPosition: "center",
-                        backgroundSize: "contain",
-                        backgroundRepeat: "no-repeat",
-                        left: "0",
-                        right: "0",
-                        margin: "0 auto",
-                    },
-                    imgSrc: "/vue_assets/img/post_2.jpeg",
-                    title: `<span><span class="yellow">FINAL LAP</span></span><br /><span>JOIN OUR LEAGUE</span>`,
-                    iconClass: "trophy car",
-                    buttonName: "REGISTER NOW",
-                },
-            ],
+            slideStyle: {
+                backgroundPosition: "center",
+                backgroundSize: "contain",
+                backgroundRepeat: "no-repeat",
+                left: "0",
+                right: "0",
+                margin: "0 auto",
+            },
+            leagueSlideList: [],
+            posterType: [],
+            slideType: "sub", // sub : 수요, main : 일요
             sliderValue: 0,
         };
     },
     created() {
-        // this._getContent();
+        this._getContent();
+        this._getPosterType();
+    },
+    watch: {
+        slideType() {
+            this._getContent();
+        },
     },
     methods: {
-        // _getContent() {
-        //     this.$axios
-        //         .get(
-        //             "/api/notice/list",
-        //             {
-        //                 params: {
-        //                     page: this.currentPage,
-        //                     size: this.perPage,
-        //                 },
-        //             },
-        //             { withCredentials: false }
-        //         )
-        //         .then((data) => {
-        //             this.rows = data.data.data.totalElements;
-        //             this.noticeContent = data.data.data.content;
-        //             console.info("this.noticeContent", this.noticeContent);
-        //         });
-        // },
-        changeIndex(index) {
-            this.sliderValue = index;
+        _getContent() {
+            this.$axios
+                .get(`/api/main/poster/${this.slideType}`, {
+                    withCredentials: false,
+                })
+                .then((data) => {
+                    this.leagueSlideList = data.data.data;
+                    console.info("this.leagueSlideList", this.leagueSlideList);
+                });
+        },
+        _getPosterType() {
+            this.$axios
+                .get(`/api/common/posterType`, {
+                    withCredentials: false,
+                })
+                .then((data) => {
+                    this.posterType = data.data.data.sort(function(a, b) {
+                        return a.key > b.key ? -1 : a.key > b.key ? 1 : 0;
+                    });
+                    console.info("this.posterType", this.posterType);
+                });
         },
     },
 };
