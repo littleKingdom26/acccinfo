@@ -32,7 +32,10 @@
                 <div class="count">
                     {{ _getRowNumber(rowIdx) }}
                 </div>
-                <div class="title JeojuGthic">{{ row.title }}</div>
+                <div class="title JeojuGthic">
+                    {{ row.title }}
+                    {{ row.commentCount ? `[${row.commentCount}]` : null }}
+                </div>
                 <div class="writer JeojuGthic">{{ row.regId }}</div>
             </div>
         </div>
