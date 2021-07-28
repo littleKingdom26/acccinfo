@@ -58,7 +58,7 @@
                                     <tr>
                                         <td>{{regId}}</td>
                                         <td>{{reviewTarget}}</td>
-                                        <td>{{complaintsName}}</td>
+										<td><a href="javascript:void(0);" class="detailBtn" data-reviewrequestkey="{{reviewRequestKey}}">{{complaintsName}}</a></td>
                                         <td>{{event}}</td>
                                         <td>{{sessionDivision}}</td>
                                         <td>{{regDtStr}}</td>
@@ -89,6 +89,14 @@
     $(function () {
 		$('#btnSearch').click(function () {
 			$('#page').val(1);
+			$('#searchFrm').submit();
+		});
+
+		$('.detailBtn').click(function (e) {
+			e.preventDefault();
+
+			let reviewRequestKey = $(this).data('reviewrequestkey');
+			$('#searchFrm').attr("action","/admin/reviewRequest/view/"+ reviewRequestKey);
 			$('#searchFrm').submit();
 		});
     });

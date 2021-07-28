@@ -2,10 +2,7 @@ package info.team23h.acc.service.bbs;
 
 
 import info.team23h.acc.entity.bbs.Bbs;
-import info.team23h.acc.vo.bbs.BbsNameVO;
-import info.team23h.acc.vo.bbs.BbsResultVO;
-import info.team23h.acc.vo.bbs.BbsSearch;
-import info.team23h.acc.vo.bbs.BbsVO;
+import info.team23h.acc.vo.bbs.*;
 import info.team23h.acc.vo.comment.CommentResultVO;
 import info.team23h.acc.vo.comment.CommentVO;
 import info.team23h.acc.vo.front.Bbs.BbsSearchVO;
@@ -130,4 +127,11 @@ public interface BbsService {
 	 */
 	CommentResultVO saveComment(CommentVO commentVO);
 
+	/**
+	 * 관리자 게시판 목록
+	 *
+	 * @param nameSeq the name seq
+	 * @param search  the search
+	 */
+	Page<AdminBbsPageResultVO> findByAllPages(Long nameSeq, AdminBbsSearchVO search);
 }

@@ -16,13 +16,12 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @Slf4j
 @AutoConfigureMockMvc
 @ActiveProfiles("local")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ReviewRequestControllerTest {
+class BoardControllerTest {
 
 	@Autowired
 	MockMvc mockMvc;
@@ -33,10 +32,8 @@ class ReviewRequestControllerTest {
 	@Autowired
 	ObjectMapper objectMapper;
 
-
 	@BeforeEach()
 	public void setup() {
-		log.debug("beforeEach {}", "beforeEach");
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx)
 		                              .addFilters(new CharacterEncodingFilter("UTF-8", true))
 		                              .alwaysDo(print())
@@ -44,22 +41,10 @@ class ReviewRequestControllerTest {
 	}
 
 	@Test
-	public void 심의요청_리스트() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/admin/reviewRequest/list?keyword=리틀"))
+	public void 게시판_리스트() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/admin/board/1"))
 		       .andExpect(status().isOk())
-		       .andExpect(view().name("admin/reviewRequest/list"))
-		       .andDo(print())
 		       .andReturn();
 	}
-
-	@Test
-	public void 심의요청_목록() throws  Exception{
-		mockMvc.perform(MockMvcRequestBuilders.get("/admin/reviewRequest/view/2?keyword=리틀"))
-		       .andExpect(status().isOk())
-		       .andExpect(view().name("admin/reviewRequest/view"))
-		       .andReturn();
-
-	}
-
 
 }

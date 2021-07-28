@@ -281,4 +281,24 @@ public class BbsServiceImpl implements BbsService {
 
 	}
 
+	@Override
+	public Page<AdminBbsPageResultVO> findByAllPages(Long nameSeq, AdminBbsSearchVO search) {
+		final TbBbsName bbsName = bbsNameRepository.findById(nameSeq)
+		                                           .orElseThrow(() -> new Team23hException("게시물이 없습니다."));
+
+		String title= "";
+		String regId= "";
+
+		if(! ObjectUtils.isEmpty(search.getTitle())) {
+			title = search.getTitle();
+		}
+
+		if(! ObjectUtils.isEmpty(search.getRegId())) {
+			regId = search.getRegId();
+		}
+
+		final Page<Bbs> bbs = bbsRepository.findAllByTbBbsNameAndTitleContainsAndRegIdContains(bbsName, title, regId, PageRequest.of(search.getPage() - 1, search.getSize(), Sort.by("seq").descending()));
+		return bbs.map(AdminBbsPageResultVO::new);
+	}
+
 }

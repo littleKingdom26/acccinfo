@@ -1,6 +1,7 @@
 package info.team23h.acc.service.bbs;
 
 import info.team23h.acc.entity.bbs.Bbs;
+import info.team23h.acc.vo.bbs.AdminBbsSearchVO;
 import info.team23h.acc.vo.front.Bbs.BbsSearchVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,16 @@ class BbsServiceImplTest {
 		bbsSearch.setNameSeq(1L);
 		final Page<Bbs> byAllPages = bbsService.findByAllPages(bbsSearch);
 		log.debug("byAllPages : {}", byAllPages);
+	}
+
+	@Test
+	public void 공지사항_관리자_조회(){
+		AdminBbsSearchVO adminBbsSearchVO = new AdminBbsSearchVO();
+
+		adminBbsSearchVO.setTitle("");
+		adminBbsSearchVO.setRegId("");
+
+		bbsService.findByAllPages(1L,adminBbsSearchVO);
 	}
 
 }

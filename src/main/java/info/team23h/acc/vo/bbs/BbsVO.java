@@ -28,4 +28,6 @@ public class BbsVO extends CommonVO {
 	private String passwordChange;
 
 
+
+
 }
