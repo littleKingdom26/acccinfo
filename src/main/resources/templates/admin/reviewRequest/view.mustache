@@ -1,0 +1,97 @@
+{{>admin/layout/header}}
+<body>
+<div id="wrap">
+	<div class="inWrap">
+		{{>admin/layout/lnb}}
+		<div id="container">
+			{{>admin/layout/topBar}}
+			<div class="location">
+				<em class="home">HOME</em><i></i>
+				<em>심의요청</em><i></i>
+				<em class="active">심의요청 상세</em>
+			</div>
+			<div class="content">
+				<div class="box">
+					<div class="inBox">
+						<table class="formTable mt10">
+							<colgroup>
+								<col width="20%" />
+								<col width="*" />
+							</colgroup>
+							<tbody>
+							<tr>
+								<th>작성일</th>
+								<td>
+									{{result.regDtStr}}
+								</td>
+							</tr>
+							<tr>
+								<th>신청자</th>
+								<td>{{result.regId}}</td>
+							</tr>
+							<tr>
+								<th>심의대상자</th>
+								<td>
+									{{result.reviewTarget}}
+								</td>
+							</tr>
+							<tr>
+								<th>항의 범주</th>
+								<td>
+									{{result.complaintsName}}
+								</td>
+							</tr>
+							<tr>
+								<th>레이스 이벤트</th>
+								<td>
+									{{result.event}}
+								</td>
+							</tr>
+							<tr>
+								<th>세션 단계</th>
+								<td>
+									{{result.sessionDivision}}
+								</td>
+							</tr>
+							<tr>
+								<th>리플레이 시간</th>
+								<td>
+									{{result.replayTime}}
+								</td>
+							</tr>
+							<tr>
+								<th>설명</th>
+								<td>
+									{{result.description}}
+								</td>
+							</tr>
+
+
+							</tbody>
+						</table>
+						<div class="btnArea txtR">
+							<a href="javascript:void(0);" id="btn-cancel" class="btn btnDefalt">목록</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{>admin/layout/bodyFooter}}
+	</div>
+</div>
+<form id="list" method="get" >
+{{{markup}}}
+</form>
+</body>
+{{>admin/layout/footer}}
+
+<script>
+	$(function () {
+		$('#btn-cancel').click(function(e){
+			$('#list').attr('action','/admin/reviewRequest/list');
+			$('#list').submit();
+		});
+
+	});
+
+</script>

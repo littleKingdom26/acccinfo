@@ -28,7 +28,6 @@ public class BoardController {
 			,@PathVariable long nameSeq
 			,@ModelAttribute("search") BbsSearch search
 	){
-		log.debug("search.toString() > " + search.toString());
 		search.setNameSeq(nameSeq);
 		HashMap<String, Object> boardList = bbsService.loadBbsList(search);
 		List<BbsNameVO> bbsNameVOS = bbsService.loadBbsName();
@@ -38,6 +37,7 @@ public class BoardController {
 			}
 		}
 		model.addAttribute("data", boardList);
+
 		return "/admin/board/main";
 	}
 
@@ -78,6 +78,9 @@ public class BoardController {
 				model.addAttribute("bbsName", bbsNameVO.getBbsName());
 			}
 		}
+
+
+
 		model.addAttribute("bbsNameSeq", nameSeq);
 		model.addAttribute("data", bbsService.loadBbsView(bbsSearch));
 		return "/admin/board/view";

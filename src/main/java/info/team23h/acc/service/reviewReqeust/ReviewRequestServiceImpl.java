@@ -1,10 +1,12 @@
 package info.team23h.acc.service.reviewReqeust;
 
 
+import info.team23h.acc.config.Team23hException;
 import info.team23h.acc.entity.reviewReqeust.ReviewRequest;
 import info.team23h.acc.repository.reviewReqeust.ReviewRequestRepository;
 import info.team23h.acc.vo.front.reviewReqeustSaveVO.ReviewRequestResultVO;
 import info.team23h.acc.vo.front.reviewReqeustSaveVO.ReviewRequestSaveVO;
+import info.team23h.acc.vo.reiewReqeust.AdminReviewRequestResultVO;
 import info.team23h.acc.vo.reiewReqeust.ReviewRequestPageResultVO;
 import info.team23h.acc.vo.reiewReqeust.ReviewRequestSearchVO;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +23,6 @@ import org.springframework.util.ObjectUtils;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ReviewRequestServiceImpl implements ReviewRequestService {
-
 
 	final private ReviewRequestRepository reviewRequestRepository;
 
@@ -54,5 +55,12 @@ public class ReviewRequestServiceImpl implements ReviewRequestService {
 			result = reviewRequestRepository.findAllByRegIdContains(reviewRequestSearchVO.getKeyword(),pageRequest);
 		}
 		return result.map(ReviewRequestPageResultVO::new);
+	}
+
+	@Override
+	public AdminReviewRequestResultVO findByDetail(Long reviewRequestKey) {
+		final ReviewRequest reviewRequest = reviewRequestRepository.findById(reviewRequestKey)
+		                                                 .orElseThrow(() -> new Team23hException("게시물"));
+		return new AdminReviewRequestResultVO(reviewRequest);
 	}
 }

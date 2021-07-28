@@ -46,10 +46,19 @@ class ReviewRequestControllerTest {
 	@Test
 	public void 심의요청_리스트() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/admin/reviewRequest/list?keyword=리틀"))
-				.andExpect(status().isOk())
+		       .andExpect(status().isOk())
 		       .andExpect(view().name("admin/reviewRequest/list"))
 		       .andDo(print())
 		       .andReturn();
+	}
+
+	@Test
+	public void 심의요청_목록() throws  Exception{
+		mockMvc.perform(MockMvcRequestBuilders.get("/admin/reviewRequest/view/2?keyword=리틀"))
+		       .andExpect(status().isOk())
+		       .andExpect(view().name("admin/reviewRequest/view"))
+		       .andReturn();
+
 	}
 
 
