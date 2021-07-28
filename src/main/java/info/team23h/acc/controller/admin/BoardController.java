@@ -1,43 +1,51 @@
 package info.team23h.acc.controller.admin;
 
+import info.team23h.acc.service.bbs.BbsNameService;
 import info.team23h.acc.service.bbs.BbsService;
-import info.team23h.acc.vo.bbs.BbsNameVO;
-import info.team23h.acc.vo.bbs.BbsSearch;
-import info.team23h.acc.vo.bbs.BbsVO;
+import info.team23h.acc.util.PageHelper;
+import info.team23h.acc.vo.bbs.*;
 import info.team23h.acc.vo.login.LoginUserVO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/admin")
 public class BoardController {
 
-	@Autowired
-	BbsService bbsService;
+
+	final private BbsService bbsService;
+
+
+	final private BbsNameService bbsNameService;
 
 	@RequestMapping(value = "/board/{nameSeq}", method = {RequestMethod.GET, RequestMethod.POST})
 	public String board(Model model
-			,@PathVariable long nameSeq
-			,@ModelAttribute("search") BbsSearch search
+			,@PathVariable Long nameSeq
+			,@ModelAttribute("search") AdminBbsSearchVO search
 	){
-		search.setNameSeq(nameSeq);
-		HashMap<String, Object> boardList = bbsService.loadBbsList(search);
-		List<BbsNameVO> bbsNameVOS = bbsService.loadBbsName();
-		for(BbsNameVO bbsNameVO : bbsNameVOS){
-			if(bbsNameVO.getSeq()==nameSeq){
-				model.addAttribute("bbsName", bbsNameVO.getBbsName());
-			}
-		}
-		model.addAttribute("data", boardList);
 
+		final Page<AdminBbsPageResultVO> page = bbsService.findByAllPages(nameSeq, search);
+		final AdminBbsNameResultVO bbsNameResultVO = bbsNameService.findById(nameSeq);
+
+		PageHelper pageHelper = new PageHelper();
+		pageHelper.setCurrentPage(page.getNumber() + 1);
+		pageHelper.setTotalPage(page.getTotalPages());
+
+
+		model.addAttribute("nameSeq", nameSeq);
+		model.addAttribute("search", search);
+		model.addAttribute("result", page);
+		model.addAttribute("bbsNameResultVO",bbsNameResultVO);
+		model.addAttribute("pageHelper", pageHelper);
 		return "/admin/board/main";
 	}
 

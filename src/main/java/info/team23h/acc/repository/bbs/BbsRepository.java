@@ -13,4 +13,9 @@ public interface BbsRepository extends JpaRepository<Bbs,Long> {
 
 	Page<Bbs> findAllByTbBbsNameAndTitleContains(TbBbsName bbsName,String title, Pageable pageable);
 
+
+	Page<Bbs> findAllByTbBbsNameAndTitleContainsAndRegIdContains(TbBbsName bbsName, String title,String regId, Pageable pageable);
+
+
+
 }
