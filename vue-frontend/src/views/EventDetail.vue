@@ -32,7 +32,9 @@
         <div class="session" style="padding-top: 0">
             <CommentList
                 v-if="data && data.commentList"
+                :bbsSeq="bbsSeq"
                 :comments="data.commentList"
+                :getRefreshData="_getContent"
             />
         </div>
 

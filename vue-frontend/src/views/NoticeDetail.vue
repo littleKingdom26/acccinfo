@@ -32,7 +32,9 @@
         <div class="session" style="padding-top: 0">
             <CommentList
                 v-if="data && data.commentList"
+                :bbsSeq="bbsSeq"
                 :comments="data.commentList"
+                :getRefreshData="_getContent"
             />
         </div>
 
@@ -79,7 +81,7 @@ export default {
                     withCredentials: false,
                 })
                 .then((data) => {
-                    // console.info("data.data.data", data.data.data);
+                    console.info("data.data.data", data.data.data);
                     this.data = data.data.data;
                     this.title = data.data.data.title;
                     this.writer = data.data.data.regId;

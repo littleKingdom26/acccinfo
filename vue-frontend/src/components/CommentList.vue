@@ -27,7 +27,7 @@
                     ></b-form-input>
                 </b-col>
                 <b-col cols="2">
-                    <b-button>REGISTER</b-button>
+                    <b-button @click="onClickRegister()">REGISTER</b-button>
                 </b-col>
             </b-row>
         </li>
@@ -38,7 +38,14 @@
 export default {
     props: {
         comments: {
-            type: Object,
+            type: Array,
+            required: true,
+        },
+        bbsSeq: {
+            required: true,
+        },
+        getRefreshData: {
+            type: Function,
             required: true,
         },
     },
@@ -47,6 +54,76 @@ export default {
             writer: "",
             commnet: "",
         };
+    },
+    methods: {
+        onClickRegister() {
+            if (!this.bbsSeq) {
+                this.$bvModal.msgBoxOk(
+                    "게시물이 올바르지 않습니다. 확인해주세요.",
+                    {
+                        title: "확인",
+                        size: "sm",
+                        buttonSize: "sm",
+                        okVariant: "danger",
+                        headerClass: "p-2 border-bottom-0",
+                        footerClass: "p-2 border-top-0",
+                        centered: true,
+                    }
+                );
+                return;
+            }
+            if (!this.writer | !this.commnet) {
+                this.$bvModal.msgBoxOk("입력란이 비어있습니다. 확인해주세요.", {
+                    title: "확인",
+                    size: "sm",
+                    buttonSize: "sm",
+                    okVariant: "danger",
+                    headerClass: "p-2 border-bottom-0",
+                    footerClass: "p-2 border-top-0",
+                    centered: true,
+                });
+                return;
+            }
+
+            let postData = {
+                bbsSeq: this.bbsSeq,
+                comment: this.commnet,
+                regId: this.writer,
+            };
+            this.$axios
+                .post(`/api/common/bbs/comment`, postData, {
+                    withCredentials: false,
+                })
+                .then((data) => {
+                    if (data.data.success) {
+                        this.$bvModal.msgBoxOk("정상 등록 되었습니다.", {
+                            title: "확인",
+                            size: "sm",
+                            buttonSize: "sm",
+                            okVariant: "success",
+                            headerClass: "p-2 border-bottom-0",
+                            footerClass: "p-2 border-top-0",
+                            centered: true,
+                        });
+                        this.comment = "";
+                        this.writer = "";
+                        this.getRefreshData();
+                    } else {
+                        this.$bvModal.msgBoxOk(
+                            "시스템 오류입니다. 다시 시도해 주세요.",
+                            {
+                                title: "확인",
+                                size: "sm",
+                                buttonSize: "sm",
+                                okVariant: "danger",
+                                headerClass: "p-2 border-bottom-0",
+                                footerClass: "p-2 border-top-0",
+                                centered: true,
+                            }
+                        );
+                    }
+                });
+        },
     },
 };
 </script>
