@@ -165,7 +165,7 @@ export default {
                 })
                 .then((data) => {
                     this.faults = data.data.data;
-                    console.info("this.faults", this.faults);
+                    // console.info("this.faults", this.faults);
                 });
         },
         _postContent() {

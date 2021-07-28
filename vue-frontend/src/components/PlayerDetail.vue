@@ -112,11 +112,9 @@ export default {
     },
     watch: {
         showDetail() {
-            console.info("this.$props.showDetail", this.$props.showDetail);
             this.isShowDetail = this.$props.showDetail;
         },
         playerDetail() {
-            console.info("this.$props.playerDetail", this.$props.playerDetail);
             this.lPlayerDetail = this.$props.playerDetail;
         },
         isShowDetail(val) {
@@ -128,7 +126,6 @@ export default {
         onClickSteamLogo(playerId) {
             if (playerId[0] == "S") {
                 playerId = playerId.slice(1, playerId.length);
-                console.info(playerId);
             }
             window.open(`https://steamcommunity.com/profiles/${playerId}`);
         },

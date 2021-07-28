@@ -147,7 +147,7 @@ export default {
                 })
                 .then((data) => {
                     this.leagueSlideList = data.data.data;
-                    console.info("this.leagueSlideList", this.leagueSlideList);
+                    // console.info("this.leagueSlideList", this.leagueSlideList);
                 });
         },
         _getPosterType() {
@@ -159,7 +159,7 @@ export default {
                     this.posterType = data.data.data.sort(function(a, b) {
                         return a.key > b.key ? -1 : a.key > b.key ? 1 : 0;
                     });
-                    console.info("this.posterType", this.posterType);
+                    // console.info("this.posterType", this.posterType);
                 });
         },
     },

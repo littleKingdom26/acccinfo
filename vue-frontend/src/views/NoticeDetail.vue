@@ -81,7 +81,7 @@ export default {
                     withCredentials: false,
                 })
                 .then((data) => {
-                    console.info("data.data.data", data.data.data);
+                    // console.info("data.data.data", data.data.data);
                     this.data = data.data.data;
                     this.title = data.data.data.title;
                     this.writer = data.data.data.regId;

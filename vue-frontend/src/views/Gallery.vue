@@ -150,7 +150,7 @@ export default {
                     { withCredentials: false }
                 )
                 .then((data) => {
-                    console.info("data.data.data", data.data.data);
+                    // console.info("data.data.data", data.data.data);
                     this.rows = data.data.data.totalElements;
                     this.galleryContent = data.data.data.content;
                 });
