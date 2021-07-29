@@ -42,7 +42,7 @@ class BoardControllerTest {
 
 	@Test
 	public void 게시판_리스트() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/admin/board/1"))
+		mockMvc.perform(MockMvcRequestBuilders.get("/admin/board/4"))
 		       .andExpect(status().isOk())
 		       .andReturn();
 	}

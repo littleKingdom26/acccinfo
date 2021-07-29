@@ -34,6 +34,7 @@ import org.springframework.util.ObjectUtils;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -298,7 +299,31 @@ public class BbsServiceImpl implements BbsService {
 		}
 
 		final Page<Bbs> bbs = bbsRepository.findAllByTbBbsNameAndTitleContainsAndRegIdContains(bbsName, title, regId, PageRequest.of(search.getPage() - 1, search.getSize(), Sort.by("seq").descending()));
-		return bbs.map(AdminBbsPageResultVO::new);
+
+		Page<AdminBbsPageResultVO> map = bbs.map(AdminBbsPageResultVO::new);
+		int i=0;
+		Long bbsNo = bbs.getTotalElements() - ((search.getPage() - 1) * pageCount);
+		for(AdminBbsPageResultVO adminBbsPageResultVO : map) {
+			adminBbsPageResultVO.setNo(bbsNo - i);
+			i++;
+		}
+
+		return map;
+	}
+
+	@Override
+	@Transactional
+	public void deleteBbs(Long seq) {
+
+		final Optional<Bbs> byId = bbsRepository.findById(seq);
+		byId.ifPresent(bbs -> {
+			bbsCommentRepository.deleteAll(bbs.getBbsCommentList());
+			bbs.getBbsFileList().forEach(bbsFile -> {
+				FileUtil.delete(bbsFile.getFilePath(),bbsFile.getFileName());
+			});
+			fileRepository.deleteAll(bbs.getBbsFileList());
+			bbsRepository.delete(bbs);
+		});
 	}
 
 }

@@ -1,6 +1,7 @@
 package info.team23h.acc.vo.bbs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import info.team23h.acc.config.variable.EnumCode;
 import info.team23h.acc.entity.bbs.Bbs;
 import info.team23h.acc.entity.bbs.BbsFile;
 import io.swagger.annotations.ApiModelProperty;
@@ -32,6 +33,8 @@ public class AdminBbsPageResultVO {
 
 	private String mainFilePath;
 
+	private Long no;
+
 	@ApiModelProperty(value = "작성일", name = "regDt")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss", timezone = "Asia/Seoul")
 	private LocalDateTime regDt;
@@ -44,7 +47,6 @@ public class AdminBbsPageResultVO {
 		}
 	}
 
-
 	public AdminBbsPageResultVO(Bbs bbs) {
 		this.seq = bbs.getSeq();
 		this.commentCount = bbs.getBbsCommentList().stream().count();
@@ -52,14 +54,18 @@ public class AdminBbsPageResultVO {
 		this.content = bbs.getContent();
 		this.regId = bbs.getRegId();
 		this.regDt = bbs.getRegDt();
-		if(! ObjectUtils.isEmpty(bbs.getMainFileName())) {
-			final BbsFile bbsFile1 = bbs.getBbsFileList()
-			                            .stream()
-			                            .filter(bbsFile -> bbsFile.getOriFileName()
-			                                                      .equals(bbs.getMainFileName()))
-			                            .findFirst()
-			                            .get();
-			mainFilePath = File.separator + "imageView" + File.separator + bbsFile1.getFilePath() + File.separator + bbsFile1.getFileName();
+		if(bbs.getTbBbsName().getBbsType().equals(EnumCode.BbsType.GALLERY.name())) {
+			if(! ObjectUtils.isEmpty(bbs.getMainFileName())) {
+				final BbsFile bbsFile1 = bbs.getBbsFileList()
+				                            .stream()
+				                            .filter(bbsFile -> bbsFile.getOriFileName()
+				                                                      .equals(bbs.getMainFileName()))
+				                            .findFirst()
+				                            .get();
+				mainFilePath = File.separator + "imageView" + File.separator + bbsFile1.getFilePath() + File.separator + bbsFile1.getFileName();
+			}
+		}else if(bbs.getTbBbsName().getBbsType().equals(EnumCode.BbsType.VIDEO.name())){
+			mainFilePath = "";
 		}
 
 	}

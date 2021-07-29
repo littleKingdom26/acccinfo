@@ -134,4 +134,6 @@ public interface BbsService {
 	 * @param search  the search
 	 */
 	Page<AdminBbsPageResultVO> findByAllPages(Long nameSeq, AdminBbsSearchVO search);
+
+	void deleteBbs(Long seq);
 }

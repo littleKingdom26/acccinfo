@@ -43,47 +43,34 @@
                     </div>
                     <div class="box">
                         <div class="inBox">
-                            <div class="btnArea txtR">
+                            <!--<div class="btnArea txtR">
                                 <a href="javascript:void(0);" id="btnRegister" class="btn btnBlue btnPopIns">등록</a>
-                            </div>
-                            <table class="listTable mt10">
-                                <colgroup>
-                                    <col width="5%" />
-                                    <col width="*" />
-                                    <col width="150px" />
-                                    <col width="150px" />
-                                </colgroup>
-                                <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>제목</th>
-                                    <th>작성자</th>
-                                    <th>작성일</th>
-                                </tr>
-                                </thead>
-                                <tbody >
-                                {{#result}}
-                                    <tr>
-                                        <td>{{no}}</td>
-                                        <td><a href="javascript:void(0);" class="detailBtn" data-bbsseq="{{seq}}">{{title}}{{#commentCount}} <small>({{commentCount}})</small>{{/commentCount}}</a></td>
-                                        <td>
-											{{regId}}
-                                        </td>
-                                        <td>{{regDtStr}}</td>
-                                    </tr>
-                                {{/result}}
-                                {{^result}}
-                                    <tr>
-                                        <td colspan="4">
-                                            <p class="noDate">데이터가 없습니다.</p>
-                                        </td>
-                                    </tr>
-                                {{/result}}
-                                </tbody>
-                            </table>
-							{{{pageHelper.paging}}}
+                            </div>-->
+							<div style="width:100%; display: flex;flex-direction: row;flex-wrap: wrap;">
+								{{#result}}
+									<div style="width:23% ; margin:5px;">
+										<div style="width: 100%;">
+											<button class="btnDetail" style="border: 0;background: #fff;" data-seq="{{seq}}">
+												<img src="{{{mainFilePath}}}" width="100%" />
+											</button>
+										</div>
+										<div style="width:100%;display: flex;flex-direction: row; justify-content: space-between; margin-top:5px;">
+											<div style="font-weight: bold">{{regId}} / {{title}}({{commentCount}})</div>
+											<div>
+												<a href="javascript:void(0);" class="btn btnBlue btnPopIns btnDel" data-seq="{{seq}}">삭제</a>
+											</div>
+										</div>
+									</div>
+								{{/result}}
+								{{^result}}
+									<div>
+										겔러리가 없습니다.
+									</div>
+								{{/result}}
+							</div>
                         </div>
                     </div>
+					{{{pageHelper.paging}}}
                 </div>
             </div>
             {{>admin/layout/bodyFooter}}
@@ -96,6 +83,30 @@
 <script>
     $(function () {
         board.init();
+
+
+		$('.btnDel').click(function (e) {
+			e.preventDefault();
+			let data = {
+				seq: $(this).data('seq')
+			};
+			console.log(data);
+			common.ajax("POST", "/admin/board/delBoard", JSON.stringify(data), "json", 'application/json; charset=utf-8', function (data) {
+				console.log(data);
+				if(data.code == 'SUC'){
+					alert('게시물을 삭제하였습니다.');
+					$('#searchFrm').submit();
+				}else{
+					alert('게시물 삭제 실패 하였습니다.');
+				}
+			});
+		});
+
+		$('.btnDetail').click(function(e){
+			$('#searchFrm').attr('action', '/admin/board/{{nameSeq}}/' + $(this).data('seq'));
+			$('#searchFrm').submit();
+		});
+
     });
 
     function paging(page) {

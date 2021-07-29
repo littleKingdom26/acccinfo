@@ -12,9 +12,12 @@ public class AdminBbsNameResultVO {
 
 	private Long seq;
 
+	private String bbsType;
+
 
 	public AdminBbsNameResultVO(TbBbsName tbBbsName) {
 		this.bbsName = tbBbsName.getBbsName();
 		this.seq  = tbBbsName.getSeq();
+		this.bbsType = tbBbsName.getBbsType();
 	}
 }

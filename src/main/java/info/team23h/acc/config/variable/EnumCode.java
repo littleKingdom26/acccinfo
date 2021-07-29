@@ -81,5 +81,19 @@ public class EnumCode {
 		}
 	}
 
+	/**
+	 * 게시물 타입
+	 */
+	@Getter
+	@RequiredArgsConstructor
+	public enum BbsType {
+		TEXT("board"),
+		VIDEO("video"),
+		GALLERY("gallery");
+		private final String folder;
+	}
+
+
+
 
 }

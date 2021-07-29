@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.hateoas.Link;
+import org.springframework.util.ObjectUtils;
 
 import javax.persistence.Transient;
 import java.util.List;
@@ -53,6 +54,9 @@ public class GalleryResultVO {
 		fileResultList = bbs.getBbsFileList().stream().map(FileResultVO::new).collect(Collectors.toList());
 		this.mainFilePath = fileResultList.stream().filter(fileResultVO -> fileResultVO.getOriFileName().equals(mainFileName)).map(FileResultVO::getFullPath).collect(Collectors.joining());
 		this._link = bbs.get_link();
-		this.commentCount = bbs.getBbsCommentList().size();
+		if(! ObjectUtils.isEmpty(bbs.getBbsCommentList())) {
+			this.commentCount = bbs.getBbsCommentList().size();
+		}
+
 	}
 }

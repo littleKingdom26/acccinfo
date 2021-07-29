@@ -1,5 +1,6 @@
 package info.team23h.acc.controller.admin;
 
+import info.team23h.acc.config.variable.EnumCode;
 import info.team23h.acc.service.bbs.BbsNameService;
 import info.team23h.acc.service.bbs.BbsService;
 import info.team23h.acc.util.PageHelper;
@@ -46,7 +47,8 @@ public class BoardController {
 		model.addAttribute("result", page);
 		model.addAttribute("bbsNameResultVO",bbsNameResultVO);
 		model.addAttribute("pageHelper", pageHelper);
-		return "/admin/board/main";
+
+		return "/admin/" + EnumCode.BbsType.valueOf(bbsNameResultVO.getBbsType()).getFolder() + "/main";
 	}
 
 	@RequestMapping(value = "/board/{nameSeq}/write", method = {RequestMethod.GET, RequestMethod.POST})
@@ -75,23 +77,20 @@ public class BoardController {
 
 	@PostMapping("/board/{nameSeq}/{seq}")
 	public String viewBbs(Model model,
-						  @PathVariable("nameSeq") long nameSeq,
+						  @PathVariable("nameSeq") Long nameSeq,
 						  @ModelAttribute("search") BbsSearch bbsSearch,
-						  @PathVariable("seq") long seq) {
+						  @PathVariable("seq") Long seq) {
 		bbsSearch.setNameSeq(nameSeq);
 		bbsSearch.setBbsSeq(seq);
-		List<BbsNameVO> bbsNameVOS = bbsService.loadBbsName();
-		for(BbsNameVO bbsNameVO : bbsNameVOS){
-			if(bbsNameVO.getSeq() == nameSeq){
-				model.addAttribute("bbsName", bbsNameVO.getBbsName());
-			}
-		}
+		final AdminBbsNameResultVO bbsNameResultVO = bbsNameService.findById(nameSeq);
 
+		model.addAttribute("bbsName", bbsNameResultVO.getBbsName());
+		model.addAttribute("bbsNameSeq", bbsNameResultVO.getSeq());
 
+		final BbsResultVO bySeq = bbsService.findBySeq(seq);
+		model.addAttribute("data", bySeq);
 
-		model.addAttribute("bbsNameSeq", nameSeq);
-		model.addAttribute("data", bbsService.loadBbsView(bbsSearch));
-		return "/admin/board/view";
+		return "/admin/" + EnumCode.BbsType.valueOf(bbsNameResultVO.getBbsType()).getFolder() + "/view";
 	}
 
 	@PostMapping("/board/update")

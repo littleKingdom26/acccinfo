@@ -24,6 +24,9 @@ public class TbBbsName extends BaseTimeEntity {
 	@Column(name = "BBS_NAME")
 	private String bbsName;
 
+	@Column(name="BBS_TYPE")
+	private String bbsType;
+
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name="NAME_SEQ")
 	@JsonBackReference

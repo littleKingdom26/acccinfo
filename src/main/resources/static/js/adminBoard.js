@@ -6,7 +6,7 @@ var board = {
         });
 
         $('#btnSearch').click(function () {
-            $('#currentPage').val(1);
+            $('#page').val(1);
             $('#searchFrm').submit();
         });
 
