@@ -7,7 +7,7 @@
                 {{>admin/layout/topBar}}
                 <div class="location">
                     <em class="home">HOME</em><i></i>
-                    <em>게시판관리</em><i></i>
+                    <em>동영상관리</em><i></i>
                     <em class="active">{{bbsNameResultVO.bbsName}}</em>
                 </div>
                 <div class="content">
@@ -51,7 +51,8 @@
 									<div style="width:23% ; margin:5px;">
 										<div style="width: 100%;">
 											<button class="btnDetail" style="border: 0;background: #fff;" data-seq="{{seq}}">
-												<img src="{{{mainFilePath}}}" width="100%" />
+
+												<img src="https://img.youtube.com/vi/{{youtubeKey}}/maxresdefault.jpg" width="100%" />
 											</button>
 										</div>
 										<div style="width:100%;display: flex;flex-direction: row; justify-content: space-between; margin-top:5px;">
@@ -64,7 +65,7 @@
 								{{/result}}
 								{{^result}}
 									<div>
-										겔러리가 없습니다.
+										비디오가 없습니다.
 									</div>
 								{{/result}}
 							</div>
@@ -93,7 +94,7 @@
 			console.log(data);
 			common.ajax("POST", "/admin/board/delBoard", JSON.stringify(data), "json", 'application/json; charset=utf-8', function (data) {
 				console.log(data);
-				if(data.code == '0000'){
+				if(data.code == 'SUC'){
 					alert('게시물을 삭제하였습니다.');
 					$('#searchFrm').submit();
 				}else{

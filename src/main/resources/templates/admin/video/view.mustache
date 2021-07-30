@@ -7,7 +7,7 @@
 			{{>admin/layout/topBar}}
 			<div class="location">
 				<em class="home">HOME</em><i></i>
-				<em>게시판관리</em><i></i>
+				<em>동영상관리</em><i></i>
 				<em class="active">{{bbsName}}</em>
 			</div>
 			<div class="content">
@@ -34,14 +34,12 @@
 								</td>
 							</tr>
 							<tr>
-								<th>이미지</th>
+								<th>비디오</th>
 								<td>
 									<div style="width:100%; display: flex;flex-direction: column;justify-content: center">
-										{{#data.fileList}}
-											<div style="margin-bottom: 5px;">
-												<img src="{{fullPath}}" width="70%" />
-											</div>
-										{{/data.fileList}}
+										<div style="margin-bottom: 5px;">
+											<iframe width="1000" height="700" src="https://www.youtube.com/embed/{{data.youtubeKey}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+										</div>
 									</div>
 								</td>
 							</tr>

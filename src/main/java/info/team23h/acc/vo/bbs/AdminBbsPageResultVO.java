@@ -31,9 +31,11 @@ public class AdminBbsPageResultVO {
 	@ApiModelProperty(value = "작성자", name = "regId")
 	private String regId;
 
-	private String mainFilePath;
+	private String mainFilePath= "";
 
 	private Long no;
+
+	private String youtubeKey="";
 
 	@ApiModelProperty(value = "작성일", name = "regDt")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss", timezone = "Asia/Seoul")
@@ -68,5 +70,12 @@ public class AdminBbsPageResultVO {
 			mainFilePath = "";
 		}
 
+		if(this.content.contains("?v=") || this.content.contains("https://youtu.be/")){
+			if(this.content.contains("?v=")) {
+				this.youtubeKey = this.content.substring(this.content.indexOf("?v=")+3);
+			}else if(this.content.contains("https://youtu.be/")){
+				this.youtubeKey = this.content.replace("https://youtu.be/","");
+			}
+		}
 	}
 }

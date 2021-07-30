@@ -298,7 +298,7 @@ public class BbsServiceImpl implements BbsService {
 			regId = search.getRegId();
 		}
 
-		final Page<Bbs> bbs = bbsRepository.findAllByTbBbsNameAndTitleContainsAndRegIdContains(bbsName, title, regId, PageRequest.of(search.getPage() - 1, search.getSize(), Sort.by("seq").descending()));
+		final Page<Bbs> bbs = bbsRepository.findAllByTbBbsNameAndTitleContainsAndRegIdContains(bbsName, title, regId, PageRequest.of(search.getPage() - 1, search.getSize(),Sort.by("seq").descending()));
 
 		Page<AdminBbsPageResultVO> map = bbs.map(AdminBbsPageResultVO::new);
 		int i=0;

@@ -41,8 +41,15 @@ class BoardControllerTest {
 	}
 
 	@Test
+	public void 게시물_리스트() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/admin/board/1"))
+		       .andExpect(status().isOk())
+		       .andReturn();
+	}
+
+	@Test
 	public void 겔러리_리스트() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/admin/board/4"))
+		mockMvc.perform(MockMvcRequestBuilders.get("/admin/board/4?title=킹&regId=리"))
 		       .andExpect(status().isOk())
 		       .andReturn();
 	}

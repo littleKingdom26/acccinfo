@@ -92,7 +92,7 @@ var board = {
             };
             console.log(data);
             common.ajax("POST", "/admin/board/delBoard", JSON.stringify(data), "json", 'application/json; charset=utf-8', function (data) {
-                if (data.code == '0000') {
+                if (data.code == 'SUC') {
                     alert('게시물을 삭제하였습니다.');
                     $('#searchFrm').submit();
                 } else {
