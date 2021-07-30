@@ -41,8 +41,15 @@ class BoardControllerTest {
 	}
 
 	@Test
-	public void 게시판_리스트() throws Exception {
+	public void 겔러리_리스트() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/admin/board/4"))
+		       .andExpect(status().isOk())
+		       .andReturn();
+	}
+
+	@Test
+	public void 비디오_리스트() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/admin/board/5"))
 		       .andExpect(status().isOk())
 		       .andReturn();
 	}

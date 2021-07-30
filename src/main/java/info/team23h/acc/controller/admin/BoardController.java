@@ -4,6 +4,7 @@ import info.team23h.acc.config.variable.EnumCode;
 import info.team23h.acc.service.bbs.BbsNameService;
 import info.team23h.acc.service.bbs.BbsService;
 import info.team23h.acc.util.PageHelper;
+import info.team23h.acc.util.StringUtil;
 import info.team23h.acc.vo.bbs.*;
 import info.team23h.acc.vo.login.LoginUserVO;
 import lombok.RequiredArgsConstructor;
@@ -89,6 +90,7 @@ public class BoardController {
 
 		final BbsResultVO bySeq = bbsService.findBySeq(seq);
 		model.addAttribute("data", bySeq);
+		model.addAttribute("markup", StringUtil.markupForm(bbsSearch.getClass(),bbsSearch));
 
 		return "/admin/" + EnumCode.BbsType.valueOf(bbsNameResultVO.getBbsType()).getFolder() + "/view";
 	}

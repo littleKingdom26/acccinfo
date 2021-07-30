@@ -2,7 +2,7 @@ package info.team23h.acc.config.variable;
 
 public enum CommonResponse {
 
-	SUCCESS("SUC", "성공"),
+	SUCCESS("0000", "성공"),
 	FAIL("ERR", "에러발생");
 
 	String code;
