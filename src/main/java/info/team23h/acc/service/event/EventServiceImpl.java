@@ -1,15 +1,16 @@
 package info.team23h.acc.service.event;
 
+import info.team23h.acc.config.Team23hException;
 import info.team23h.acc.config.variable.EnumCode;
 import info.team23h.acc.dao.EventDAO;
-import info.team23h.acc.entity.event.Event;
-import info.team23h.acc.entity.event.EventInfo;
-import info.team23h.acc.entity.event.EventSub;
+import info.team23h.acc.entity.event.*;
 import info.team23h.acc.entity.player.Player;
 import info.team23h.acc.entity.track.Track;
 import info.team23h.acc.repository.event.EventRepository;
 import info.team23h.acc.repository.eventInfo.EventInfoRepository;
 import info.team23h.acc.repository.eventSub.EventSubRepository;
+import info.team23h.acc.repository.penalty.PenaltyRepository;
+import info.team23h.acc.repository.player.PlayerRepository;
 import info.team23h.acc.repository.track.TrackRepository;
 import info.team23h.acc.restController.front.result.ResultRestController;
 import info.team23h.acc.service.handicap.HandicapService;
@@ -50,12 +51,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class EventServiceImpl implements EventService {
-
-
 	final EventDAO eventDAO;
 
 	final ScoreService scoreService;
-
 
 	final HandicapService handicapService;
 
@@ -66,6 +64,10 @@ public class EventServiceImpl implements EventService {
 	final EventSubRepository eventSubRepository;
 
 	final TrackRepository trackRepository;
+
+	final PlayerRepository playerRepository;
+
+	final PenaltyRepository penaltyRepository;
 
 	@Override
 	public List<EventInfoVO> getEventInfoList() {
@@ -783,6 +785,81 @@ public class EventServiceImpl implements EventService {
 
 		resultList.sort(Comparator.comparingLong(ResultAllResultVO::getPoint).reversed());
 		return resultList;
+	}
+
+	@Override
+	@Transactional
+	public EventAdminResultVO addPenalty(Long eventInfoSeq, Long round, String playerId, Long addPenalty, String reason) {
+		//
+		final Player player = playerRepository.findById(playerId)
+		                                      .orElseThrow(() -> new Team23hException("유저정보가 없습니다."));
+
+
+		final Event event = eventRepository.findByEventInfoSeqAndRoundAndPlayer(eventInfoSeq, round, player)
+		                                   .orElseThrow(() -> new Team23hException("이벤트 정보가 없습니다."));
+		event.update(addPenalty);
+
+		final TbPenalty postRaceTime = TbPenalty.builder()
+		                                        .addTime(addPenalty)
+		                                        .penalty("PostRaceTime")
+		                                        .reason(reason)
+		                                        .carId(event.getCarId())
+		                                        .round(round)
+		                                        .eventInfoSeq(eventInfoSeq)
+		                                        .playerId(playerId)
+		                                        .build();
+
+		penaltyRepository.save(postRaceTime);
+		// 패널티에 정보 추가
+		return new EventAdminResultVO(event);
+
+	}
+
+	@Override
+	@Transactional
+	public void eventRankReSetting(EventAdminResultVO eventAdminResultVO) {
+
+		EventInfo eventInfo = eventInfoRepository.findById(eventAdminResultVO.getEventInfoSeq())
+		                                         .orElseThrow(() -> new Team23hException("리그 정보 없음!"));
+
+		// 리그 라운드 조회
+		final List<Event> eventRoundList = eventRepository.findAllByEventInfoSeqAndRound(eventAdminResultVO.getEventInfoSeq(), eventAdminResultVO.getRound());
+
+		Comparator<Event> compare = Comparator.comparing(Event::getTotalLap).reversed()
+		                                      .thenComparing(Event::getTotalTime);
+
+		final List<Event> reRank = eventRoundList.stream()
+		                                          .sorted(compare)
+		                                          .collect(Collectors.toList());
+
+		int i = 1;
+		for(Event event : reRank) {
+			int finalI1 = i;
+			final Long handicap = eventInfo.getHandicapInfo()
+			                               .getHandicapSubList()
+			                               .stream()
+			                               .filter(handicapSub -> handicapSub.getRank()
+			                                                                      .equals(Long.valueOf(finalI1)))
+			                               .mapToLong(HandicapSub::getHandicap)
+			                               .findFirst().orElse(0L);
+
+			int finalI = i;
+			Long score = eventInfo.getScoreInfo()
+			                            .getScoreSubList()
+			                            .stream()
+			                            .filter(scoreSub -> scoreSub.getRank()
+			                                                    .equals(Long.valueOf(finalI)))
+			                            .mapToLong(ScoreSub::getScore)
+			                            .findFirst()
+			                            .orElse(0L);
+			if(score.equals(0L)) {
+				if(eventInfo.getScoreInfo().getParticipationYn().equals("Y")) {
+					score = 1L;
+				}
+			}
+			event.reRank(Long.valueOf(i), score, handicap);
+			i++;
+		}
 	}
 
 }

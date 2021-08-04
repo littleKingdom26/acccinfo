@@ -1,9 +1,6 @@
 package info.team23h.acc.service.event;
 
-import info.team23h.acc.vo.event.EventInfoVO;
-import info.team23h.acc.vo.event.EventMetaVO;
-import info.team23h.acc.vo.event.EventResultVO;
-import info.team23h.acc.vo.event.EventSubVO;
+import info.team23h.acc.vo.event.*;
 import info.team23h.acc.vo.front.main.BeforeLeagueRankerGroupResultVO;
 import info.team23h.acc.vo.front.result.ResultAllResultVO;
 import info.team23h.acc.vo.front.result.ResultReturnVO;
@@ -188,4 +185,8 @@ public interface EventService {
 	List<ResultAllResultVO> findEventResult(Long eventInfoSeq);
 
 	List<ResultAllResultVO> getEventSeasonAll(Long year, String division);
+
+	EventAdminResultVO addPenalty(Long eventInfoSeq, Long round, String playerId, Long addPenalty,String reason);
+
+	void eventRankReSetting(EventAdminResultVO eventAdminResultVO);
 }

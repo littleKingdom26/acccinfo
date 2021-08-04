@@ -78,4 +78,14 @@ public class Event extends BaseTimeEntity {
 	@Column(name = "MISS_MANDATORY_PIT_STOP")
 	private Long missMandatoryPitStop;
 
+	public void update(Long addPenalty) {
+		this.penalty = this.penalty + addPenalty;
+		this.totalTime = this.raceTime + (this.penalty*1000);
+	}
+
+	public void reRank(Long rank,Long score, Long handicap){
+		this.rank = rank;
+		this.score = score;
+		this.handicap = handicap;
+	}
 }

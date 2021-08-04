@@ -4,6 +4,7 @@ package info.team23h.acc.controller.admin;
 import info.team23h.acc.config.variable.EnumCode;
 import info.team23h.acc.service.event.EventService;
 import info.team23h.acc.service.handicap.HandicapService;
+import info.team23h.acc.service.player.PlayerService;
 import info.team23h.acc.service.score.ScoreService;
 import info.team23h.acc.vo.event.EventInfoVO;
 import info.team23h.acc.vo.event.EventMetaVO;
@@ -11,9 +12,9 @@ import info.team23h.acc.vo.event.EventSubVO;
 import info.team23h.acc.vo.handicap.HandicapInfoVO;
 import info.team23h.acc.vo.penalty.PenaltyVO;
 import info.team23h.acc.vo.score.ScoreInfoVO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.parser.ParseException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -32,19 +33,21 @@ import java.util.List;
 /**
  * The type Event controller.
  */
-@Controller
 @Slf4j
+@Controller
+@RequiredArgsConstructor
 @RequestMapping("/admin/event")
 public class EventController {
 
-	@Autowired
-	ScoreService scoreService;
 
-	@Autowired
-	HandicapService handicapService;
+	final private ScoreService scoreService;
 
-	@Autowired
-	EventService eventService;
+
+	final private HandicapService handicapService;
+
+	final private EventService eventService;
+
+	final private PlayerService playerService;
 
 	/* 점수 관리 s */
 
@@ -335,4 +338,16 @@ public class EventController {
 		return "/admin/event/ajax/lapDetail";
 	}
 	/* 대회 리스트 e */
+
+
+	@GetMapping("/result/addPenalty/{eventInfoSeq}/{round}/{playerId}")
+	public String addPenalty(@PathVariable("eventInfoSeq") Long eventInfoSeq , @PathVariable("round") Long round, @PathVariable("playerId") String playerId , Model model){
+		log.debug("eventInfoSeq : {}", eventInfoSeq);
+		log.debug("round : {}", round);
+		log.debug("playerId : {}", playerId);
+		model.addAttribute("eventInfoSeq",eventInfoSeq);
+		model.addAttribute("playerVO", playerService.findById(playerId));
+		model.addAttribute("round",round);
+		return "/admin/event/ajax/addPenalty";
+	}
 }

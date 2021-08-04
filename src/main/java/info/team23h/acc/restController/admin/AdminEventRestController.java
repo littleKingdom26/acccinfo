@@ -1,13 +1,17 @@
 package info.team23h.acc.restController.admin;
 
+import info.team23h.acc.model.response.CommonResult;
 import info.team23h.acc.service.event.EventService;
 import info.team23h.acc.service.handicap.HandicapService;
+import info.team23h.acc.service.response.ResponseService;
 import info.team23h.acc.service.score.ScoreService;
+import info.team23h.acc.vo.event.EventAddPenaltySaveVO;
+import info.team23h.acc.vo.event.EventAdminResultVO;
 import info.team23h.acc.vo.event.EventInfoVO;
 import info.team23h.acc.vo.handicap.HandicapInfoVO;
 import info.team23h.acc.vo.score.ScoreInfoVO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,17 +19,18 @@ import java.util.HashMap;
 
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 @RequestMapping("/admin/event")
 public class AdminEventRestController {
 
-	@Autowired
-	ScoreService scoreService;
+	final private ScoreService scoreService;
 
-	@Autowired
-	HandicapService handicapService;
+	final private HandicapService handicapService;
 
-	@Autowired
-	EventService eventService;
+	final private EventService eventService;
+
+	final private ResponseService responseService;
+
 
 	/**
 	 * 점수 상세 정보 삭제
@@ -86,5 +91,13 @@ public class AdminEventRestController {
 	public HashMap<String, Object> resultDel(@RequestBody EventInfoVO eventInfoVO) throws Exception {
 		HashMap<String, Object> result = eventService.delEvent(eventInfoVO);
 		return result;
+	}
+
+	@PutMapping("/result/addPenalty")
+	public CommonResult addPenalty(@RequestBody EventAddPenaltySaveVO eventAddPenaltySaveVO ){
+		final EventAdminResultVO eventAdminResultVO = eventService.addPenalty(eventAddPenaltySaveVO.getEventInfoSeq(), eventAddPenaltySaveVO.getRound(), eventAddPenaltySaveVO.getPlayerId(),
+		                                                                      eventAddPenaltySaveVO.getAddPenalty(),eventAddPenaltySaveVO.getReason());
+		eventService.eventRankReSetting(eventAdminResultVO);
+		return responseService.getSuccessResult();
 	}
 }

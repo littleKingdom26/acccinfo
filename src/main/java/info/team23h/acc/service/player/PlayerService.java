@@ -43,4 +43,12 @@ public interface PlayerService {
 	 * @return
 	 */
 	List<PlayerVO> getPlayerList(PlayerSearch playerSearch);
+
+
+	/**
+	 * 아이디 검색
+	 *
+	 * @param playerId the player id
+	 */
+	PlayerVO findById(String playerId);
 }

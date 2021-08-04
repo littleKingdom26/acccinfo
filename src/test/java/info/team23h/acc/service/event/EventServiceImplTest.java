@@ -1,5 +1,7 @@
 package info.team23h.acc.service.event;
 
+import info.team23h.acc.vo.event.EventAddPenaltySaveVO;
+import info.team23h.acc.vo.event.EventAdminResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +38,22 @@ class EventServiceImplTest {
 	}
 
 
+	@Test
+	public void 패널치_추가(){
+
+		final EventAddPenaltySaveVO reason = EventAddPenaltySaveVO.builder()
+		                                                         .eventInfoSeq(2L)
+		                                                         .round(1L)
+		                                                         .playerId("S76561198004892038")
+		                                                         .addPenalty(120L)
+		                                                         .reason("겁나 방해했음")
+		                                                         .build();
+//		final EventAdminResultVO eventAdminResultVO = eventService.addPenalty(reason.getEventInfoSeq(), reason.getRound(), reason.getPlayerId(), reason.getAddPenalty(), reason.getReason());
+		EventAdminResultVO eventAdminResultVO = new EventAdminResultVO();
+		eventAdminResultVO.setEventInfoSeq(reason.getEventInfoSeq());
+		eventAdminResultVO.setRound(reason.getRound());
+
+		eventService.eventRankReSetting(eventAdminResultVO);
+	}
 
 }

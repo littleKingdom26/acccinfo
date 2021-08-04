@@ -175,6 +175,7 @@
             TE.RANK
           , TE.CAR_ID
           , TP.LAST_NAME
+          , TE.PLAYER_ID
           , TP.FIRST_NAME
           , TP.STEAM_AVATAR
           , TC.CAR_NAME
