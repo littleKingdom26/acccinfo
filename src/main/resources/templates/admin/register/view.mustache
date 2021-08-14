@@ -1,0 +1,232 @@
+{{>admin/layout/header}}
+<body>
+<div id="wrap">
+	<div class="inWrap">
+		{{>admin/layout/lnb}}
+		<div id="container">
+			{{>admin/layout/topBar}}
+			<div class="location">
+				<em class="home">HOME</em><i></i>
+				<em class="active">선수 등록</em>
+			</div>
+			<div class="content">
+				<div class="box">
+					<div class="inBox">
+						<div class="">
+							<a href="javascript:void(0)" id="btnSearch" class="btn btnBi btnBlue">저장</a>
+							<a href="javascript:void(0)" id="btnJsonMasterFile" class="btn btnBi btnBlue">Master Entry 다운로드</a>
+							<a href="javascript:void(0)" id="btnJsonProFile" class="btn btnBi btnBlue">Pro Entry 다운로드</a>
+						</div>
+					</div>
+				</div>
+				<div class="box">
+					<div class="inBox">
+						<div style="display: flex; flex-direction: row; justify-content: space-around;">
+							<div style="border: 1px solid #eee;border-radius: 2px; min-width: 400px;min-height: 500px;" >
+								<table style="width:500px;" class="listTable ">
+									<colgroup>
+										<col width="120px" />
+										<col width="160px" />
+										<col width="80px" />
+										<col width="110px" />
+									</colgroup>
+									<tr>
+										<th colspan="4">플레이어 목록</th>
+									</tr>
+									<tr>
+										<td>이름</td>
+										<td>차량</td>
+										<td>차량번호</td>
+										<td>벨러스트</td>
+									</tr>
+								</table>
+								<div id="playerList" style="background-color: #eee; width: 500px;min-height: 500px;display:flex;flex-direction:column;align-items: center;">
+									{{#playerList}}
+										<div class="player" data-playerid="{{playerId}}" style="background-color: #fff;width:90%;border:1px solid #fff;border-radius: 5px; padding:5px; margin:2px;">
+											<div style="display: flex;flex-direction: row;justify-content: space-around; align-items: center" class="player_id">
+												<div style="overflow: hidden;text-overflow: ellipsis;white-space:nowrap;width: 100px;">
+													<span>{{firstName}} {{lastName}}</span>
+												</div>
+												<select class="car_select" style="width:150px;">
+													{{#carList}}
+														<option value="{{carModel}}">{{carName}}</option>
+													{{/carList}}
+												</select>
+												<input type="text" placeholder="차량번호" value="" class="carNumber textType" style="width:70px;" />
+												<input type="text" placeholder="밸러스트" value="" class="ballast textType" style="width:70px;" />
+											</div>
+										</div>
+									{{/playerList}}
+								</div>
+							</div>
+							<div style="border: 1px solid #eee;border-radius: 2px; min-width: 400px;min-height: 500px;">
+								<table style="width:500px;" class="listTable ">
+									<colgroup>
+										<col width="120px" />
+										<col width="160px" />
+										<col width="80px" />
+										<col width="110px" />
+									</colgroup>
+									<tr>
+										<th colspan="4">마스터리그</th>
+									</tr>
+									<tr>
+										<td>이름</td>
+										<td>차량</td>
+										<td>차량번호</td>
+										<td>벨러스트</td>
+									</tr>
+								</table>
+								<div id="masterList" style="background-color: #eee; width: 500px;min-height: 500px;display:flex;flex-direction:column;align-items: center;">
+									{{#masterList}}
+										<div class="player" data-playerid="{{playerId}}" style="background-color: #fff;width:90%;border:1px solid #fff;border-radius: 5px; padding:5px; margin:2px;">
+											<div style="display: flex;flex-direction: row;justify-content: space-around; align-items: center" class="player_id">
+												<div style="overflow: hidden;text-overflow: ellipsis;white-space:nowrap;width: 100px;">
+													<span>{{firstName}} {{lastName}}</span>
+												</div>
+												<select class="car_select" style="width:150px;" data-seleted="{{carModel}}">
+													{{#carList}}
+														<option value="{{carModel}}">{{carName}}</option>
+													{{/carList}}
+												</select>
+												<input type="text" placeholder="차량번호" value="{{carNumber}}" class="carNumber textType" style="width:70px;" />
+												<input type="text" placeholder="밸러스트" value="{{ballast}}" class="ballast textType" style="width:70px;" />
+											</div>
+										</div>
+									{{/masterList}}
+								</div>
+							</div>
+							<div style="border: 1px solid #eee;border-radius: 2px; min-width: 400px;min-height: 500px;">
+								<table style="width:500px;" class="listTable ">
+									<colgroup>
+										<col width="120px" />
+										<col width="160px" />
+										<col width="80px"/>
+										<col width="110px"/>
+									</colgroup>
+									<tr>
+										<th colspan="4">프로리그</th>
+									</tr>
+									<tr>
+										<td>이름</td>
+										<td>차량</td>
+										<td>차량번호</td>
+										<td>벨러스트</td>
+									</tr>
+								</table>
+								<!--<p style="text-align: center ;font-size: 14px;padding:4px;">
+									<b>프로 리그</b>
+								</p>-->
+								<div id="proList" style="background-color: #f7f7f7; width: 500px;min-height: 500px;display:flex;flex-direction:column;align-items: center;">
+									{{#proList}}
+										<div class="player" data-playerid="{{playerId}}" style="background-color: #fff;width:90%;border:1px solid #fff;border-radius: 5px; padding:5px; margin:2px;">
+											<div style="display: flex;flex-direction: row;justify-content: space-around; align-items: center" class="player_id">
+												<div style="overflow: hidden;text-overflow: ellipsis;white-space:nowrap;width: 100px;">
+													<span>{{firstName}} {{lastName}}</span>
+												</div>
+												<select class="car_select" style="width:150px;" data-seleted="{{carModel}}">
+													{{#carList}}
+														<option value="{{carModel}}">{{carName}}</option>
+													{{/carList}}
+												</select>
+												<input type="text" placeholder="차량번호" value="{{carNumber}}" class="carNumber textType" style="width:70px;" />
+												<input type="text" placeholder="밸러스트" value="{{ballast}}" class="ballast textType" style="width:70px;" />
+											</div>
+										</div>
+									{{/proList}}
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{>admin/layout/bodyFooter}}
+	</div>
+</div>
+<form id="frm" action="/admin/register/entryFile/master" method="get">
+</form>
+</body>
+{{>admin/layout/footer}}
+
+<script>
+	$(function () {
+
+		$('.car_select').each(function(idx){
+			console.log('$(this).data(seleted) : {}', $(this).data('seleted'));
+			let carModel = $(this).data('seleted');
+			console.log('carModel : {}', carModel);
+			if(carModel !== undefined){
+				$(this).val(carModel);
+			}
+		});
+
+
+		new Sortable(playerList,{
+			group: 'divList',
+			animation: 150
+		});
+		new Sortable(proList, {
+			group: 'divList',
+			animation: 150
+		});
+		new Sortable(masterList, {
+			group: 'divList',
+			animation: 150
+		});
+
+		$('#btnSearch').click(function(){
+			let masterList = [];
+			let proList = [];
+			$('#masterList .player').each(function (idx) {
+				let entryObj = {};
+				entryObj.playerId = $(this).data('playerid');
+				entryObj.carModel = $(this).find(".car_select").val();
+				let ballast = 0;
+				if($(this).find(".ballast").val() !== '') {
+					ballast = $(this).find(".ballast").val();
+				}
+				entryObj.ballast = ballast;
+				entryObj.carNumber = $(this).find(".carNumber").val();
+				masterList.push(entryObj);
+			});
+
+			$('#proList .player').each(function (idx) {
+				let entryObj = {};
+				entryObj.playerId = $(this).data('playerid');
+				entryObj.carModel = $(this).find(".car_select").val();
+				let ballast = 0;
+				if($(this).find(".ballast").val() !== '') {
+					ballast = $(this).find(".ballast").val();
+				}
+				entryObj.ballast = ballast;
+				entryObj.carNumber = $(this).find(".carNumber").val();
+				proList.push(entryObj);
+			});
+			let data = {};
+			data.masterList = masterList;
+			data.proList = proList;
+			common.ajax("POST", "/admin/register/save", JSON.stringify(data) , 'json', 'application/json', function (data) {
+				console.log(data);
+				alert("저장 되었습니다.");
+			});
+		});
+
+		$('#btnJsonMasterFile').click(function(e){
+			if(confirm("데이터 저장 후 출력하여 정상적인 데이터가 나옵니다.")) {
+				$('#frm').attr("action","/admin/register/entryFile/master");
+				$('#frm').submit();
+			}
+		})
+
+		$('#btnJsonProFile').click(function (e) {
+			if(confirm("데이터 저장 후 출력하여 정상적인 데이터가 나옵니다.")) {
+				$('#frm').attr("action", "/admin/register/entryFile/pro");
+				$('#frm').submit();
+			}
+		})
+
+	});
+
+</script>

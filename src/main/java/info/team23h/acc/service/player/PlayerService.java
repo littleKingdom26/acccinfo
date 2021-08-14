@@ -30,7 +30,7 @@ public interface PlayerService {
 	int updateDriver(PlayerVO playerVO);
 
 	/**
-	 * 플레이어 상세 조호 ㅣ
+	 * 플레이어 상세 조회
 	 * @param playerVO
 	 * @return
 	 */
