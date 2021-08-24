@@ -54,6 +54,7 @@
           , ROUND
           , SCORE_INFO_SEQ
           , HANDICAP_INFO_SEQ
+             , DIVISION
           , REG_DT
           , UPD_DT
         FROM TB_EVENT_INFO

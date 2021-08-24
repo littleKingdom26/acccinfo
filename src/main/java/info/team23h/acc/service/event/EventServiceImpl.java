@@ -4,11 +4,13 @@ import info.team23h.acc.config.Team23hException;
 import info.team23h.acc.config.variable.EnumCode;
 import info.team23h.acc.dao.EventDAO;
 import info.team23h.acc.entity.event.*;
+import info.team23h.acc.entity.leagueDiv.LeagueDiv;
 import info.team23h.acc.entity.player.Player;
 import info.team23h.acc.entity.track.Track;
 import info.team23h.acc.repository.event.EventRepository;
 import info.team23h.acc.repository.eventInfo.EventInfoRepository;
 import info.team23h.acc.repository.eventSub.EventSubRepository;
+import info.team23h.acc.repository.leagueDiv.LeagueDivRepository;
 import info.team23h.acc.repository.penalty.PenaltyRepository;
 import info.team23h.acc.repository.player.PlayerRepository;
 import info.team23h.acc.repository.track.TrackRepository;
@@ -40,6 +42,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -51,23 +54,25 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class EventServiceImpl implements EventService {
-	final EventDAO eventDAO;
+	final private EventDAO eventDAO;
 
-	final ScoreService scoreService;
+	final private ScoreService scoreService;
 
-	final HandicapService handicapService;
+	final private HandicapService handicapService;
 
-	final EventRepository eventRepository;
+	final private EventRepository eventRepository;
 
-	final EventInfoRepository eventInfoRepository;
+	final private EventInfoRepository eventInfoRepository;
 
-	final EventSubRepository eventSubRepository;
+	final private EventSubRepository eventSubRepository;
 
-	final TrackRepository trackRepository;
+	final private TrackRepository trackRepository;
 
-	final PlayerRepository playerRepository;
+	final private PlayerRepository playerRepository;
 
-	final PenaltyRepository penaltyRepository;
+	final private PenaltyRepository penaltyRepository;
+
+	final private LeagueDivRepository leagueDivRepository;
 
 	@Override
 	public List<EventInfoVO> getEventInfoList() {
@@ -236,7 +241,6 @@ public class EventServiceImpl implements EventService {
 				eventVO.setHandicap(handicapList.get(handicapList.size() - 1).getHandicap());
 			}
 
-
 			// 의무 피트스탑 안한 횟수
 			eventVO.setMissMandatoryPitStop(leaderBoardLines.getAsNumber("missingMandatoryPitstop").intValue());
 			if(eventVO.getTotalTime() < 2147483647){ // 토탈 타임이 2147483647보다 적은 사람
@@ -327,6 +331,7 @@ public class EventServiceImpl implements EventService {
 		JSONObject jsonObject = (JSONObject) parser.parse(eventInfoVO.getParserString());
 
 		HashMap<String, Object> map = new HashMap<>(jsonObject);
+		// 이벤트 정보 조회(등급)
 		EventInfoVO eventInfo = getEventInfo(eventInfoVO);
 
 		EventMetaVO eventMetaVO = new EventMetaVO();
@@ -346,7 +351,7 @@ public class EventServiceImpl implements EventService {
 		handicapInfoVO.setHandicapInfoSeq(eventInfo.getHandicapInfoSeq());
 		List<HandicapVO> handicapList = handicapService.getHandicap(handicapInfoVO);
 
-		List<EventVO> playerList = eventDAO.getEventPlayerList(eventInfoVO);
+//		List<EventVO> playerList = eventDAO.getEventPlayerList(eventInfoVO);
 		List<String> carIdList = new ArrayList<>();
 
 		JSONObject sessionResult = (JSONObject) map.get("sessionResult");
@@ -360,11 +365,20 @@ public class EventServiceImpl implements EventService {
 				JSONObject firstDriver = (JSONObject) drivers.get(0);
 				playerId = StringUtil.nvl(firstDriver.get("playerId"));
 			}
-			for(EventVO eventVO : playerList){
-				if(playerId.equals(eventVO.getPlayerId())){
+
+			// 리그 등급 조회
+			final LeagueDiv leagueDiv = leagueDivRepository.findByPlayerIdEquals(playerId).orElse(null);
+
+			if(! ObjectUtils.isEmpty(leagueDiv)) {
+				if(leagueDiv.getLeagueDiv().equals(eventInfoVO.getDivision())) {
 					carIdList.add(StringUtil.nvl(carInfo.getAsString("carId")));
 				}
 			}
+			/*for(EventVO eventVO : playerList){
+				if(playerId.equals(eventVO.getPlayerId())){
+					carIdList.add(StringUtil.nvl(carInfo.getAsString("carId")));
+				}
+			}*/
 		}
 
 		List<PenaltyVO> penaltyList = new ArrayList<PenaltyVO>();

@@ -42,7 +42,6 @@ public class EventController {
 
 	final private ScoreService scoreService;
 
-
 	final private HandicapService handicapService;
 
 	final private EventService eventService;
@@ -208,7 +207,7 @@ public class EventController {
 
 	@PostMapping("/event/save")
 	@Transactional
-	public String evnetSave(MultipartHttpServletRequest request,
+	public String eventSave(MultipartHttpServletRequest request,
 							@ModelAttribute EventInfoVO eventInfoVO,
 							 Model model) throws IOException, ParseException {
 		Iterator<String> fileNames = request.getFileNames();
@@ -221,15 +220,15 @@ public class EventController {
 			byte[] readBuffer = new byte[fileInputStream.available()];
 			while (fileInputStream.read(readBuffer)!= -1){}
 			String readString = new String(readBuffer);
+
 			/* 특수 문자 및 필요없는 문자 제거*/
 			readString = readString.replaceAll(" ", "");
 			readString = readString.replaceAll("\\n", "");
 			readString = readString.replaceAll("\\u0000", "");
 
 			eventInfoVO.setParserString(readString);
-
 			if("Y".equals(eventInfoVO.getBigGridYn())){
-				log.debug("빅그리드 " + "빅그리드");
+				log.debug("빅그리드");
 				int cnt = eventService.setEventBigGrid(eventInfoVO);
 			}else{
 				log.debug("빅그리드 아님");
