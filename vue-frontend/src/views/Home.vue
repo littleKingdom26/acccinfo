@@ -486,7 +486,7 @@ export default {
     },
     mounted() {
         this._getLeagueRanker();
-        this._getGallery();
+        // this._getGallery();
     },
     methods: {
         _sortByRank(a, b) {
@@ -525,7 +525,7 @@ export default {
                     }
                 });
         },
-        _getGallery() {
+        /*_getGallery() {
             this.$axios
                 .get("/api/main/gallery", { withCredentials: false })
                 .then((data) => {
@@ -536,7 +536,7 @@ export default {
                         });
                     }
                 });
-        },
+        },*/
         onClickOpenUrl(link) {
             window.open(link);
         },
