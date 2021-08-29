@@ -1,14 +1,31 @@
 package info.team23h.acc.service.event;
 
+import info.team23h.acc.config.Team23hException;
+import info.team23h.acc.config.variable.EnumCode;
 import info.team23h.acc.dao.EventDAO;
+import info.team23h.acc.entity.event.*;
+import info.team23h.acc.entity.leagueDiv.LeagueDiv;
+import info.team23h.acc.entity.player.Player;
 import info.team23h.acc.entity.track.Track;
 import info.team23h.acc.repository.event.EventRepository;
+import info.team23h.acc.repository.eventInfo.EventInfoRepository;
+import info.team23h.acc.repository.eventSub.EventSubRepository;
+import info.team23h.acc.repository.leagueDiv.LeagueDivRepository;
+import info.team23h.acc.repository.penalty.PenaltyRepository;
+import info.team23h.acc.repository.player.PlayerRepository;
 import info.team23h.acc.repository.track.TrackRepository;
+import info.team23h.acc.restController.front.result.ResultRestController;
 import info.team23h.acc.service.handicap.HandicapService;
 import info.team23h.acc.service.score.ScoreService;
 import info.team23h.acc.util.MathUtil;
 import info.team23h.acc.util.StringUtil;
 import info.team23h.acc.vo.event.*;
+import info.team23h.acc.vo.front.main.BeforeLeagueRankerGroupResultVO;
+import info.team23h.acc.vo.front.main.BeforeLeagueRankerResultVO;
+import info.team23h.acc.vo.front.result.ResultAllResultVO;
+import info.team23h.acc.vo.front.result.ResultReturnVO;
+import info.team23h.acc.vo.front.result.ResultSeasonResultVO;
+import info.team23h.acc.vo.front.result.ResultSubResultVO;
 import info.team23h.acc.vo.handicap.HandicapInfoVO;
 import info.team23h.acc.vo.handicap.HandicapVO;
 import info.team23h.acc.vo.penalty.PenaltyVO;
@@ -21,34 +38,41 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
+import org.springframework.data.domain.Sort;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class EventServiceImpl implements EventService {
+	final private EventDAO eventDAO;
 
+	final private ScoreService scoreService;
 
-	final EventDAO eventDAO;
+	final private HandicapService handicapService;
 
+	final private EventRepository eventRepository;
 
-	final ScoreService scoreService;
+	final private EventInfoRepository eventInfoRepository;
 
+	final private EventSubRepository eventSubRepository;
 
-	final HandicapService handicapService;
+	final private TrackRepository trackRepository;
 
-	final EventRepository eventRepository;
+	final private PlayerRepository playerRepository;
 
-	final TrackRepository trackRepository;
+	final private PenaltyRepository penaltyRepository;
 
-
+	final private LeagueDivRepository leagueDivRepository;
 
 	@Override
 	public List<EventInfoVO> getEventInfoList() {
@@ -70,18 +94,13 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public HashMap<String, Object> delEventInfo(EventInfoVO param) throws Exception {
 		int cnt = eventDAO.delEventInfo(param);
-
 		cnt = eventDAO.delEvent(param);
 		cnt= eventDAO.delEventMeta(param);
 		cnt = eventDAO.delEventSub(param);
 		cnt = eventDAO.delPenalty(param);
 
 		HashMap<String, Object> result = new HashMap<>();
-		if(cnt == 0){
-			throw new Exception();
-		}else{
-			result.put("code", "0000");
-		}
+		result.put("code", "0000");
 		return result;
 	}
 
@@ -222,7 +241,6 @@ public class EventServiceImpl implements EventService {
 				eventVO.setHandicap(handicapList.get(handicapList.size() - 1).getHandicap());
 			}
 
-
 			// 의무 피트스탑 안한 횟수
 			eventVO.setMissMandatoryPitStop(leaderBoardLines.getAsNumber("missingMandatoryPitstop").intValue());
 			if(eventVO.getTotalTime() < 2147483647){ // 토탈 타임이 2147483647보다 적은 사람
@@ -313,6 +331,7 @@ public class EventServiceImpl implements EventService {
 		JSONObject jsonObject = (JSONObject) parser.parse(eventInfoVO.getParserString());
 
 		HashMap<String, Object> map = new HashMap<>(jsonObject);
+		// 이벤트 정보 조회(등급)
 		EventInfoVO eventInfo = getEventInfo(eventInfoVO);
 
 		EventMetaVO eventMetaVO = new EventMetaVO();
@@ -332,7 +351,7 @@ public class EventServiceImpl implements EventService {
 		handicapInfoVO.setHandicapInfoSeq(eventInfo.getHandicapInfoSeq());
 		List<HandicapVO> handicapList = handicapService.getHandicap(handicapInfoVO);
 
-		List<EventVO> playerList = eventDAO.getEventPlayerList(eventInfoVO);
+//		List<EventVO> playerList = eventDAO.getEventPlayerList(eventInfoVO);
 		List<String> carIdList = new ArrayList<>();
 
 		JSONObject sessionResult = (JSONObject) map.get("sessionResult");
@@ -346,11 +365,20 @@ public class EventServiceImpl implements EventService {
 				JSONObject firstDriver = (JSONObject) drivers.get(0);
 				playerId = StringUtil.nvl(firstDriver.get("playerId"));
 			}
-			for(EventVO eventVO : playerList){
-				if(playerId.equals(eventVO.getPlayerId())){
+
+			// 리그 등급 조회
+			final LeagueDiv leagueDiv = leagueDivRepository.findByPlayerIdEquals(playerId).orElse(null);
+
+			if(! ObjectUtils.isEmpty(leagueDiv)) {
+				if(leagueDiv.getLeagueDiv().equals(eventInfoVO.getDivision())) {
 					carIdList.add(StringUtil.nvl(carInfo.getAsString("carId")));
 				}
 			}
+			/*for(EventVO eventVO : playerList){
+				if(playerId.equals(eventVO.getPlayerId())){
+					carIdList.add(StringUtil.nvl(carInfo.getAsString("carId")));
+				}
+			}*/
 		}
 
 		List<PenaltyVO> penaltyList = new ArrayList<PenaltyVO>();
@@ -648,5 +676,204 @@ public class EventServiceImpl implements EventService {
 		return resultList;
 	}
 
+	@Override
+	public List<BeforeLeagueRankerGroupResultVO> getBeforeLeagueRanker() {
+		final List<EventInfo> eventAllList = eventInfoRepository.findAll(Sort.by(Sort.Direction.DESC,"eventInfoSeq"));
+		final EventInfo eventInfo_first = eventAllList.stream().findFirst().get();
+
+		final List<EventInfo> eventFinishList = eventAllList.stream()
+													.filter(eventInfo -> eventInfo.getYear() != eventInfo_first.getYear() && eventInfo.getSeason() != eventInfo_first.getSeason())
+													.collect(Collectors.toList());
+		List<BeforeLeagueRankerGroupResultVO> resultList = new ArrayList<>();
+		if(eventFinishList.size()>3){
+			for(int i = 0; i < 3; i++){
+				final EventInfo eventInfo = eventFinishList.get(i);
+				final List<EventResultVO> byEventRanker = eventRepository.findByEventRanker(eventInfo.getEventInfoSeq());
+				final List<EventResultVO> eventResultVOS = byEventRanker.subList(0, 3);
+				int rank = 0;
+				List<BeforeLeagueRankerResultVO> subResultList = new ArrayList<>();
+				for(EventResultVO eventResultVO : eventResultVOS){
+					rank+=1;
+					subResultList.add(BeforeLeagueRankerResultVO.builder()
+															 .rank(rank)
+															 .firstName(eventResultVO.getFirstName())
+															 .lastName(eventResultVO.getLastName())
+															 .steamAvatar(eventResultVO.getSteamAvatar())
+															 .build());
+				}
+				String divisionName = "";
+				for(EnumCode.LeagueDivision value : EnumCode.LeagueDivision.values()){
+					if(value.getKey().equals(eventInfo.getDivision())){
+						divisionName = value.getValue();
+					}
+				}
+
+				resultList.add(BeforeLeagueRankerGroupResultVO.builder().leagueName(eventInfo.getTitle()).beforeLeagueRankerResultList(subResultList).division(divisionName).build());
+			}
+		}
+		return resultList;
+	}
+
+	@Override
+	public List<Long> findYearGroup() {
+		final List<EventInfo> eventInfoList = eventInfoRepository.findAll(Sort.by("regDt").ascending());
+		final List<Long> yearList = eventInfoList.stream().map(eventInfo -> Long.parseLong(eventInfo.getRegDt().format(DateTimeFormatter.ofPattern("YYYY")))).distinct().collect(Collectors.toList());
+		return yearList;
+	}
+
+	@Override
+	public List<ResultSeasonResultVO> getEventSeason(Long year, String division) {
+
+		final LocalDateTime startDt = LocalDateTime.of(year.intValue(),1,1,0,0,0);
+		final LocalDateTime endDt = LocalDateTime.of(year.intValue(),12,31,23,59,59);
+		final List<EventInfo> resultList = eventInfoRepository.findAllByAndDivisionAndRegDtBetweenOrderByRegDtDesc(division, startDt, endDt);
+		return resultList.stream().map(ResultSeasonResultVO::new).collect(Collectors.toList());
+
+	}
+
+	@Override
+	public List<ResultReturnVO> findEventResultWithRound(Long eventInfoSeq, Long round) {
+		List<Long> eventInfoSeqList = new ArrayList<>();
+		eventInfoSeqList.add(eventInfoSeq);
+
+		final List<Event> resultWithRoundList = eventRepository.findAllByEventInfoSeqAndRoundOrderByRankAsc(eventInfoSeq, round);
+		final List<ResultReturnVO> returnList = resultWithRoundList.stream().map(ResultReturnVO::new).map(resultReturnVO -> {
+			WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(
+					WebMvcLinkBuilder.methodOn(ResultRestController.class).getResultDetail(resultReturnVO.getEventInfoSeq(), resultReturnVO.getRound(), resultReturnVO.getCarId()));
+			resultReturnVO.set_link(linkTo.withRel("detail"));
+			return resultReturnVO;
+			}).collect(Collectors.toList());
+		return returnList;
+	}
+
+	@Override
+	public List<ResultSubResultVO> findByEventPlayerDetail(Long eventInfoSeq, Long round, String carId) {
+		final List<EventSub> allByEventInfoSeqAndCarIdAndRound = eventSubRepository.findAllByEventInfoSeqAndCarIdAndRoundOrderByLapAsc(eventInfoSeq, carId, round);
+		return allByEventInfoSeqAndCarIdAndRound.stream().map(ResultSubResultVO::new).collect(Collectors.toList());
+
+	}
+
+	@Override
+	public List<ResultAllResultVO> findEventResult(Long eventInfoSeq) {
+		final List<Event> eventAllList = eventRepository.findAllByEventInfoSeqOrderByRoundAsc(eventInfoSeq);// 라운드 기록 조회
+		final List<String> playerId = eventAllList.stream().map(event -> event.getPlayer().getPlayerId()).distinct().collect(Collectors.toList());// player Id 조회 / 중복제거
+		List<ResultAllResultVO> resultAllResultList = new ArrayList<>();
+		playerId.forEach(s -> {
+			final Event eventFirst = eventAllList.stream().filter(event -> event.getPlayer().getPlayerId() == s).findFirst().get(); // 플레이어 id 첫번쨰 값 구함
+			resultAllResultList.add(ResultAllResultVO.builder()
+													 .playerId(s)
+													 .lastName(eventFirst.getPlayer().getLastName())
+													 .fistName(eventFirst.getPlayer().getFirstName())
+													 .point(eventAllList.stream().filter(event -> event.getPlayer().getPlayerId().equals(s)).mapToLong(event -> event.getScore()).sum())
+													 .build());
+		});
+
+		final List<ResultAllResultVO> resultList = resultAllResultList.stream().sorted(Comparator.comparingLong(ResultAllResultVO::getPoint).reversed()).collect(Collectors.toList());
+
+		return resultList;
+
+
+	}
+
+	@Override
+	public List<ResultAllResultVO> getEventSeasonAll(Long year, String division) {
+		final List<EventInfo> allByDivisionAndYear = eventInfoRepository.findAllByDivisionAndYear(division, year);
+		final List<Long> eventSeqList = allByDivisionAndYear.stream().map(EventInfo::getEventInfoSeq).collect(Collectors.toList());
+		final List<Event> allByEventInfoSeq = eventRepository.findAllByEventInfoSeqIn(eventSeqList);
+		// 플레이어만 검색
+		final List<String> playerIdList = allByEventInfoSeq.parallelStream().map(Event::getPlayer).map(Player::getPlayerId).distinct().collect(Collectors.toList());
+
+		List<ResultAllResultVO> resultList = new ArrayList<>();
+		playerIdList.forEach(s -> {
+			final Map<String, List<Event>> collect = allByEventInfoSeq.stream()
+																	  .filter(event -> event.getPlayer().getPlayerId().equals(s))
+																	  .collect(Collectors.groupingBy(event -> event.getPlayer().getPlayerId()));
+
+			if(collect.get(s).size() > 0){
+				final ResultAllResultVO resultAllResultVO = new ResultAllResultVO(collect.get(s).get(0));
+				final Long scoreSum = allByEventInfoSeq.stream().filter(event -> event.getPlayer().getPlayerId().equals(s)).map(Event::getScore).reduce(0L, Long::sum);
+				resultAllResultVO.setPoint(scoreSum);
+				resultList.add(resultAllResultVO);
+			}
+		});
+
+		resultList.sort(Comparator.comparingLong(ResultAllResultVO::getPoint).reversed());
+		return resultList;
+	}
+
+	@Override
+	@Transactional
+	public EventAdminResultVO addPenalty(Long eventInfoSeq, Long round, String playerId, Long addPenalty, String reason) {
+		//
+		final Player player = playerRepository.findById(playerId)
+		                                      .orElseThrow(() -> new Team23hException("유저정보가 없습니다."));
+
+
+		final Event event = eventRepository.findByEventInfoSeqAndRoundAndPlayer(eventInfoSeq, round, player)
+		                                   .orElseThrow(() -> new Team23hException("이벤트 정보가 없습니다."));
+		event.update(addPenalty);
+
+		final TbPenalty postRaceTime = TbPenalty.builder()
+		                                        .addTime(addPenalty)
+		                                        .penalty("PostRaceTime")
+		                                        .reason(reason)
+		                                        .carId(event.getCarId())
+		                                        .round(round)
+		                                        .eventInfoSeq(eventInfoSeq)
+		                                        .playerId(playerId)
+		                                        .build();
+
+		penaltyRepository.save(postRaceTime);
+		// 패널티에 정보 추가
+		return new EventAdminResultVO(event);
+
+	}
+
+	@Override
+	@Transactional
+	public void eventRankReSetting(EventAdminResultVO eventAdminResultVO) {
+
+		EventInfo eventInfo = eventInfoRepository.findById(eventAdminResultVO.getEventInfoSeq())
+		                                         .orElseThrow(() -> new Team23hException("리그 정보 없음!"));
+
+		// 리그 라운드 조회
+		final List<Event> eventRoundList = eventRepository.findAllByEventInfoSeqAndRound(eventAdminResultVO.getEventInfoSeq(), eventAdminResultVO.getRound());
+
+		Comparator<Event> compare = Comparator.comparing(Event::getTotalLap).reversed()
+		                                      .thenComparing(Event::getTotalTime);
+
+		final List<Event> reRank = eventRoundList.stream()
+		                                          .sorted(compare)
+		                                          .collect(Collectors.toList());
+
+		int i = 1;
+		for(Event event : reRank) {
+			int finalI1 = i;
+			final Long handicap = eventInfo.getHandicapInfo()
+			                               .getHandicapSubList()
+			                               .stream()
+			                               .filter(handicapSub -> handicapSub.getRank()
+			                                                                      .equals(Long.valueOf(finalI1)))
+			                               .mapToLong(HandicapSub::getHandicap)
+			                               .findFirst().orElse(0L);
+
+			int finalI = i;
+			Long score = eventInfo.getScoreInfo()
+			                            .getScoreSubList()
+			                            .stream()
+			                            .filter(scoreSub -> scoreSub.getRank()
+			                                                    .equals(Long.valueOf(finalI)))
+			                            .mapToLong(ScoreSub::getScore)
+			                            .findFirst()
+			                            .orElse(0L);
+			if(score.equals(0L)) {
+				if(eventInfo.getScoreInfo().getParticipationYn().equals("Y")) {
+					score = 1L;
+				}
+			}
+			event.reRank(Long.valueOf(i), score, handicap);
+			i++;
+		}
+	}
 
 }

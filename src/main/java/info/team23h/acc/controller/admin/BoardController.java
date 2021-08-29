@@ -1,44 +1,55 @@
 package info.team23h.acc.controller.admin;
 
+import info.team23h.acc.config.variable.EnumCode;
+import info.team23h.acc.service.bbs.BbsNameService;
 import info.team23h.acc.service.bbs.BbsService;
-import info.team23h.acc.vo.bbs.BbsNameVO;
-import info.team23h.acc.vo.bbs.BbsSearch;
-import info.team23h.acc.vo.bbs.BbsVO;
+import info.team23h.acc.util.PageHelper;
+import info.team23h.acc.util.StringUtil;
+import info.team23h.acc.vo.bbs.*;
 import info.team23h.acc.vo.login.LoginUserVO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/admin")
 public class BoardController {
 
-	@Autowired
-	BbsService bbsService;
+
+	final private BbsService bbsService;
+
+
+	final private BbsNameService bbsNameService;
 
 	@RequestMapping(value = "/board/{nameSeq}", method = {RequestMethod.GET, RequestMethod.POST})
 	public String board(Model model
-			,@PathVariable long nameSeq
-			,@ModelAttribute("search") BbsSearch search
+			,@PathVariable Long nameSeq
+			,@ModelAttribute("search") AdminBbsSearchVO search
 	){
-		log.debug("search.toString() > " + search.toString());
-		search.setNameSeq(nameSeq);
-		HashMap<String, Object> boardList = bbsService.loadBbsList(search);
-		List<BbsNameVO> bbsNameVOS = bbsService.loadBbsName();
-		for(BbsNameVO bbsNameVO : bbsNameVOS){
-			if(bbsNameVO.getSeq()==nameSeq){
-				model.addAttribute("bbsName", bbsNameVO.getBbsName());
-			}
-		}
-		model.addAttribute("data", boardList);
-		return "/admin/board/main";
+
+		final Page<AdminBbsPageResultVO> page = bbsService.findByAllPages(nameSeq, search);
+		final AdminBbsNameResultVO bbsNameResultVO = bbsNameService.findById(nameSeq);
+
+		PageHelper pageHelper = new PageHelper();
+		pageHelper.setCurrentPage(page.getNumber() + 1);
+		pageHelper.setTotalPage(page.getTotalPages());
+
+
+		model.addAttribute("nameSeq", nameSeq);
+		model.addAttribute("search", search);
+		model.addAttribute("result", page);
+		model.addAttribute("bbsNameResultVO",bbsNameResultVO);
+		model.addAttribute("pageHelper", pageHelper);
+
+		return "/admin/" + EnumCode.BbsType.valueOf(bbsNameResultVO.getBbsType()).getFolder() + "/main";
 	}
 
 	@RequestMapping(value = "/board/{nameSeq}/write", method = {RequestMethod.GET, RequestMethod.POST})
@@ -67,20 +78,21 @@ public class BoardController {
 
 	@PostMapping("/board/{nameSeq}/{seq}")
 	public String viewBbs(Model model,
-						  @PathVariable("nameSeq") long nameSeq,
+						  @PathVariable("nameSeq") Long nameSeq,
 						  @ModelAttribute("search") BbsSearch bbsSearch,
-						  @PathVariable("seq") long seq) {
+						  @PathVariable("seq") Long seq) {
 		bbsSearch.setNameSeq(nameSeq);
 		bbsSearch.setBbsSeq(seq);
-		List<BbsNameVO> bbsNameVOS = bbsService.loadBbsName();
-		for(BbsNameVO bbsNameVO : bbsNameVOS){
-			if(bbsNameVO.getSeq() == nameSeq){
-				model.addAttribute("bbsName", bbsNameVO.getBbsName());
-			}
-		}
-		model.addAttribute("bbsNameSeq", nameSeq);
-		model.addAttribute("data", bbsService.loadBbsView(bbsSearch));
-		return "/admin/board/view";
+		final AdminBbsNameResultVO bbsNameResultVO = bbsNameService.findById(nameSeq);
+
+		model.addAttribute("bbsName", bbsNameResultVO.getBbsName());
+		model.addAttribute("bbsNameSeq", bbsNameResultVO.getSeq());
+
+		final BbsResultVO bySeq = bbsService.findBySeq(seq);
+		model.addAttribute("data", bySeq);
+		model.addAttribute("markup", StringUtil.markupForm(bbsSearch.getClass(),bbsSearch));
+
+		return "/admin/" + EnumCode.BbsType.valueOf(bbsNameResultVO.getBbsType()).getFolder() + "/view";
 	}
 
 	@PostMapping("/board/update")

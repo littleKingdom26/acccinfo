@@ -1,6 +1,7 @@
 package info.team23h.acc.service.track;
 
 import info.team23h.acc.vo.common.SearchVO;
+import info.team23h.acc.vo.front.timeTrial.TrackResultVO;
 import info.team23h.acc.vo.track.TrackVO;
 
 import java.util.List;
@@ -29,4 +30,10 @@ public interface TrackService {
 	 * @param searchVO
 	 */
 	List<TrackVO> getTrackList(SearchVO searchVO);
+
+	/**
+	 * 트랙 전체 리스트 조회
+	 */
+	List<TrackResultVO> findTrackList();
+
 }

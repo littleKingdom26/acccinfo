@@ -28,7 +28,7 @@ public class EventMeta extends BaseTimeEntity implements Serializable {
 	private Long round;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="TRACK_NAME")
+	@JoinColumn(name="TRACK_SEQ")
 	private Track track;
 
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -37,9 +37,14 @@ public class AccumulatedSkillEvaluator {
 				penalty++;
 			}
 		}
-		double finalScore = (scoreSum / weightSum) * 100.0;
+		final double v = scoreSum / weightSum;
+		double finalScore;
+		if(!Double.isNaN(v)){
+			finalScore = (scoreSum / weightSum) * 100.0;
+		}else{
+			finalScore = 0;
+		}
 		finalScore = (100 - (100 - finalScore) * (9 - penalty) / 9);
-
 		return Math.max(0, Math.min(finalScore, 100));
 	}
 }

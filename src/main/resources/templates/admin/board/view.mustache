@@ -32,26 +32,20 @@
                                         <tr>
                                             <td>제목</td>
                                             <td>
-                                                <input type="text" class="textType" id="title" name="title" placeholder="제목을 입력하세요" value="{{data.bbsVO.title}}" />
-
+                                                <input type="text" class="textType" id="title" name="title" placeholder="제목을 입력하세요" value="{{data.title}}" />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>작성자</td>
                                             <td>
-                                                {{#data.bbsVO.regName}}
-                                                    {{data.bbsVO.regName}}
-                                                {{/data.bbsVO.regName}}
-                                                {{^data.bbsVO.regName}}
-                                                    {{data.bbsVO.regId}}
-                                                {{/data.bbsVO.regName}}
-                                                <input type="hidden" id="regId" name="regId"  value="{{data.bbsVO.regId}}" />
+												{{data.regId}}
+                                                <input type="hidden" id="regId" name="regId"  value="{{data.regId}}" />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>내용</td>
                                             <td>
-                                                <textarea class="form-control" id="content" name="content" placeholder="내용을 입력하세요" rows="10">{{data.bbsVO.content}}</textarea>
+                                                <textarea class="form-control" id="content" name="content" placeholder="내용을 입력하세요" rows="10">{{data.content}}</textarea>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -73,7 +67,7 @@
                                     <col width="5%"/>
                                 </colgroup>
                                 <tbody>
-                                    {{#data.bbsVO.commentList}}
+                                    {{#data.commentList}}
                                         <tr>
                                             <td>
                                                 {{regId}}
@@ -85,14 +79,14 @@
                                                 <a href="javascript:void(0);" class="btn btnDefalt commentDelBtn" data-seq="{{seq}}">삭제</a>
                                             </td>
                                         </tr>
-                                    {{/data.bbsVO.commentList}}
-                                    {{^data.bbsVO.commentList}}
+                                    {{/data.commentList}}
+                                    {{^data.commentList}}
                                         <tr>
                                             <td colspan="3" class="">
                                                 댓글이 없습니다.
                                             </td>
                                         </tr>
-                                    {{/data.bbsVO.commentList}}
+                                    {{/data.commentList}}
                                 </tbody>
                             </table>
                         </div>

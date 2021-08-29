@@ -1,0 +1,56 @@
+@media only screen
+and (min-device-width: 320px)
+and (max-device-width: 480px) {
+    /* 이부분에 해당 조건의 css를 작성 */
+    .pc-view{display: none;}
+    .mobile-view{display:block;}
+    /*.navbar-brand {width:50%}*/
+}
+
+@media only screen
+and (max-device-width: 310px)
+ {
+    .navbar-brand {
+        width: 50%
+    }
+}
+
+@media only screen
+and (min-device-width: 480px){
+    /* 이부분에 해당 조건의 css를 작성 */
+    .pc-view {
+        display: block;
+    }
+    .mobile-view{display: none;}
+}
+
+.lank-img {width:60px;}
+
+body{
+    padding-top: 4.5rem;}
+pre {
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 100%;
+    }
+
+
+.ck.ck-content {
+    font-size: 1em;
+    line-height: 1.6em;
+    margin-bottom: 0.8em;
+    min-height: 200px;
+    padding: 1.5em 2em;
+}
+
+.bg-black {background-color: #000000 !important;}
+
+.nav-menu_23h {margin:0 5px 0 5px;}
+.navbar .navbar-brand {margin-left: -5px;}
+.navbar .navbar-brand img {width:270px;}
+
+
+.banner-List img {width:100%}
+
+.banner-List {
+    margin-top: 1rem;
+}

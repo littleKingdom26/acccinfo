@@ -1,6 +1,7 @@
 package info.team23h.acc.restController;
 
 import info.team23h.acc.vo.car.CarVO;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 
 @RestController
 @Slf4j
+@Api(hidden = true)
 @RequestMapping(value="/api/sample")
 public class SampleRestController {
 

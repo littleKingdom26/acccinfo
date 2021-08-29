@@ -76,4 +76,19 @@ public class EventRepositoryImpl extends QuerydslRepositorySupport implements Ev
 													 .fetch();
 		return resultList;
 	}
+
+	@Override
+	public List<EventResultVO> findByEventRanker(Long eventInfoSeq) {
+		JPAQueryFactory queryFactory = new JPAQueryFactory(this.getEntityManager());
+		QEvent event = QEvent.event;
+		QPlayer player = QPlayer.player;
+		final List<EventResultVO> resultList = queryFactory.select(
+				Projections.bean(EventResultVO.class, event.score.sum().as("score"), event.player.firstName, event.player.lastName, event.player.steamAvatar))
+													  .from(event)
+													  .where(event.eventInfoSeq.eq(eventInfoSeq))
+													  .groupBy(event.player.firstName, event.player.lastName, event.player.steamAvatar)
+													  .orderBy(event.score.sum().desc())
+													  .fetch();
+		return resultList;
+	}
 }

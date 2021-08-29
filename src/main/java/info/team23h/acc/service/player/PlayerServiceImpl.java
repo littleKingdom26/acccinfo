@@ -1,6 +1,8 @@
 package info.team23h.acc.service.player;
 
+import info.team23h.acc.config.Team23hException;
 import info.team23h.acc.dao.PlayerDAO;
+import info.team23h.acc.entity.player.Player;
 import info.team23h.acc.repository.player.PlayerRepository;
 import info.team23h.acc.vo.player.PlayerSearch;
 import info.team23h.acc.vo.player.PlayerVO;
@@ -55,6 +57,12 @@ public class PlayerServiceImpl implements PlayerService {
 				.findAllByFirstNameContainsOrLastNameContains(playerSearch.getKeyword(), playerSearch.getKeyword()).stream().map(PlayerVO::new)
 				.collect(Collectors.toList());
 		return resultList;
+	}
+
+	@Override
+	public PlayerVO findById(String playerId) {
+		final Player byId = playerRepository.findById(playerId).orElseThrow(() -> new Team23hException("플레이어 정보가 없습니다."));
+		return new PlayerVO(byId);
 	}
 
 }

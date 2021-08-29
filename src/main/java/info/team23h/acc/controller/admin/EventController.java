@@ -1,8 +1,10 @@
 package info.team23h.acc.controller.admin;
 
 
+import info.team23h.acc.config.variable.EnumCode;
 import info.team23h.acc.service.event.EventService;
 import info.team23h.acc.service.handicap.HandicapService;
+import info.team23h.acc.service.player.PlayerService;
 import info.team23h.acc.service.score.ScoreService;
 import info.team23h.acc.vo.event.EventInfoVO;
 import info.team23h.acc.vo.event.EventMetaVO;
@@ -10,9 +12,9 @@ import info.team23h.acc.vo.event.EventSubVO;
 import info.team23h.acc.vo.handicap.HandicapInfoVO;
 import info.team23h.acc.vo.penalty.PenaltyVO;
 import info.team23h.acc.vo.score.ScoreInfoVO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.parser.ParseException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,19 +33,20 @@ import java.util.List;
 /**
  * The type Event controller.
  */
-@Controller
 @Slf4j
+@Controller
+@RequiredArgsConstructor
 @RequestMapping("/admin/event")
 public class EventController {
 
-	@Autowired
-	ScoreService scoreService;
 
-	@Autowired
-	HandicapService handicapService;
+	final private ScoreService scoreService;
 
-	@Autowired
-	EventService eventService;
+	final private HandicapService handicapService;
+
+	final private EventService eventService;
+
+	final private PlayerService playerService;
 
 	/* 점수 관리 s */
 
@@ -153,9 +157,26 @@ public class EventController {
 		List<ScoreInfoVO> scoreInfoList = scoreService.getScoreInfoList();
 		List<HandicapInfoVO> handicapInfoList = handicapService.getHandicapInfoList();
 		List<EventInfoVO> eventInfoList = eventService.getEventInfoList();
+		// 년도
+		List<Integer> yearList = new ArrayList<>();
+		LocalDate ld = LocalDate.now();
+		final int year = ld.getYear();
+		for(int i = 2020; i <= year; i++){
+			yearList.add(i);
+		}
+
+		// 시즌
+		List<Integer> seasonList = new ArrayList<>();
+		for(int i = 1; i < 11; i++){
+			seasonList.add(i);
+		}
+
 		model.addAttribute("scoreInfoList", scoreInfoList);
 		model.addAttribute("handicapInfoList", handicapInfoList);
 		model.addAttribute("eventInfoList", eventInfoList);
+		model.addAttribute("leagueDivisionList", EnumCode.LeagueDivision.values());
+		model.addAttribute("yearList",yearList);
+		model.addAttribute("seasonList", seasonList);
 		return "/admin/event/eventInfo";
 	}
 
@@ -186,7 +207,7 @@ public class EventController {
 
 	@PostMapping("/event/save")
 	@Transactional
-	public String evnetSave(MultipartHttpServletRequest request,
+	public String eventSave(MultipartHttpServletRequest request,
 							@ModelAttribute EventInfoVO eventInfoVO,
 							 Model model) throws IOException, ParseException {
 		Iterator<String> fileNames = request.getFileNames();
@@ -199,15 +220,15 @@ public class EventController {
 			byte[] readBuffer = new byte[fileInputStream.available()];
 			while (fileInputStream.read(readBuffer)!= -1){}
 			String readString = new String(readBuffer);
+
 			/* 특수 문자 및 필요없는 문자 제거*/
 			readString = readString.replaceAll(" ", "");
 			readString = readString.replaceAll("\\n", "");
 			readString = readString.replaceAll("\\u0000", "");
 
 			eventInfoVO.setParserString(readString);
-
 			if("Y".equals(eventInfoVO.getBigGridYn())){
-				log.debug("빅그리드 " + "빅그리드");
+				log.debug("빅그리드");
 				int cnt = eventService.setEventBigGrid(eventInfoVO);
 			}else{
 				log.debug("빅그리드 아님");
@@ -316,4 +337,16 @@ public class EventController {
 		return "/admin/event/ajax/lapDetail";
 	}
 	/* 대회 리스트 e */
+
+
+	@GetMapping("/result/addPenalty/{eventInfoSeq}/{round}/{playerId}")
+	public String addPenalty(@PathVariable("eventInfoSeq") Long eventInfoSeq , @PathVariable("round") Long round, @PathVariable("playerId") String playerId , Model model){
+		log.debug("eventInfoSeq : {}", eventInfoSeq);
+		log.debug("round : {}", round);
+		log.debug("playerId : {}", playerId);
+		model.addAttribute("eventInfoSeq",eventInfoSeq);
+		model.addAttribute("playerVO", playerService.findById(playerId));
+		model.addAttribute("round",round);
+		return "/admin/event/ajax/addPenalty";
+	}
 }

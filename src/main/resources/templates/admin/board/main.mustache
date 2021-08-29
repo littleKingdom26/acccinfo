@@ -8,14 +8,14 @@
                 <div class="location">
                     <em class="home">HOME</em><i></i>
                     <em>게시판관리</em><i></i>
-                    <em class="active">{{bbsName}}</em>
+                    <em class="active">{{bbsNameResultVO.bbsName}}</em>
                 </div>
                 <div class="content">
                     <div class="box">
                         <div class="inBox">
-                            <form id="searchFrm" action="/admin/board/{{data.search.nameSeq}}" method="post">
-                                <input type="hidden" id="currentPage" name="currentPage" value="{{data.search.currentPage}}" />
-                                <input type="hidden" id="nameSeq" name="nameSeq" value="{{data.search.nameSeq}}"/>
+                            <form id="searchFrm" action="/admin/board/{{nameSeq}}" method="post">
+                                <input type="hidden" id="page" name="page" value="{{search.page}}" />
+                                <input type="hidden" id="nameSeq" name="nameSeq" value="{{nameSeq}}"/>
                                 <table class="formTable">
                                     <colgroup>
                                         <col width="150px" />
@@ -28,9 +28,9 @@
                                     <tbody>
                                         <tr>
                                             <th>제목</th>
-                                            <td colspan="2"><input type="text" id="keyword" name="keyword" value="{{data.search.keyword}}" class="textType" /></td>
+                                            <td colspan="2"><input type="text" id="title" name="title" value="{{search.title}}" class="textType" /></td>
                                             <th>작성자</th>
-                                            <td colspan="2"><input type="text" id="schRegUserName" name="schRegUserName" value="{{data.search.schRegUserName}}" class="textType" /></td>
+                                            <td colspan="2"><input type="text" id="regId" name="regId" value="{{search.regId}}" class="textType" /></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -62,32 +62,26 @@
                                 </tr>
                                 </thead>
                                 <tbody >
-                                {{#data.list}}
+                                {{#result}}
                                     <tr>
                                         <td>{{no}}</td>
-                                        <td><a href="javascript:void(0);" class="detailBtn" data-bbsseq="{{seq}}">{{title}}{{#commentCnt}} <small>({{commentCnt}})</small>{{/commentCnt}}</a></td>
+                                        <td><a href="javascript:void(0);" class="detailBtn" data-bbsseq="{{seq}}">{{title}}{{#commentCount}} <small>({{commentCount}})</small>{{/commentCount}}</a></td>
                                         <td>
-                                            {{#regName}}
-                                                {{regName}}
-                                            {{/regName}}
-                                            {{^regName}}
-                                                {{regId}}
-                                            {{/regName}}
+											{{regId}}
                                         </td>
-                                        <td>{{regDt}}</td>
+                                        <td>{{regDtStr}}</td>
                                     </tr>
-                                {{/data.list}}
-                                {{^data.list}}
+                                {{/result}}
+                                {{^result}}
                                     <tr>
                                         <td colspan="4">
                                             <p class="noDate">데이터가 없습니다.</p>
                                         </td>
                                     </tr>
-                                {{/data.list}}
+                                {{/result}}
                                 </tbody>
                             </table>
-
-                            {{{data.page.paging}}}
+							{{{pageHelper.paging}}}
                         </div>
                     </div>
                 </div>

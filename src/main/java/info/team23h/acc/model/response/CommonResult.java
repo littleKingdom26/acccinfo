@@ -13,4 +13,6 @@ public class CommonResult {
 	private String code;
 
 	private String msg;
+
+
 }

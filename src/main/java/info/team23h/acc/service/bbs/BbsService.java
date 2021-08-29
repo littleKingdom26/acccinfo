@@ -1,14 +1,20 @@
 package info.team23h.acc.service.bbs;
 
 
-import info.team23h.acc.vo.bbs.BbsNameVO;
-import info.team23h.acc.vo.bbs.BbsSearch;
-import info.team23h.acc.vo.bbs.BbsVO;
+import info.team23h.acc.entity.bbs.Bbs;
+import info.team23h.acc.vo.bbs.*;
+import info.team23h.acc.vo.comment.CommentResultVO;
 import info.team23h.acc.vo.comment.CommentVO;
+import info.team23h.acc.vo.front.Bbs.BbsSearchVO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * The interface Bbs service.
+ */
 public interface BbsService {
 
 	/**
@@ -72,4 +78,62 @@ public interface BbsService {
 	 * @return
 	 */
 	HashMap<String, Object> modifyCheck(BbsVO bbsVO);
+
+	/**
+	 * 노티스 정보 조회
+	 *
+	 * @param pageRequest the page request
+	 * @param bbsSearch   the bbs search
+	 * @return the page
+	 */
+	Page<Bbs> findPages(PageRequest pageRequest, BbsSearch bbsSearch);
+
+	/**
+	 * 게시물 목록
+	 *
+	 * @param bbsSearch the bbs search
+	 * @return the page
+	 */
+	Page<Bbs> findByAllPages(BbsSearchVO bbsSearch);
+
+
+	/**
+	 * 게시물 목록 (검색어  추가)
+	 *
+	 * @param bbsSearch the bbs search
+	 * @param keyword   the keyword
+	 * @return the page
+	 */
+	Page<Bbs> findByAllPages(BbsSearchVO bbsSearch,String keyword);
+	/**
+	 * 게시물 상세
+	 *
+	 * @param bbsSeq the bbs seq
+	 * @return the bbs result dto
+	 */
+	BbsResultVO findBySeq(Long bbsSeq);
+
+	/**
+	 * 파일 삭제
+	 *
+	 * @param fileSeq the file seq
+	 */
+	void deleteFile(Long fileSeq);
+
+	/**
+	 * 댓글 저장
+	 *
+	 * @param commentVO the comment vo
+	 */
+	CommentResultVO saveComment(CommentVO commentVO);
+
+	/**
+	 * 관리자 게시판 목록
+	 *
+	 * @param nameSeq the name seq
+	 * @param search  the search
+	 */
+	Page<AdminBbsPageResultVO> findByAllPages(Long nameSeq, AdminBbsSearchVO search);
+
+	void deleteBbs(Long seq);
 }

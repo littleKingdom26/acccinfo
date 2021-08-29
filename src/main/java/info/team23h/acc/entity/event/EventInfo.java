@@ -7,6 +7,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,14 +30,24 @@ public class EventInfo  extends BaseTimeEntity {
 	@Column(name = "ROUND")
 	private Long round;
 
-	@Column(name = "DEVISION")
-	private Long devision;
+	@Column(name = "DIVISION")
+	private String division;
 
-	@OneToOne
+	@Column(name = "YEAR")
+	private Long year;
+
+	@Column(name = "SEASON")
+	private Long season;
+
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="SCORE_INFO_SEQ")
 	private ScoreInfo scoreInfo;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "HANDICAP_INFO_SEQ")
 	private HandicapInfo handicapInfo;
+
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "EVENT_INFO_SEQ")
+	private List<EventMeta> eventMetaList;
 }

@@ -1,0 +1,85 @@
+{{>admin/layout/header}}
+<body>
+<div id="wrap">
+	<div class="inWrap">
+		{{>admin/layout/lnb}}
+		<div id="container">
+			{{>admin/layout/topBar}}
+			<div class="location">
+				<em class="home">HOME</em><i></i>
+				<em>포스터 관리</em><i></i>
+				<em class="active">포스터 등록</em>
+			</div>
+			<div class="content">
+				<div class="box">
+					<div class="inBox">
+						<form id="frm" action="/admin/poster/save" method="post" enctype="multipart/form-data" >
+							<table class="formTable mt10">
+								<colgroup>
+									<col width="5%" />
+									<col width="*" />
+								</colgroup>
+								<tbody>
+								<tr>
+									<td>리그</td>
+									<td>
+										<select name="type" id="type">
+											<option value="">선택</option>
+											{{#typeList}}
+												<option value="{{name}}">{{value}}</option>
+											{{/typeList}}
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td>타이틀</td>
+									<td>
+										<input type="text" name="title" id="title" value="" maxlength="50" class="textType">
+									</td>
+								</tr>
+								<tr>
+									<td>이미지</td>
+									<td>
+										<input type="file" id="file" name="file" />
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</form>
+						<div class="btnArea txtR">
+							<a href="javascript:void(0);" id="btn-save" class="btn btnBlue btnPopIns">등록</a>
+							<a href="javascript:void(0);" id="btn-cancel" class="btn btnDefalt">취소</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{>admin/layout/bodyFooter}}
+	</div>
+</div>
+<form id="list" method="get" >
+{{{markup}}}
+</form>
+</body>
+{{>admin/layout/footer}}
+
+<script>
+	$(function () {
+		$('#btn-cancel').click(function(e){
+			$('#list').attr('action','/admin/poster/list');
+			$('#list').submit();
+		});
+
+		$('#btn-save').click(function(e){
+
+			if($('#file').val() == null || $('#file').val() == '') {
+				alert("파일을 추가해주세요");
+			}else if($('#type').val() == ''){
+				alert("리그를 선택하세요");
+			}else{
+				$('#frm').submit();
+			}
+		});
+	});
+
+</script>

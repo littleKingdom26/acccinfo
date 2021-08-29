@@ -1,5 +1,6 @@
 package info.team23h.acc.controller;
 
+import info.team23h.acc.config.variable.EnumCode;
 import info.team23h.acc.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +28,7 @@ public class CommonController {
 		String newPath = "";
 		if(fileNames.hasNext()){
 			file = request.getFile(fileNames.next());
-			newPath = FileUtil.save(file,"board");
+			newPath = FileUtil.save(file, EnumCode.FilePath.board.name());
 		}
 		log.debug("newPath > " + newPath);
 

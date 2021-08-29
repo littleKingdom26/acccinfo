@@ -1,0 +1,104 @@
+{{>admin/layout/header}}
+<body>
+<div id="wrap">
+	<div class="inWrap">
+		{{>admin/layout/lnb}}
+		<div id="container">
+			{{>admin/layout/topBar}}
+			<div class="location">
+				<em class="home">HOME</em><i></i>
+				<em>동영상관리</em><i></i>
+				<em class="active">{{bbsName}}</em>
+			</div>
+			<div class="content">
+				<form id="searchFrm" action="/admin/board/{{search.nameSeq}}" method="post">
+					{{{markup}}}
+				</form>
+
+				<div class="box">
+					<div class="inBox">
+						<table class="formTable mt10">
+							<colgroup>
+								<col width="10%">
+								<col width="*"/>
+							</colgroup>
+
+							<tr>
+								<th>제목</th>
+								<td>{{data.title}}</td>
+							</tr>
+							<tr>
+								<th>작성자</th>
+								<td>
+									{{data.regId}}
+								</td>
+							</tr>
+							<tr>
+								<th>비디오</th>
+								<td>
+									<div style="width:100%; display: flex;flex-direction: column;justify-content: center">
+										<div style="margin-bottom: 5px;">
+											<iframe width="1000" height="700" src="https://www.youtube.com/embed/{{data.youtubeKey}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+										</div>
+									</div>
+								</td>
+							</tr>
+
+						</table>
+						<div class="btnArea txtR">
+							<a href="javascript:void(0);" id="btn-delete" class="btn btnBlue btnDefalt">삭제</a>
+							<a href="javascript:void(0);" id="btn-list" class="btn btnDefalt">목록</a>
+						</div>
+					</div>
+				</div>
+				<div class="box">
+					<div class="inBox">
+						<table class="listTable  mt10">
+							<colgroup>
+								<col width="5%" />
+								<col width="*" />
+								<col width="5%" />
+							</colgroup>
+							<tbody>
+							{{#data.commentList}}
+								<tr>
+									<td>
+										{{regId}}
+									</td>
+									<td>
+										{{comment}}
+									</td>
+									<td>
+										<a href="javascript:void(0);" class="btn btnDefalt commentDelBtn" data-seq="{{seq}}">삭제</a>
+									</td>
+								</tr>
+							{{/data.commentList}}
+							{{^data.commentList}}
+								<tr>
+									<td colspan="3" class="">
+										댓글이 없습니다.
+									</td>
+								</tr>
+							{{/data.commentList}}
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		{{>admin/layout/bodyFooter}}
+	</div>
+</div>
+<input type="hidden" id="seq" value="{{data.seq}}" />
+
+</body>
+{{>admin/layout/footer}}
+<script src="/js/adminBoard.js"></script>
+<script>
+	$(function () {
+		board.view();
+	});
+
+
+</script>

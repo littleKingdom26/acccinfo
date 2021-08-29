@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "moment": "^2.29.1",
+    "vue-easy-slider": "^5.3.4",
+    "vue-material-design-icons": "^4.11.0"
+  }
+}

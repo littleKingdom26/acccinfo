@@ -3,6 +3,7 @@ package info.team23h.acc.util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletContext;
@@ -32,9 +33,17 @@ public class FileUtil {
 		ROOT_PATH = rootpath;
 	}
 
+	/**
+	 * 파일 저장
+	 *
+	 * @param file      the file
+	 * @param subFolder the sub folder
+	 * @return the string
+	 * @throws IOException the io exception
+	 */
 	public static String save(MultipartFile file, String subFolder) throws IOException {
-		String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-		String fileName = file.getOriginalFilename();
+		final String filename = StringUtils.getFilename(file.getOriginalFilename());
+		final String extension = "."+StringUtils.getFilenameExtension(file.getOriginalFilename());
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuuMMddHHmmssSSS");
 		String newFileName = LocalDateTime.now().format(dtf) + extension;
 
@@ -45,10 +54,24 @@ public class FileUtil {
 			Files.createDirectories(path);
 		}
 		String newFilePath = newPath + File.separator + newFileName;
-		System.out.println("newPath > " + newPath);
 		File newFile = new File(newFilePath);
 		newFile.createNewFile();
 		file.transferTo(newFile);
 		return newFileName;
+	}
+
+
+	/**
+	 * 파일 삭제
+	 *
+	 * @param subFolder the sub folder
+	 * @param fileName  the file name
+	 */
+	public static void delete(String subFolder,String fileName){
+		final String path = ROOT_PATH+ File.separator + subFolder+File.separator+fileName;
+		File file = new File(path);
+		if(file.isFile()){
+			file.delete();
+		}
 	}
 }

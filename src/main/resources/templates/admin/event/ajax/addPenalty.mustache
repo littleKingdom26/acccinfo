@@ -1,0 +1,78 @@
+<div class="layerPop">
+    <p class="popTitle">
+        패널티 추가
+    </p>
+    <div class="layerCont">
+        <div class="contBox">
+            <div class="inBox">
+				<form id="frm">
+					<input type="hidden" id="eventInfoSeq" name="eventInfoSeq" value="{{eventInfoSeq}}" />
+					<input type="hidden" id="round" name="round" value="{{round}}" />
+					<input type="hidden" id="playerId" name="playerId" value="{{playerVO.playerId}}" />
+					<table class="listTable">
+						<colgroup>
+							<col width="10%">
+							<col width="*">
+						</colgroup>
+						<tbody>
+						<tr>
+							<th>플레이어 이름</th>
+							<td>{{playerVO.firstName}} {{playerVO.lastName}}</td>
+						</tr>
+						<tr>
+							<th>추가 패널티 타임(초)</th>
+							<td><input type="text" id="addPenalty" name="addPenalty" class="textType" /></td>
+						</tr>
+						<tr>
+							<th>사유</th>
+							<td>
+								<input type="text" id="reason" name="reason" class="textType" />
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</form>
+            </div>
+			<div class="btnArea mt20">
+				<a href="javascript:void(0)" id="btn_save" class="btn btnBi btnBlue">저장</a>
+			</div>
+        </div>
+    </div>
+    <a href="#none" class="layerClose bPoupClose">닫기</a>
+</div>
+<script>
+	$(function () {
+		$('#btn_save').click(function(e){
+			e.preventDefault();
+			if($('#addPenalty').val() == '') {
+				alert('패널티(초)를 입력하세요.');
+				return;
+			}
+
+			if($('#reason').val() == ''){
+				alert('사유를 입력하세요.');
+				return;
+			}
+
+			if(confirm("패널티정보를 저장하시겠습니까?")) {
+				let data = {
+					'eventInfoSeq' : $('#eventInfoSeq').val(),
+					'round' : $('#round').val(),
+					'playerId' : $('#playerId').val(),
+					'addPenalty' : $('#addPenalty').val(),
+					'reason' : $('#reason').val()
+				};
+				common.ajax("PUT", "/admin/event/result/addPenalty", JSON.stringify(data), "json", 'application/json; charset=utf-8',
+				function (data) {
+					console.log(data);
+					if(data.code == 'SUC') {
+						$('#btnSearch').click();
+						$('.layerClose').click();
+					}
+				}, function (jqXHR, textStatus, errorThrown) {
+
+				});
+			}
+		})
+	});
+</script>

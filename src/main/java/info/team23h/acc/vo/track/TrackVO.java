@@ -3,7 +3,8 @@ package info.team23h.acc.vo.track;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 public class TrackVO {
 	/** 시퀀스 */
 	private long seq;
