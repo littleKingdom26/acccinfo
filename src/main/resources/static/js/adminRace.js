@@ -228,6 +228,8 @@ var race = {
                     alert('팀포인트계산이 완료 되었습니다.');
                 }
             });
+
+
         });
 
         $('.lapDetail').click(function () {

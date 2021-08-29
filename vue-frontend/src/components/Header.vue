@@ -39,8 +39,8 @@ export default {
                 { title: "RESULT", to: "/result" },
                 { title: "TIME TRIAL", to: "/timetrial", alias: "/tt" },
                 { title: "EVENT", to: "/event" },
-                { title: "GALLERY", to: "/gallery" },
-                { title: "REGISTER", to: "/register" },
+                /*{ title: "GALLERY", to: "/gallery" },*/
+                /*{ title: "REGISTER", to: "/register" },*/
                 { title: "PENALTY", to: "/penalty" },
                 { title: "FAQ", to: "/faq" },
             ],

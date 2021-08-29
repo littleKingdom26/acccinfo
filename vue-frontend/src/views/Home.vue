@@ -8,7 +8,7 @@
                 v-model="sliderValue"
                 :duration="5000"
                 :speed="1000"
-                height="100vh"
+                height="95vh"
                 :stopOnHover="true"
             >
                 <SliderItem
@@ -65,7 +65,7 @@
                             <span>PRACTICE</span>
                         </b-col>
                         <b-col cols="7" class="thrColumn">
-                            <span>22 : 00 - 22 : 30 (30min)</span></b-col
+                            <span>21 : 15 - 22 : 15 (60min)</span></b-col
                         >
                     </b-row>
                     <b-row>
@@ -76,7 +76,7 @@
                             <span>QUALIFYING</span>
                         </b-col>
                         <b-col cols="7" class="thrColumn">
-                            <span>22 : 30 - 22 : 40 (10min)</span></b-col
+                            <span>22 : 15 - 22 : 30 (15min)</span></b-col
                         >
                     </b-row>
                     <b-row>
@@ -87,7 +87,7 @@
                             <span>RACE</span>
                         </b-col>
                         <b-col cols="7" class="thrColumn">
-                            <span>22 : 40 - 23 : 20 (40min)</span></b-col
+                            <span>22 : 30 - 23 : 10 (40min)</span></b-col
                         >
                     </b-row>
                 </div>
@@ -316,7 +316,8 @@
                 </div>
             </div>
         </div>
-        <div class="session gallery">
+
+<!--      <div class="session gallery">
             <h1 class="title">
                 GALLERY
             </h1>
@@ -382,7 +383,8 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
+
         <div class="session contact">
             <h1 class="title">
                 CONTACT
@@ -417,7 +419,7 @@
 // @ is an alias to /src
 import Header from "@/components/Header";
 import PlusIcon from "vue-material-design-icons/Plus.vue";
-import { Slider, SliderItem } from "vue-easy-slider";
+import {Slider, SliderItem} from "vue-easy-slider";
 
 export default {
     name: "Home",
