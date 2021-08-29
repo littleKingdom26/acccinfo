@@ -8,7 +8,7 @@
                 v-model="sliderValue"
                 :duration="5000"
                 :speed="1000"
-                height="95vh"
+                height="740px"
                 :stopOnHover="true"
             >
                 <SliderItem

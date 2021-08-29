@@ -60,7 +60,8 @@ public class RegisterController {
 
 		final List<LeagueDivResultVO> masterList = leagueDivService.findByLeagueDiv(EnumCode.LeagueDivision.DIVISION_2.name());
 
-		return getEntryList(model, masterList);
+		String resultPage =  getEntryList(model, masterList);
+		return resultPage;
 	}
 
 
@@ -68,7 +69,8 @@ public class RegisterController {
 	public String proEntryFile(Model model) {
 
 		final List<LeagueDivResultVO> proList = leagueDivService.findByLeagueDiv(EnumCode.LeagueDivision.DIVISION_1.name());
-		return getEntryList(model, proList);
+		String resultPage = getEntryList(model, proList);
+		return resultPage;
 	}
 
 	private String getEntryList(Model model, List<LeagueDivResultVO> masterList) {
