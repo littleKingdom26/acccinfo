@@ -103,8 +103,7 @@
                             <span>PRACTICE</span>
                         </b-col>
                         <b-col cols="7" class="thrColumn">
-                            <span>[MAS] 22 : 00 - 22 : 30 (30min)</span>
-                            <span>[PRO] 22 : 00 - 22 : 30 (30min)</span>
+                          <span>21 : 15 - 22 : 15 (60min)</span>
                         </b-col>
                     </b-row>
                     <b-row>
@@ -115,8 +114,7 @@
                             <span>QUALIFYING</span>
                         </b-col>
                         <b-col cols="7" class="thrColumn">
-                            <span>[MAS] 22 : 30 - 22 : 40 (10min)</span>
-                            <span>[PRO] 22 : 30 - 22 : 40 (10min)</span>
+                          <span>22 : 15 - 22 : 30 (15min)</span>
                         </b-col>
                     </b-row>
                     <b-row>
@@ -127,8 +125,7 @@
                             <span>RACE</span>
                         </b-col>
                         <b-col cols="7" class="thrColumn">
-                            <span>[MAS] 22 : 40 - 23 : 20 (40min)</span>
-                            <span>[PRO] 22 : 40 - 23 : 20 (40min)</span>
+                          <span>22 : 30 - 23 : 10 (40min)</span>
                         </b-col>
                     </b-row>
                 </div>
