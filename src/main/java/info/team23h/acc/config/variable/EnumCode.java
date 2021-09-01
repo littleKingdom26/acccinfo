@@ -12,7 +12,8 @@ public class EnumCode {
 	public enum LeagueDivision implements EnumModel{
 		DIVISION_1("PRO"),
 		DIVISION_2("MASTER"),
-		DIVISION_3("ONE MAKE");
+		DIVISION_4("GT3"),
+		DIVISION_3("GT4");
 
 		private final String value;
 
