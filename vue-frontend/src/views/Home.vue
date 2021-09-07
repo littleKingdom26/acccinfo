@@ -143,14 +143,13 @@
             <div
                 class="tabs"
                 v-if="
-                    proChamps.length &&
-                        masterChamps.length &&
-                        oneMakeChamps.length
+                    proChamps.length ||
+                        masterChamps.length
                 "
             >
                 <b-row>
                     <b-col class="tabContentWrap">
-                        <h2 class="title">PRO LEAGUE</h2>
+                        <h2 class="title">GT3 LEAGUE</h2>
                         <div class="tabContent Inter" v-if="proChamps.length">
                             <div class="podiumWrap">
                                 <h3 class="title">1ST</h3>
@@ -200,7 +199,7 @@
                         </div>
                     </b-col>
                     <b-col class="tabContentWrap">
-                        <h2 class="title">MASTER LEAGUE</h2>
+                        <h2 class="title">GT4 LEAGUE</h2>
                         <div
                             class="tabContent Inter"
                             v-if="masterChamps.length"
@@ -247,59 +246,6 @@
                                     <span class="userName"
                                         >{{ masterChamps[2].firstName }}
                                         {{ masterChamps[2].lastName }}</span
-                                    >
-                                </div>
-                            </div>
-                        </div>
-                    </b-col>
-                    <b-col class="tabContentWrap">
-                        <h2 class="title">ONE MAKE LEAGUE</h2>
-                        <div
-                            class="tabContent Inter"
-                            v-if="oneMakeChamps.length"
-                        >
-                            <div class="podiumWrap">
-                                <h3 class="title">1ST</h3>
-                                <div class="podium gold text-center">
-                                    <div
-                                        class="profile"
-                                        :style="
-                                            `backgroundImage: url(${oneMakeChamps[0].steamAvatar})`
-                                        "
-                                    ></div>
-                                    <span class="userName"
-                                        >{{ oneMakeChamps[0].firstName }}
-                                        {{ oneMakeChamps[0].lastName }}</span
-                                    >
-                                </div>
-                            </div>
-                            <div class="podiumWrap">
-                                <h3 class="title">2ND</h3>
-                                <div class="podium text-center">
-                                    <div
-                                        class="profile"
-                                        :style="
-                                            `backgroundImage: url(${oneMakeChamps[1].steamAvatar})`
-                                        "
-                                    ></div>
-                                    <span class="userName"
-                                        >{{ oneMakeChamps[1].firstName }}
-                                        {{ oneMakeChamps[1].lastName }}</span
-                                    >
-                                </div>
-                            </div>
-                            <div class="podiumWrap">
-                                <h3 class="title">3RD</h3>
-                                <div class="podium text-center">
-                                    <div
-                                        class="profile"
-                                        :style="
-                                            `backgroundImage: url(${oneMakeChamps[2].steamAvatar})`
-                                        "
-                                    ></div>
-                                    <span class="userName"
-                                        >{{ oneMakeChamps[2].firstName }}
-                                        {{ oneMakeChamps[2].lastName }}</span
                                     >
                                 </div>
                             </div>
@@ -495,24 +441,16 @@ export default {
                 .then((data) => {
                     if (data.data.data) {
                         data.data.data.forEach((data) => {
-                            if (data.leagueName.indexOf("Pro") != -1) {
+                            if (data.leagueName.indexOf("GT3") != -1) {
                                 this.proChamps = [
                                     ...data.beforeLeagueRankerResultList.sort(
                                         this._sortByRank
                                     ),
                                 ];
                             } else if (
-                                data.leagueName.indexOf("Master") != -1
+                                data.leagueName.indexOf("GT4") != -1
                             ) {
                                 this.masterChamps = [
-                                    ...data.beforeLeagueRankerResultList.sort(
-                                        this._sortByRank
-                                    ),
-                                ];
-                            } else if (
-                                data.leagueName.indexOf("OneMake") != -1
-                            ) {
-                                this.oneMakeChamps = [
                                     ...data.beforeLeagueRankerResultList.sort(
                                         this._sortByRank
                                     ),

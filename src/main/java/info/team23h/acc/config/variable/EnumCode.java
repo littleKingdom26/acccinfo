@@ -10,10 +10,10 @@ public class EnumCode {
 	@Getter
 	@RequiredArgsConstructor
 	public enum LeagueDivision implements EnumModel{
-		DIVISION_1("PRO"),
-		DIVISION_2("MASTER"),
 		DIVISION_4("GT3"),
-		DIVISION_3("GT4");
+		DIVISION_3("GT4"),
+		DIVISION_1("PRO"),
+		DIVISION_2("MASTER");
 
 		private final String value;
 

@@ -678,39 +678,57 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public List<BeforeLeagueRankerGroupResultVO> getBeforeLeagueRanker() {
-		final List<EventInfo> eventAllList = eventInfoRepository.findAll(Sort.by(Sort.Direction.DESC,"eventInfoSeq"));
-		final EventInfo eventInfo_first = eventAllList.stream().findFirst().get();
 
-		final List<EventInfo> eventFinishList = eventAllList.stream()
-													.filter(eventInfo -> eventInfo.getYear() != eventInfo_first.getYear() && eventInfo.getSeason() != eventInfo_first.getSeason())
-													.collect(Collectors.toList());
 		List<BeforeLeagueRankerGroupResultVO> resultList = new ArrayList<>();
-		if(eventFinishList.size()>3){
-			for(int i = 0; i < 3; i++){
-				final EventInfo eventInfo = eventFinishList.get(i);
-				final List<EventResultVO> byEventRanker = eventRepository.findByEventRanker(eventInfo.getEventInfoSeq());
-				final List<EventResultVO> eventResultVOS = byEventRanker.subList(0, 3);
-				int rank = 0;
-				List<BeforeLeagueRankerResultVO> subResultList = new ArrayList<>();
-				for(EventResultVO eventResultVO : eventResultVOS){
-					rank+=1;
-					subResultList.add(BeforeLeagueRankerResultVO.builder()
-															 .rank(rank)
-															 .firstName(eventResultVO.getFirstName())
-															 .lastName(eventResultVO.getLastName())
-															 .steamAvatar(eventResultVO.getSteamAvatar())
-															 .build());
-				}
-				String divisionName = "";
-				for(EnumCode.LeagueDivision value : EnumCode.LeagueDivision.values()){
-					if(value.getKey().equals(eventInfo.getDivision())){
-						divisionName = value.getValue();
-					}
-				}
-
-				resultList.add(BeforeLeagueRankerGroupResultVO.builder().leagueName(eventInfo.getTitle()).beforeLeagueRankerResultList(subResultList).division(divisionName).build());
+		final List<EventInfo> eventAllList = eventInfoRepository.findAll(Sort.by(Sort.Direction.DESC, "eventInfoSeq"));
+		// Gt3 최신 리그 조회
+		eventAllList.stream().filter(eventInfo -> eventInfo.getDivision().equals(EnumCode.LeagueDivision.DIVISION_4.name())).findFirst().ifPresent(eventInfo -> {
+			final List<EventResultVO> ranker = eventRepository.findByEventRanker(eventInfo.getEventInfoSeq());
+			final List<EventResultVO> eventResultVOS = ranker.subList(0, 3);
+			int rank = 0;
+			List<BeforeLeagueRankerResultVO> subResultList = new ArrayList<>();
+			for(EventResultVO eventResultVO : eventResultVOS) {
+				rank += 1;
+				subResultList.add(BeforeLeagueRankerResultVO.builder()
+				                                            .rank(rank)
+				                                            .firstName(eventResultVO.getFirstName())
+				                                            .lastName(eventResultVO.getLastName())
+				                                            .steamAvatar(eventResultVO.getSteamAvatar())
+				                                            .build());
 			}
-		}
+			resultList.add(BeforeLeagueRankerGroupResultVO.builder()
+			                                              .leagueName(eventInfo.getTitle())
+			                                              .beforeLeagueRankerResultList(subResultList)
+			                                              .division(EnumCode.LeagueDivision.valueOf(eventInfo.getDivision())
+			                                                                               .getValue())
+			                                              .build());
+
+		});
+
+		// GT4 최고 위에 결과 가지고 오기
+		eventAllList.stream().filter(eventInfo -> eventInfo.getDivision().equals(EnumCode.LeagueDivision.DIVISION_3.name())).findFirst().ifPresent(eventInfo -> {
+			final List<EventResultVO> ranker = eventRepository.findByEventRanker(eventInfo.getEventInfoSeq());
+			final List<EventResultVO> eventResultVOS = ranker.subList(0, 3);
+			int rank = 0;
+			List<BeforeLeagueRankerResultVO> subResultList = new ArrayList<>();
+			for(EventResultVO eventResultVO : eventResultVOS) {
+				rank += 1;
+				subResultList.add(BeforeLeagueRankerResultVO.builder()
+				                                            .rank(rank)
+				                                            .firstName(eventResultVO.getFirstName())
+				                                            .lastName(eventResultVO.getLastName())
+				                                            .steamAvatar(eventResultVO.getSteamAvatar())
+				                                            .build());
+			}
+			resultList.add(BeforeLeagueRankerGroupResultVO.builder()
+			                                              .leagueName(eventInfo.getTitle())
+			                                              .beforeLeagueRankerResultList(subResultList)
+			                                              .division(EnumCode.LeagueDivision.valueOf(eventInfo.getDivision())
+			                                                                               .getValue())
+			                                              .build());
+
+		});
+
 		return resultList;
 	}
 
