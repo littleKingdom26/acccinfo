@@ -1,9 +1,7 @@
 package info.team23h.acc.controller.error;
 
 import info.team23h.acc.service.bbs.BbsService;
-import info.team23h.acc.service.view.ViewService;
 import info.team23h.acc.vo.bbs.BbsNameVO;
-import info.team23h.acc.vo.common.ViewVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
@@ -24,8 +22,8 @@ public class CustomerErrorController implements ErrorController {
 	@Autowired
 	BbsService bbsService;
 
-	@Autowired
-	ViewService viewService;
+	/*@Autowired
+	ViewService viewService;*/
 
 	@GetMapping("/error")
 	public String error(HttpServletRequest request,
@@ -42,8 +40,8 @@ public class CustomerErrorController implements ErrorController {
 		if(response.getStatus()>500 && response.getStatus()<600){
 			errorPage = "500";
 		}
-		ViewVo viewVo = viewService.getViewCount();
-		model.addAttribute("viewCount", viewVo.getPageViewCount()).addAttribute("todayViewCount", viewVo.getTodayViewCount());
+		/*ViewVo viewVo = viewService.getViewCount();
+		model.addAttribute("viewCount", viewVo.getPageViewCount()).addAttribute("todayViewCount", viewVo.getTodayViewCount());*/
 		List<BbsNameVO> bbsNameList = bbsService.loadBbsName();
 		model.addAttribute("bbsList", bbsNameList);
 

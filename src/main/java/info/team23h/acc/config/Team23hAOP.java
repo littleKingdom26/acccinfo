@@ -1,10 +1,8 @@
 package info.team23h.acc.config;
 
 import info.team23h.acc.service.bbs.BbsService;
-import info.team23h.acc.service.view.ViewService;
 import info.team23h.acc.vo.bbs.BbsNameVO;
 import info.team23h.acc.vo.bbs.BbsSearch;
-import info.team23h.acc.vo.common.ViewVo;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
@@ -13,11 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 
@@ -34,13 +28,17 @@ public class Team23hAOP {
 	/**
 	 * The View service.
 	 */
-	@Autowired
-	ViewService viewService;
+	/*@Autowired
+	ViewService viewService;*/
 
 	@Before("execution(* info.team23h.acc.controller.*.*(..))")
 	public void onBeforeHandler(JoinPoint joinPoint){
 
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		/**
+		 * view  사용 안함
+		 */
+
+		/*HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
 		if(request != null){
 			HttpSession session = request.getSession();
@@ -48,7 +46,7 @@ public class Team23hAOP {
 				session.setAttribute("sessionKey", session.getId());
 				viewService.updateViewCount();
 			}
-		}
+		}*/
 	}
 
 	@After("execution(* info.team23h.acc.controller.*.*(..))")
@@ -66,8 +64,9 @@ public class Team23hAOP {
 		if(model != null){
 			List<BbsNameVO> bbsNameList = bbsService.loadBbsName();
 			model.addAttribute("bbsList", bbsNameList);
-			ViewVo viewVo = viewService.getViewCount();
-			model.addAttribute("viewCount", viewVo.getPageViewCount()).addAttribute("todayViewCount", viewVo.getTodayViewCount());
+			// 뷰 사용안함
+//			ViewVo viewVo = viewService.getViewCount();
+//			model.addAttribute("viewCount", viewVo.getPageViewCount()).addAttribute("todayViewCount", viewVo.getTodayViewCount());
 			if(bbsSearch != null){
 				for(BbsNameVO bbsNameVO : bbsNameList){
 					if(bbsSearch.getNameSeq() == bbsNameVO.getSeq()){
