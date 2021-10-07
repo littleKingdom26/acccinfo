@@ -306,6 +306,9 @@ hr.yellow {
 * >>> .slider-item {
     position: inherit !important;
 }
+* >>> .slider-item img{
+    max-width: 90%;
+}
 
 .logo {
     width: 220px;
