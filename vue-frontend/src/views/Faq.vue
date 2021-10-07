@@ -50,19 +50,19 @@
         </div>
         <div class="tabs lastBtnWrap Staatliches mb-5">
             <b-row>
-                <b-col>
+                <b-col cols='12' md='4'>
                     <b-button class="lastBtn" to="/notice/131"
                         ><span>문의하기</span>
                         <mdiChevronRightCircle color="#ffffff"
                     /></b-button>
                 </b-col>
-                <b-col>
+                <b-col cols='12' md='4'>
                     <b-button class="lastBtn" to="/notice/93"
                         ><span>마음의 소리</span>
                         <mdiChevronRightCircle color="#ffffff"
                     /></b-button>
                 </b-col>
-                <b-col>
+                <b-col cols='12' md='4'>
                     <b-button class="lastBtn" to="/notice/64"
                         ><span>후원하기</span>
                         <mdiChevronRightCircle color="#ffffff"
@@ -198,6 +198,18 @@ Password : accc<br />
     margin: 0 auto;
     text-align: center;
 }
+@media (max-width: 980px) {
+    .session {
+        padding-top: 9rem;
+    }
+}
+@media (max-width: 768px) {
+}
+@media (max-width: 536px) {
+    .session {
+        padding-top: 12rem;
+    }
+}
 .session.notice {
     padding: 0;
 }
@@ -280,8 +292,13 @@ hr.yellow {
     text-transform: uppercase;
 }
 
+.row{
+    margin: 0;
+}
+
 .accordion {
     text-align: left;
+    padding: 0.5rem;
 }
 .accordion .card {
     background-color: transparent;

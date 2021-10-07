@@ -58,6 +58,7 @@
                         }}
                     </b-dropdown-item>
                 </b-dropdown>
+                <div class='d-flex d-lg-none' style='flex-basis: 100%; height: 0;'></div>
                 <b-dropdown
                     text="CIRCUIT"
                     no-flip
@@ -79,7 +80,9 @@
                         >{{ track.trackName }}</b-dropdown-item
                     >
                 </b-dropdown>
-                <b-dropdown style="visibility:hidden;"> </b-dropdown>
+                <div class='d-flex d-lg-none' style='flex-basis: 100%; height: 0;'></div>
+                <b-dropdown style="visibility:hidden;" class='d-none d-lg-flex'> </b-dropdown>
+                <div class='d-flex d-lg-none' style='flex-basis: 100%; height: 0;'></div>
                 <div class="nameFilterWrap">
                     <b-form-input
                         v-model="nameFilter"
@@ -90,6 +93,7 @@
             </div>
 
             <div class="tabs list">
+                <img class='d-flex d-lg-none' :src='require(`@/assets/bg_hand.gif`)' />
                 <div
                     v-if="results.length || doneFetchResults"
                     class="session notice Staatliches text-center mb-5"
@@ -218,10 +222,10 @@ export default {
             doneFetchResults: false,
         };
     },
-    created() {
-        this._getCarClasses();
-        this._getEvents();
-        this._getTracks();
+    async created() {
+        await this._getCarClasses();
+        await this._getEvents();
+        await this._getTracks();
     },
     computed: {
         nameFilterStyle() {
@@ -288,15 +292,15 @@ export default {
                 ? player.lastName
                 : `${player.firstName} ${player.lastName}`;
         },
-        _getCarClasses() {
-            this.$axios
+        async _getCarClasses() {
+            await this.$axios
                 .get("/api/common/carClass", { withCredentials: false })
                 .then((data) => {
                     this.carClasses = data.data.data;
                 });
         },
-        _getEvents() {
-            this.$axios
+        async _getEvents() {
+            await this.$axios
                 .get("/api/timeTrial/week", { withCredentials: false })
                 .then((data) => {
                     this.events = [
@@ -305,11 +309,16 @@ export default {
                     ];
                 });
         },
-        _getTracks() {
-            this.$axios
+        async _getTracks() {
+            await this.$axios
                 .get("/api/timeTrial/track", { withCredentials: false })
                 .then((data) => {
                     this.tracks = data.data.data;
+
+                    // 최초 페이지 로딩시, 현재 진행 중인 이벤트 데이터 로딩하기
+                    if(this.event_selection=='EVENT'){
+                        this.onClickEventDropdown(this.events[1]);
+                    }
                 });
         },
         _setOrderOnResults() {
@@ -335,6 +344,10 @@ export default {
             let getUrl = `/api/timeTrial/week/${this.carClass_selection.toLowerCase()}/${this.event_selection_data.sessionId}`;
 
             if(!this.event_selection_data.sessionId){
+                if(!this.track_selection_data.seq){
+                    console.info('waiting for user selecting a track')
+                    return;
+                }
                 getUrl = `/api/timeTrial/track/${this.carClass_selection.toLowerCase()}/${this.track_selection_data.seq}`
             }
             this.$axios
@@ -464,6 +477,18 @@ export default {
     margin: 0 auto;
     text-align: center;
 }
+@media (max-width: 980px) {
+    .session {
+        padding-top: 9rem;
+    }
+}
+@media (max-width: 768px) {
+}
+@media (max-width: 536px) {
+    .session {
+        padding-top: 12rem;
+    }
+}
 .session.notice {
     padding: 0;
 }
@@ -584,6 +609,10 @@ export default {
     color: var(--yellow);
 }
 
+.row{
+    margin: 0;
+}
+
 hr.yellow {
     max-width: 50px;
     border-width: 3px;
@@ -647,6 +676,7 @@ hr.yellow {
 .selections {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 .selections >>> .b-dropdown {
     flex: 1 1 0;
@@ -712,10 +742,22 @@ hr.yellow {
 .nameFilterWrap input {
     border-radius: 1.5em;
     text-align: center;
+    margin-left: 8px;
 }
 
 .list {
     min-height: 100vh;
+    overflow-x: auto;
+    position: relative;
+    padding-top: 1rem;
+}
+.list > img{
+    position: absolute;
+    right: 0;
+    top: 4px;
+}
+.list > div{
+    min-width: 960px;
 }
 
 .lastBtnWrap {

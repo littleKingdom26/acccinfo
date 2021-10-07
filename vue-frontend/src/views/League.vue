@@ -15,8 +15,8 @@
         <div class="session notice Staatliches text-center mb-5">
             <iframe
                 src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23616161&amp;ctz=Asia%2FSeoul&amp;src=ZDVwdDN0NTBrOHRjdTRwbzNtcGpkaW0zYWtAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;color=%23F4511E&amp;showTitle=0&amp;showCalendars=0&amp;showPrint=0&amp;showNav=1"
-                style="border-width:0"
-                width="1140"
+                style="border-width:0; max-width: 1140px;"
+                width="90%"
                 height="600"
                 frameborder="0"
                 scrolling="no"
@@ -62,7 +62,7 @@
             </Slider>
 
             <div class="tabs lastBtnWrap Staatliches">
-                <b-row>
+                <b-row class='flex-wrap flex-lg-nowrap'>
                     <b-col>
                         <b-button class="lastBtn" to="/notice/131"
                             ><span>JOIN OUR LEAGUE</span>
@@ -76,7 +76,7 @@
                         /></b-button>
                     </b-col>
                 </b-row>
-                <b-row class="mt-4">
+                <b-row class='flex-wrap flex-lg-nowrap mt-4'>
                     <b-col>
                         <b-button class="lastBtn" to="/notice/64"
                             ><span>RACE MANNER</span>
@@ -179,6 +179,18 @@ export default {
     margin: 0 auto;
     text-align: center;
 }
+@media (max-width: 980px) {
+    .session {
+        padding-top: 9rem;
+    }
+}
+@media (max-width: 768px) {
+}
+@media (max-width: 536px) {
+    .session {
+        padding-top: 12rem;
+    }
+}
 .session.notice {
     padding: 0;
 }
@@ -244,7 +256,9 @@ hr.yellow {
 .tabContent .row {
     border-bottom: 1px solid #fff;
 }
-
+.row{
+    margin: 0;
+}
 .schedule .frstColumn {
     padding: 20px;
 }

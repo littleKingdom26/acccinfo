@@ -111,11 +111,25 @@ export default {
     margin: 0 auto;
     text-align: center;
 }
+@media (max-width: 980px) {
+    .session {
+        padding-top: 9rem;
+    }
+}
+@media (max-width: 768px) {
+}
+@media (max-width: 536px) {
+    .session {
+        padding-top: 12rem;
+    }
+}
+
 .session.notice {
     padding: 0;
 }
 .session.notice.content {
     text-align: left;
+    padding: 0.5rem;
 }
 .session:first-child {
     padding-top: 0;
@@ -195,12 +209,16 @@ hr.yellow {
     background-color: #4d4d4d;
     text-transform: uppercase;
 }
+.row{
+    margin: 0;
+}
 .pageDivider {
     max-width: 1140px;
     margin: 0 auto;
     text-align: right;
     font-size: 0.9rem;
     color: #8a8a8a;
+    padding: 0.5rem;
 }
 .pageDivider > hr {
     height: 2px;

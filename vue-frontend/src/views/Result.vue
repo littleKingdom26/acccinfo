@@ -49,6 +49,7 @@
                         >{{ className.value }}</b-dropdown-item
                     >
                 </b-dropdown>
+                <div class='d-flex d-lg-none' style='flex-basis: 100%; height: 0;'></div>
                 <b-dropdown
                     text="SEASON"
                     no-flip
@@ -70,6 +71,7 @@
                         >{{ season.seasonName }}</b-dropdown-item
                     >
                 </b-dropdown>
+                <div class='d-flex d-lg-none' style='flex-basis: 100%; height: 0;'></div>
                 <b-dropdown
                     text="ROUND"
                     no-flip
@@ -118,6 +120,7 @@
             </div>
 
             <div class="tabs list">
+                <img class='d-flex d-lg-none' :src='require(`@/assets/bg_hand.gif`)' />
                 <div
                     v-if="results.length"
                     class="session notice Staatliches text-center mb-5"
@@ -211,9 +214,9 @@ export default {
             isHideBallast: false,
         };
     },
-    created() {
-        this._getYears();
-        this._getClasses();
+    async created() {
+        await this._getYears();
+        await this._getClasses();
     },
     computed: {
         nameFilterStyle() {
@@ -237,28 +240,38 @@ export default {
         },
     },
     methods: {
-        _getYears() {
-            this.$axios
+        async _getYears() {
+            await this.$axios
                 .get("/api/result/year", { withCredentials: false })
                 .then((data) => {
                     this.years = data.data.data;
+                    if(this.year_selection == "YEAR"){
+                        this.year_selection = this.years[this.years.length-1];
+                    }
                 });
         },
         _getClasses() {
             this.$axios
                 .get("/api/common/class", { withCredentials: false })
-                .then((data) => {
+                .then(async (data) => {
                     this.classes = data.data.data;
+                    if(this.class_selection == "CLASS"){
+                        this.class_selection = this.classes[0].value;
+                        this.class_selection_division = this.classes[0].key;
+                        await this._getSessions();
+                        console.info('this.seasons', this.seasons)
+                        this.onClickSeasonDropdown({ seasonName: "ALL" });
+                    }
                 });
         },
-        _getSessions() {
+        async _getSessions() {
             if (
                 this.year_selection == "YEAR" ||
                 !this.class_selection_division
             ) {
                 return;
             }
-            this.$axios
+            await this.$axios
                 .get(
                     `/api/result/season/${this.year_selection}/${this.class_selection_division}`,
                     { withCredentials: false }
@@ -306,6 +319,7 @@ export default {
                 this.year_selection == "YEAR" ||
                 !this.class_selection_division
             ) {
+                console.info('_getSeasonAllResult blocked', this.year_selection, this.class_selection_division)
                 return;
             }
             this.$axios
@@ -367,11 +381,11 @@ export default {
             this._resetSeasonRound();
             this._getSessions();
         },
-        onClickSeasonDropdown(season) {
+        async onClickSeasonDropdown(season) {
             this.season_selection = season.seasonName;
             this.season_selection_data = season;
-            this._resetRound();
-            this._updateRounds(season.round);
+            await this._resetRound();
+            await this._updateRounds(season.round);
 
             if (season.seasonName == "ALL") {
                 this._getSeasonAllResult();
@@ -399,6 +413,18 @@ export default {
     min-height: 100vh;
     margin: 0 auto;
     text-align: center;
+}
+@media (max-width: 980px) {
+    .session {
+        padding-top: 9rem;
+    }
+}
+@media (max-width: 768px) {
+}
+@media (max-width: 536px) {
+    .session {
+        padding-top: 12rem;
+    }
 }
 .session.notice {
     padding: 0;
@@ -566,6 +592,7 @@ hr.yellow {
 .selections {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 .selections >>> .b-dropdown {
     flex: 2 1 0;
@@ -615,6 +642,9 @@ hr.yellow {
     background-color: transparent;
 }
 
+.nameFilterWrap {
+    margin-right: 8px;
+}
 .nameFilterWrap input {
     border-radius: 1.5em;
     text-align: center;
@@ -622,6 +652,17 @@ hr.yellow {
 
 .list {
     min-height: 100vh;
+    overflow-x: auto;
+    position: relative;
+    padding-top: 1rem;
+}
+.list > img{
+    position: absolute;
+    right: 0;
+    top: 4px;
+}
+.list > div{
+    min-width: 500px;
 }
 
 .lastBtnWrap {

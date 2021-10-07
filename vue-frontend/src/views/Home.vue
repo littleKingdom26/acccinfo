@@ -11,10 +11,10 @@
                 height="740px"
                 :stopOnHover="true"
             >
+                <!-- @click="changeIndex(1)" -->
                 <SliderItem
                     v-for="(i, index) in heroSlideList"
                     :key="index"
-                    @click="changeIndex(1)"
                     :style="i.style"
                     class="heroCarousel"
                 >
@@ -58,35 +58,35 @@
                 <h2 class="title">ONE MAKE LEAGUE</h2>
                 <div class="tabContent Inter">
                     <b-row>
-                        <b-col class="frstColumn">
+                        <b-col cols='4' md='2' class="frstColumn">
                             <img src="/vue_assets/img/RED_LED@2x.png" />
                         </b-col>
-                        <b-col cols="3" class="secColumn">
+                        <b-col cols='4' md="3" class="secColumn">
                             <span>PRACTICE</span>
                         </b-col>
-                        <b-col cols="7" class="thrColumn">
+                        <b-col cols='4' md="7" class="thrColumn">
                             <span>21 : 15 - 22 : 15 (60min)</span></b-col
                         >
                     </b-row>
                     <b-row>
-                        <b-col class="frstColumn">
+                        <b-col cols='4' md='2' class="frstColumn">
                             <img src="/vue_assets/img/ORANGE_LED@2x.png" />
                         </b-col>
-                        <b-col cols="3" class="secColumn">
+                        <b-col cols='4' md="3" class="secColumn">
                             <span>QUALIFYING</span>
                         </b-col>
-                        <b-col cols="7" class="thrColumn">
+                        <b-col cols='4' md="7" class="thrColumn">
                             <span>22 : 15 - 22 : 30 (15min)</span></b-col
                         >
                     </b-row>
                     <b-row>
-                        <b-col class="frstColumn">
+                        <b-col cols='4' md='2' class="frstColumn">
                             <img src="/vue_assets/img/GREEN_LED@2x.png" />
                         </b-col>
-                        <b-col cols="3" class="secColumn">
+                        <b-col cols='4' md="3" class="secColumn">
                             <span>RACE</span>
                         </b-col>
-                        <b-col cols="7" class="thrColumn">
+                        <b-col cols='4' md="7" class="thrColumn">
                             <span>22 : 30 - 23 : 10 (40min)</span></b-col
                         >
                     </b-row>
@@ -96,35 +96,35 @@
                 <h2 class="title">REGULAR LEAGUE</h2>
                 <div class="tabContent Inter">
                     <b-row>
-                        <b-col class="frstColumn">
+                        <b-col cols='4' md='2' class="frstColumn">
                             <img src="/vue_assets/img/RED_LED@2x.png" />
                         </b-col>
-                        <b-col cols="3" class="secColumn">
+                        <b-col cols='4' md="3" class="secColumn">
                             <span>PRACTICE</span>
                         </b-col>
-                        <b-col cols="7" class="thrColumn">
+                        <b-col cols='4' md="7" class="thrColumn">
                           <span>21 : 15 - 22 : 15 (60min)</span>
                         </b-col>
                     </b-row>
                     <b-row>
-                        <b-col class="frstColumn">
+                        <b-col cols='4' md='2' class="frstColumn">
                             <img src="/vue_assets/img/ORANGE_LED@2x.png" />
                         </b-col>
-                        <b-col cols="3" class="secColumn">
+                        <b-col cols='4' md="3" class="secColumn">
                             <span>QUALIFYING</span>
                         </b-col>
-                        <b-col cols="7" class="thrColumn">
+                        <b-col cols='4' md="7" class="thrColumn">
                           <span>22 : 15 - 22 : 30 (15min)</span>
                         </b-col>
                     </b-row>
                     <b-row>
-                        <b-col class="frstColumn">
+                        <b-col cols='4' md='2' class="frstColumn">
                             <img src="/vue_assets/img/GREEN_LED@2x.png" />
                         </b-col>
-                        <b-col cols="3" class="secColumn">
+                        <b-col cols='4' md="3" class="secColumn">
                             <span>RACE</span>
                         </b-col>
-                        <b-col cols="7" class="thrColumn">
+                        <b-col cols='4' md="7" class="thrColumn">
                           <span>22 : 30 - 23 : 10 (40min)</span>
                         </b-col>
                     </b-row>
@@ -345,9 +345,13 @@
                         :key="snsIdx"
                         :class="sns.type"
                         @click="onClickOpenUrl(sns.url)"
+                        cols='6'
+                        md='3'
                     >
-                        <div class="snsLogo"></div>
-                        <div class="bottomTitle">{{ sns.title }}</div>
+                        <div style='padding: 0.5rem; height: 100%'>
+                            <div class="snsLogo"></div>
+                            <div class="bottomTitle">{{ sns.title }}</div>
+                        </div>
                     </b-col>
                 </b-row>
             </div>
@@ -490,7 +494,7 @@ export default {
 .hero {
     height: 100vh;
     width: 100%;
-    max-width: 1320px;
+    /* max-width: 1320px; */
     max-height: 723px;
     margin: 0 auto;
     position: relative;
@@ -509,6 +513,17 @@ export default {
     line-height: 1;
     font-size: 3.5rem;
 }
+@media (max-width: 768px) {
+    .hero .titleWrap .title {
+        font-size: 3rem;
+    }
+}
+@media (max-width: 536px) {
+    .hero .titleWrap .title {
+        font-size: 2rem;
+    }
+}
+
 .hero .titleWrap .trophy {
     width: 59px;
     height: 59px;
@@ -771,31 +786,32 @@ hr.yellow {
 
 .contact .sns {
     min-height: 300px;
-    margin: 0 20px;
+    /* margin: 0 20px; */
     padding: 0;
     position: relative;
-    background-color: #fff;
     cursor: pointer;
 }
-.contact .sns.twitch:hover {
-    background-color: #6441a5;
-}
-.contact .sns.youtube:hover {
-    background-color: #e52927;
-}
-.contact .sns.discord:hover {
-    background-color: #7389dc;
-}
-.contact .sns.opentalk:hover {
-    background-color: #ffe600;
-}
-
 .contact .sns .snsLogo {
     height: calc(100% - 47px);
     background-repeat: no-repeat;
     background-size: 50%;
     background-position: center;
+    background-color: #fff;
 }
+.contact .sns.twitch:hover .snsLogo{
+    background-color: #6441a5;
+}
+.contact .sns.youtube:hover .snsLogo{
+    background-color: #e52927;
+}
+.contact .sns.discord:hover .snsLogo{
+    background-color: #7389dc;
+}
+.contact .sns.opentalk:hover .snsLogo{
+    background-color: #ffe600;
+}
+
+
 .contact .sns.twitch .snsLogo {
     background-image: url("/vue_assets/img/TWITCH@2x.png");
 }
@@ -826,7 +842,6 @@ hr.yellow {
     min-height: 47px;
     font-weight: 800;
     font-size: 1.5rem;
-    position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -835,6 +850,9 @@ hr.yellow {
 .contact .sns:hover .bottomTitle {
     background-color: rgba(255, 255, 255, 0.5);
     color: #fff;
+}
+.row{
+    margin: 0;
 }
 
 .logo {

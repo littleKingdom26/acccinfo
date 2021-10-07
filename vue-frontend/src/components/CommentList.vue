@@ -12,21 +12,21 @@
         </li>
         <li class="item input">
             <b-row>
-                <b-col cols="3" class="column">
+                <b-col cols='4' md="3" class="column">
                     <b-form-input
                         v-model="writer"
                         placeholder="WRITER"
                         trim
                     ></b-form-input>
                 </b-col>
-                <b-col cols="7" class="column">
+                <b-col cols='8' md="7" class="column">
                     <b-form-input
                         v-model="commnet"
                         placeholder="COMMENT"
                         trim
                     ></b-form-input>
                 </b-col>
-                <b-col cols="2">
+                <b-col cols='12' md="2">
                     <b-button @click="onClickRegister()">REGISTER</b-button>
                 </b-col>
             </b-row>
@@ -168,13 +168,20 @@ export default {
 
     .item.input {
         margin-top: 2em;
+        padding: 0.5rem;
 
         .column {
             background: transparent;
             border: 1px solid var(--yellow);
+            margin-bottom: 0.5rem;
         }
         .column:nth-child(even) {
             width: calc(58.3333333333% - 0.5em - 0.5em);
+        }
+        @media (max-width: 767px) {
+            .column:nth-child(even) {
+                width: calc(64% - 0.5em);
+            }
         }
 
         ::v-deep input,
@@ -197,5 +204,8 @@ export default {
         padding: 0;
         margin-left: 0.5em;
     }
+}
+.row{
+    margin: 0;
 }
 </style>

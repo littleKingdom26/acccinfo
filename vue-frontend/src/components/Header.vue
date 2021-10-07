@@ -81,6 +81,8 @@ export default {
     z-index: 100;
     background-color: rgba(0, 0, 0, 0);
     transform: all 1s;
+    padding-top: 0.5rem;
+    padding-left: 0.5rem;
 }
 .headerWrap.active {
     background-color: rgba(0, 0, 0, 1);
@@ -88,7 +90,6 @@ export default {
 .header {
     max-width: 1140px;
     margin: 0 auto;
-    margin-top: 0.5rem;
 }
 .menus {
     max-width: 750px;

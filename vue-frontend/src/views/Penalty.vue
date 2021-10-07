@@ -262,8 +262,20 @@ export default {
     margin: 0 auto;
     text-align: center;
 }
+@media (max-width: 980px) {
+    .session {
+        padding-top: 9rem;
+    }
+}
+@media (max-width: 768px) {
+}
+@media (max-width: 536px) {
+    .session {
+        padding-top: 12rem;
+    }
+}
 .session.notice {
-    padding: 0;
+    padding: 0.5rem;
 }
 .session:first-child {
     padding-top: 0;
