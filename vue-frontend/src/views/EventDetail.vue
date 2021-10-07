@@ -132,6 +132,9 @@ export default {
     text-align: left;
     padding: 0.5rem;
 }
+.session.notice.content img{
+    max-width: 100%;
+}
 .session:first-child {
     padding-top: 0;
 }

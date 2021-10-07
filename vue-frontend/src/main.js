@@ -11,7 +11,7 @@ Vue.prototype.$axios = axios;
 Vue.prototype.$jquery = jquery;
 
 if(process.env.NODE_ENV =='development'){
-    Vue.prototype.$axios.defaults.baseURL = 'http://finallap.online';
+    // Vue.prototype.$axios.defaults.baseURL = 'http://finallap.online';
 
 }
 
