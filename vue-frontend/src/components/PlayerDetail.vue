@@ -12,20 +12,22 @@
         ok-variant="secondary"
         no-close-on-backdrop
     >
-        <div class="subTitle" v-if="lPlayerDetail && lPlayerDetail.length">
+        <div class="subTitle" ref='subTitle' v-if="lPlayerDetail && lPlayerDetail.length">
             <h3>
                 {{ lPlayerDetail[0].firstsName }}
                 {{ lPlayerDetail[0].lastName }}
             </h3>
             <img
                 src="/vue_assets/img/steam ICON@3x.png"
-                @click="onClickSteamLogo(lPlayerDetail[0].playerId)"
+                @click="onClickSteamLogo(filteredId(lPlayerDetail[0].playerId))"
             />
             <span class="ttscore yellow" v-if="carClass == 'GT3'"
                 >TT SCORE: {{ playerTTscore }}</span
             >
+            <div class='steamId' @click='onClickSteamId(filteredId(lPlayerDetail[0].playerId))'>{{filteredId(lPlayerDetail[0].playerId)}}</div>
         </div>
         <div class="tabs list">
+            <img class='d-flex d-lg-none' :src='require(`@/assets/bg_hand.gif`)' />
             <div class="session detail Staatliches text-center mb-5">
                 <div class="row header">
                     <div class="track">TRACK</div>
@@ -123,11 +125,23 @@ export default {
         },
     },
     methods: {
-        onClickSteamLogo(playerId) {
-            if (playerId[0] == "S") {
+        filteredId(playerId){
+            if (playerId[0] == "S" || playerId[0] == "s") {
                 playerId = playerId.slice(1, playerId.length);
             }
+            return playerId;
+        },
+        onClickSteamLogo(playerId) {
             window.open(`https://steamcommunity.com/profiles/${playerId}`);
+        },
+        onClickSteamId(playerId){
+            this.$copyText(playerId, this.$refs.subTitle).then(function (e) {
+                alert('클립보드에 복사 되었습니다.')
+                console.log(e)
+            }, function (e) {
+                alert('Can not copy')
+                console.log(e)
+            })
         },
     },
 };
@@ -279,5 +293,24 @@ export default {
 * >>> .modal-content .tabs {
     margin: 0;
     min-height: inherit;
+}
+* >>> .modal-content .tabs.list{
+    padding-top: 1rem;
+    position: relative;
+}
+* >>> .modal-content .tabs.list > img{
+    position: absolute;
+    right: 0;
+    top: 4px;
+}
+* >>> .modal-content .tabs.list > div{
+    min-width: 650px;
+}
+
+.steamId{
+    font-size: 0.8rem;
+    color: #666;
+    display: block !important;
+    cursor: pointer;
 }
 </style>

@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import './plugins/bootstrap-vue'
 import './plugins/moment'
+import './plugins/vue-clipboard2'
 import axios from 'axios'
 import jquery from 'jquery'
 
