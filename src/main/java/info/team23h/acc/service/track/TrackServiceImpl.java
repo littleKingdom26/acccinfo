@@ -60,7 +60,7 @@ public class TrackServiceImpl implements TrackService {
 	@Override
 	public List<TrackResultVO> findTrackList() {
 		final List<Track> all = trackRepository.findAll();
-		final List<TrackResultVO> collect = all.stream().sorted(Comparator.comparing(Track::getTrackName)).map(TrackResultVO::new).collect(Collectors.toList());
+		final List<TrackResultVO> collect = all.stream().sorted(Comparator.comparing(Track::getSeq).reversed()).map(TrackResultVO::new).collect(Collectors.toList());
 		return collect;
 	}
 }
